@@ -1,0 +1,26 @@
+# AWS credentials — never commit
+.aws/
+credentials
+*.pem
+.env
+.env.*
+
+# Student secrets
+**/student_credentials.txt
+**/setup_info.txt
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Logs (local only)
+**/logs/*.log
+**/logs/*.json

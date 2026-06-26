@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.env
+.aws/
+credentials
+venv/
+env/
+*.log
+results/*.png
+results/*.jpg
+!results/.gitkeep
+!logs/.gitkeep
