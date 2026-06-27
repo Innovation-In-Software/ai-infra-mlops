@@ -39,6 +39,14 @@ Do every step **in order**. Terminal commands run in **Visual Studio Code (VS Co
 
 Type `clear` and press **Enter** before each new command block.
 
+### Working directory
+
+From **Step 2** onward, terminal steps assume this prompt:
+
+`PS D:\Current_work\ai-infra-mlops\lab1>`
+
+**Step 2** sets this folder once. Stay here for Steps 3–9 — do not repeat `cd` in each step. If your prompt shows a different path, run `cd D:\Current_work\ai-infra-mlops\lab1` once, then continue.
+
 ### Where your outputs go
 
 Lab scripts save config and results under:
@@ -81,6 +89,8 @@ You see `lab1/STEPS.md`, `lab1/scripts/`, and `lab1/config/`.
 
 # Step 2 — Confirm workspace folder
 
+Sets your working directory to `lab1` for the rest of this lab.
+
 ### Do this (VS Code terminal)
 
 ```powershell
@@ -109,7 +119,6 @@ Under `workspace\lab1\` you see `config`, `data`, `logs`, `results`, `scripts`.
 
 ```powershell
 clear
-cd D:\Current_work\ai-infra-mlops\lab1
 aws sts get-caller-identity
 aws configure get region
 ```
@@ -126,7 +135,6 @@ JSON with your IAM user ARN; region is `us-west-2`.
 
 ```powershell
 clear
-cd D:\Current_work\ai-infra-mlops\lab1
 python scripts\create_kms_keys.py
 ```
 

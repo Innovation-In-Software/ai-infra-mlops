@@ -36,6 +36,15 @@ Do every step **in order**. All terminal commands run in **Visual Studio Code (V
 
 Type `clear` and press **Enter** before each new command block so your screenshots stay readable.
 
+### Working directory
+
+From **Step 4** onward, terminal steps assume this prompt:
+
+`PS D:\Current_work\ai-infra-mlops\lab0>`
+
+**Step 4** sets this folder once. Stay here for later steps — do not repeat `cd` each time.  
+**Exception:** after **Step 7** (VS Code restart), run `cd D:\Current_work\ai-infra-mlops\lab0` once to return to this folder.
+
 ### Use
 
 - VS Code integrated terminal
@@ -161,6 +170,8 @@ git clone https://github.com/gjkaur/ai-infra-mlops.git
 
 # Step 4 — Confirm lab folder
 
+Sets your working directory to `lab0` for the rest of this lab.
+
 ### Do this:
 
 1. Open a new terminal if needed: **Terminal → New Terminal**
@@ -279,6 +290,8 @@ If `aws` is not recognized, install it:
 
 6. Reopen VS Code → **File → Open Folder** → `D:\Current_work\ai-infra-mlops` → **Terminal → New Terminal**
 
+Return to the lab folder (working directory after restart):
+
 ```powershell
 clear
 cd D:\Current_work\ai-infra-mlops\lab0
@@ -341,11 +354,6 @@ aws s3 ls --region us-west-2
 
 ### Do this (VS Code terminal):
 
-```powershell
-clear
-cd D:\Current_work\ai-infra-mlops\lab0
-```
-
 Review `requirements.txt`:
 
 ![Step 9a — requirements.txt](images/step-09a-requirements-file.png)
@@ -382,7 +390,6 @@ Your lab outputs live in a **`workspace`** folder **inside the same repo** you c
 
 ```powershell
 clear
-cd D:\Current_work\ai-infra-mlops\lab0
 python scripts\setup_lab_directories.py
 Get-ChildItem ..\workspace
 ```
