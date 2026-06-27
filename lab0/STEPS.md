@@ -129,7 +129,7 @@ Get-ChildItem
 
 **Expected result:** Terminal lists `scripts`, `config`, `requirements.txt`, `LAB_SLIDE.png`, `STEPS.md`, `images`.
 
-**Screenshot:** `images/step-04-lab0-folder.png` *(pending)*
+![Step 4 — Get-ChildItem in lab0 folder](images/step-04-lab0-folder.png)
 
 ---
 
@@ -146,9 +146,9 @@ Keep VS Code open — you will return to the terminal in Step 7.
 
 **Expected result:** AWS Console home loads with no "Access Denied".
 
-**Screenshots:**
-- `images/step-05-aws-console-login.png`
-- `images/step-06-aws-region-us-west-2.png`
+![Step 5 — AWS console sign-in](images/step-05-aws-console-login.png)
+
+![Step 6 — Region set to us-west-2](images/step-06-aws-region-us-west-2.png)
 
 ---
 
@@ -157,37 +157,61 @@ Keep VS Code open — you will return to the terminal in Step 7.
 **Do this (browser):**
 
 1. Search bar → type **IAM** → open **IAM** → **Users** → click your username
-2. Confirm attached policies include **PowerUserAccess** and **IAMFullAccess**
+2. Confirm attached policies (instructor test account may show **AdministratorAccess**; student accounts: **PowerUserAccess** + **IAMFullAccess**)
 3. Search **SageMaker** → dashboard loads
-4. Search **S3** → bucket list loads
+4. Search **S3** → bucket list or S3 home loads
 
 **Expected result:** All three consoles open without permission errors.
 
-**Screenshots:**
-- `images/step-07-iam-policies.png`
-- `images/step-08-sagemaker-console.png`
-- `images/step-09-s3-console.png`
+![Step 6a — IAM user permissions](images/step-07-iam-policies.png)
+
+![Step 6b — SageMaker console](images/step-08-sagemaker-console.png)
+
+![Step 6c — S3 console search](images/step-09-s3-console.png)
 
 ---
 
 ## Step 7 — Install AWS CLI
 
-**Do this (VS Code terminal):**
+**Do this (VS Code terminal first):**
 
 ```powershell
 aws --version
 ```
 
-If you see `aws: The term 'aws' is not recognized`:
+If `aws` is not recognized, install it:
 
-1. Download and install **AWS CLI v2** from https://aws.amazon.com/cli/
-2. In VS Code: **Terminal → Kill Terminal**
-3. **Terminal → New Terminal**
-4. Run `aws --version` again
+1. Download **AWS CLI v2** from https://aws.amazon.com/cli/ → **Get started**
+2. Run the **AWSCLIV2.msi** installer → click through → **Finish**
 
-**Expected result:** Output like `aws-cli/2.x.x Python/3.x.x Windows/...`
+![Step 7a — aws command not found](images/step-07a-aws-not-found.png)
 
-**Screenshot:** `images/step-10-aws-cli-version.png`
+![Step 7b — AWS CLI download page](images/step-07b-aws-cli-download.png)
+
+![Step 7c — AWS CLI installer in Downloads](images/step-07c-aws-cli-msi.png)
+
+![Step 7d — AWS CLI install complete](images/step-07d-aws-cli-install-complete.png)
+
+3. **Important (Windows):** After install, **fully close VS Code** — not just the terminal.
+
+   - **File → Exit** (or close the VS Code window)
+   - Reopen VS Code → **File → Open Folder** → `D:\Current_work\ai-infra-mlops`
+   - **Terminal → New Terminal**
+
+   > **Kill Terminal is not enough.** Windows updates the PATH only for **new** processes. VS Code must be restarted.
+
+![Step 7e — Close VS Code completely after install](images/step-07e-restart-vscode.png)
+
+4. Verify AWS CLI works:
+
+```powershell
+cd D:\Current_work\ai-infra-mlops\lab0
+aws --version
+```
+
+**Expected result:** `aws-cli/2.x.x Python/3.x.x Windows/...`
+
+![Step 7f — aws --version success after VS Code restart](images/step-07f-aws-version.png)
 
 ---
 
@@ -287,7 +311,7 @@ ALL CHECKS PASSED. Environment is ready.
 | Lab slide viewed (`LAB_SLIDE.png`) | [ ] |
 | AWS Console login | [ ] |
 | Region `us-west-2` | [ ] |
-| AWS CLI installed and configured | [ ] |
+| AWS CLI installed (restarted VS Code after install) | [ ] |
 | Python packages installed | [ ] |
 | Workspace created | [ ] |
 | Verification passed | [ ] |
@@ -301,7 +325,7 @@ ALL CHECKS PASSED. Environment is ready.
 | Terminal shows `C:\...>` not `PS` | Terminal panel → **˅** next to **+** → **Select Default Profile** → **PowerShell** (see Step 1 screenshots) |
 | `git` not found | Install Git from https://git-scm.com/ and restart VS Code |
 | Clone fails | Check internet; confirm URL: `https://github.com/gjkaur/ai-infra-mlops.git` |
-| `aws` not found after install | **Terminal → Kill Terminal** → **New Terminal** |
+| `aws` not found after install | **Fully close VS Code** (File → Exit), reopen, then run `aws --version`. Kill Terminal alone is not enough on Windows. |
 | Login fails | Username is case-sensitive (`Student01` ≠ `student01`) |
 | Wrong region | Browser: US West (Oregon); terminal: `aws configure set region us-west-2` |
 | Packages missing | `pip install -r requirements.txt` |
