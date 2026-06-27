@@ -37,47 +37,31 @@ Do every step **in order**. All terminal commands run in **VS Code → PowerShel
 
 ---
 
-## Step 1 — Open VS Code and confirm PowerShell
+## Step 1 — Open VS Code and set PowerShell as default terminal
 
 **Do this:**
 
-1. Open **VS Code** (or **Cursor**) on your laptop.
-2. **Terminal → New Terminal** (or press **Ctrl+Shift+`**)
-3. Look at the bottom terminal panel — confirm the prompt shows **`PS C:\...>`**
+1. Open **VS Code** on your laptop.
+2. Open the terminal panel at the bottom (**Terminal → New Terminal** or **Ctrl+Shift+`**).
+3. In the **terminal toolbar** (top-right of the terminal panel), click the **˅** (down arrow) next to the **+** button.
+4. Click **Select Default Profile**.
 
-![Step 1 — PowerShell terminal in VS Code](images/step-01-vscode-powershell.png)
+![Step 1a — Open terminal menu and click Select Default Profile](images/step-01a-select-default-profile.png)
 
-**You are already set if you see:**
-- Prompt starts with **`PS`** (e.g. `PS C:\Users\GURINDER>`)
-- Terminal tab shows **PowerShell** or **pwsh**
+5. In **Select your default terminal profile**, click **PowerShell**  
+   (path: `C:\Program Files\PowerShell\7\pwsh.exe` — **not** Command Prompt or Windows PowerShell).
 
-> **Note:** Some VS Code / Cursor builds do **not** show **Terminal → Select Default Profile** in the top menu. That is OK — use one of the methods below only if your prompt shows `C:\...>` instead of `PS`.
+![Step 1b — Choose PowerShell as default profile](images/step-01b-choose-powershell.png)
 
-### If you need to switch to PowerShell (pick one method)
+6. **Terminal → New Terminal** (or click **+** in the terminal panel).
+7. Confirm the prompt shows **`PS C:\...>`** and the profile label shows **pwsh**.
 
-**Method A — Terminal panel dropdown (easiest)**
+**Expected result:** Default terminal is PowerShell. New terminals open with a `PS` prompt.
 
-1. Open the terminal panel at the bottom
-2. Click the **˅** (down arrow) next to the **+** button in the terminal toolbar
-3. Choose **Select Default Profile**
-4. Pick **PowerShell** or **pwsh**
-5. **Terminal → New Terminal**
-
-**Method B — Command Palette**
-
-1. Press **Ctrl+Shift+P**
-2. Type: `Terminal: Select Default Profile`
-3. Select **PowerShell** or **pwsh**
-4. **Terminal → New Terminal**
-
-**Method C — Click the terminal profile name**
-
-1. In the terminal panel, click the profile label (e.g. **pwsh** or **1: pwsh**)
-2. Choose **Select Default Profile** → **PowerShell**
-
-**Expected result:** A PowerShell terminal is open at the bottom of VS Code with a `PS` prompt.
-
-**Screenshot:** `images/step-01-vscode-powershell.png`
+| Correct | Wrong |
+|---------|-------|
+| **PowerShell** (`pwsh.exe`) | Command Prompt |
+| Prompt: `PS C:\...>` | Prompt: `C:\...>` |
 
 ---
 
@@ -308,7 +292,7 @@ ALL CHECKS PASSED. Environment is ready.
 
 | Problem | Fix |
 |---------|-----|
-| Terminal shows `C:\...>` not `PS` | Click **˅** next to **+** in terminal panel → **Select Default Profile** → PowerShell. Or **Ctrl+Shift+P** → `Terminal: Select Default Profile` |
+| Terminal shows `C:\...>` not `PS` | Terminal panel → **˅** next to **+** → **Select Default Profile** → **PowerShell** (see Step 1 screenshots) |
 | `git` not found | Install Git from https://git-scm.com/ and restart VS Code |
 | Clone fails | Check internet; confirm URL: `https://github.com/gjkaur/ai-infra-mlops.git` |
 | `aws` not found after install | **Terminal → Kill Terminal** → **New Terminal** |
