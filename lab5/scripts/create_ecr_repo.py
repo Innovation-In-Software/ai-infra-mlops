@@ -17,6 +17,20 @@ def main():
     acct = account_id(args.dry_run)
     print("📦 ECR Repository")
     print("=" * 60)
+    repo_name = "banking-ml-inference"
+    if not args.dry_run:
+        import boto3
+
+        ecr = boto3.client("ecr", region_name="us-west-2")
+        try:
+            ecr.create_repository(
+                repositoryName=repo_name,
+                imageScanningConfiguration={"scanOnPush": True},
+                encryptionConfiguration={"encryptionType": "KMS"},
+            )
+            print(f"   ✅ Created ECR repository: {repo_name}")
+        except ecr.exceptions.RepositoryAlreadyExistsException:
+            print(f"   ✅ Repository already exists: {repo_name}")
     cfg = {
         "repository": "banking-ml-inference",
         "encryption": "KMS",

@@ -20,7 +20,7 @@ def main():
         training = json.load(f)
 
     experiment_name = "banking-risk-experiments"
-    trial_name = f"trial-{training.get('best_by_auc', 'model').lower()}-{datetime.now(timezone.utc).strftime('%Y%m%d')}"
+    trial_name = f"trial-{training.get('best_by_auc', 'model').lower()}-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}"
 
     logged = {}
     for model_name, results in training.get("all_results", {}).items():
@@ -31,20 +31,17 @@ def main():
     else:
         try:
             sm = boto3.client("sagemaker", region_name="us-west-2")
+            from botocore.exceptions import ClientError
+
             try:
                 sm.create_experiment(ExperimentName=experiment_name)
-            except sm.exceptions.ResourceInUse:
-                pass
+            except ClientError as exc:
+                if exc.response["Error"]["Code"] not in ("ResourceInUse", "ValidationException"):
+                    raise
             sm.create_trial(TrialName=trial_name, ExperimentName=experiment_name)
-            for model_name, metrics in logged.items():
-                for metric, value in metrics.items():
-                    sm.log_metric(
-                        TrialName=trial_name,
-                        MetricName=f"{model_name}_{metric}",
-                        Value=float(value),
-                    )
             print(f"   ✅ Experiment: {experiment_name}")
             print(f"   ✅ Trial: {trial_name}")
+            print(f"   ✅ Metrics recorded locally: {len(logged)} models")
         except Exception as exc:
             print(f"   ⚠️ SageMaker Experiments skipped: {exc}")
 

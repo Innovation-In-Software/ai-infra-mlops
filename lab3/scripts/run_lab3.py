@@ -8,8 +8,8 @@ from select_best_model import main as select_main
 from train_models import main as train_main
 
 
-def _experiments_dry_run():
-    sys.argv = ["", "--dry-run"]
+def _experiments_live():
+    sys.argv = [""]
     experiments_main()
 
 
@@ -19,7 +19,7 @@ def run_lab3():
     steps = [
         ("Load training data", load_main),
         ("Train models", train_main),
-        ("SageMaker experiments", _experiments_dry_run),
+        ("SageMaker experiments", _experiments_live),
         ("Fairness testing", fairness_main),
         ("Select best model", select_main),
     ]

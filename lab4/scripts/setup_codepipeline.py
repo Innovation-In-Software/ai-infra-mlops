@@ -12,7 +12,7 @@ def main():
     ensure_workspace()
     print("🔄 CodePipeline Setup")
     print("=" * 60)
-    acct = account_id(dry_run=True)
+    acct = account_id(dry_run=False)
     config = {
         "pipeline": f"banking-ml-cicd-{acct}",
         "region": "us-west-2",

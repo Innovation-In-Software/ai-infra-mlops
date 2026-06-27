@@ -1,4 +1,4 @@
-"""Run Lab 6 deployment workflow (dry-run)."""
+"""Run Lab 6 deployment workflow (live AWS config — no dry-run)."""
 import sys
 
 from configure_blue_green import main as bg_main
@@ -11,32 +11,29 @@ from shift_traffic import main as shift_main
 from test_deployment import main as test_main
 
 
-def _dry(fn):
-    sys.argv = ["", "--dry-run"]
+def _live(fn, extra=None):
+    sys.argv = [""] + (extra or [])
     fn()
 
 
 def run_lab6():
-    print("Lab 6 — Blue-Green Deployment")
+    print("Lab 6 — Blue-Green Deployment (LIVE)")
     print("=" * 60)
     prep_main()
-    for name, fn in [
-        ("Blue-green plan", bg_main),
-        ("Staging deploy", staging_main),
-        ("Test staging", test_main),
-        ("Production deploy", prod_main),
-        ("Traffic shift", shift_main),
-        ("Rollback drill", rollback_main),
-        ("Report", report_main),
+    for name, fn, extra in [
+        ("Blue-green plan", bg_main, None),
+        ("Staging deploy", staging_main, None),
+        ("Test staging", test_main, ["--environment", "staging"]),
+        ("Production deploy", prod_main, None),
+        ("Traffic shift", shift_main, ["--steps", "90,50,0"]),
+        ("Rollback drill", rollback_main, ["--endpoint-name", "banking-endpoint-prod-demo"]),
+        ("Report", report_main, None),
     ]:
         print(f"\n▶ {name}")
-        if fn in (bg_main, staging_main, prod_main, shift_main, rollback_main):
-            _dry(fn)
-        elif fn is test_main:
-            sys.argv = ["", "--dry-run", "--environment", "staging"]
+        if fn is report_main:
             fn()
         else:
-            fn()
+            _live(fn, extra)
     print("\nLab 6 complete.")
 
 

@@ -14,7 +14,7 @@ def main():
     print("Preparing deployment configuration")
     print("=" * 60)
 
-    acct = account_id(dry_run=True)
+    acct = account_id(dry_run=False)
     ecr_cfg = LAB5 / "config" / "ecr_config.json"
     image_uri = f"{acct}.dkr.ecr.us-west-2.amazonaws.com/banking-ml-inference:latest"
     if ecr_cfg.exists():
