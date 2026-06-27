@@ -107,6 +107,8 @@ cd ..\lab2
 
 Under `workspace\lab2\` you see `config`, `data`, `logs`, `results`, `validation`.
 
+![Step 2 — workspace\lab2 folders](images/step-02-workspace-lab2.png)
+
 ---
 
 # Step 3 — Verify Lab 1 prerequisites (`lab1/`)
@@ -131,6 +133,8 @@ cd ..\lab2
 Lab 1 validation shows `Compliance Score: 100.0%`.
 
 **You do not re-run Lab 1 scripts here.** Lab 1 Step 6 already created the IAM roles and policies needed for Step 8.
+
+![Step 3 — Lab 1 prerequisites validated](images/step-03-prerequisites.png)
 
 ---
 
