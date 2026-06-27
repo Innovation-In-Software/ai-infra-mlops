@@ -1,4 +1,4 @@
-"""Run all Lab 1.2 steps in sequence."""
+"""Run all Lab 2 steps in sequence."""
 from data_drift_detection import main_drift_detection
 from data_validation import validate_all_data
 from download_banking_data import generate_banking_dataset
@@ -19,7 +19,7 @@ def run_lab2():
         ("Compliance report", generate_comprehensive_compliance_report),
     ]
 
-    print("Lab 1.2 — Banking Data Management & PII Protection")
+    print("Lab 2 — Banking Data Management & PII Protection")
     print("=" * 60)
 
     for name, fn in steps:
@@ -27,7 +27,7 @@ def run_lab2():
         fn()
 
     print("\n" + "=" * 60)
-    print("Lab 1.2 complete.")
+    print("Lab 2 complete.")
 
 
 if __name__ == "__main__":

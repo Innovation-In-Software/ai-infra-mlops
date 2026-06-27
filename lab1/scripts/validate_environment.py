@@ -168,7 +168,7 @@ def validate_environment():
 
     if compliance_score == 100:
         print("\n✅ ALL CHECKS PASSED! Environment is compliant.")
-        print("   Proceed to Lab 1.2")
+        print("   Proceed to Lab 2 (lab2/STEPS.md)")
     else:
         print("\n⚠️ Some checks failed. Review and fix before proceeding.")
         print(f"   Check {RESULTS_DIR / 'compliance_report.json'} for details")

@@ -1,4 +1,4 @@
-"""Validate Lab 1.2 prerequisites and outputs."""
+"""Validate Lab 2 prerequisites and outputs."""
 import json
 import sys
 from pathlib import Path
@@ -8,7 +8,7 @@ from lab_paths import CONFIG_DIR, DATA_DIR, LAB1_CONFIG_DIR, ensure_workspace
 
 def validate_lab2():
     ensure_workspace()
-    print("Validate Lab 1.2")
+    print("Validate Lab 2")
     print("=" * 60)
 
     ok = True
@@ -16,9 +16,9 @@ def validate_lab2():
     for name in ("buckets.json", "iam_roles.json"):
         path = LAB1_CONFIG_DIR / name
         if path.exists():
-            print(f"   ✅ Lab 1.1 config: {name}")
+            print(f"   ✅ Lab 1 config: {name}")
         else:
-            print(f"   ❌ Missing Lab 1.1 config: {path}")
+            print(f"   ❌ Missing Lab 1 config: {path}")
             ok = False
 
     expected_data = (
@@ -55,7 +55,7 @@ def validate_lab2():
 
     report = CONFIG_DIR / "lab2_validation.json"
     report.write_text(
-        json.dumps({"lab": "1.2", "prerequisites_ok": ok}, indent=2),
+        json.dumps({"lab": "2", "prerequisites_ok": ok}, indent=2),
         encoding="utf-8",
     )
 
@@ -63,7 +63,7 @@ def validate_lab2():
     if ok:
         print("Prerequisites OK — run lab2 scripts in STEPS.md order.")
     else:
-        print("Complete Lab 1.1 first.")
+        print("Complete Lab 1 first (lab1/STEPS.md).")
         sys.exit(1)
 
 

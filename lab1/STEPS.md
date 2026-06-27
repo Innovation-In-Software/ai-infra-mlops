@@ -1,4 +1,6 @@
-# Lab 1.1: Secure MLOps Environment Setup
+# Lab 1: Secure MLOps Environment Setup
+
+## Folder · `lab1/`
 
 ## Class · `ai-mlops-2026-jun30`
 ## Duration · 30 minutes
@@ -35,7 +37,7 @@
 
 Do every step **in order**. Terminal commands run in **Visual Studio Code (VS Code) → PowerShell**. Some verification steps use the **Amazon Web Services (AWS) Console** in your browser.
 
-The full repo was cloned in Lab 0 — **no `git pull`** is needed between labs.
+The full repo was cloned in Lab 0 — **no `git pull`** is needed between labs. This guide is **`lab1/`** in the repo (Lab 1 in the course sequence).
 
 ### clear the terminal between steps
 
@@ -70,9 +72,9 @@ That folder is gitignored — your AWS resource IDs stay on your machine only.
 
 ---
 
-# Step 1 — Confirm Lab 1.1 files in the repo
+# Step 1 — Confirm `lab1/` files in the repo
 
-**Prerequisite:** Lab 0 verification passed.
+**Prerequisite:** [Lab 0](../lab0/STEPS.md) complete (`lab0/`).
 
 The full repo was cloned in Lab 0. You already have `lab1/` — **no `git pull` is needed.**
 
@@ -275,7 +277,7 @@ python scripts\validate_environment.py
 
 ![Step 9a — validation checks running](images/step-09a-validation.png)
 
-![Step 9b — 100% compliant, proceed to Lab 1.2](images/step-09b-validation-pass.png)
+![Step 9b — 100% compliant, proceed to Lab 2](images/step-09b-validation-pass.png)
 
 Or run the full lab in one command (Steps 4–9):
 
@@ -290,7 +292,7 @@ python scripts\run_lab1.py
 Compliance Score: 100.0%
 Status: COMPLIANT
 ALL CHECKS PASSED! Environment is compliant.
-   Proceed to Lab 1.2
+   Proceed to Lab 2 (`lab2/STEPS.md`)
 ```
 
 Report saved to `workspace\lab1\results\compliance_report.json`.
@@ -388,6 +390,6 @@ Student accounts need **PowerUserAccess** + **IAMFullAccess** (from Lab 0).
 
 ---
 
-## Lab 1.1 complete
+## Lab 1 complete
 
-Next: **[Lab 1.2 — Banking Data Management & PII Protection](../lab2/STEPS.md)**.
+Next: **[Lab 2 — Banking Data Management & PII Protection](../lab2/STEPS.md)** (`lab2/`).

@@ -229,7 +229,7 @@ class EnvironmentVerifier:
 
         if self.failed == 0:
             print("\nALL CHECKS PASSED. Environment is ready.")
-            print("   Proceed to Lab 1.1")
+            print("   Proceed to Lab 1 (open lab1/STEPS.md)")
         else:
             print("\nSome checks failed. Fix issues before proceeding.")
 

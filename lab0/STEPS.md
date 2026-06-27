@@ -59,6 +59,12 @@ From **Step 4** onward, terminal steps assume this prompt:
 
 Your instructor releases the **full lab repository** before you start. The `git clone` in **Step 2** downloads every lab folder (`lab0`, `lab1`, `lab2`, …) and every `STEPS.md` guide. You do **not** need `git pull` when moving from one lab to the next.
 
+| Folder | Lab guide |
+|--------|-----------|
+| `lab0/` | Lab 0 — Environment Setup |
+| `lab1/` | Lab 1 — Secure MLOps Environment Setup |
+| `lab2/` | Lab 2 — Banking Data Management & PII Protection |
+
 ---
 
 # Credentials (from instructor)
@@ -447,7 +453,7 @@ python scripts\verify_environment.py
 
 ```
 ALL CHECKS PASSED. Environment is ready.
-   Proceed to Lab 1.1
+   Proceed to Lab 1 (open `lab1/STEPS.md`)
 ```
 
 ---
@@ -494,4 +500,4 @@ Re-run `python scripts\setup_lab_directories.py` from `lab0/`; check `..\workspa
 
 ## Lab 0 complete
 
-Next: **[lab1/STEPS.md](../lab1/STEPS.md)** — Secure MLOps Environment Setup.
+Next: **[Lab 1 — Secure MLOps Environment Setup](../lab1/STEPS.md)** (`lab1/`).

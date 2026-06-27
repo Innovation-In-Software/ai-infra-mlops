@@ -1,4 +1,6 @@
-# Lab 1.2: Banking Data Management & PII Protection
+# Lab 2: Banking Data Management & PII Protection
+
+## Folder · `lab2/`
 
 ## Class · `ai-mlops-2026-jun30`
 ## Duration · 30 minutes
@@ -6,7 +8,7 @@
 ## Repo · [github.com/gjkaur/ai-infra-mlops](https://github.com/gjkaur/ai-infra-mlops)
 ## Editor · Visual Studio Code (VS Code)
 ## Terminal · PowerShell (integrated terminal only)
-## Prerequisite · [Lab 1.1](../lab1/STEPS.md) complete (`Compliance Score: 100%`)
+## Prerequisite · [Lab 1](../lab1/STEPS.md) complete in `lab1/` (`Compliance Score: 100%`)
 
 ---
 
@@ -30,7 +32,7 @@
 
 Do every step **in order**. Terminal commands run in **VS Code → PowerShell**.
 
-The full repo was cloned in Lab 0 — **no `git pull`** is needed between labs.
+The full repo was cloned in Lab 0 — **no `git pull`** is needed between labs. This guide is **`lab2/`** in the repo (Lab 2 in the course sequence).
 
 ### clear the terminal between steps
 
@@ -48,7 +50,7 @@ From **Step 2** onward:
 
 `D:\Current_work\ai-infra-mlops\workspace\lab2\`
 
-Lab 1.1 configs are read from `workspace\lab1\config\` (buckets, IAM roles).
+Lab 1 configs are read from `workspace\lab1\config\` (buckets, IAM roles).
 
 ---
 
@@ -64,9 +66,9 @@ Lab 1.1 configs are read from `workspace\lab1\config\` (buckets, IAM roles).
 
 ---
 
-# Step 1 — Confirm Lab 1.2 files in the repo
+# Step 1 — Confirm `lab2/` files in the repo
 
-**Prerequisite:** [Lab 1.1](../lab1/STEPS.md) complete (`Compliance Score: 100%`).
+**Prerequisite:** [Lab 1](../lab1/STEPS.md) complete in `lab1/` (`Compliance Score: 100%`).
 
 The full repo was cloned in Lab 0. You already have `lab2/` — **no `git pull` is needed.**
 
@@ -107,14 +109,14 @@ Under `workspace\lab2\` you see `config`, `data`, `logs`, `results`, `validation
 
 ---
 
-# Step 3 — Verify Lab 1.1 prerequisites
+# Step 3 — Verify Lab 1 prerequisites (`lab1/`)
 
 ```powershell
 clear
 python scripts\validate_lab2.py
 ```
 
-Also confirm Lab 1.1 passed:
+Also confirm Lab 1 passed in `lab1/`:
 
 ```powershell
 clear
@@ -125,10 +127,10 @@ cd ..\lab2
 
 ### Expected result
 
-`validate_lab2.py` shows `✅ Lab 1.1 config: buckets.json` and `iam_roles.json`.  
-Lab 1.1 validation shows `Compliance Score: 100.0%`.
+`validate_lab2.py` shows `✅ Lab 1 config: buckets.json` and `iam_roles.json`.  
+Lab 1 validation shows `Compliance Score: 100.0%`.
 
-**You do not re-run Lab 1.1 scripts here.** Lab 1.1 Step 6 already created the IAM roles and policies needed for Step 8.
+**You do not re-run Lab 1 scripts here.** Lab 1 Step 6 already created the IAM roles and policies needed for Step 8.
 
 ---
 
@@ -198,7 +200,7 @@ clear
 python scripts\feature_store_setup.py
 ```
 
-This step can take **several minutes**. Uses Lab 1.1 S3 buckets and IAM roles. Customer features are ingested from the engineered training dataset (one row per `customer_id`).
+This step can take **several minutes**. Uses Lab 1 S3 buckets and IAM roles from `workspace\lab1\config\`. Customer features are ingested from the engineered training dataset (one row per `customer_id`).
 
 ### Expected result
 
@@ -257,9 +259,9 @@ All data and config files from Steps 4–10 exist.
 
 # Troubleshooting
 
-### Missing Lab 1.1 config
+### Missing Lab 1 config
 
-Complete [Lab 1.1](../lab1/STEPS.md) first. `workspace\lab1\config\buckets.json` must exist.
+Complete [Lab 1](../lab1/STEPS.md) in `lab1/` first. `workspace\lab1\config\buckets.json` must exist.
 
 ### Comprehend access denied
 
@@ -267,7 +269,7 @@ Pattern-based PII detection still runs. Ensure your student role can call `compr
 
 ### Feature Store errors
 
-1. Re-run Step 8 after the SageMaker domain is `InService` from Lab 1.1.
+1. Re-run Step 8 after the SageMaker domain is `InService` from Lab 1 (`lab1/`).
 2. Feature groups are idempotent on re-run. If ingest fails because records already exist, that warning is OK — check that `config\feature_store_config.json` was saved.
 
 ### Instructor re-screenshot
@@ -276,6 +278,6 @@ Delete `workspace\lab2\data\*` and `workspace\lab2\config\*.json`, then re-run s
 
 ---
 
-## Lab 1.2 complete
+## Lab 2 complete
 
 Return to **[README.md](../README.md)** for the next lab in the course sequence.
