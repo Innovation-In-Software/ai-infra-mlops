@@ -117,6 +117,7 @@ def create_banking_buckets():
                     {
                         "ID": "ComplianceRetention",
                         "Status": "Enabled",
+                        "Filter": {"Prefix": ""},
                         "Expiration": {"Days": config["retention_days"]},
                         "NoncurrentVersionExpiration": {"NoncurrentDays": 30},
                     }
@@ -128,6 +129,7 @@ def create_banking_buckets():
                     {
                         "ID": "TransitionToGlacier",
                         "Status": "Enabled",
+                        "Filter": {"Prefix": ""},
                         "Transitions": [
                             {"Days": 365, "StorageClass": "STANDARD_IA"},
                             {"Days": 730, "StorageClass": "GLACIER"},
@@ -175,14 +177,6 @@ def create_banking_buckets():
                                 f"arn:aws:s3:::{bucket_name}/*",
                             ],
                             "Condition": {"Bool": {"aws:SecureTransport": "false"}},
-                        },
-                        {
-                            "Sid": "DenyDeleteWithoutVersioning",
-                            "Effect": "Deny",
-                            "Principal": "*",
-                            "Action": "s3:DeleteObject",
-                            "Resource": f"arn:aws:s3:::{bucket_name}/*",
-                            "Condition": {"Null": {"s3:versionid": "true"}},
                         },
                     ],
                 }
