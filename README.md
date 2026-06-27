@@ -1,75 +1,22 @@
-# AI Infrastructure & MLOps on AWS
-## Class: `ai-mlops-2026-jun30`
+# AI-MLOps on AWS — Participant Labs
 
-**Repository:** [github.com/Innovation-In-Software/ai-infra-mlops](https://github.com/Innovation-In-Software/ai-infra-mlops)
+**Repo:** [github.com/gjkaur/ai-infra-mlops](https://github.com/gjkaur/ai-infra-mlops) · **Class:** `ai-mlops-2026-jun30` · **Region:** `us-west-2`
 
-This is the **only repo participants need**. It contains lab scripts, step-by-step guides, and screenshots.
-
-**Region:** `us-west-2` (Oregon) only.
-
----
-
-## What you need on your laptop
-
-| Tool | Check |
-|------|-------|
-| VS Code | Installed |
-| Python 3.8+ | `python --version` |
-| Git | `git --version` |
-| AWS CLI v2 | `aws --version` |
-| AWS credentials | From instructor handout |
-
----
-
-## Setup (one time)
+## Setup
 
 ```powershell
 cd D:\Current_work
-git clone https://github.com/Innovation-In-Software/ai-infra-mlops.git
-cd ai-infra-mlops
-code .
+git clone https://github.com/gjkaur/ai-infra-mlops.git
 ```
 
-Then open **[GETTING_STARTED.md](GETTING_STARTED.md)** and follow Lab 0.
+Open in VS Code: **File → Open Folder** → `ai-infra-mlops`  
+**Terminal → Select Default Profile → PowerShell** → **New Terminal**
 
----
+## Lab 0
 
-## Folder layout
+| | File |
+|---|------|
+| **Slide** | [lab0/LAB_SLIDE.png](lab0/LAB_SLIDE.png) |
+| **Steps** | [lab0/STEPS.md](lab0/STEPS.md) |
 
-```
-ai-infra-mlops/
-├── README.md              ← You are here
-├── GETTING_STARTED.md     ← Credentials + first steps
-├── guides/                ← Step-by-step with screenshots
-│   └── lab0/
-│       ├── LAB_GUIDE.md
-│       └── images/
-└── labs/                  ← Lab scripts (run from here)
-    └── Lab_0_Environment_Setup_and_Prerequisites/
-        ├── scripts/
-        ├── requirements.txt
-        └── ...
-```
-
-Your personal workspace (created in Lab 0) lives at:
-
-`%USERPROFILE%\Documents\banking-mlops-labs`
-
----
-
-## Lab index
-
-| Lab | Guide | Scripts folder |
-|-----|-------|----------------|
-| **0** | [guides/lab0/LAB_GUIDE.md](guides/lab0/LAB_GUIDE.md) | `labs/Lab_0_Environment_Setup_and_Prerequisites/` |
-| 1.1 | *coming soon* | *coming soon* |
-| 1.2 | *coming soon* | *coming soon* |
-
----
-
-## Security
-
-- Never commit AWS keys or passwords.
-- Usernames are **case-sensitive** (`Student01` ≠ `student01`).
-
-**Start Lab 0:** [guides/lab0/LAB_GUIDE.md](guides/lab0/LAB_GUIDE.md)
+All commands run in VS Code PowerShell from the `lab0` folder.

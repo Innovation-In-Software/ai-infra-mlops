@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-BANKING = ROOT.parent
+REPO_ROOT = ROOT.parent
 
 
 class EnvironmentVerifier:
@@ -141,7 +141,7 @@ class EnvironmentVerifier:
 
         course_missing = []
         for lab_folder in config["course_labs"]:
-            if not (BANKING / lab_folder).exists():
+            if not (REPO_ROOT / lab_folder).exists():
                 course_missing.append(lab_folder)
 
         workspace_missing = []
@@ -157,7 +157,7 @@ class EnvironmentVerifier:
             self.add_check(
                 "Course Lab Folders",
                 True,
-                f"Found {len(config['course_labs'])} labs in labs/",
+                f"Found {len(config['course_labs'])} lab folder(s) in repo",
             )
         else:
             self.add_check(
@@ -187,13 +187,13 @@ class EnvironmentVerifier:
         try:
             result = subprocess.run(
                 [git, "rev-parse", "--is-inside-work-tree"],
-                cwd=BANKING.parent,
+                cwd=REPO_ROOT,
                 capture_output=True,
                 text=True,
                 check=False,
             )
             in_repo = result.returncode == 0 and result.stdout.strip() == "true"
-            self.add_check("Git Repository", in_repo, "Course repo detected" if in_repo else "Not in git repo")
+            self.add_check("Git Repository", in_repo, "Repo cloned" if in_repo else "Not in git repo")
         except Exception as exc:
             self.add_check("Git Repository", False, str(exc))
 

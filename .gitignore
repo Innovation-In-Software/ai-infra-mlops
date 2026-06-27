@@ -5,22 +5,18 @@ credentials
 .env
 .env.*
 
-# Student secrets
-**/student_credentials.txt
-**/setup_info.txt
-
 # Python
 __pycache__/
 *.py[cod]
 .venv/
 venv/
 
+# Generated locally
+**/logs/
+**/setup_info.txt
+
 # OS / IDE
 .DS_Store
 Thumbs.db
 .idea/
 .vscode/
-
-# Logs (local only)
-**/logs/*.log
-**/logs/*.json

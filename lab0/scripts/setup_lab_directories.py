@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-BANKING = ROOT.parent
+REPO_ROOT = ROOT.parent
 
 
 def default_workspace() -> Path:
@@ -33,22 +33,22 @@ def create_workspace(target: Path, per_lab_subdirs: bool = True):
                 (path / sub).mkdir(exist_ok=True)
 
     mapping = {
-        "lab0": "Lab_0_Environment_Setup_and_Prerequisites",
-        "lab1": "Lab_1.1_Secure_MLOps_Environment_Setup",
-        "lab2": "Lab_1.2_Banking_Data_Management_and_PII_Protection",
-        "lab3": "Lab_2.1_Model_Training_and_Fairness_Testing",
-        "lab4": "Lab_3.1_CICD_Pipeline_with_Compliance_Gates",
-        "lab5": "Lab_4.1_Secure_Containerization_for_Banking",
-        "lab6": "Lab_5.1_Model_Deployment_with_Blue_Green",
-        "lab7": "Lab_6.1_Compliance_Monitoring_and_Observability",
-        "lab8": "Lab_7.1_End_to_End_SageMaker_Pipeline",
-        "lab9": "Lab_8.1_Banking_Security_and_Governance_Framework",
-        "lab10": "Lab_9.1_Enterprise_MLOps_Architecture",
+        "lab0": "lab0",
+        "lab1": "lab1",
+        "lab2": "lab2",
+        "lab3": "lab3",
+        "lab4": "lab4",
+        "lab5": "lab5",
+        "lab6": "lab6",
+        "lab7": "lab7",
+        "lab8": "lab8",
+        "lab9": "lab9",
+        "lab10": "lab10",
     }
 
     course_mapping = {
         **mapping,
-        "note": "Use labs/ folders in the ai-infra-mlops repo for course content.",
+        "note": "Lab folders in this repo (lab0, lab1, …) as they are published.",
     }
 
     mapping_path = target / "config" / "labs_mapping.json"
@@ -57,7 +57,7 @@ def create_workspace(target: Path, per_lab_subdirs: bool = True):
             {
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "workspace": str(target),
-                "course_root": str(BANKING),
+                "course_root": str(REPO_ROOT),
                 "mapping": course_mapping,
             },
             f,
