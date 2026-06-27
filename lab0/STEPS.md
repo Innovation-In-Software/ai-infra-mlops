@@ -13,32 +13,64 @@
 
 ## Lab flow
 
+All steps run **in order** (1 → 11). Steps **5–6** use your **browser**; all others use **VS Code + PowerShell**.
+
 ```mermaid
 flowchart TD
-    Start([Start Lab 0]) --> S1
+    Start([Start Lab 0])
 
-    subgraph vscode [VS Code + PowerShell]
-        S1["Step 1 · PowerShell default<br/>1a Select Default Profile · 1b choose pwsh"]
-        S2["Step 2 · Clone repo<br/>git clone ai-infra-mlops"]
-        S3["Step 3 · Open in VS Code<br/>3a Open Folder · 3b select repo · 3c explorer"]
-        S4["Step 4 · Confirm lab0 folder<br/>Get-ChildItem"]
-        S7["Step 7 · Install AWS CLI<br/>7a not found → 7b–k MSI install<br/>7l–m still fails → 7n restart VS Code · 7o aws --version"]
-        S8["Step 8 · Configure AWS CLI<br/>8a aws configure · 8b verify identity & S3"]
-        S9["Step 9 · Python packages<br/>9a requirements · 9b folder · 9c–e pip & imports"]
-        S10["Step 10 · Create workspace/<br/>setup_lab_directories.py"]
-        S11["Step 11 · Verify environment<br/>11a dry-run · 11b run setup · 11c all passed"]
+    subgraph P1["Phase 1 - Local setup"]
+        S1[Step 1 - PowerShell default]
+        S2[Step 2 - Clone repo]
+        S3[Step 3 - Open in VS Code]
+        S4[Step 4 - Confirm lab0 folder]
+        S1 --> S2 --> S3 --> S4
     end
 
-    subgraph browser [AWS Console — browser]
-        S5["Step 5 · Console login<br/>5a sign-in · 5b region us-west-2"]
-        S6["Step 6 · Verify permissions<br/>6a–c IAM · 6d–e SageMaker · 6f S3"]
+    subgraph P2["Phase 2 - AWS Console"]
+        S5[Step 5 - Console login]
+        S6[Step 6 - Verify IAM SageMaker S3]
+        S5 --> S6
     end
 
-    S1 --> S2 --> S3 --> S4 --> S5
-    S5 --> S6 --> S7
-    S7 --> S8 --> S9 --> S10 --> S11
-    S11 --> Done([Lab 0 complete → Lab 1.1])
+    subgraph P3["Phase 3 - AWS CLI"]
+        S7[Step 7 - Install AWS CLI]
+        S8[Step 8 - aws configure]
+        S7 --> S8
+    end
+
+    subgraph P4["Phase 4 - Python"]
+        S9[Step 9 - Install packages]
+    end
+
+    subgraph P5["Phase 5 - Workspace and verify"]
+        S10[Step 10 - Create workspace]
+        S11[Step 11 - Verify environment]
+        S10 --> S11
+    end
+
+    Done([Lab 0 complete - Lab 1.1])
+
+    Start --> S1
+    S4 --> S5
+    S6 --> S7
+    S8 --> S9
+    S9 --> S10
+    S11 --> Done
 ```
+
+**Substeps** (see each step below for screenshots):
+
+| Step | Substeps |
+|------|----------|
+| 1 | 1a Select Default Profile · 1b choose PowerShell |
+| 3 | 3a Open Folder · 3b select repo · 3c explorer |
+| 5 | 5a sign-in · 5b region us-west-2 |
+| 6 | 6a IAM search · 6b users · 6c policies · 6d–e SageMaker · 6f S3 |
+| 7 | 7a not found · 7b–k MSI install · 7l–m still fails · 7n restart VS Code · 7o aws version |
+| 8 | 8a aws configure · 8b verify identity and S3 |
+| 9 | 9a requirements · 9b folder · 9c pip upgrade · 9d install · 9e test imports |
+| 11 | 11a dry-run · 11b run setup · 11c all checks passed |
 
 ---
 
