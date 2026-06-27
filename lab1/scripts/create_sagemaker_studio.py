@@ -3,10 +3,26 @@ import boto3
 import json
 import sys
 import time
-from datetime import datetime
-
+from datetime import datetime, timezone
 
 from lab_paths import CONFIG_DIR, ensure_workspace
+
+
+def find_domain_by_name(sagemaker, domain_name):
+    """Return domain summary from list_domains, or None."""
+    token = None
+    while True:
+        params = {"MaxResults": 50}
+        if token:
+            params["NextToken"] = token
+        response = sagemaker.list_domains(**params)
+        for domain in response.get("Domains", []):
+            if domain.get("DomainName") == domain_name:
+                return domain
+        token = response.get("NextToken")
+        if not token:
+            break
+    return None
 
 
 def create_sagemaker_studio():
@@ -71,12 +87,12 @@ def create_sagemaker_studio():
     print(f"\n📋 Creating SageMaker Studio Domain: {domain_name}")
 
     try:
-        try:
-            existing_domain = sagemaker.describe_domain(DomainName=domain_name)
-            print(f"   ⚠️ Domain already exists: {domain_name}")
-            domain_id = existing_domain["DomainId"]
-            domain_arn = existing_domain["DomainArn"]
-        except sagemaker.exceptions.ResourceNotFound:
+        existing = find_domain_by_name(sagemaker, domain_name)
+        if existing:
+            domain_id = existing["DomainId"]
+            domain_arn = existing["DomainArn"]
+            print(f"   ⚠️ Domain already exists: {domain_name} ({domain_id})")
+        else:
             response = sagemaker.create_domain(
                 DomainName=domain_name,
                 AuthMode="IAM",
@@ -194,7 +210,7 @@ def create_sagemaker_studio():
             "subnet_ids": subnet_ids,
             "execution_role_arn": execution_role_arn,
             "users": users,
-            "created_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }
 
         with open(CONFIG_DIR / "sagemaker_studio.json", "w", encoding="utf-8") as f:
