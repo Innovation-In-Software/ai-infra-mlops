@@ -33,7 +33,7 @@ def create_workspace(target: Path, per_lab_subdirs: bool = True):
                 (path / sub).mkdir(exist_ok=True)
 
     mapping = {
-        "lab0": "lab0",
+        "lab0": str(REPO_ROOT / "lab0"),
         "lab1": "lab1",
         "lab2": "lab2",
         "lab3": "lab3",
@@ -48,7 +48,7 @@ def create_workspace(target: Path, per_lab_subdirs: bool = True):
 
     course_mapping = {
         **mapping,
-        "note": "Lab folders in this repo (lab0, lab1, …) as they are published.",
+        "note": "lab0 = course setup in repo root. lab1–lab10 = your outputs under workspace/.",
     }
 
     mapping_path = target / "config" / "labs_mapping.json"
@@ -71,10 +71,10 @@ def create_workspace(target: Path, per_lab_subdirs: bool = True):
         encoding="utf-8",
     )
 
-    log_path = target / "lab0" / "logs" / "setup.log"
+    log_path = target / "logs" / "lab0-setup.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
     log_path.write_text(
-        f"Lab 0 - Started at {datetime.now(timezone.utc).isoformat()}\n",
+        f"Lab 0 setup completed at {datetime.now(timezone.utc).isoformat()}\n",
         encoding="utf-8",
     )
 

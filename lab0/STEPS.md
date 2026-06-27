@@ -330,15 +330,15 @@ Get-ChildItem ..\workspace
 
 ```
 workspace/
-├── lab0/ ... lab10/     (each with scripts, config, data, results, logs)
+├── lab1/ ... lab10/     (each with scripts, config, data, results, logs)
 ├── config/
 ├── shared_data/
 ├── scripts/
 ├── results/
-└── logs/
+└── logs/                (includes lab0-setup.log)
 ```
 
-> **`lab0/`** (course guide + scripts) is for instructions. **`workspace/lab0/`** is where you save lab outputs during the course. The `workspace/` folder is gitignored — your work stays local.
+> **`lab0/`** at the repo root is the setup guide (this file + scripts). **`workspace/`** is where you save outputs starting from **Lab 1** — there is no `workspace/lab0/`. The `workspace/` folder is gitignored — your work stays local.
 
 **Screenshot:** `images/step-10-workspace-folders.png` *(pending — capture after running setup)*
 
