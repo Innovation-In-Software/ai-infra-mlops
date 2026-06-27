@@ -1,0 +1,9 @@
+{
+  "lab_number": 8,
+  "title": "End-to-End SageMaker Pipeline",
+  "module": "Module 9: SageMaker Pipelines",
+  "duration_minutes": 30,
+  "region": "us-west-2",
+  "prerequisites": ["lab7"],
+  "workspace_outputs": "workspace/lab8"
+}

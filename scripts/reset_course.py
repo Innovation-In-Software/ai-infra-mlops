@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reset local workspace for Labs 0–2 (instructor / fresh start)."""
+"""Reset local workspace for course labs (instructor / fresh start)."""
 import argparse
 import shutil
 import sys
@@ -50,7 +50,7 @@ def main():
         print("\n📋 Deleting Lab 2 feature groups in AWS...")
         delete_feature_groups()
 
-    print("\n✅ Done. Re-run labs from STEPS.md (Lab 0 verify → Lab 1 → Lab 2).")
+    print("\n✅ Done. Re-run labs from STEPS.md (Lab 0 verify → Labs 1–10).")
 
 
 if __name__ == "__main__":

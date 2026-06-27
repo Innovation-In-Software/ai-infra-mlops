@@ -1,0 +1,9 @@
+{
+  "lab_number": 5,
+  "title": "Secure Containerization for Banking",
+  "module": "Module 6: Model Packaging and Containerization",
+  "duration_minutes": 30,
+  "region": "us-west-2",
+  "prerequisites": ["lab3", "lab4"],
+  "workspace_outputs": "workspace/lab5"
+}

@@ -7,8 +7,12 @@
 </p>
 
 <p align="center">
-  <strong>Cloud delivery:</strong> EC2 in <code>us-west-2</code> + SSH + VS Code Remote SSH.
+  <strong>Delivery:</strong> EC2 in <code>us-west-2</code> + SSH + <a href="docs/SSH-VSCODE-SETUP.md">VS Code Remote SSH</a>.
   See <a href="CLOUD-DELIVERY.md">CLOUD-DELIVERY.md</a> for golden AMI, fresh start, and 30-minute timing.
+</p>
+
+<p align="center">
+  <strong>All labs run on EC2</strong> — use the VS Code integrated terminal (bash). Do not use local Windows PowerShell for lab steps.
 </p>
 
 <p align="center">
@@ -22,41 +26,40 @@
 
 <pre>
 cd ~/ai-infra-mlops
-python3 scripts/reset_course.py --labs lab1,lab2
+python3 scripts/reset_course.py --labs lab1,lab2,lab3,lab4,lab5,lab6,lab7,lab8,lab9,lab10
 cd lab2 && python3 scripts/cleanup_lab2.py --aws   # optional: remove Feature Groups
 </pre>
 
-<p>Then re-run <a href="lab0/STEPS.md">Lab 0</a> verify → <a href="lab1/STEPS.md">Lab 1</a> → <a href="lab2/STEPS.md">Lab 2</a>.</p>
+<p>Then re-run <a href="lab0/STEPS.md">Lab 0</a> verify → Labs 1–10 in order.</p>
 
 ---
 
-<h2>Lab index</h2>
+<h2>Lab index (0–10)</h2>
 
-| Lab | Folder | Duration | Guide |
-|-----|--------|----------|-------|
-| Lab 0 — Environment Setup | <code>lab0/</code> | 30 min | <a href="lab0/STEPS.md">lab0/STEPS.md</a> |
-| Lab 1 — Secure MLOps Environment | <code>lab1/</code> | 30 min | <a href="lab1/STEPS.md">lab1/STEPS.md</a> |
-| Lab 2 — Banking Data &amp; PII | <code>lab2/</code> | 30 min | <a href="lab2/STEPS.md">lab2/STEPS.md</a> |
+| Lab | Title | Folder | Guide |
+|-----|-------|--------|-------|
+| 0 | Environment Setup | <code>lab0/</code> | <a href="lab0/STEPS.md">lab0/STEPS.md</a> |
+| 1 | Secure MLOps Environment | <code>lab1/</code> | <a href="lab1/STEPS.md">lab1/STEPS.md</a> |
+| 2 | Banking Data &amp; PII | <code>lab2/</code> | <a href="lab2/STEPS.md">lab2/STEPS.md</a> |
+| 3 | Model Training &amp; Fairness | <code>lab3/</code> | <a href="lab3/STEPS.md">lab3/STEPS.md</a> |
+| 4 | CI/CD with Compliance Gates | <code>lab4/</code> | <a href="lab4/STEPS.md">lab4/STEPS.md</a> |
+| 5 | Secure Containerization | <code>lab5/</code> | <a href="lab5/STEPS.md">lab5/STEPS.md</a> |
+| 6 | Blue-Green Deployment | <code>lab6/</code> | <a href="lab6/STEPS.md">lab6/STEPS.md</a> |
+| 7 | Monitoring &amp; Observability | <code>lab7/</code> | <a href="lab7/STEPS.md">lab7/STEPS.md</a> |
+| 8 | SageMaker Pipelines | <code>lab8/</code> | <a href="lab8/STEPS.md">lab8/STEPS.md</a> |
+| 9 | Security &amp; Governance | <code>lab9/</code> | <a href="lab9/STEPS.md">lab9/STEPS.md</a> |
+| 10 | Enterprise MLOps Architecture | <code>lab10/</code> | <a href="lab10/STEPS.md">lab10/STEPS.md</a> |
 
----
+**Classroom defaults (Lab 2):** `LAB_NUM_RECORDS=1000`, `LAB_USE_COMPREHEND=0`
 
-<h2>Lab 0 — Environment Setup</h2>
-
-<p>SSH to EC2, clone repo, AWS CLI, Python packages, workspace folders, verification.</p>
-<p><a href="lab0/STEPS.md"><strong>Open lab0/STEPS.md</strong></a></p>
-
----
-
-<h2>Lab 1 — Secure MLOps Environment Setup</h2>
-
-<p>SageMaker Studio (start first), KMS, S3, IAM, CloudTrail, validation. Requires Lab 0.</p>
-<p><a href="lab1/STEPS.md"><strong>Open lab1/STEPS.md</strong></a></p>
+**Labs 3–10:** STEPS guides are EC2-ready; runnable scripts are being ported from `Labs_Banking_Edition/` — follow each `labN/STEPS.md` for commands and expected terminal output.
 
 ---
 
-<h2>Lab 2 — Banking Data Management &amp; PII Protection</h2>
+<h2>Quick links</h2>
 
-<p>Synthetic data, PII anonymization, feature engineering, Feature Store, drift, compliance. Requires Lab 1.</p>
-<p><a href="lab2/STEPS.md"><strong>Open lab2/STEPS.md</strong></a></p>
-
-<p><strong>Classroom defaults:</strong> <code>LAB_NUM_RECORDS=1000</code>, <code>LAB_USE_COMPREHEND=0</code> (pattern PII, ~30 min total).</p>
+<ul>
+  <li><a href="docs/SSH-VSCODE-SETUP.md">SSH + VS Code setup</a></li>
+  <li><a href="CLOUD-DELIVERY.md">Instructor cloud delivery guide</a></li>
+  <li><a href="lab0/STEPS.md">Start here — Lab 0</a></li>
+</ul>

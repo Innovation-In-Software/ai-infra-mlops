@@ -1,0 +1,9 @@
+{
+  "lab_number": 6,
+  "title": "Model Deployment with Blue-Green",
+  "module": "Module 7: Model Deployment on AWS",
+  "duration_minutes": 30,
+  "region": "us-west-2",
+  "prerequisites": ["lab5"],
+  "workspace_outputs": "workspace/lab6"
+}

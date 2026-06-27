@@ -1,0 +1,9 @@
+{
+  "lab_number": 3,
+  "title": "Model Training & Fairness Testing",
+  "module": "Module 4: Model Development and Experiment Tracking",
+  "duration_minutes": 30,
+  "region": "us-west-2",
+  "prerequisites": ["lab2"],
+  "workspace_outputs": "workspace/lab3"
+}

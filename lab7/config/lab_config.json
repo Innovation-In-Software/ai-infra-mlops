@@ -1,0 +1,9 @@
+{
+  "lab_number": 7,
+  "title": "Compliance Monitoring and Observability",
+  "module": "Module 8: Monitoring and Observability",
+  "duration_minutes": 30,
+  "region": "us-west-2",
+  "prerequisites": ["lab6"],
+  "workspace_outputs": "workspace/lab7"
+}

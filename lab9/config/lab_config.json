@@ -1,0 +1,9 @@
+{
+  "lab_number": 9,
+  "title": "Banking Security and Governance Framework",
+  "module": "Module 10: Security, Governance, and Responsible AI",
+  "duration_minutes": 30,
+  "region": "us-west-2",
+  "prerequisites": ["lab8"],
+  "workspace_outputs": "workspace/lab9"
+}

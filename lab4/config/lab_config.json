@@ -1,0 +1,9 @@
+{
+  "lab_number": 4,
+  "title": "CI/CD Pipeline with Compliance Gates",
+  "module": "Module 5: CI/CD for Machine Learning",
+  "duration_minutes": 30,
+  "region": "us-west-2",
+  "prerequisites": ["lab1", "lab2", "lab3"],
+  "workspace_outputs": "workspace/lab4"
+}

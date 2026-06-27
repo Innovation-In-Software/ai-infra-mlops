@@ -1,0 +1,9 @@
+{
+  "lab_number": 10,
+  "title": "Enterprise MLOps Architecture",
+  "module": "Module 11: Enterprise MLOps Architecture and Case Studies",
+  "duration_minutes": 30,
+  "region": "us-west-2",
+  "prerequisites": ["lab9"],
+  "workspace_outputs": "workspace/lab10"
+}
