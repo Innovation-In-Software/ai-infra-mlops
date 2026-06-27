@@ -1,7 +1,5 @@
 # Lab 0: Environment Setup & Prerequisites
 
-![Lab 0 overview](LAB_SLIDE.png)
-
 | | |
 |---|---|
 | **Class** | ai-mlops-2026-jun30 |
@@ -10,6 +8,37 @@
 | **Repo** | [github.com/gjkaur/ai-infra-mlops](https://github.com/gjkaur/ai-infra-mlops) |
 | **Editor** | VS Code |
 | **Terminal** | PowerShell (integrated terminal only) |
+
+---
+
+## Lab flow
+
+```mermaid
+flowchart TD
+    Start([Start Lab 0]) --> S1
+
+    subgraph vscode [VS Code + PowerShell]
+        S1["Step 1 · PowerShell default<br/>1a Select Default Profile · 1b choose pwsh"]
+        S2["Step 2 · Clone repo<br/>git clone ai-infra-mlops"]
+        S3["Step 3 · Open in VS Code<br/>3a Open Folder · 3b select repo · 3c explorer"]
+        S4["Step 4 · Confirm lab0 folder<br/>Get-ChildItem"]
+        S7["Step 7 · Install AWS CLI<br/>7a not found → 7b–k MSI install<br/>7l–m still fails → 7n restart VS Code · 7o aws --version"]
+        S8["Step 8 · Configure AWS CLI<br/>8a aws configure · 8b verify identity & S3"]
+        S9["Step 9 · Python packages<br/>9a requirements · 9b folder · 9c–e pip & imports"]
+        S10["Step 10 · Create workspace/<br/>setup_lab_directories.py"]
+        S11["Step 11 · Verify environment<br/>11a dry-run · 11b run setup · 11c all passed"]
+    end
+
+    subgraph browser [AWS Console — browser]
+        S5["Step 5 · Console login<br/>5a sign-in · 5b region us-west-2"]
+        S6["Step 6 · Verify permissions<br/>6a–c IAM · 6d–e SageMaker · 6f S3"]
+    end
+
+    S1 --> S2 --> S3 --> S4 --> S5
+    S5 --> S6 --> S7
+    S7 --> S8 --> S9 --> S10 --> S11
+    S11 --> Done([Lab 0 complete → Lab 1.1])
+```
 
 ---
 
@@ -109,7 +138,6 @@ git clone https://github.com/gjkaur/ai-infra-mlops.git
    - `README.md`
    - `lab0/`
    - `lab0/STEPS.md` ← this file
-   - `lab0/LAB_SLIDE.png`
    - `lab0/scripts/`
 
 ![Step 3c — Repo open in VS Code Explorer](images/step-03c-repo-in-explorer.png)
@@ -118,13 +146,12 @@ git clone https://github.com/gjkaur/ai-infra-mlops.git
 
 ---
 
-## Step 4 — View the lab slide and confirm lab folder
+## Step 4 — Confirm lab folder
 
 **Do this:**
 
-1. In Explorer, click **`lab0/LAB_SLIDE.png`** to preview the lab overview.
-2. Open a new terminal if needed: **Terminal → New Terminal**
-3. Run:
+1. Open a new terminal if needed: **Terminal → New Terminal**
+2. Run:
 
 ```powershell
 Clear
@@ -132,7 +159,7 @@ cd D:\Current_work\ai-infra-mlops\lab0
 Get-ChildItem
 ```
 
-**Expected result:** Terminal lists `scripts`, `config`, `requirements.txt`, `LAB_SLIDE.png`, `STEPS.md`, `images`.
+**Expected result:** Terminal lists `scripts`, `config`, `requirements.txt`, `STEPS.md`, `images`.
 
 ![Step 4 — Get-ChildItem in lab0 folder](images/step-04-lab0-folder.png)
 
@@ -391,23 +418,6 @@ ALL CHECKS PASSED. Environment is ready.
 
 ---
 
-## Step 12 — Completion checklist
-
-| Task | Done |
-|------|------|
-| VS Code open on `ai-infra-mlops` | [ ] |
-| Repo cloned from GitHub | [ ] |
-| Terminal is PowerShell (`PS ...>`) | [ ] |
-| Lab slide viewed (`LAB_SLIDE.png`) | [ ] |
-| AWS Console login | [ ] |
-| Region `us-west-2` | [ ] |
-| AWS CLI installed (restarted VS Code after install) | [ ] |
-| Python packages installed | [ ] |
-| Workspace created | [ ] |
-| Verification passed | [ ] |
-
----
-
 ## Troubleshooting
 
 | Problem | Fix |
@@ -425,21 +435,3 @@ ALL CHECKS PASSED. Environment is ready.
 ---
 
 **Lab 0 complete.** Lab 1.1 will be added as `lab1/` when published.
-
----
-
-## Screenshot index (41 images)
-
-| Step | Files |
-|------|-------|
-| 1 | `step-01a`, `step-01b` |
-| 2 | `step-02` |
-| 3 | `step-03a`, `step-03b`, `step-03c` |
-| 4 | `step-04` |
-| 5 | `step-05a`, `step-05b` |
-| 6 | `step-06a` … `step-06f` |
-| 7 | `step-07a` … `step-07o` |
-| 8 | `step-08a`, `step-08b` |
-| 9 | `step-09a` … `step-09e` |
-| 10 | `step-10-workspace-folders` |
-| 11 | `step-11a`, `step-11b`, `step-11c` |

@@ -4,5 +4,4 @@
 
 ## Lab 0
 
-Open **[lab0/STEPS.md](lab0/STEPS.md)** — starts from cloning the repo.  
-Slide: [lab0/LAB_SLIDE.png](lab0/LAB_SLIDE.png)
+Open **[lab0/STEPS.md](lab0/STEPS.md)** — starts from cloning the repo.
