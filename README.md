@@ -6,6 +6,12 @@
   <strong>Region:</strong> us-west-2
 </p>
 
+<p align="center">
+  All lab guides are in this repository <strong>before class begins</strong>.
+  <strong>Clone once in Lab 0</strong> — you do not need to pull updates between labs.
+  Open each lab’s <code>STEPS.md</code> in order.
+</p>
+
 ---
 
 <h2>Lab 0 — Environment Setup</h2>

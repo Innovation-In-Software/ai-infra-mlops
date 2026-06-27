@@ -30,6 +30,8 @@
 
 Do every step **in order**. Terminal commands run in **VS Code → PowerShell**.
 
+The full repo was cloned in Lab 0 — **no `git pull`** is needed between labs.
+
 ### clear the terminal between steps
 
 Type `clear` and press **Enter** before each new command block.
@@ -64,19 +66,13 @@ Lab 1.1 configs are read from `workspace\lab1\config\` (buckets, IAM roles).
 
 # Step 1 — Confirm Lab 1.2 files in the repo
 
-If you **cloned the repo once in Lab 0** (or your instructor gave you the full repo), you already have `lab2/`. Skip `git pull` unless your instructor announces an update.
+**Prerequisite:** [Lab 1.1](../lab1/STEPS.md) complete (`Compliance Score: 100%`).
+
+The full repo was cloned in Lab 0. You already have `lab2/` — **no `git pull` is needed.**
 
 ```powershell
 clear
 cd D:\Current_work\ai-infra-mlops
-Get-ChildItem lab2
-```
-
-Optional — only if your instructor says the repo was updated:
-
-```powershell
-clear
-git pull
 Get-ChildItem lab2
 ```
 
@@ -132,7 +128,7 @@ cd ..\lab2
 `validate_lab2.py` shows `✅ Lab 1.1 config: buckets.json` and `iam_roles.json`.  
 Lab 1.1 validation shows `Compliance Score: 100.0%`.
 
-**You do not re-run Lab 1.1 Step 6 here.** If you completed [Lab 1.1](../lab1/STEPS.md) with this repo (including `lab2/`), `create_banking_iam_roles.py` already created the Feature Store permissions you need for Step 8.
+**You do not re-run Lab 1.1 scripts here.** Lab 1.1 Step 6 already created the IAM roles and policies needed for Step 8.
 
 ---
 
@@ -273,7 +269,6 @@ Pattern-based PII detection still runs. Ensure your student role can call `compr
 
 1. Re-run Step 8 after the SageMaker domain is `InService` from Lab 1.1.
 2. Feature groups are idempotent on re-run. If ingest fails because records already exist, that warning is OK — check that `config\feature_store_config.json` was saved.
-3. **Only if Step 8 fails with IAM or S3 permission errors** and you finished Lab 1.1 before this repo included Lab 1.2: run `python scripts\create_banking_iam_roles.py` from `lab1`, then retry Step 8. Normal participants who did Lab 1.1 Step 6 with the current repo do **not** need this.
 
 ### Instructor re-screenshot
 
@@ -283,4 +278,4 @@ Delete `workspace\lab2\data\*` and `workspace\lab2\config\*.json`, then re-run s
 
 ## Lab 1.2 complete
 
-Next: **Lab 2.1 — Model Training & Fairness Testing** (coming soon).
+Return to **[README.md](../README.md)** for the next lab in the course sequence.

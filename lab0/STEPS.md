@@ -55,6 +55,10 @@ From **Step 4** onward, terminal steps assume this prompt:
 - External terminal / CMD
 - Command Prompt (`C:\...>`)
 
+### All labs in one repo
+
+Your instructor releases the **full lab repository** before you start. The `git clone` in **Step 2** downloads every lab folder (`lab0`, `lab1`, `lab2`, …) and every `STEPS.md` guide. You do **not** need `git pull` when moving from one lab to the next.
+
 ---
 
 # Credentials (from instructor)
@@ -118,7 +122,9 @@ From instructor
 
 ---
 
-# Step 2 — Clone the participant repo
+# Step 2 — Clone the participant repo (all labs included)
+
+One clone downloads **all** lab instructions and scripts for the course.
 
 ### Do this (VS Code terminal):
 
@@ -137,7 +143,7 @@ cd D:\Current_work
 git clone https://github.com/gjkaur/ai-infra-mlops.git
 ```
 
-### Expected result: Folder `D:\Current_work\ai-infra-mlops` is created with `lab0`, `README.md`, etc.
+### Expected result: Folder `D:\Current_work\ai-infra-mlops` is created with `README.md`, `lab0/`, `lab1/`, `lab2/`, and other lab folders as released for your class.
 
 ![Step 2 — git clone successful](images/step-02-git-clone.png)
 
@@ -158,9 +164,8 @@ git clone https://github.com/gjkaur/ai-infra-mlops.git
 
 4. In the **Explorer** (left panel), expand folders and confirm you see:
    - `README.md`
-   - `lab0/`
-   - `lab0/STEPS.md` ← this file
-   - `lab0/scripts/`
+   - `lab0/` (with `STEPS.md`, `scripts/`)
+   - `lab1/`, `lab2/`, … (other lab folders for the course)
 
 ![Step 3c — Repo open in VS Code Explorer](images/step-03c-repo-in-explorer.png)
 

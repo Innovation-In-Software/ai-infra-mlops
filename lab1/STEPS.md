@@ -35,6 +35,8 @@
 
 Do every step **in order**. Terminal commands run in **Visual Studio Code (VS Code) → PowerShell**. Some verification steps use the **Amazon Web Services (AWS) Console** in your browser.
 
+The full repo was cloned in Lab 0 — **no `git pull`** is needed between labs.
+
 ### clear the terminal between steps
 
 Type `clear` and press **Enter** before each new command block.
@@ -68,20 +70,21 @@ That folder is gitignored — your AWS resource IDs stay on your machine only.
 
 ---
 
-# Step 1 — Pull the latest repo
+# Step 1 — Confirm Lab 1.1 files in the repo
 
 **Prerequisite:** Lab 0 verification passed.
+
+The full repo was cloned in Lab 0. You already have `lab1/` — **no `git pull` is needed.**
 
 ### Do this (VS Code terminal)
 
 ```powershell
 clear
 cd D:\Current_work\ai-infra-mlops
-git pull
 Get-ChildItem lab1
 ```
 
-![Step 1 — git pull updates lab1 files](images/step-01-git-pull.png)
+![Step 1 — confirm lab1 folder in repo](images/step-01-git-pull.png)
 
 ![Step 1b — lab1 folder contents](images/step-01b-lab1-folder.png)
 
@@ -341,7 +344,7 @@ Resources match the config files in `workspace\lab1\config\`.
 
 ### Python DeprecationWarning (yellow text)
 
-If you see `DeprecationWarning: datetime.datetime.utcnow() is deprecated` during Steps 4 or 9, the lab still works — it is a Python 3.13 notice, not an AWS error. Pull the latest repo to get the fix.
+If you see `DeprecationWarning: datetime.datetime.utcnow() is deprecated` during Steps 4 or 9, the lab still works — it is a Python 3.13 notice, not an AWS error. Your Lab 0 clone already includes the fix; you can ignore the warning.
 
 ### Bucket already exists
 
