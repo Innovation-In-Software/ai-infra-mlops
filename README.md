@@ -14,4 +14,14 @@
   <a href="lab0/STEPS.md">Open lab0/STEPS.md</a>
 </h3>
 
-<p>Start here: clone the repo, set up VS Code + PowerShell, AWS CLI, Python packages, and your workspace.</p>
+<p>Clone the repo, set up VS Code + PowerShell, AWS CLI, Python packages, and your workspace.</p>
+
+---
+
+<h2>Lab 1.1 — Secure MLOps Environment Setup</h2>
+
+<h3>
+  <a href="lab1/STEPS.md">Open lab1/STEPS.md</a>
+</h3>
+
+<p>KMS keys, encrypted S3 buckets, IAM roles, SageMaker Studio, and CloudTrail audit logging. Requires Lab 0.</p>
