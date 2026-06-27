@@ -10,7 +10,7 @@ REPO_ROOT = ROOT.parent
 
 
 def default_workspace() -> Path:
-    return Path.home() / "Documents" / "banking-mlops-labs"
+    return REPO_ROOT / "workspace"
 
 
 def load_config():

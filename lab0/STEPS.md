@@ -263,18 +263,31 @@ python scripts\test_imports.py
 
 ---
 
-## Step 10 — Create your personal workspace
+## Step 10 — Create your workspace (inside the repo)
+
+Your lab outputs live in a **`workspace`** folder **inside the same repo** you cloned — not in Documents.
 
 **Do this (VS Code terminal):**
 
 ```powershell
+cd D:\Current_work\ai-infra-mlops\lab0
 python scripts\setup_lab_directories.py
-Get-ChildItem $env:USERPROFILE\Documents\banking-mlops-labs
+Get-ChildItem ..\workspace
 ```
 
-**Expected result:** Folders `lab0` through `lab10`, plus `config`, `shared_data`, `logs`, etc.
+**Expected result:** Under `D:\Current_work\ai-infra-mlops\workspace\` you see:
 
-> This folder lives on your PC at `Documents\banking-mlops-labs` — it is **not** pushed to GitHub.
+```
+workspace/
+├── lab0/ ... lab10/     (each with scripts, config, data, results, logs)
+├── config/
+├── shared_data/
+├── scripts/
+├── results/
+└── logs/
+```
+
+> **`lab0/`** (course guide + scripts) is for instructions. **`workspace/lab0/`** is where you save lab outputs during the course. The `workspace/` folder is gitignored — your work stays local.
 
 **Screenshot:** `images/step-13-workspace-folders.png`
 
@@ -285,6 +298,7 @@ Get-ChildItem $env:USERPROFILE\Documents\banking-mlops-labs
 **Do this (VS Code terminal):**
 
 ```powershell
+cd D:\Current_work\ai-infra-mlops\lab0
 python scripts\verify_environment.py --dry-run
 python scripts\run_lab0_setup.py
 python scripts\verify_environment.py
@@ -329,7 +343,7 @@ ALL CHECKS PASSED. Environment is ready.
 | Login fails | Username is case-sensitive (`Student01` ≠ `student01`) |
 | Wrong region | Browser: US West (Oregon); terminal: `aws configure set region us-west-2` |
 | Packages missing | `pip install -r requirements.txt` |
-| Workspace missing | Re-run `python scripts\setup_lab_directories.py` |
+| Workspace missing | Re-run `python scripts\setup_lab_directories.py` from `lab0/`; check `..\workspace` |
 
 ---
 

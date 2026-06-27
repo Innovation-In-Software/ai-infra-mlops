@@ -36,7 +36,7 @@ class EnvironmentVerifier:
     def __init__(self, dry_run=False, workspace=None, skip_aws=False):
         self.dry_run = dry_run
         self.skip_aws = skip_aws or dry_run
-        self.workspace = Path(workspace) if workspace else Path.home() / "Documents" / "banking-mlops-labs"
+        self.workspace = Path(workspace) if workspace else REPO_ROOT / "workspace"
         self.results = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "dry_run": dry_run,
