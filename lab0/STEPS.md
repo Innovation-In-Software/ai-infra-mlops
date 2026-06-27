@@ -129,7 +129,7 @@ Get-ChildItem
 
 **Expected result:** Terminal lists `scripts`, `config`, `requirements.txt`, `LAB_SLIDE.png`, `STEPS.md`, `images`.
 
-**Screenshot:** `images/step-04-lab0-folder.png`
+**Screenshot:** `images/step-04-lab0-folder.png` *(pending)*
 
 ---
 
