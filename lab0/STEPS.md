@@ -17,6 +17,8 @@
 
 Do every step **in order**. All terminal commands run in **VS Code → PowerShell terminal** (bottom panel). AWS Console steps use your **browser**.
 
+**Clear the terminal between steps:** type `Clear` and press **Enter** before each new command block so your screenshots stay readable.
+
 | Use | Do not use |
 |-----|------------|
 | VS Code integrated terminal | External terminal / CMD |
@@ -70,6 +72,7 @@ Do every step **in order**. All terminal commands run in **VS Code → PowerShel
 **Do this (VS Code terminal):**
 
 ```powershell
+Clear
 cd D:\Current_work
 git clone https://github.com/gjkaur/ai-infra-mlops.git
 ```
@@ -77,6 +80,7 @@ git clone https://github.com/gjkaur/ai-infra-mlops.git
 If `D:\Current_work` does not exist, create it first:
 
 ```powershell
+Clear
 New-Item -ItemType Directory -Force -Path D:\Current_work
 cd D:\Current_work
 git clone https://github.com/gjkaur/ai-infra-mlops.git
@@ -123,6 +127,7 @@ git clone https://github.com/gjkaur/ai-infra-mlops.git
 3. Run:
 
 ```powershell
+Clear
 cd D:\Current_work\ai-infra-mlops\lab0
 Get-ChildItem
 ```
@@ -188,6 +193,7 @@ Keep VS Code open — you will return to the terminal in Step 7.
 **Do this (VS Code terminal first):**
 
 ```powershell
+Clear
 aws --version
 ```
 
@@ -234,6 +240,7 @@ If `aws` is not recognized, install it:
 6. Reopen VS Code → **File → Open Folder** → `D:\Current_work\ai-infra-mlops` → **Terminal → New Terminal**
 
 ```powershell
+Clear
 cd D:\Current_work\ai-infra-mlops\lab0
 aws --version
 ```
@@ -251,6 +258,7 @@ aws --version
 **Do this (VS Code terminal):**
 
 ```powershell
+Clear
 aws configure
 ```
 
@@ -268,6 +276,7 @@ Enter when prompted (use values from your instructor handout — **never** commi
 Verify:
 
 ```powershell
+Clear
 aws sts get-caller-identity
 aws configure get region
 aws s3 ls --region us-west-2
@@ -284,6 +293,7 @@ aws s3 ls --region us-west-2
 **Do this (VS Code terminal):**
 
 ```powershell
+Clear
 cd D:\Current_work\ai-infra-mlops\lab0
 ```
 
@@ -298,6 +308,7 @@ Confirm lab folder:
 Install packages:
 
 ```powershell
+Clear
 python --version
 python -m pip install --upgrade pip
 pip install -r requirements.txt
@@ -321,6 +332,7 @@ Your lab outputs live in a **`workspace`** folder **inside the same repo** you c
 **Do this (VS Code terminal):**
 
 ```powershell
+Clear
 cd D:\Current_work\ai-infra-mlops\lab0
 python scripts\setup_lab_directories.py
 Get-ChildItem ..\workspace
@@ -340,7 +352,7 @@ workspace/
 
 > **`lab0/`** at the repo root is the setup guide (this file + scripts). **`workspace/`** is where you save outputs starting from **Lab 1** — there is no `workspace/lab0/`. The `workspace/` folder is gitignored — your work stays local.
 
-**Screenshot:** `images/step-10-workspace-folders.png` *(pending — capture after running setup)*
+![Step 10 — Workspace created inside repo](images/step-10-workspace-folders.png)
 
 ---
 
@@ -349,11 +361,26 @@ workspace/
 **Do this (VS Code terminal):**
 
 ```powershell
+Clear
 cd D:\Current_work\ai-infra-mlops\lab0
 python scripts\verify_environment.py --dry-run
+```
+
+![Step 11a — Dry-run verification (AWS checks skipped)](images/step-11a-verify-dry-run.png)
+
+```powershell
+Clear
 python scripts\run_lab0_setup.py
+```
+
+![Step 11b — Full Lab 0 setup and verification](images/step-11b-run-setup.png)
+
+```powershell
+Clear
 python scripts\verify_environment.py
 ```
+
+![Step 11c — All checks passed](images/step-11c-verification-pass.png)
 
 **Expected result:**
 
@@ -361,8 +388,6 @@ python scripts\verify_environment.py
 ALL CHECKS PASSED. Environment is ready.
    Proceed to Lab 1.1
 ```
-
-**Screenshot:** `images/step-11-verification-pass.png` *(pending)*
 
 ---
 
@@ -388,6 +413,7 @@ ALL CHECKS PASSED. Environment is ready.
 | Problem | Fix |
 |---------|-----|
 | Terminal shows `C:\...>` not `PS` | Terminal panel → **˅** next to **+** → **Select Default Profile** → **PowerShell** (see Step 1 screenshots) |
+| Terminal cluttered from prior step | Type `Clear` and press **Enter** before the next command block |
 | `git` not found | Install Git from https://git-scm.com/ and restart VS Code |
 | Clone fails | Check internet; confirm URL: `https://github.com/gjkaur/ai-infra-mlops.git` |
 | `aws` not found after install | **Fully close VS Code** (File → Exit), reopen, then run `aws --version`. Kill Terminal alone is not enough on Windows. |
@@ -402,7 +428,7 @@ ALL CHECKS PASSED. Environment is ready.
 
 ---
 
-## Screenshot index (37 images)
+## Screenshot index (41 images)
 
 | Step | Files |
 |------|-------|
@@ -415,5 +441,5 @@ ALL CHECKS PASSED. Environment is ready.
 | 7 | `step-07a` … `step-07o` |
 | 8 | `step-08a`, `step-08b` |
 | 9 | `step-09a` … `step-09e` |
-| 10 | `step-10` *(pending)* |
-| 11 | `step-11` *(pending)* |
+| 10 | `step-10-workspace-folders` |
+| 11 | `step-11a`, `step-11b`, `step-11c` |
