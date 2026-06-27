@@ -1,9 +1,17 @@
 """Create S3 buckets with banking compliance settings."""
 import boto3
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 from lab_paths import CONFIG_DIR, LOGS_DIR, ensure_workspace
+
+
+def _bucket_exists(s3, bucket_name):
+    try:
+        s3.head_bucket(Bucket=bucket_name)
+        return True
+    except s3.exceptions.ClientError:
+        return False
 
 
 def create_banking_buckets():
@@ -74,11 +82,14 @@ def create_banking_buckets():
         print(f"   Retention: {config['retention_days']} days")
 
         try:
-            s3.create_bucket(
-                Bucket=bucket_name,
-                CreateBucketConfiguration={"LocationConstraint": "us-west-2"},
-            )
-            print("   ✅ Bucket created")
+            if _bucket_exists(s3, bucket_name):
+                print("   ⚠️ Bucket already exists — applying configuration")
+            else:
+                s3.create_bucket(
+                    Bucket=bucket_name,
+                    CreateBucketConfiguration={"LocationConstraint": "us-west-2"},
+                )
+                print("   ✅ Bucket created")
 
             s3.put_bucket_versioning(
                 Bucket=bucket_name,
@@ -189,14 +200,17 @@ def create_banking_buckets():
             print(f"   ❌ Error creating bucket: {str(e)}")
             with open(LOGS_DIR / "errors.log", "a", encoding="utf-8") as f:
                 f.write(
-                    f"[{datetime.utcnow().isoformat()}] Error creating {bucket_type}: {str(e)}\n"
+                    f"[{datetime.now(timezone.utc).isoformat()}] Error creating {bucket_type}: {str(e)}\n"
                 )
 
     with open(CONFIG_DIR / "buckets.json", "w", encoding="utf-8") as f:
         json.dump(created_buckets, f, indent=2)
 
     print("\n" + "=" * 60)
-    print("✅ All Banking-Compliant Buckets Created!")
+    if len(created_buckets) == len(buckets_config):
+        print("✅ All Banking-Compliant Buckets Created!")
+    else:
+        print(f"⚠️ Completed {len(created_buckets)}/{len(buckets_config)} buckets — see errors above")
     print("\n📋 Bucket Summary:")
     for bucket_type, info in created_buckets.items():
         print(f"   {bucket_type.upper()}: {info['name']}")
