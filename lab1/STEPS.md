@@ -387,4 +387,4 @@ Student accounts need **PowerUserAccess** + **IAMFullAccess** (from Lab 0).
 
 ## Lab 1.1 complete
 
-Next: **Lab 1.2 — Banking Data Management & PII Protection** (coming soon).
+Next: **[Lab 1.2 — Banking Data Management & PII Protection](../lab2/STEPS.md)**.

@@ -55,6 +55,7 @@ def create_banking_iam_roles():
                     f"arn:aws:s3:::{buckets['processed']['name']}/training/*",
                     f"arn:aws:s3:::{buckets['processed']['name']}/validation/*",
                     f"arn:aws:s3:::{buckets['processed']['name']}/test/*",
+                    f"arn:aws:s3:::{buckets['processed']['name']}/feature_store/*",
                     f"arn:aws:s3:::{buckets['models']['name']}/experiments/*",
                 ],
             },
@@ -74,6 +75,12 @@ def create_banking_iam_roles():
                     "sagemaker:DescribeHyperParameterTuningJob",
                     "sagemaker:ListHyperParameterTuningJobs",
                     "sagemaker:StopHyperParameterTuningJob",
+                    "sagemaker:CreateFeatureGroup",
+                    "sagemaker:DescribeFeatureGroup",
+                    "sagemaker:ListFeatureGroups",
+                    "sagemaker:PutRecord",
+                    "sagemaker:BatchPutRecord",
+                    "sagemaker:DeleteRecord",
                 ],
                 "Resource": "*",
             },
@@ -103,14 +110,15 @@ def create_banking_iam_roles():
             ],
         )
         print("   ✅ Data Scientist role created")
-        iam.put_role_policy(
-            RoleName="BankingDataScientistRole",
-            PolicyName="DataScientistBankingPolicy",
-            PolicyDocument=json.dumps(data_scientist_policy),
-        )
-        print("   ✅ Data Scientist policy attached")
     except Exception as e:
         print(f"   ⚠️ Role may already exist: {str(e)}")
+
+    iam.put_role_policy(
+        RoleName="BankingDataScientistRole",
+        PolicyName="DataScientistBankingPolicy",
+        PolicyDocument=json.dumps(data_scientist_policy),
+    )
+    print("   ✅ Data Scientist policy attached")
 
     print("\n📋 Creating ML Engineer Role...")
 
@@ -237,14 +245,15 @@ def create_banking_iam_roles():
             ],
         )
         print("   ✅ ML Engineer role created")
-        iam.put_role_policy(
-            RoleName="BankingMLEngineerRole",
-            PolicyName="MLEngineerBankingPolicy",
-            PolicyDocument=json.dumps(ml_engineer_policy),
-        )
-        print("   ✅ ML Engineer policy attached")
     except Exception as e:
         print(f"   ⚠️ Role may already exist: {str(e)}")
+
+    iam.put_role_policy(
+        RoleName="BankingMLEngineerRole",
+        PolicyName="MLEngineerBankingPolicy",
+        PolicyDocument=json.dumps(ml_engineer_policy),
+    )
+    print("   ✅ ML Engineer policy attached")
 
     print("\n📋 Creating Compliance Officer Role...")
 
@@ -314,14 +323,15 @@ def create_banking_iam_roles():
             ],
         )
         print("   ✅ Compliance Officer role created")
-        iam.put_role_policy(
-            RoleName="BankingComplianceOfficerRole",
-            PolicyName="ComplianceOfficerBankingPolicy",
-            PolicyDocument=json.dumps(compliance_policy),
-        )
-        print("   ✅ Compliance Officer policy attached")
     except Exception as e:
         print(f"   ⚠️ Role may already exist: {str(e)}")
+
+    iam.put_role_policy(
+        RoleName="BankingComplianceOfficerRole",
+        PolicyName="ComplianceOfficerBankingPolicy",
+        PolicyDocument=json.dumps(compliance_policy),
+    )
+    print("   ✅ Compliance Officer policy attached")
 
     print("\n📋 Creating Service Control Policy for Region Restriction...")
 

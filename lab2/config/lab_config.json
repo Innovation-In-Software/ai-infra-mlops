@@ -1,0 +1,16 @@
+{
+  "lab_id": "1.2",
+  "title": "Banking Data Management & PII Protection",
+  "duration_minutes": 30,
+  "region": "us-west-2",
+  "prerequisites": ["lab0", "lab1"],
+  "learning_objectives": [
+    "Generate synthetic banking data with PII fields",
+    "Detect and anonymize PII using patterns and AWS Comprehend",
+    "Validate data quality for banking compliance",
+    "Engineer ML features from anonymized data",
+    "Set up SageMaker Feature Store",
+    "Configure data drift monitoring",
+    "Generate compliance documentation"
+  ]
+}

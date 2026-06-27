@@ -25,3 +25,13 @@
 </h3>
 
 <p>KMS keys, encrypted S3 buckets, IAM roles, SageMaker Studio, and CloudTrail audit logging. Requires Lab 0.</p>
+
+---
+
+<h2>Lab 1.2 — Banking Data Management & PII Protection</h2>
+
+<h3>
+  <a href="lab2/STEPS.md">Open lab2/STEPS.md</a>
+</h3>
+
+<p>PII detection, data validation, feature engineering, SageMaker Feature Store, and compliance reporting. Requires Lab 1.1.</p>
