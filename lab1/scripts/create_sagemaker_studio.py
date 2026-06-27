@@ -3,10 +3,87 @@ import boto3
 import json
 import sys
 import time
-from datetime import datetime
-
+from datetime import datetime, timezone
 
 from lab_paths import CONFIG_DIR, ensure_workspace
+
+
+def find_domain_by_name(sagemaker, domain_name):
+    """Return domain summary from list_domains, or None."""
+    token = None
+    while True:
+        params = {"MaxResults": 50}
+        if token:
+            params["NextToken"] = token
+        response = sagemaker.list_domains(**params)
+        for domain in response.get("Domains", []):
+            if domain.get("DomainName") == domain_name:
+                return domain
+        token = response.get("NextToken")
+        if not token:
+            break
+    return None
+
+
+def wait_for_domain_in_service(sagemaker, domain_id, max_wait=900, interval=15):
+    """Wait until SageMaker domain status is InService."""
+    print("\n⏳ Waiting for domain to become InService (up to 15 minutes)...")
+    wait_time = 0
+    while wait_time < max_wait:
+        status = sagemaker.describe_domain(DomainId=domain_id)
+        state = status["Status"]
+        if state == "InService":
+            print("   ✅ Domain is ready!")
+            return True
+        if state == "Failed":
+            print(f"   ❌ Domain failed: {status.get('FailureReason', 'Unknown error')}")
+            return False
+        print(f"   ⏳ Status: {state}... waiting {interval}s")
+        time.sleep(interval)
+        wait_time += interval
+    print("   ⚠️ Timed out waiting for InService — re-run this script to create user profiles")
+    return False
+
+
+def create_user_profiles(sagemaker, domain_id, execution_role_arn, users):
+    print("\n📋 Creating User Profiles...")
+    created = []
+    for user in users:
+        try:
+            sagemaker.describe_user_profile(DomainId=domain_id, UserProfileName=user)
+            print(f"   ⚠️ User {user} already exists")
+            created.append(user)
+        except sagemaker.exceptions.ResourceNotFound:
+            sagemaker.create_user_profile(
+                DomainId=domain_id,
+                UserProfileName=user,
+                UserSettings={
+                    "ExecutionRole": execution_role_arn,
+                    "JupyterServerAppSettings": {
+                        "DefaultResourceSpec": {"InstanceType": "system"}
+                    },
+                    "KernelGatewayAppSettings": {
+                        "DefaultResourceSpec": {"InstanceType": "ml.t3.medium"}
+                    },
+                },
+                Tags=[
+                    {"Key": "Environment", "Value": "MLOps"},
+                    {
+                        "Key": "UserType",
+                        "Value": "DataScientist"
+                        if "Scientist" in user
+                        else "MLEngineer"
+                        if "Engineer" in user
+                        else "Compliance",
+                    },
+                    {"Key": "CreatedBy", "Value": "Lab1.1"},
+                ],
+            )
+            print(f"   ✅ User {user} created")
+            created.append(user)
+        except Exception as e:
+            print(f"   ❌ Error creating user {user}: {str(e)}")
+    return created
 
 
 def create_sagemaker_studio():
@@ -71,12 +148,12 @@ def create_sagemaker_studio():
     print(f"\n📋 Creating SageMaker Studio Domain: {domain_name}")
 
     try:
-        try:
-            existing_domain = sagemaker.describe_domain(DomainName=domain_name)
-            print(f"   ⚠️ Domain already exists: {domain_name}")
-            domain_id = existing_domain["DomainId"]
-            domain_arn = existing_domain["DomainArn"]
-        except sagemaker.exceptions.ResourceNotFound:
+        existing = find_domain_by_name(sagemaker, domain_name)
+        if existing:
+            domain_id = existing["DomainId"]
+            domain_arn = existing["DomainArn"]
+            print(f"   ⚠️ Domain already exists: {domain_name} ({domain_id})")
+        else:
             response = sagemaker.create_domain(
                 DomainName=domain_name,
                 AuthMode="IAM",
@@ -84,16 +161,10 @@ def create_sagemaker_studio():
                     "ExecutionRole": execution_role_arn,
                     "SecurityGroups": [],
                     "JupyterServerAppSettings": {
-                        "DefaultResourceSpec": {
-                            "InstanceType": "ml.t3.medium",
-                            "SageMakerImageArn": None,
-                        }
+                        "DefaultResourceSpec": {"InstanceType": "system"}
                     },
                     "KernelGatewayAppSettings": {
-                        "DefaultResourceSpec": {
-                            "InstanceType": "ml.t3.medium",
-                            "SageMakerImageArn": None,
-                        }
+                        "DefaultResourceSpec": {"InstanceType": "ml.t3.medium"}
                     },
                     "TensorBoardAppSettings": {
                         "DefaultResourceSpec": {"InstanceType": "ml.t3.medium"}
@@ -117,8 +188,6 @@ def create_sagemaker_studio():
             domain_arn = response["DomainArn"]
             print(f"   ✅ Domain created: {domain_id}")
 
-        print("\n📋 Creating User Profiles...")
-
         users = [
             "DataScientist01",
             "DataScientist02",
@@ -126,65 +195,13 @@ def create_sagemaker_studio():
             "ComplianceOfficer01",
         ]
 
-        for user in users:
-            try:
-                try:
-                    sagemaker.describe_user_profile(DomainId=domain_id, UserProfileName=user)
-                    print(f"   ⚠️ User {user} already exists")
-                except sagemaker.exceptions.ResourceNotFound:
-                    sagemaker.create_user_profile(
-                        DomainId=domain_id,
-                        UserProfileName=user,
-                        UserSettings={
-                            "ExecutionRole": execution_role_arn,
-                            "JupyterServerAppSettings": {
-                                "DefaultResourceSpec": {"InstanceType": "ml.t3.medium"}
-                            },
-                            "KernelGatewayAppSettings": {
-                                "DefaultResourceSpec": {"InstanceType": "ml.t3.medium"}
-                            },
-                        },
-                        Tags=[
-                            {"Key": "Environment", "Value": "MLOps"},
-                            {
-                                "Key": "UserType",
-                                "Value": "DataScientist"
-                                if "Scientist" in user
-                                else "MLEngineer"
-                                if "Engineer" in user
-                                else "Compliance",
-                            },
-                            {"Key": "CreatedBy", "Value": "Lab1.1"},
-                        ],
-                    )
-                    print(f"   ✅ User {user} created")
-            except Exception as e:
-                print(f"   ❌ Error creating user {user}: {str(e)}")
-
-        print("\n⏳ Waiting for domain to become ready...")
-
-        max_wait = 300
-        wait_time = 0
-        interval = 10
-
-        while wait_time < max_wait:
-            try:
-                status = sagemaker.describe_domain(DomainId=domain_id)
-                if status["Status"] == "InService":
-                    print("   ✅ Domain is ready!")
-                    break
-                if status["Status"] == "Failed":
-                    print(
-                        f"   ❌ Domain creation failed: {status.get('FailureReason', 'Unknown error')}"
-                    )
-                    break
-                print(f"   ⏳ Status: {status['Status']}... waiting {interval}s")
-                time.sleep(interval)
-                wait_time += interval
-            except Exception as e:
-                print(f"   ⚠️ Error checking status: {str(e)}")
-                time.sleep(interval)
-                wait_time += interval
+        ready = wait_for_domain_in_service(sagemaker, domain_id)
+        if ready:
+            created_users = create_user_profiles(
+                sagemaker, domain_id, execution_role_arn, users
+            )
+        else:
+            created_users = []
 
         domain_config = {
             "domain_name": domain_name,
@@ -193,18 +210,24 @@ def create_sagemaker_studio():
             "vpc_id": vpc_id,
             "subnet_ids": subnet_ids,
             "execution_role_arn": execution_role_arn,
-            "users": users,
-            "created_at": datetime.utcnow().isoformat(),
+            "users": created_users or users,
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }
 
         with open(CONFIG_DIR / "sagemaker_studio.json", "w", encoding="utf-8") as f:
             json.dump(domain_config, f, indent=2)
 
         print("\n" + "=" * 60)
-        print("✅ SageMaker Studio Configuration Complete!")
+        if ready and created_users:
+            print("✅ SageMaker Studio Configuration Complete!")
+        elif ready:
+            print("⚠️ Domain ready — some user profiles may need a re-run")
+        else:
+            print("⚠️ Domain created but not ready yet — re-run this script in a few minutes")
         print(f"   Domain Name: {domain_name}")
         print(f"   Domain ID: {domain_id}")
-        print(f"   Users Created: {', '.join(users)}")
+        if created_users:
+            print(f"   Users: {', '.join(created_users)}")
         print("\n📋 To access SageMaker Studio:")
         print(
             f"   https://us-west-2.console.aws.amazon.com/sagemaker/home?region=us-west-2#/studio/{domain_id}"

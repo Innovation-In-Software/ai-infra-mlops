@@ -1,7 +1,7 @@
 """Create KMS keys for banking compliance."""
 import boto3
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 from lab_paths import CONFIG_DIR, ensure_workspace
 
@@ -111,7 +111,7 @@ def create_banking_kms_keys():
         "sm_key_arn": sm_key_arn,
         "account_id": account_id,
         "region": "us-west-2",
-        "created_at": datetime.utcnow().isoformat(),
+        "created_at": datetime.now(timezone.utc).isoformat(),
     }
 
     with open(CONFIG_DIR / "kms_keys.json", "w", encoding="utf-8") as f:

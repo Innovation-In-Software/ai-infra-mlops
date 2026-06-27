@@ -1,9 +1,73 @@
 """Create S3 buckets with banking compliance settings."""
 import boto3
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 from lab_paths import CONFIG_DIR, LOGS_DIR, ensure_workspace
+
+
+def _bucket_exists(s3, bucket_name):
+    try:
+        s3.head_bucket(Bucket=bucket_name)
+        return True
+    except s3.exceptions.ClientError:
+        return False
+
+
+def audit_bucket_policy(account_id, bucket_name, region="us-west-2"):
+    """Bucket policy for audit bucket: CloudTrail logs + S3 access log delivery."""
+    trail_name = f"BankingMLOpsAuditTrail-{account_id}"
+    trail_arn = f"arn:aws:cloudtrail:{region}:{account_id}:trail/{trail_name}"
+    return {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "DenyInsecureConnections",
+                "Effect": "Deny",
+                "Principal": "*",
+                "Action": "s3:*",
+                "Resource": [
+                    f"arn:aws:s3:::{bucket_name}",
+                    f"arn:aws:s3:::{bucket_name}/*",
+                ],
+                "Condition": {"Bool": {"aws:SecureTransport": "false"}},
+            },
+            {
+                "Sid": "AWSCloudTrailAclCheck",
+                "Effect": "Allow",
+                "Principal": {"Service": "cloudtrail.amazonaws.com"},
+                "Action": "s3:GetBucketAcl",
+                "Resource": f"arn:aws:s3:::{bucket_name}",
+                "Condition": {"StringEquals": {"AWS:SourceArn": trail_arn}},
+            },
+            {
+                "Sid": "AWSCloudTrailWrite",
+                "Effect": "Allow",
+                "Principal": {"Service": "cloudtrail.amazonaws.com"},
+                "Action": "s3:PutObject",
+                "Resource": f"arn:aws:s3:::{bucket_name}/cloudtrail/AWSLogs/{account_id}/*",
+                "Condition": {
+                    "StringEquals": {
+                        "AWS:SourceArn": trail_arn,
+                        "s3:x-amz-acl": "bucket-owner-full-control",
+                    }
+                },
+            },
+            {
+                "Sid": "AllowS3AccessLogDelivery",
+                "Effect": "Allow",
+                "Principal": {"Service": "logging.s3.amazonaws.com"},
+                "Action": "s3:PutObject",
+                "Resource": f"arn:aws:s3:::{bucket_name}/access_logs/*",
+                "Condition": {
+                    "StringEquals": {"aws:SourceAccount": account_id},
+                    "ArnLike": {
+                        "aws:SourceArn": f"arn:aws:s3:::bank-mlops-{account_id}-*"
+                    },
+                },
+            },
+        ],
+    }
 
 
 def create_banking_buckets():
@@ -74,11 +138,14 @@ def create_banking_buckets():
         print(f"   Retention: {config['retention_days']} days")
 
         try:
-            s3.create_bucket(
-                Bucket=bucket_name,
-                CreateBucketConfiguration={"LocationConstraint": "us-west-2"},
-            )
-            print("   ✅ Bucket created")
+            if _bucket_exists(s3, bucket_name):
+                print("   ⚠️ Bucket already exists — applying configuration")
+            else:
+                s3.create_bucket(
+                    Bucket=bucket_name,
+                    CreateBucketConfiguration={"LocationConstraint": "us-west-2"},
+                )
+                print("   ✅ Bucket created")
 
             s3.put_bucket_versioning(
                 Bucket=bucket_name,
@@ -106,6 +173,7 @@ def create_banking_buckets():
                     {
                         "ID": "ComplianceRetention",
                         "Status": "Enabled",
+                        "Filter": {"Prefix": ""},
                         "Expiration": {"Days": config["retention_days"]},
                         "NoncurrentVersionExpiration": {"NoncurrentDays": 30},
                     }
@@ -117,6 +185,7 @@ def create_banking_buckets():
                     {
                         "ID": "TransitionToGlacier",
                         "Status": "Enabled",
+                        "Filter": {"Prefix": ""},
                         "Transitions": [
                             {"Days": 365, "StorageClass": "STANDARD_IA"},
                             {"Days": 730, "StorageClass": "GLACIER"},
@@ -150,7 +219,11 @@ def create_banking_buckets():
                 s3.put_object(Bucket=bucket_name, Key=folder)
             print(f"   ✅ Folder structure created: {', '.join(folders.get(bucket_type, []))}")
 
-            if bucket_type != "audit":
+            if bucket_type == "audit":
+                bucket_policy = audit_bucket_policy(account_id, bucket_name)
+                s3.put_bucket_policy(Bucket=bucket_name, Policy=json.dumps(bucket_policy))
+                print("   ✅ Audit bucket policy applied (CloudTrail + access logs)")
+            else:
                 bucket_policy = {
                     "Version": "2012-10-17",
                     "Statement": [
@@ -164,14 +237,6 @@ def create_banking_buckets():
                                 f"arn:aws:s3:::{bucket_name}/*",
                             ],
                             "Condition": {"Bool": {"aws:SecureTransport": "false"}},
-                        },
-                        {
-                            "Sid": "DenyDeleteWithoutVersioning",
-                            "Effect": "Deny",
-                            "Principal": "*",
-                            "Action": "s3:DeleteObject",
-                            "Resource": f"arn:aws:s3:::{bucket_name}/*",
-                            "Condition": {"Null": {"s3:versionid": "true"}},
                         },
                     ],
                 }
@@ -189,14 +254,17 @@ def create_banking_buckets():
             print(f"   ❌ Error creating bucket: {str(e)}")
             with open(LOGS_DIR / "errors.log", "a", encoding="utf-8") as f:
                 f.write(
-                    f"[{datetime.utcnow().isoformat()}] Error creating {bucket_type}: {str(e)}\n"
+                    f"[{datetime.now(timezone.utc).isoformat()}] Error creating {bucket_type}: {str(e)}\n"
                 )
 
     with open(CONFIG_DIR / "buckets.json", "w", encoding="utf-8") as f:
         json.dump(created_buckets, f, indent=2)
 
     print("\n" + "=" * 60)
-    print("✅ All Banking-Compliant Buckets Created!")
+    if len(created_buckets) == len(buckets_config):
+        print("✅ All Banking-Compliant Buckets Created!")
+    else:
+        print(f"⚠️ Completed {len(created_buckets)}/{len(buckets_config)} buckets — see errors above")
     print("\n📋 Bucket Summary:")
     for bucket_type, info in created_buckets.items():
         print(f"   {bucket_type.upper()}: {info['name']}")
