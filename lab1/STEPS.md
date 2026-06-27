@@ -256,6 +256,15 @@ Resources match the config files in `workspace\lab1\config\`.
 
 Delete the old bucket in S3 console or use a fresh student account.
 
+**Instructor re-screenshot:** from `lab1` folder, delete buckets then re-create:
+
+```powershell
+clear
+python scripts\delete_banking_buckets.py
+clear
+python scripts\create_banking_buckets.py
+```
+
 ### Role already exists
 
 Script skips with a warning — safe to continue if policies are correct.
