@@ -7,14 +7,24 @@
 | **Class** | ai-mlops-2026-jun30 |
 | **Duration** | 30 minutes |
 | **Region** | `us-west-2` |
+| **Repo** | [github.com/gjkaur/ai-infra-mlops](https://github.com/gjkaur/ai-infra-mlops) |
 | **Editor** | VS Code |
 | **Terminal** | PowerShell (integrated terminal only) |
 
 ---
 
-## Before you start
+## How to use this guide
 
-**Credentials (from instructor):**
+Do every step **in order**. All terminal commands run in **VS Code → PowerShell terminal** (bottom panel). AWS Console steps use your **browser**.
+
+| Use | Do not use |
+|-----|------------|
+| VS Code integrated terminal | External terminal / CMD |
+| **PowerShell** (`PS C:\...>`) | Command Prompt (`C:\...>`) |
+
+---
+
+## Credentials (from instructor)
 
 | Item | Value |
 |------|-------|
@@ -25,69 +35,123 @@
 | Secret Access Key | From instructor |
 | Region | `us-west-2` |
 
-**One-time VS Code setup:**
-
-1. **File → Open Folder** → `D:\Current_work\ai-infra-mlops`
-2. **Terminal → Select Default Profile → PowerShell**
-3. **Terminal → New Terminal** — confirm prompt shows `PS ...>`
-
-All commands below run in the **VS Code PowerShell terminal**.
-
 ---
 
-## Step 1 — Confirm repo layout
+## Step 1 — Open VS Code and set PowerShell
 
 **Do this:**
 
-1. In Explorer, confirm you see the `lab0` folder with `STEPS.md`, `LAB_SLIDE.png`, and `scripts/`
-2. Run:
+1. Open **VS Code** on your laptop.
+2. **Terminal → Select Default Profile → PowerShell**
+3. **Terminal → New Terminal**
+4. Confirm the prompt shows **`PS C:\...>`** (not `C:\...>`)
+
+**Expected result:** A PowerShell terminal is open at the bottom of VS Code.
+
+**Screenshot:** `images/step-01-vscode-powershell.png`
+
+---
+
+## Step 2 — Clone the participant repo
+
+**Do this (VS Code terminal):**
+
+```powershell
+cd D:\Current_work
+git clone https://github.com/gjkaur/ai-infra-mlops.git
+```
+
+If `D:\Current_work` does not exist, create it first:
+
+```powershell
+New-Item -ItemType Directory -Force -Path D:\Current_work
+cd D:\Current_work
+git clone https://github.com/gjkaur/ai-infra-mlops.git
+```
+
+**Expected result:** Folder `D:\Current_work\ai-infra-mlops` is created with `lab0`, `README.md`, etc.
+
+**Screenshot:** `images/step-02-git-clone.png`
+
+---
+
+## Step 3 — Open the repo in VS Code
+
+**Do this:**
+
+1. **File → Open Folder**
+2. Select **`D:\Current_work\ai-infra-mlops`**
+3. Click **Select Folder**
+4. In the **Explorer** (left panel), expand folders and confirm you see:
+   - `README.md`
+   - `lab0/`
+   - `lab0/STEPS.md` ← this file
+   - `lab0/LAB_SLIDE.png`
+   - `lab0/scripts/`
+
+**Expected result:** VS Code title bar shows `ai-infra-mlops`. Explorer shows the repo tree.
+
+**Screenshot:** `images/step-03-vscode-open-folder.png`
+
+---
+
+## Step 4 — View the lab slide and confirm lab folder
+
+**Do this:**
+
+1. In Explorer, click **`lab0/LAB_SLIDE.png`** to preview the lab overview.
+2. Open a new terminal if needed: **Terminal → New Terminal**
+3. Run:
 
 ```powershell
 cd D:\Current_work\ai-infra-mlops\lab0
 Get-ChildItem
 ```
 
-**Expected result:** You see `scripts`, `config`, `requirements.txt`, `LAB_SLIDE.png`, `STEPS.md`.
+**Expected result:** Terminal lists `scripts`, `config`, `requirements.txt`, `LAB_SLIDE.png`, `STEPS.md`, `images`.
 
-**Screenshot:** `images/step-01-vscode-repo.png`
+**Screenshot:** `images/step-04-lab0-folder.png`
 
 ---
 
-## Step 2 — Log in to AWS Console
+## Step 5 — Log in to AWS Console
 
 **Do this (browser):**
 
 1. Open **https://iis-instructor-03.signin.aws.amazon.com/console**
-2. Enter username and password (username is **case-sensitive**)
-3. Set region to **US West (Oregon) `us-west-2`** (top-right corner)
+2. Enter your **username** (case-sensitive) and **password**
+3. If prompted to set a new password, do so and save it securely
+4. Set region to **US West (Oregon) `us-west-2`** (top-right corner)
 
-**Expected result:** AWS Console home loads — no "Access Denied".
+Keep VS Code open — you will return to the terminal in Step 7.
+
+**Expected result:** AWS Console home loads with no "Access Denied".
 
 **Screenshots:**
-- `images/step-02-aws-console-login.png`
-- `images/step-03-aws-region-us-west-2.png`
+- `images/step-05-aws-console-login.png`
+- `images/step-06-aws-region-us-west-2.png`
 
 ---
 
-## Step 3 — Verify console permissions
+## Step 6 — Verify console permissions
 
 **Do this (browser):**
 
-1. Search **IAM** → **Users** → your username
-2. Confirm policies: **PowerUserAccess**, **IAMFullAccess**
+1. Search bar → type **IAM** → open **IAM** → **Users** → click your username
+2. Confirm attached policies include **PowerUserAccess** and **IAMFullAccess**
 3. Search **SageMaker** → dashboard loads
 4. Search **S3** → bucket list loads
 
-**Expected result:** All three services open without permission errors.
+**Expected result:** All three consoles open without permission errors.
 
 **Screenshots:**
-- `images/step-04-iam-policies.png`
-- `images/step-05-sagemaker-console.png`
-- `images/step-06-s3-console.png`
+- `images/step-07-iam-policies.png`
+- `images/step-08-sagemaker-console.png`
+- `images/step-09-s3-console.png`
 
 ---
 
-## Step 4 — Install AWS CLI
+## Step 7 — Install AWS CLI
 
 **Do this (VS Code terminal):**
 
@@ -95,25 +159,28 @@ Get-ChildItem
 aws --version
 ```
 
-If `aws` is not recognized:
+If you see `aws: The term 'aws' is not recognized`:
 
-1. Install AWS CLI v2 from https://aws.amazon.com/cli/
-2. **Terminal → Kill Terminal** → **Terminal → New Terminal**
-3. Run `aws --version` again
+1. Download and install **AWS CLI v2** from https://aws.amazon.com/cli/
+2. In VS Code: **Terminal → Kill Terminal**
+3. **Terminal → New Terminal**
+4. Run `aws --version` again
 
-**Expected result:** `aws-cli/2.x.x`
+**Expected result:** Output like `aws-cli/2.x.x Python/3.x.x Windows/...`
 
-**Screenshot:** `images/step-07-aws-cli-version.png`
+**Screenshot:** `images/step-10-aws-cli-version.png`
 
 ---
 
-## Step 5 — Configure AWS CLI
+## Step 8 — Configure AWS CLI
 
 **Do this (VS Code terminal):**
 
 ```powershell
 aws configure
 ```
+
+Enter when prompted:
 
 | Prompt | Enter |
 |--------|-------|
@@ -130,13 +197,13 @@ aws configure get region
 aws s3 ls --region us-west-2
 ```
 
-**Expected result:** JSON with your IAM user ARN; region is `us-west-2`; S3 command runs (empty list is OK).
+**Expected result:** JSON showing your IAM user ARN; region prints `us-west-2`; S3 command runs (empty list is OK).
 
-**Screenshot:** `images/step-08-aws-sts-identity.png`
+**Screenshot:** `images/step-11-aws-sts-identity.png`
 
 ---
 
-## Step 6 — Install Python packages
+## Step 9 — Install Python packages
 
 **Do this (VS Code terminal):**
 
@@ -147,13 +214,13 @@ pip install -r requirements.txt
 python scripts\test_imports.py
 ```
 
-**Expected result:** Python 3.8+; `All imports successful!`
+**Expected result:** Python 3.8 or higher; terminal prints `All imports successful!`
 
-**Screenshot:** `images/step-09-python-imports.png`
+**Screenshot:** `images/step-12-python-imports.png`
 
 ---
 
-## Step 7 — Create your workspace
+## Step 10 — Create your personal workspace
 
 **Do this (VS Code terminal):**
 
@@ -164,13 +231,13 @@ Get-ChildItem $env:USERPROFILE\Documents\banking-mlops-labs
 
 **Expected result:** Folders `lab0` through `lab10`, plus `config`, `shared_data`, `logs`, etc.
 
-This workspace is on your PC (`Documents\banking-mlops-labs`) — not in the Git repo.
+> This folder lives on your PC at `Documents\banking-mlops-labs` — it is **not** pushed to GitHub.
 
-**Screenshot:** `images/step-10-workspace-folders.png`
+**Screenshot:** `images/step-13-workspace-folders.png`
 
 ---
 
-## Step 8 — Run verification
+## Step 11 — Run environment verification
 
 **Do this (VS Code terminal):**
 
@@ -187,19 +254,21 @@ ALL CHECKS PASSED. Environment is ready.
    Proceed to Lab 1.1
 ```
 
-**Screenshot:** `images/step-11-verification-pass.png`
+**Screenshot:** `images/step-14-verification-pass.png`
 
 ---
 
-## Step 9 — Completion checklist
+## Step 12 — Completion checklist
 
 | Task | Done |
 |------|------|
 | VS Code open on `ai-infra-mlops` | [ ] |
-| Terminal is PowerShell | [ ] |
+| Repo cloned from GitHub | [ ] |
+| Terminal is PowerShell (`PS ...>`) | [ ] |
+| Lab slide viewed (`LAB_SLIDE.png`) | [ ] |
 | AWS Console login | [ ] |
 | Region `us-west-2` | [ ] |
-| AWS CLI configured | [ ] |
+| AWS CLI installed and configured | [ ] |
 | Python packages installed | [ ] |
 | Workspace created | [ ] |
 | Verification passed | [ ] |
@@ -210,11 +279,17 @@ ALL CHECKS PASSED. Environment is ready.
 
 | Problem | Fix |
 |---------|-----|
-| Terminal shows `C:\...>` not `PS` | **Terminal → Select Default Profile → PowerShell** |
-| `aws` not found after install | Kill terminal and open a new one |
-| Login fails | Check username case (`Student01` ≠ `student01`) |
+| Terminal shows `C:\...>` not `PS` | **Terminal → Select Default Profile → PowerShell** → new terminal |
+| `git` not found | Install Git from https://git-scm.com/ and restart VS Code |
+| Clone fails | Check internet; confirm URL: `https://github.com/gjkaur/ai-infra-mlops.git` |
+| `aws` not found after install | **Terminal → Kill Terminal** → **New Terminal** |
+| Login fails | Username is case-sensitive (`Student01` ≠ `student01`) |
 | Wrong region | Browser: US West (Oregon); terminal: `aws configure set region us-west-2` |
 | Packages missing | `pip install -r requirements.txt` |
 | Workspace missing | Re-run `python scripts\setup_lab_directories.py` |
 
+---
+
 **Lab 0 complete.** Lab 1.1 will be added as `lab1/` when published.
+
+Save screenshots to **`lab0/images/`** using the filenames above.
