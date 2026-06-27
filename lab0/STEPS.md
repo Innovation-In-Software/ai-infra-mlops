@@ -140,15 +140,16 @@ Get-ChildItem
 1. Open **https://iis-instructor-03.signin.aws.amazon.com/console**
 2. Enter your **username** (case-sensitive) and **password**
 3. If prompted to set a new password, do so and save it securely
+
+![Step 5a — AWS console sign-in](images/step-05a-aws-console-login.png)
+
 4. Set region to **US West (Oregon) `us-west-2`** (top-right corner)
+
+![Step 5b — Region set to us-west-2](images/step-05b-aws-region-us-west-2.png)
 
 Keep VS Code open — you will return to the terminal in Step 7.
 
-**Expected result:** AWS Console home loads with no "Access Denied".
-
-![Step 5 — AWS console sign-in](images/step-05-aws-console-login.png)
-
-![Step 6 — Region set to us-west-2](images/step-06-aws-region-us-west-2.png)
+**Expected result:** AWS Console home loads with no "Access Denied"; region is `us-west-2`.
 
 ---
 
@@ -156,18 +157,29 @@ Keep VS Code open — you will return to the terminal in Step 7.
 
 **Do this (browser):**
 
-1. Search bar → type **IAM** → open **IAM** → **Users** → click your username
-2. Confirm attached policies (instructor test account may show **AdministratorAccess**; student accounts: **PowerUserAccess** + **IAMFullAccess**)
-3. Search **SageMaker** → dashboard loads
-4. Search **S3** → bucket list or S3 home loads
+1. Search **IAM** → open **IAM**
 
-**Expected result:** All three consoles open without permission errors.
+![Step 6a — Search IAM](images/step-06a-iam-search.png)
 
-![Step 6a — IAM user permissions](images/step-07-iam-policies.png)
+2. **Users** → click your username
 
-![Step 6b — SageMaker console](images/step-08-sagemaker-console.png)
+![Step 6b — IAM users list](images/step-06b-iam-users.png)
 
-![Step 6c — S3 console search](images/step-09-s3-console.png)
+3. Confirm attached policies (student accounts: **PowerUserAccess** + **IAMFullAccess**)
+
+![Step 6c — IAM user permissions](images/step-06c-iam-policies.png)
+
+4. Search **SageMaker** → open console
+
+![Step 6d — Search SageMaker](images/step-06d-sagemaker-search.png)
+
+![Step 6e — SageMaker console](images/step-06e-sagemaker-console.png)
+
+5. Search **S3** → open console
+
+![Step 6f — Search S3](images/step-06f-s3-search.png)
+
+**Expected result:** IAM, SageMaker, and S3 all open without permission errors.
 
 ---
 
@@ -181,37 +193,56 @@ aws --version
 
 If `aws` is not recognized, install it:
 
-1. Download **AWS CLI v2** from https://aws.amazon.com/cli/ → **Get started**
-2. Run the **AWSCLIV2.msi** installer → click through → **Finish**
-
 ![Step 7a — aws command not found](images/step-07a-aws-not-found.png)
 
-![Step 7b — AWS CLI download page](images/step-07b-aws-cli-download.png)
+1. Open https://aws.amazon.com/cli/ → **Get started**
 
-![Step 7c — AWS CLI installer in Downloads](images/step-07c-aws-cli-msi.png)
+![Step 7b — AWS CLI homepage](images/step-07b-aws-cli-homepage.png)
 
-![Step 7d — AWS CLI install complete](images/step-07d-aws-cli-install-complete.png)
+![Step 7c — AWS CLI getting started docs](images/step-07c-aws-cli-getting-started-docs.png)
 
-3. **Important (Windows):** After install, **fully close VS Code** — not just the terminal.
+![Step 7d — AWS CLI install documentation](images/step-07d-aws-cli-install-docs.png)
 
-   - **File → Exit** (or close the VS Code window)
-   - Reopen VS Code → **File → Open Folder** → `D:\Current_work\ai-infra-mlops`
-   - **Terminal → New Terminal**
+![Step 7e — AWS CLI install for Windows](images/step-07e-aws-cli-install-windows-docs.png)
 
-   > **Kill Terminal is not enough.** Windows updates the PATH only for **new** processes. VS Code must be restarted.
+2. Download **AWSCLIV2.msi** → save to Downloads
 
-![Step 7e — Close VS Code completely after install](images/step-07e-restart-vscode.png)
+![Step 7f — Save AWS CLI MSI installer](images/step-07f-aws-cli-msi-save.png)
 
-4. Verify AWS CLI works:
+![Step 7g — AWS CLI MSI in Downloads](images/step-07g-aws-cli-msi-downloads.png)
+
+3. Run the installer
+
+![Step 7h — Ready to install AWS CLI](images/step-07h-aws-cli-ready-install.png)
+
+![Step 7i — Installing AWS CLI](images/step-07i-aws-cli-installing.png)
+
+![Step 7j — Validating AWS CLI install](images/step-07j-aws-cli-validating.png)
+
+![Step 7k — AWS CLI install complete](images/step-07k-aws-cli-install-complete.png)
+
+4. Try `aws --version` again — it may **still fail** if you only open a new terminal:
+
+![Step 7l — aws still not found after install](images/step-07l-aws-not-found-after-install.png)
+
+![Step 7m — New terminal alone does not fix PATH](images/step-07m-new-terminal-still-fails.png)
+
+5. **Fully close VS Code** — **File → Exit** (not just Kill Terminal)
+
+![Step 7n — Close VS Code completely](images/step-07n-close-vscode.png)
+
+6. Reopen VS Code → **File → Open Folder** → `D:\Current_work\ai-infra-mlops` → **Terminal → New Terminal**
 
 ```powershell
 cd D:\Current_work\ai-infra-mlops\lab0
 aws --version
 ```
 
+![Step 7o — aws --version success after VS Code restart](images/step-07o-aws-version-success.png)
+
 **Expected result:** `aws-cli/2.x.x Python/3.x.x Windows/...`
 
-![Step 7f — aws --version success after VS Code restart](images/step-07f-aws-version.png)
+> **Kill Terminal is not enough on Windows.** You must restart VS Code so the updated PATH is loaded.
 
 ---
 
@@ -223,7 +254,7 @@ aws --version
 aws configure
 ```
 
-Enter when prompted:
+Enter when prompted (use values from your instructor handout — **never** commit keys to Git):
 
 | Prompt | Enter |
 |--------|-------|
@@ -242,9 +273,9 @@ aws configure get region
 aws s3 ls --region us-west-2
 ```
 
-**Expected result:** JSON showing your IAM user ARN; region prints `us-west-2`; S3 command runs (empty list is OK).
+![Step 8b — aws configure complete and verified](images/step-08b-aws-configure-verify.png)
 
-![Step 8b — aws configure and verification](images/step-11-aws-sts-identity.png)
+**Expected result:** JSON with your IAM user ARN; region is `us-west-2`; S3 command runs (empty list is OK).
 
 ---
 
@@ -254,16 +285,32 @@ aws s3 ls --region us-west-2
 
 ```powershell
 cd D:\Current_work\ai-infra-mlops\lab0
+```
+
+Review `requirements.txt`:
+
+![Step 9a — requirements.txt](images/step-09a-requirements-file.png)
+
+Confirm lab folder:
+
+![Step 9b — lab0 folder contents](images/step-09b-lab0-folder-list.png)
+
+Install packages:
+
+```powershell
 python --version
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 python scripts\test_imports.py
 ```
 
-**Expected result:** Python 3.8 or higher; terminal prints `All imports successful!`
+![Step 9c — pip upgrade](images/step-09c-pip-upgrade.png)
 
-![Step 9a — pip install requirements](images/step-12a-pip-install.png)
+![Step 9d — pip install requirements](images/step-09d-pip-install.png)
 
-![Step 9b — test_imports success](images/step-12-python-imports.png)
+![Step 9e — All imports successful](images/step-09e-test-imports.png)
+
+**Expected result:** Python 3.8+; terminal prints `All imports successful!`
 
 ---
 
@@ -293,7 +340,7 @@ workspace/
 
 > **`lab0/`** (course guide + scripts) is for instructions. **`workspace/lab0/`** is where you save lab outputs during the course. The `workspace/` folder is gitignored — your work stays local.
 
-**Screenshot:** `images/step-13-workspace-folders.png`
+**Screenshot:** `images/step-10-workspace-folders.png` *(pending — capture after running setup)*
 
 ---
 
@@ -315,7 +362,7 @@ ALL CHECKS PASSED. Environment is ready.
    Proceed to Lab 1.1
 ```
 
-**Screenshot:** `images/step-14-verification-pass.png`
+**Screenshot:** `images/step-11-verification-pass.png` *(pending)*
 
 ---
 
@@ -355,13 +402,18 @@ ALL CHECKS PASSED. Environment is ready.
 
 ---
 
-## Screenshot filenames (reference)
+## Screenshot index (37 images)
 
-Steps 1–3 and 2 are embedded above. Remaining steps use these names in `lab0/images/`:
-
-| Step | Filename |
-|------|----------|
-| 4 | `step-04-lab0-folder.png` |
-| 5 | `step-05-aws-console-login.png` |
-| 6 | `step-06-aws-region-us-west-2.png` |
-| 7–14 | See filenames in each step above |
+| Step | Files |
+|------|-------|
+| 1 | `step-01a`, `step-01b` |
+| 2 | `step-02` |
+| 3 | `step-03a`, `step-03b`, `step-03c` |
+| 4 | `step-04` |
+| 5 | `step-05a`, `step-05b` |
+| 6 | `step-06a` … `step-06f` |
+| 7 | `step-07a` … `step-07o` |
+| 8 | `step-08a`, `step-08b` |
+| 9 | `step-09a` … `step-09e` |
+| 10 | `step-10` *(pending)* |
+| 11 | `step-11` *(pending)* |
