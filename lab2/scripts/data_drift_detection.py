@@ -9,6 +9,23 @@ from scipy import stats
 from lab_paths import CONFIG_DIR, DATA_DIR, LAB1_CONFIG_DIR, RESULTS_DIR, ensure_workspace
 
 
+def _json_safe(value):
+    """Convert numpy/pandas scalars to native Python types for json.dump."""
+    if isinstance(value, dict):
+        return {k: _json_safe(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_json_safe(v) for v in value]
+    if isinstance(value, (np.bool_, bool)):
+        return bool(value)
+    if isinstance(value, (np.integer,)):
+        return int(value)
+    if isinstance(value, (np.floating,)):
+        return float(value)
+    if isinstance(value, np.ndarray):
+        return value.tolist()
+    return value
+
+
 class BankingDataDriftDetector:
     """Banking-specific data drift detection."""
 
@@ -128,8 +145,7 @@ class BankingDataDriftDetector:
         }
 
         with open(CONFIG_DIR / "drift_report.json", "w", encoding="utf-8") as f:
-            json.dump(drift_report, f, indent=2)
-
+            json.dump(_json_safe(drift_report), f, indent=2)
         print("\n" + "=" * 60)
         print("📊 Drift Detection Summary:")
         print(f"   Total Features: {drift_report['summary']['total_features_analyzed']}")
