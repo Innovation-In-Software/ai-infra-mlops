@@ -1,5 +1,6 @@
 """SageMaker Feature Store setup for banking features."""
 import json
+import time
 from datetime import datetime, timezone
 
 import boto3
@@ -7,6 +8,7 @@ import pandas as pd
 import sagemaker
 from sagemaker.feature_store.feature_definition import FeatureDefinition, FeatureTypeEnum
 from sagemaker.feature_store.feature_group import FeatureGroup
+from sagemaker.feature_store.inputs import TargetStoreEnum
 from lab_paths import CONFIG_DIR, DATA_DIR, LAB1_CONFIG_DIR, RESULTS_DIR, ensure_workspace
 
 
@@ -25,12 +27,44 @@ class BankingFeatureStore:
         with open(LAB1_CONFIG_DIR / "iam_roles.json", "r", encoding="utf-8") as f:
             self.roles = json.load(f)
 
+    def _wait_until_active(self, feature_group_name, timeout=900, interval=15):
+        """Poll DescribeFeatureGroup until offline store is ready for ingest."""
+        print(f"   ⏳ Waiting for {feature_group_name} to become active...")
+        client = self.sagemaker_session.sagemaker_client
+        deadline = time.time() + timeout
+
+        while time.time() < deadline:
+            resp = client.describe_feature_group(FeatureGroupName=feature_group_name)
+            status = resp.get("FeatureGroupStatus", "Unknown")
+            offline_status = (resp.get("OfflineStoreStatus") or {}).get("Status")
+
+            if status == "Created" and offline_status == "Active":
+                # Online store can lag behind group creation; offline ingest is enough for the lab.
+                time.sleep(15)
+                print(f"   ✅ Feature group active: {feature_group_name}")
+                return resp
+
+            if status in ("CreateFailed", "DeleteFailed"):
+                raise RuntimeError(
+                    f"Feature group {feature_group_name} is in failed state: {status}"
+                )
+
+            print(
+                f"   ... {feature_group_name}: status={status}, offline={offline_status or 'n/a'}"
+            )
+            time.sleep(interval)
+
+        raise TimeoutError(
+            f"Timed out waiting for feature group {feature_group_name} to become active"
+        )
+
     def create_transaction_feature_group(self):
         print("\n📊 Creating Transaction Feature Group...")
         print("=" * 60)
 
         feature_definitions = [
             FeatureDefinition("transaction_id", FeatureTypeEnum.STRING),
+            FeatureDefinition("event_time", FeatureTypeEnum.STRING),
             FeatureDefinition("customer_id", FeatureTypeEnum.STRING),
             FeatureDefinition("transaction_type", FeatureTypeEnum.STRING),
             FeatureDefinition("amount", FeatureTypeEnum.FRACTIONAL),
@@ -64,7 +98,7 @@ class BankingFeatureStore:
             feature_group.create(
                 s3_uri=s3_uri,
                 record_identifier_name="transaction_id",
-                event_time_feature_name="transaction_hour",
+                event_time_feature_name="event_time",
                 role_arn=self.roles["data_scientist"]["arn"],
                 enable_online_store=True,
                 tags=[
@@ -76,9 +110,17 @@ class BankingFeatureStore:
                 ],
             )
             print(f"   ✅ Feature group created: {feature_group_name}")
+            self._wait_until_active(feature_group_name)
         except Exception as e:
-            print(f"   ⚠️ Feature group may already exist: {str(e)}")
-            feature_group = FeatureGroup(name=feature_group_name, sagemaker_session=self.sagemaker_session)
+            err = str(e)
+            if "ResourceInUse" in err or "already exist" in err.lower():
+                print(f"   ⚠️ Feature group already exists — using existing group")
+                self._wait_until_active(feature_group_name)
+            else:
+                print(f"   ❌ Feature group create failed: {err}")
+                feature_group = FeatureGroup(
+                    name=feature_group_name, sagemaker_session=self.sagemaker_session
+                )
 
         return feature_group
 
@@ -88,6 +130,7 @@ class BankingFeatureStore:
 
         feature_definitions = [
             FeatureDefinition("customer_id", FeatureTypeEnum.STRING),
+            FeatureDefinition("event_time", FeatureTypeEnum.STRING),
             FeatureDefinition("age", FeatureTypeEnum.INTEGRAL),
             FeatureDefinition("income", FeatureTypeEnum.FRACTIONAL),
             FeatureDefinition("credit_score", FeatureTypeEnum.INTEGRAL),
@@ -115,7 +158,7 @@ class BankingFeatureStore:
             feature_group.create(
                 s3_uri=s3_uri,
                 record_identifier_name="customer_id",
-                event_time_feature_name="age",
+                event_time_feature_name="event_time",
                 role_arn=self.roles["data_scientist"]["arn"],
                 enable_online_store=True,
                 tags=[
@@ -127,14 +170,28 @@ class BankingFeatureStore:
                 ],
             )
             print(f"   ✅ Feature group created: {feature_group_name}")
+            self._wait_until_active(feature_group_name)
         except Exception as e:
-            print(f"   ⚠️ Feature group may already exist: {str(e)}")
-            feature_group = FeatureGroup(name=feature_group_name, sagemaker_session=self.sagemaker_session)
+            err = str(e)
+            if "ResourceInUse" in err or "already exist" in err.lower():
+                print(f"   ⚠️ Feature group already exists — using existing group")
+                self._wait_until_active(feature_group_name)
+            else:
+                print(f"   ❌ Feature group create failed: {err}")
+                feature_group = FeatureGroup(
+                    name=feature_group_name, sagemaker_session=self.sagemaker_session
+                )
 
         return feature_group
 
     def ingest_features(self, df, feature_group):
         print("\n📥 Ingesting features into feature store...")
+
+        try:
+            self._wait_until_active(feature_group.name)
+        except Exception as e:
+            print(f"   ❌ Feature group not ready for ingest: {e}")
+            return
 
         type_by_col = {
             fd.feature_name: fd.feature_type
@@ -142,6 +199,16 @@ class BankingFeatureStore:
         }
         df_ingest = df.copy()
         required_columns = list(type_by_col.keys())
+
+        if "event_time" in required_columns and "event_time" not in df_ingest.columns:
+            if "transaction_date" in df_ingest.columns:
+                df_ingest["event_time"] = pd.to_datetime(
+                    df_ingest["transaction_date"], utc=True, errors="coerce"
+                ).dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+            else:
+                df_ingest["event_time"] = datetime.now(timezone.utc).strftime(
+                    "%Y-%m-%dT%H:%M:%SZ"
+                )
 
         for col in required_columns:
             if col not in df_ingest.columns:
@@ -165,7 +232,12 @@ class BankingFeatureStore:
                 df_ingest[col] = df_ingest[col].astype(str)
 
         try:
-            feature_group.ingest(data_frame=df_ingest, max_processes=1)
+            feature_group.ingest(
+                data_frame=df_ingest,
+                max_processes=4,
+                max_workers=2,
+                target_stores=[TargetStoreEnum.OFFLINE_STORE],
+            )
             print(f"   ✅ Ingested {len(df_ingest)} records into {feature_group.name}")
         except Exception as e:
             print(f"   ❌ Error ingesting features: {str(e)}")

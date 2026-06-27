@@ -22,7 +22,8 @@ def generate_banking_dataset():
     np.random.seed(42)
     random.seed(42)
 
-    num_records = 10000
+    num_records = int(os.environ.get("LAB_NUM_RECORDS", "1000"))
+    print(f"   Records: {num_records} (set LAB_NUM_RECORDS to change)")
 
     first_names = [
         "James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda",

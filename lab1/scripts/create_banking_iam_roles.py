@@ -21,6 +21,12 @@ def create_banking_iam_roles():
     with open(CONFIG_DIR / "buckets.json", "r", encoding="utf-8") as f:
         buckets = json.load(f)
 
+    kms_key_arn = None
+    kms_path = CONFIG_DIR / "kms_keys.json"
+    if kms_path.exists():
+        with open(kms_path, "r", encoding="utf-8") as f:
+            kms_key_arn = json.load(f).get("s3_key_arn")
+
     print("\n📋 Creating Data Scientist Role...")
 
     data_scientist_trust = {
@@ -40,7 +46,12 @@ def create_banking_iam_roles():
         "Statement": [
             {
                 "Effect": "Allow",
-                "Action": ["s3:GetObject", "s3:ListBucket"],
+                "Action": [
+                    "s3:GetObject",
+                    "s3:ListBucket",
+                    "s3:GetBucketAcl",
+                    "s3:GetBucketLocation",
+                ],
                 "Resource": [
                     f"arn:aws:s3:::{buckets['raw']['name']}/*",
                     f"arn:aws:s3:::{buckets['processed']['name']}/*",
@@ -96,6 +107,19 @@ def create_banking_iam_roles():
             },
         ],
     }
+
+    if kms_key_arn:
+        data_scientist_policy["Statement"].append(
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "kms:GenerateDataKey",
+                    "kms:Decrypt",
+                    "kms:DescribeKey",
+                ],
+                "Resource": kms_key_arn,
+            }
+        )
 
     try:
         iam.create_role(

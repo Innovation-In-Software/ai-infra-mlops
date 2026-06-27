@@ -7,49 +7,56 @@
 </p>
 
 <p align="center">
-  All lab guides are in this repository <strong>before class begins</strong>.
-  <strong>Clone once in Lab 0</strong> — you do not need to pull updates between labs.
-  Open each lab’s <code>STEPS.md</code> in order.
+  <strong>Cloud delivery:</strong> EC2 in <code>us-west-2</code> + SSH + VS Code Remote SSH.
+  See <a href="CLOUD-DELIVERY.md">CLOUD-DELIVERY.md</a> for golden AMI, fresh start, and 30-minute timing.
 </p>
+
+<p align="center">
+  Clone once in Lab 0 — open each lab’s <code>STEPS.md</code> in order.
+  Outputs go under <code>workspace/labN/</code> (gitignored).
+</p>
+
+---
+
+<h2>Fresh start</h2>
+
+<pre>
+cd ~/ai-infra-mlops
+python3 scripts/reset_course.py --labs lab1,lab2
+cd lab2 && python3 scripts/cleanup_lab2.py --aws   # optional: remove Feature Groups
+</pre>
+
+<p>Then re-run <a href="lab0/STEPS.md">Lab 0</a> verify → <a href="lab1/STEPS.md">Lab 1</a> → <a href="lab2/STEPS.md">Lab 2</a>.</p>
 
 ---
 
 <h2>Lab index</h2>
 
-| Lab | Folder | Guide |
-|-----|--------|-------|
-| Lab 0 — Environment Setup | <code>lab0/</code> | <a href="lab0/STEPS.md">lab0/STEPS.md</a> |
-| Lab 1 — Secure MLOps Environment Setup | <code>lab1/</code> | <a href="lab1/STEPS.md">lab1/STEPS.md</a> |
-| Lab 2 — Banking Data Management &amp; PII Protection | <code>lab2/</code> | <a href="lab2/STEPS.md">lab2/STEPS.md</a> |
-
-<p>Lab outputs are saved under <code>workspace/labN/</code> (gitignored). Folder names stay <code>lab0</code>, <code>lab1</code>, <code>lab2</code>, …</p>
+| Lab | Folder | Duration | Guide |
+|-----|--------|----------|-------|
+| Lab 0 — Environment Setup | <code>lab0/</code> | 30 min | <a href="lab0/STEPS.md">lab0/STEPS.md</a> |
+| Lab 1 — Secure MLOps Environment | <code>lab1/</code> | 30 min | <a href="lab1/STEPS.md">lab1/STEPS.md</a> |
+| Lab 2 — Banking Data &amp; PII | <code>lab2/</code> | 30 min | <a href="lab2/STEPS.md">lab2/STEPS.md</a> |
 
 ---
 
 <h2>Lab 0 — Environment Setup</h2>
 
-<h3>
-  <a href="lab0/STEPS.md">Open lab0/STEPS.md</a>
-</h3>
-
-<p>Clone the repo, set up VS Code + PowerShell, AWS CLI, Python packages, and your workspace.</p>
+<p>SSH to EC2, clone repo, AWS CLI, Python packages, workspace folders, verification.</p>
+<p><a href="lab0/STEPS.md"><strong>Open lab0/STEPS.md</strong></a></p>
 
 ---
 
 <h2>Lab 1 — Secure MLOps Environment Setup</h2>
 
-<h3>
-  <a href="lab1/STEPS.md">Open lab1/STEPS.md</a>
-</h3>
-
-<p>KMS keys, encrypted S3 buckets, IAM roles, SageMaker Studio, and CloudTrail audit logging. Requires Lab 0.</p>
+<p>SageMaker Studio (start first), KMS, S3, IAM, CloudTrail, validation. Requires Lab 0.</p>
+<p><a href="lab1/STEPS.md"><strong>Open lab1/STEPS.md</strong></a></p>
 
 ---
 
 <h2>Lab 2 — Banking Data Management &amp; PII Protection</h2>
 
-<h3>
-  <a href="lab2/STEPS.md">Open lab2/STEPS.md</a>
-</h3>
+<p>Synthetic data, PII anonymization, feature engineering, Feature Store, drift, compliance. Requires Lab 1.</p>
+<p><a href="lab2/STEPS.md"><strong>Open lab2/STEPS.md</strong></a></p>
 
-<p>PII detection, data validation, feature engineering, SageMaker Feature Store, and compliance reporting. Requires Lab 1 (<code>lab1/</code>).</p>
+<p><strong>Classroom defaults:</strong> <code>LAB_NUM_RECORDS=1000</code>, <code>LAB_USE_COMPREHEND=0</code> (pattern PII, ~30 min total).</p>

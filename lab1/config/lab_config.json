@@ -1,14 +1,14 @@
 {
-  "lab_id": "1.1",
+  "lab_id": "1",
   "title": "Secure MLOps Environment Setup",
   "duration_minutes": 30,
   "region": "us-west-2",
   "prerequisites": ["lab0"],
   "learning_objectives": [
+    "Set up SageMaker Studio domain (start first — longest wait)",
     "Create KMS keys for encryption at rest",
     "Create banking-compliant S3 buckets",
-    "Configure IAM roles with least privilege",
-    "Set up SageMaker Studio domain",
+    "Configure IAM roles with least privilege (includes Feature Store permissions)",
     "Enable CloudTrail audit logging",
     "Validate the secure environment"
   ]

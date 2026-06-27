@@ -1,5 +1,6 @@
 """PII detection and anonymization for banking datasets."""
 import json
+import os
 import re
 from datetime import datetime, timezone
 
@@ -37,13 +38,20 @@ def _coerce_pii_columns_to_text(df, columns):
     return out
 
 
+def _use_comprehend() -> bool:
+    return os.environ.get("LAB_USE_COMPREHEND", "0").lower() in ("1", "true", "yes")
+
+
 class BankingPIIHandler:
     """Banking-specific PII detection and anonymization."""
 
     def __init__(self):
         self.region = "us-west-2"
         self.account_id = boto3.client("sts").get_caller_identity()["Account"]
-        self.comprehend = boto3.client("comprehend", region_name=self.region)
+        self.use_comprehend = _use_comprehend()
+        self.comprehend = (
+            boto3.client("comprehend", region_name=self.region) if self.use_comprehend else None
+        )
         self.s3 = boto3.client("s3", region_name=self.region)
 
         self.pii_patterns = {
@@ -58,6 +66,8 @@ class BankingPIIHandler:
         }
 
     def detect_pii_with_comprehend(self, text):
+        if not self.use_comprehend or not self.comprehend:
+            return []
         try:
             if not text or len(str(text)) < 2:
                 return []
@@ -104,9 +114,12 @@ class BankingPIIHandler:
         if columns_to_scan is None:
             columns_to_scan = [col for col in df.columns if col.lower() in PII_TEXT_COLUMNS]
 
+        mode = "Comprehend + patterns" if self.use_comprehend else "patterns only (classroom mode)"
         print(f"📋 Scanning columns: {', '.join(columns_to_scan)}")
+        print(f"   Detection mode: {mode}")
 
         pii_report = {
+            "detection_mode": mode,
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "columns_scanned": columns_to_scan,
             "pii_found": {},
@@ -124,7 +137,9 @@ class BankingPIIHandler:
                 if pd.isna(value) or value == "":
                     continue
 
-                comprehend_entities = self.detect_pii_with_comprehend(str(value))
+                comprehend_entities = (
+                    self.detect_pii_with_comprehend(str(value)) if self.use_comprehend else []
+                )
 
                 if comprehend_entities:
                     anonymized_val = self.anonymize_text(str(value), comprehend_entities)

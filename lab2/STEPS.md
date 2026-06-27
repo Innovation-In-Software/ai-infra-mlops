@@ -6,9 +6,45 @@
 ## Duration · 30 minutes
 ## Region · `us-west-2`
 ## Repo · [github.com/gjkaur/ai-infra-mlops](https://github.com/gjkaur/ai-infra-mlops)
-## Editor · Visual Studio Code (VS Code)
-## Terminal · PowerShell (integrated terminal only)
-## Prerequisite · [Lab 1](../lab1/STEPS.md) complete in `lab1/` (`Compliance Score: 100%`)
+## Editor · VS Code (Remote SSH to EC2)
+## Terminal · bash on EC2
+## Delivery · See [CLOUD-DELIVERY.md](../CLOUD-DELIVERY.md)
+## Prerequisite · [Lab 1](../lab1/STEPS.md) complete (`Compliance Score: 100%`)
+
+---
+
+# Fresh start (repeat Lab 2)
+
+```bash
+cd ~/ai-infra-mlops
+python3 scripts/reset_course.py --labs lab2
+cd lab2
+python3 scripts/cleanup_lab2.py --aws    # delete Feature Groups if re-running Step 8
+```
+
+Then run Steps 4–11 below.
+
+---
+
+# 30-minute pacing
+
+| Minutes | Step |
+|---------|------|
+| 0–3 | Steps 1–3 |
+| 3–5 | Step 4 — generate data (1000 rows default) |
+| 5–10 | Step 5 — PII (`LAB_USE_COMPREHEND=0` in class) |
+| 10–15 | Steps 6–7 — validation + features |
+| 15–25 | Step 8 — Feature Store |
+| 25–30 | Steps 9–11 |
+
+**Classroom env (on EC2 AMI):**
+
+```bash
+export LAB_NUM_RECORDS=1000
+export LAB_USE_COMPREHEND=0
+```
+
+Set `LAB_USE_COMPREHEND=1` only for deep testing (adds significant time).
 
 ---
 
@@ -40,17 +76,9 @@ Type `clear` and press **Enter** before each new command block.
 
 ### Working directory
 
-From **Step 2** onward:
+**EC2:** `~/ai-infra-mlops/lab2` · **Windows:** `D:\Current_work\ai-infra-mlops\lab2`
 
-`PS D:\Current_work\ai-infra-mlops\lab2>`
-
-**Step 2** sets this folder once. Stay here for Steps 3–10.
-
-### Where your outputs go
-
-`D:\Current_work\ai-infra-mlops\workspace\lab2\`
-
-Lab 1 configs are read from `workspace\lab1\config\` (buckets, IAM roles).
+Outputs: `~/ai-infra-mlops/workspace/lab2/` · Lab 1 configs: `workspace/lab1/config/`
 
 ---
 
@@ -140,10 +168,13 @@ Lab 1 validation shows `Compliance Score: 100.0%`.
 
 # Step 4 — Generate banking dataset
 
-```powershell
+```bash
 clear
-python scripts\download_banking_data.py
+cd ~/ai-infra-mlops/lab2
+python3 scripts/download_banking_data.py
 ```
+
+Generates **1000** customers / transactions by default (`LAB_NUM_RECORDS`).
 
 ### Expected result
 
@@ -155,12 +186,13 @@ python scripts\download_banking_data.py
 
 # Step 5 — Detect and anonymize PII
 
-```powershell
+```bash
 clear
-python scripts\pii_detection_anonymization.py
+python3 scripts/pii_detection_anonymization.py
 ```
 
-Uses regex patterns and **Amazon Comprehend** (`detect_pii_entities`). Comprehend warnings are OK — pattern matching still anonymizes data.
+**Classroom:** `LAB_USE_COMPREHEND=0` uses regex patterns (~5 min).  
+**Optional:** `LAB_USE_COMPREHEND=1` adds Amazon Comprehend (much slower).
 
 ### Expected result
 
@@ -199,12 +231,12 @@ python scripts\feature_engineering.py
 
 # Step 8 — Set up SageMaker Feature Store
 
-```powershell
+```bash
 clear
-python scripts\feature_store_setup.py
+python3 scripts/feature_store_setup.py
 ```
 
-This step can take **several minutes**. Uses Lab 1 S3 buckets and IAM roles from `workspace\lab1\config\`. Customer features are ingested from the engineered training dataset (one row per `customer_id`).
+About **5–15 minutes** at classroom data size. Waits for feature groups to become active, then ingests to the **offline store**.
 
 ### Expected result
 
@@ -273,12 +305,23 @@ Pattern-based PII detection still runs. Ensure your student role can call `compr
 
 ### Feature Store errors
 
-1. Re-run Step 8 after the SageMaker domain is `InService` from Lab 1 (`lab1/`).
-2. Feature groups are idempotent on re-run. If ingest fails because records already exist, that warning is OK — check that `config\feature_store_config.json` was saved.
+1. SageMaker domain must be **InService** from Lab 1.
+2. Re-run Lab 1 Step 7: `python3 scripts/create_banking_iam_roles.py` (Feature Store S3 permissions).
+3. Feature group name clash: `python3 scripts/cleanup_lab2.py --aws`, then Step 8 again.
+4. Ingest warnings on re-run are OK if `feature_store_config.json` exists.
+
+### Start from scratch
+
+```bash
+python3 scripts/cleanup_lab2.py --aws
+python3 scripts/reset_course.py --labs lab2
+```
+
+Then re-run from Step 4.
 
 ### Instructor re-screenshot
 
-Delete `workspace\lab2\data\*` and `workspace\lab2\config\*.json`, then re-run steps from Step 4.
+Delete `workspace/lab2/data/*` and `workspace/lab2/config/*.json`, or use `cleanup_lab2.py` above.
 
 ---
 

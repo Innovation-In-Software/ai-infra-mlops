@@ -1,4 +1,4 @@
-"""Run all Lab 1.1 setup scripts in order."""
+"""Run all Lab 1 setup scripts in order (SageMaker first — longest wait)."""
 import sys
 from pathlib import Path
 
@@ -15,16 +15,16 @@ from validate_environment import validate_environment
 
 
 def main():
-    print("Banking MLOps Lab 1.1 — Secure Environment Setup")
+    print("Banking MLOps Lab 1 — Secure Environment Setup")
     print("=" * 60)
     ensure_workspace()
     print(f"Workspace: {WORKSPACE}\n")
 
     steps = [
+        ("SageMaker Studio", create_sagemaker_studio),
         ("KMS keys", create_banking_kms_keys),
         ("S3 buckets", create_banking_buckets),
         ("IAM roles", create_banking_iam_roles),
-        ("SageMaker Studio", create_sagemaker_studio),
         ("Audit logging", enable_audit_logging),
     ]
 

@@ -4,7 +4,7 @@
   "student_username_pattern": "StudentXX",
   "required_policies": ["PowerUserAccess", "IAMFullAccess"],
   "python_min_version": "3.8",
-  "course_labs": ["lab0", "lab1"],
+  "course_labs": ["lab0", "lab1", "lab2"],
   "workspace_dir": "workspace",
   "student_workspace_dirs": [
     "lab1", "lab2", "lab3", "lab4",

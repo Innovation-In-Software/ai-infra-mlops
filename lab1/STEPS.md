@@ -6,9 +6,24 @@
 ## Duration · 30 minutes
 ## Region · `us-west-2`
 ## Repo · [github.com/gjkaur/ai-infra-mlops](https://github.com/gjkaur/ai-infra-mlops)
-## Editor · Visual Studio Code (VS Code)
-## Terminal · PowerShell (integrated terminal only)
+## Editor · VS Code (Remote SSH to EC2)
+## Terminal · bash on EC2
+## Delivery · See [CLOUD-DELIVERY.md](../CLOUD-DELIVERY.md)
 ## Prerequisite · [Lab 0](../lab0/STEPS.md) complete
+
+---
+
+# 30-minute pacing
+
+| Minutes | Step |
+|---------|------|
+| 0–3 | Steps 1–3 — confirm folders and AWS |
+| **3–5** | **Step 4 — SageMaker domain (start first)** |
+| 5–20 | Steps 5–7 — KMS, S3, IAM while domain provisions |
+| 20–27 | Steps 8–9 — CloudTrail + validation |
+| 27–30 | Step 10 — optional console check |
+
+**Important:** Step 4 can run **15+ minutes**. Start it before KMS/S3/IAM.
 
 ---
 
@@ -45,19 +60,9 @@ Type `clear` and press **Enter** before each new command block.
 
 ### Working directory
 
-From **Step 2** onward, terminal steps assume this prompt:
+**EC2:** `~/ai-infra-mlops/lab1` · **Windows:** `D:\Current_work\ai-infra-mlops\lab1`
 
-`PS D:\Current_work\ai-infra-mlops\lab1>`
-
-**Step 2** sets this folder once. Stay here for Steps 3–9 — do not repeat `cd` in each step. If your prompt shows a different path, run `cd D:\Current_work\ai-infra-mlops\lab1` once, then continue.
-
-### Where your outputs go
-
-Lab scripts save config and results under:
-
-`D:\Current_work\ai-infra-mlops\workspace\lab1\`
-
-That folder is gitignored — your AWS resource IDs stay on your machine only.
+Outputs: `~/ai-infra-mlops/workspace/lab1/` (gitignored)
 
 ---
 
@@ -144,71 +149,19 @@ JSON with your IAM user ARN; region is `us-west-2`.
 
 ---
 
-# Step 4 — Create KMS (Key Management Service) encryption keys
+# Step 4 — Set up Amazon SageMaker Studio (start first)
 
-### Do this (VS Code terminal)
+Longest step — run this **before** Steps 5–7 so the domain provisions while you create KMS, S3, and IAM.
 
-```powershell
+### Do this (terminal)
+
+```bash
 clear
-python scripts\create_kms_keys.py
+cd ~/ai-infra-mlops/lab1
+python3 scripts/create_sagemaker_studio.py
 ```
 
-![Step 4a — KMS keys created](images/step-04a-kms-keys.png)
-
-![Step 4b — KMS key creation complete](images/step-04b-kms-complete.png)
-
-![Step 4c — kms_keys.json in workspace\lab1\config](images/step-04c-kms-config-file.png)
-
-### Expected result
-
-Two keys created (S3 + SageMaker). Config saved to `workspace\lab1\config\kms_keys.json`.
-
----
-
-# Step 5 — Create S3 (Simple Storage Service) buckets
-
-### Do this (VS Code terminal)
-
-```powershell
-clear
-python scripts\create_banking_buckets.py
-```
-
-![Step 5a — S3 buckets creating](images/step-05a-s3-buckets.png)
-
-![Step 5b — all six buckets created](images/step-05b-s3-buckets-complete.png)
-
-### Expected result
-
-Six buckets named `bank-mlops-<account-id>-<type>` (raw, processed, models, monitoring, governance, audit). Config saved to `workspace\lab1\config\buckets.json`.
-
----
-
-# Step 6 — Create IAM (Identity and Access Management) roles
-
-### Do this (VS Code terminal)
-
-```powershell
-clear
-python scripts\create_banking_iam_roles.py
-```
-
-![Step 6 — IAM roles created](images/step-06-iam-roles.png)
-
-### Expected result
-
-Roles created: `BankingDataScientistRole`, `BankingMLEngineerRole`, `BankingComplianceOfficerRole`. Config saved to `workspace\lab1\config\iam_roles.json`.
-
----
-
-# Step 7 — Set up Amazon SageMaker Studio
-
-### Do this (VS Code terminal)
-
-```powershell
-clear
-python scripts\create_sagemaker_studio.py
-```
+Windows PowerShell: `python scripts\create_sagemaker_studio.py`
 
 ![Step 7a — domain waiting for InService](images/step-07a-sagemaker-waiting.png)
 
@@ -218,27 +171,74 @@ python scripts\create_sagemaker_studio.py
 
 ![Step 7d — copy Studio console URL](images/step-07d-sagemaker-url.png)
 
-This step can take **several minutes** while the domain becomes `InService`.
-
-**Save the console URL:** When the script finishes, copy the SageMaker Studio link from the terminal output (starts with `https://us-west-2.console.aws.amazon.com/sagemaker/...`) and paste it somewhere you can find later — a Notepad file, VS Code scratch file, or bookmark. If you run `clear`, the link is still in `workspace\lab1\config\sagemaker_studio.json` under `domain_id`.
+Save the Studio URL from the terminal or from `workspace/lab1/config/sagemaker_studio.json`.
 
 ### Expected result
 
-SageMaker Studio domain created. Config saved to `workspace\lab1\config\sagemaker_studio.json`. Console URL printed at the end.
-
-**Console check (optional):** SageMaker → Domains → status **Ready**.
-
-![Step 7e — SageMaker domain Ready in console](images/step-07e-sagemaker-console.png)
+Domain created and `InService`. Config: `workspace/lab1/config/sagemaker_studio.json`.
 
 ---
 
-# Step 8 — Enable AWS CloudTrail audit logging
+# Step 5 — Create KMS encryption keys
 
-### Do this (VS Code terminal)
-
-```powershell
+```bash
 clear
-python scripts\enable_audit_logging.py
+python3 scripts/create_kms_keys.py
+```
+
+![Step 4a — KMS keys created](images/step-04a-kms-keys.png)
+
+![Step 4b — KMS key creation complete](images/step-04b-kms-complete.png)
+
+![Step 4c — kms_keys.json in workspace/lab1/config](images/step-04c-kms-config-file.png)
+
+### Expected result
+
+Two keys; `workspace/lab1/config/kms_keys.json`.
+
+---
+
+# Step 6 — Create S3 buckets
+
+```bash
+clear
+python3 scripts/create_banking_buckets.py
+```
+
+![Step 5a — S3 buckets creating](images/step-05a-s3-buckets.png)
+
+![Step 5b — all six buckets created](images/step-05b-s3-buckets-complete.png)
+
+### Expected result
+
+Six `bank-mlops-<account-id>-*` buckets; `workspace/lab1/config/buckets.json`.
+
+---
+
+# Step 7 — Create IAM roles
+
+```bash
+clear
+python3 scripts/create_banking_iam_roles.py
+```
+
+![Step 6 — IAM roles created](images/step-06-iam-roles.png)
+
+### Expected result
+
+`BankingDataScientistRole`, `BankingMLEngineerRole`, `BankingComplianceOfficerRole`; `iam_roles.json`.
+
+**Lab 2 needs this step** — Feature Store uses `BankingDataScientistRole` S3 permissions from here.
+
+---
+
+# Step 8 — Enable CloudTrail audit logging
+
+### Do this (terminal)
+
+```bash
+clear
+python3 scripts/enable_audit_logging.py
 ```
 
 ![Step 8a — CloudTrail and audit logging enabled](images/step-08a-audit-logging.png)
@@ -270,9 +270,9 @@ python scripts\enable_audit_logging.py
 
 ### Do this (VS Code terminal)
 
-```powershell
+```bash
 clear
-python scripts\validate_environment.py
+python3 scripts/validate_environment.py
 ```
 
 ![Step 9a — validation checks running](images/step-09a-validation.png)
@@ -281,9 +281,9 @@ python scripts\validate_environment.py
 
 Or run the full lab in one command (Steps 4–9):
 
-```powershell
+```bash
 clear
-python scripts\run_lab1.py
+python3 scripts/run_lab1.py
 ```
 
 ### Expected result
