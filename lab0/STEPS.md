@@ -227,10 +227,12 @@ Enter when prompted:
 
 | Prompt | Enter |
 |--------|-------|
-| AWS Access Key ID | From instructor |
-| AWS Secret Access Key | From instructor |
+| AWS Access Key ID | From instructor handout |
+| AWS Secret Access Key | From instructor handout |
 | Default region name | `us-west-2` |
 | Default output format | `json` |
+
+![Step 8a — aws configure prompt](images/step-08a-aws-configure-prompt.png)
 
 Verify:
 
@@ -242,7 +244,7 @@ aws s3 ls --region us-west-2
 
 **Expected result:** JSON showing your IAM user ARN; region prints `us-west-2`; S3 command runs (empty list is OK).
 
-**Screenshot:** `images/step-11-aws-sts-identity.png`
+![Step 8b — aws configure and verification](images/step-11-aws-sts-identity.png)
 
 ---
 
@@ -259,7 +261,9 @@ python scripts\test_imports.py
 
 **Expected result:** Python 3.8 or higher; terminal prints `All imports successful!`
 
-**Screenshot:** `images/step-12-python-imports.png`
+![Step 9a — pip install requirements](images/step-12a-pip-install.png)
+
+![Step 9b — test_imports success](images/step-12-python-imports.png)
 
 ---
 
