@@ -93,8 +93,14 @@ git clone https://github.com/gjkaur/ai-infra-mlops.git
 **Do this:**
 
 1. **File → Open Folder**
-2. Select **`D:\Current_work\ai-infra-mlops`**
+
+![Step 3a — File → Open Folder](images/step-03a-open-folder-menu.png)
+
+2. Navigate to **`D:\Current_work\ai-infra-mlops`**
 3. Click **Select Folder**
+
+![Step 3b — Select ai-infra-mlops folder](images/step-03b-select-folder.png)
+
 4. In the **Explorer** (left panel), expand folders and confirm you see:
    - `README.md`
    - `lab0/`
@@ -102,9 +108,9 @@ git clone https://github.com/gjkaur/ai-infra-mlops.git
    - `lab0/LAB_SLIDE.png`
    - `lab0/scripts/`
 
-**Expected result:** VS Code title bar shows `ai-infra-mlops`. Explorer shows the repo tree.
+![Step 3c — Repo open in VS Code Explorer](images/step-03c-repo-in-explorer.png)
 
-**Screenshot:** `images/step-03-vscode-open-folder.png`
+**Expected result:** VS Code title bar shows `ai-infra-mlops`. Explorer shows the repo tree.
 
 ---
 
