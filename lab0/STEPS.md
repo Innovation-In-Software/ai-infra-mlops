@@ -84,7 +84,7 @@ git clone https://github.com/gjkaur/ai-infra-mlops.git
 
 **Expected result:** Folder `D:\Current_work\ai-infra-mlops` is created with `lab0`, `README.md`, etc.
 
-**Screenshot:** `images/step-02-git-clone.png`
+![Step 2 — git clone successful](images/step-02-git-clone.png)
 
 ---
 
