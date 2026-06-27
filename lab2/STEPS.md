@@ -62,13 +62,20 @@ Lab 1.1 configs are read from `workspace\lab1\config\` (buckets, IAM roles).
 
 ---
 
-# Step 1 — Pull the latest repo
+# Step 1 — Confirm Lab 1.2 files in the repo
 
-### Do this (VS Code terminal)
+If you **cloned the repo once in Lab 0** (or your instructor gave you the full repo), you already have `lab2/`. Skip `git pull` unless your instructor announces an update.
 
 ```powershell
 clear
 cd D:\Current_work\ai-infra-mlops
+Get-ChildItem lab2
+```
+
+Optional — only if your instructor says the repo was updated:
+
+```powershell
+clear
 git pull
 Get-ChildItem lab2
 ```
@@ -125,16 +132,7 @@ cd ..\lab2
 `validate_lab2.py` shows `✅ Lab 1.1 config: buckets.json` and `iam_roles.json`.  
 Lab 1.1 validation shows `Compliance Score: 100.0%`.
 
-**Before Step 8 (Feature Store):** refresh IAM policies so the Data Scientist role can write to `feature_store/` in S3:
-
-```powershell
-clear
-cd ..\lab1
-python scripts\create_banking_iam_roles.py
-cd ..\lab2
-```
-
-Re-running this script is safe — it updates policies even when roles already exist.
+**You do not re-run Lab 1.1 Step 6 here.** If you completed [Lab 1.1](../lab1/STEPS.md) with this repo (including `lab2/`), `create_banking_iam_roles.py` already created the Feature Store permissions you need for Step 8.
 
 ---
 
@@ -273,9 +271,9 @@ Pattern-based PII detection still runs. Ensure your student role can call `compr
 
 ### Feature Store errors
 
-1. Run the IAM refresh in **Step 3** (`create_banking_iam_roles.py` from `lab1`).
-2. Re-run Step 8 after the SageMaker domain is `InService` from Lab 1.1.
-3. Feature groups are idempotent on re-run. If ingest fails because records already exist, that warning is OK — check that `config\feature_store_config.json` was saved.
+1. Re-run Step 8 after the SageMaker domain is `InService` from Lab 1.1.
+2. Feature groups are idempotent on re-run. If ingest fails because records already exist, that warning is OK — check that `config\feature_store_config.json` was saved.
+3. **Only if Step 8 fails with IAM or S3 permission errors** and you finished Lab 1.1 before this repo included Lab 1.2: run `python scripts\create_banking_iam_roles.py` from `lab1`, then retry Step 8. Normal participants who did Lab 1.1 Step 6 with the current repo do **not** need this.
 
 ### Instructor re-screenshot
 
