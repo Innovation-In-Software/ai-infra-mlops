@@ -6,7 +6,7 @@
 ## Working directory · `~/ai-infra-mlops/lab3`
 ## Outputs · `~/ai-infra-mlops/workspace/lab3/`
 
-> **Scripts:** Runnable scripts will live under `lab3/scripts/`. Full reference content: `Labs_Banking_Edition/Lab_3_Model_Training_and_Fairness_Testing/` in the course repo.
+> **Scripts:** Runnable under `lab3/scripts/`. Run `python3 scripts/run_lab3.py` for all steps.
 
 ---
 
@@ -55,33 +55,7 @@ validation
 
 ---
 
-# Step 3 — Copy Lab 2 artifacts into workspace
-
-```bash
-clear
-cd ~/ai-infra-mlops/lab3
-mkdir -p ../workspace/lab3/{data,config,models,results,logs,validation}
-cp ../workspace/lab2/data/engineered_banking_data.csv ../workspace/lab3/data/
-cp ../workspace/lab2/data/anonymized_customers.csv ../workspace/lab3/data/
-cp ../workspace/lab2/data/anonymized_transactions.csv ../workspace/lab3/data/
-cp ../workspace/lab2/config/feature_metadata.json ../workspace/lab3/config/
-cp ../workspace/lab2/config/preprocessor.pkl ../workspace/lab3/config/
-ls -1 ../workspace/lab3/data
-```
-
-**Expected output:**
-
-```text
-anonymized_customers.csv
-anonymized_transactions.csv
-engineered_banking_data.csv
-```
-
-**Optional screenshot:** `images/step-03-prerequisites.png`
-
----
-
-# Step 4 — Install lab3 packages
+# Step 3 — Install lab3 packages
 
 ```bash
 clear
@@ -90,21 +64,16 @@ pip install -r requirements.txt
 python3 -c "import sklearn, xgboost, sagemaker; print('Lab 3 imports OK')"
 ```
 
-**Expected output:**
+**Expected output:** `Lab 3 imports OK`
 
-```text
-Lab 3 imports OK
-```
-
-**Optional screenshot:** `images/step-04-pip.png`
+**Optional screenshot:** `images/step-03-pip.png`
 
 ---
 
-# Step 5 — Load training data
+# Step 4 — Load training data (copies Lab 2 artifacts)
 
 ```bash
 clear
-cd ~/ai-infra-mlops/lab3
 python3 scripts/load_training_data.py
 ```
 
@@ -113,19 +82,18 @@ python3 scripts/load_training_data.py
 ```text
 📂 Loading Lab 2 Training Data
 ============================================================
-   ✅ Found: data/engineered_banking_data.csv
-   ✅ Found: config/feature_metadata.json
-   ✅ Found: config/preprocessor.pkl
+   ✅ Copied: engineered_banking_data.csv
+   ...
    Records: 1000
-   Features: 52
+   Features: 48
 ✅ Training data prepared
 ```
 
-**Optional screenshot:** `images/step-05-load-data.png`
+**Optional screenshot:** `images/step-04-load-data.png`
 
 ---
 
-# Step 6 — Train baseline models
+# Step 5 — Train baseline models
 
 ```bash
 clear
@@ -143,15 +111,15 @@ python3 scripts/train_models.py
 ✅ Model training complete
 ```
 
-**Optional screenshot:** `images/step-06-train.png`
+**Optional screenshot:** `images/step-05-train.png`
 
 ---
 
-# Step 7 — SageMaker Experiments tracking
+# Step 6 — SageMaker Experiments tracking
 
 ```bash
 clear
-python3 scripts/sagemaker_experiments.py
+python3 scripts/sagemaker_experiments.py --dry-run
 ```
 
 **Expected output:**
@@ -165,11 +133,11 @@ python3 scripts/sagemaker_experiments.py
 ✅ Experiment tracking complete
 ```
 
-**Optional screenshot:** `images/step-07-experiments.png`
+**Optional screenshot:** `images/step-06-experiments.png`
 
 ---
 
-# Step 8 — Fairness testing
+# Step 7 — Fairness testing
 
 ```bash
 clear
@@ -187,11 +155,11 @@ python3 scripts/fairness_testing.py
 ✅ Fairness report saved: results/fairness_report.json
 ```
 
-**Optional screenshot:** `images/step-08-fairness.png`
+**Optional screenshot:** `images/step-07-fairness.png`
 
 ---
 
-# Step 9 — Select best model
+# Step 8 — Select best model
 
 ```bash
 clear
@@ -207,11 +175,11 @@ ls -1 ../workspace/lab3/models
 best_model.pkl
 ```
 
-**Optional screenshot:** `images/step-09-model-select.png`
+**Optional screenshot:** `images/step-08-model-select.png`
 
 ---
 
-# Step 10 — Validate lab3
+# Step 9 — Validate lab3
 
 ```bash
 clear
@@ -230,7 +198,7 @@ Validate Lab 3
 Prerequisites OK — proceed to Lab 4
 ```
 
-**Optional screenshot:** `images/step-10-validate.png`
+**Optional screenshot:** `images/step-09-validate.png`
 
 ---
 

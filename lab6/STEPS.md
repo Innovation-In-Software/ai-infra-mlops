@@ -6,7 +6,7 @@
 ## Working directory · `~/ai-infra-mlops/lab6`
 ## Outputs · `~/ai-infra-mlops/workspace/lab6/`
 
-> **Classroom mode:** Scripts support `--dry-run` to avoid SageMaker endpoint charges while producing deployment artifacts.
+> **Scripts:** `lab6/scripts/` · Run all: `python3 scripts/run_lab6.py` · Classroom: use `--dry-run` on deploy scripts.
 
 ---
 

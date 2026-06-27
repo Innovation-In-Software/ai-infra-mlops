@@ -1,0 +1,5 @@
+{
+  "course": "ai-mlops-2026-jun30",
+  "region": "us-west-2",
+  "architecture_tiers": ["security", "data", "training", "deployment", "monitoring", "governance"]
+}

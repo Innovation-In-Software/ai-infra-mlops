@@ -6,7 +6,7 @@
 ## Working directory · `~/ai-infra-mlops/lab4`
 ## Outputs · `~/ai-infra-mlops/workspace/lab4/`
 
-> **Scripts:** `lab4/scripts/` · Reference: `Labs_Banking_Edition/Lab_4_CICD_Pipeline_with_Compliance_Gates/`
+> **Scripts:** `lab4/scripts/` · Run all: `python3 scripts/run_lab4.py`
 
 ---
 

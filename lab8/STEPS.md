@@ -5,6 +5,7 @@
 ## Prerequisite · [Lab 7](../lab7/STEPS.md) complete
 ## Working directory · `~/ai-infra-mlops/lab8`
 ## Outputs · `~/ai-infra-mlops/workspace/lab8/`
+## Run all · `python3 scripts/run_lab8.py` (uses `--dry-run` for AWS steps)
 
 ---
 

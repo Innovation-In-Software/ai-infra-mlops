@@ -6,7 +6,7 @@
 ## Working directory · `~/ai-infra-mlops/lab5`
 ## Outputs · `~/ai-infra-mlops/workspace/lab5/`
 
-> **Requires Docker** on EC2 (`sudo dnf install -y docker && sudo systemctl start docker && sudo usermod -aG docker ec2-user` — re-login after).
+> **Scripts:** `lab5/scripts/` · Run all: `python3 scripts/run_lab5.py` · **Requires Docker** on EC2 for build step.
 
 ---
 

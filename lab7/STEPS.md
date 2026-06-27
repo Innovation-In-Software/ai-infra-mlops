@@ -5,6 +5,7 @@
 ## Prerequisite · [Lab 6](../lab6/STEPS.md) complete
 ## Working directory · `~/ai-infra-mlops/lab7`
 ## Outputs · `~/ai-infra-mlops/workspace/lab7/`
+## Run all · `python3 scripts/run_lab7.py`
 
 ---
 

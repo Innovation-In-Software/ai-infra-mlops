@@ -1,0 +1,20 @@
+{
+  "steps": [
+    {
+      "name": "data-validation",
+      "type": "ProcessingStep"
+    },
+    {
+      "name": "xgboost-training",
+      "type": "TrainingStep"
+    },
+    {
+      "name": "model-evaluation",
+      "type": "EvaluationStep"
+    },
+    {
+      "name": "model-registry",
+      "type": "RegisterStep"
+    }
+  ]
+}

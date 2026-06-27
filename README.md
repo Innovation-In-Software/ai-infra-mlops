@@ -52,7 +52,7 @@ cd lab2 && python3 scripts/cleanup_lab2.py --aws   # optional: remove Feature Gr
 
 **Classroom defaults (Lab 2):** `LAB_NUM_RECORDS=1000`, `LAB_USE_COMPREHEND=0`
 
-**Labs 3–10:** STEPS guides are EC2-ready; runnable scripts are being ported from `Labs_Banking_Edition/` — follow each `labN/STEPS.md` for commands and expected terminal output.
+**Labs 3–10:** Runnable scripts in each `labN/scripts/` — use `python3 scripts/run_labN.py` or follow `labN/STEPS.md`.
 
 ---
 

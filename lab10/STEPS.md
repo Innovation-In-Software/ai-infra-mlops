@@ -6,7 +6,7 @@
 ## Working directory · `~/ai-infra-mlops/lab10`
 ## Outputs · `~/ai-infra-mlops/workspace/lab10/`
 
-> **Capstone:** Integrates artifacts from Labs 0–9 into an enterprise architecture review and implementation roadmap.
+## Run all · `python3 scripts/run_lab10.py`
 
 ---
 
