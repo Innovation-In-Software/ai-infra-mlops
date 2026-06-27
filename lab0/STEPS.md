@@ -311,4 +311,15 @@ ALL CHECKS PASSED. Environment is ready.
 
 **Lab 0 complete.** Lab 1.1 will be added as `lab1/` when published.
 
-Save screenshots to **`lab0/images/`** using the filenames above.
+---
+
+## Screenshot filenames (reference)
+
+Steps 1–3 and 2 are embedded above. Remaining steps use these names in `lab0/images/`:
+
+| Step | Filename |
+|------|----------|
+| 4 | `step-04-lab0-folder.png` |
+| 5 | `step-05-aws-console-login.png` |
+| 6 | `step-06-aws-region-us-west-2.png` |
+| 7–14 | See filenames in each step above |
