@@ -4,18 +4,37 @@
 ## Duration · 30 minutes
 ## Region · `us-west-2`
 ## Repo · [github.com/gjkaur/ai-infra-mlops](https://github.com/gjkaur/ai-infra-mlops)
-## Editor · VS Code
+## Editor · Visual Studio Code (VS Code)
 ## Terminal · PowerShell (integrated terminal only)
+
+---
+
+# Terms (full forms)
+
+| Short | Full form |
+|-------|-----------|
+| **VS Code** | Visual Studio Code |
+| **AWS** | Amazon Web Services |
+| **CLI** | Command Line Interface |
+| **IAM** | Identity and Access Management |
+| **S3** | Simple Storage Service |
+| **MLOps** | Machine Learning Operations |
+| **PowerShell** | Cross-platform shell (`pwsh`) |
+| **CMD** | Command Prompt |
+| **STS** | AWS Security Token Service |
+| **SageMaker** | Amazon SageMaker (managed ML platform) |
+| **pip** | Python package installer |
+| **git** | Distributed version control system |
 
 ---
 
 # How to use this guide
 
-Do every step **in order**. All terminal commands run in **VS Code → PowerShell terminal** (bottom panel). AWS Console steps use your **browser**.
+Do every step **in order**. All terminal commands run in **Visual Studio Code (VS Code) → PowerShell** terminal (bottom panel). **Amazon Web Services (AWS)** Console steps use your **browser**.
 
-### Clear the terminal between steps
+### clear the terminal between steps
 
-Type `Clear` and press **Enter** before each new command block so your screenshots stay readable.
+Type `clear` and press **Enter** before each new command block so your screenshots stay readable.
 
 ### Use
 
@@ -95,7 +114,7 @@ From instructor
 ### Do this (VS Code terminal):
 
 ```powershell
-Clear
+clear
 cd D:\Current_work
 git clone https://github.com/gjkaur/ai-infra-mlops.git
 ```
@@ -103,7 +122,7 @@ git clone https://github.com/gjkaur/ai-infra-mlops.git
 If `D:\Current_work` does not exist, create it first:
 
 ```powershell
-Clear
+clear
 New-Item -ItemType Directory -Force -Path D:\Current_work
 cd D:\Current_work
 git clone https://github.com/gjkaur/ai-infra-mlops.git
@@ -148,7 +167,7 @@ git clone https://github.com/gjkaur/ai-infra-mlops.git
 2. Run:
 
 ```powershell
-Clear
+clear
 cd D:\Current_work\ai-infra-mlops\lab0
 Get-ChildItem
 ```
@@ -159,7 +178,7 @@ Get-ChildItem
 
 ---
 
-# Step 5 — Log in to AWS Console
+# Step 5 — Log in to Amazon Web Services (AWS) Console
 
 ### Do this (browser):
 
@@ -179,11 +198,11 @@ Keep VS Code open — you will return to the terminal in Step 7.
 
 ---
 
-# Step 6 — Verify console permissions
+# Step 6 — Verify console permissions (IAM, SageMaker, S3)
 
 ### Do this (browser):
 
-1. Search **IAM** → open **IAM**
+1. Search **IAM (Identity and Access Management)** → open **IAM**
 
 ![Step 6a — Search IAM](images/step-06a-iam-search.png)
 
@@ -195,13 +214,13 @@ Keep VS Code open — you will return to the terminal in Step 7.
 
 ![Step 6c — IAM user permissions](images/step-06c-iam-policies.png)
 
-4. Search **SageMaker** → open console
+4. Search **SageMaker (Amazon SageMaker)** → open console
 
 ![Step 6d — Search SageMaker](images/step-06d-sagemaker-search.png)
 
 ![Step 6e — SageMaker console](images/step-06e-sagemaker-console.png)
 
-5. Search **S3** → open console
+5. Search **S3 (Simple Storage Service)** → open console
 
 ![Step 6f — Search S3](images/step-06f-s3-search.png)
 
@@ -209,12 +228,12 @@ Keep VS Code open — you will return to the terminal in Step 7.
 
 ---
 
-# Step 7 — Install AWS CLI
+# Step 7 — Install AWS CLI (Command Line Interface)
 
 ### Do this (VS Code terminal first):
 
 ```powershell
-Clear
+clear
 aws --version
 ```
 
@@ -261,7 +280,7 @@ If `aws` is not recognized, install it:
 6. Reopen VS Code → **File → Open Folder** → `D:\Current_work\ai-infra-mlops` → **Terminal → New Terminal**
 
 ```powershell
-Clear
+clear
 cd D:\Current_work\ai-infra-mlops\lab0
 aws --version
 ```
@@ -274,12 +293,12 @@ aws --version
 
 ---
 
-# Step 8 — Configure AWS CLI
+# Step 8 — Configure AWS CLI (Command Line Interface)
 
 ### Do this (VS Code terminal):
 
 ```powershell
-Clear
+clear
 aws configure
 ```
 
@@ -306,7 +325,7 @@ From instructor handout
 Verify:
 
 ```powershell
-Clear
+clear
 aws sts get-caller-identity
 aws configure get region
 aws s3 ls --region us-west-2
@@ -323,7 +342,7 @@ aws s3 ls --region us-west-2
 ### Do this (VS Code terminal):
 
 ```powershell
-Clear
+clear
 cd D:\Current_work\ai-infra-mlops\lab0
 ```
 
@@ -338,7 +357,7 @@ Confirm lab folder:
 Install packages:
 
 ```powershell
-Clear
+clear
 python --version
 python -m pip install --upgrade pip
 pip install -r requirements.txt
@@ -362,7 +381,7 @@ Your lab outputs live in a **`workspace`** folder **inside the same repo** you c
 ### Do this (VS Code terminal):
 
 ```powershell
-Clear
+clear
 cd D:\Current_work\ai-infra-mlops\lab0
 python scripts\setup_lab_directories.py
 Get-ChildItem ..\workspace
@@ -391,7 +410,7 @@ workspace/
 ### Do this (VS Code terminal):
 
 ```powershell
-Clear
+clear
 cd D:\Current_work\ai-infra-mlops\lab0
 python scripts\verify_environment.py --dry-run
 ```
@@ -399,14 +418,14 @@ python scripts\verify_environment.py --dry-run
 ![Step 11a — Dry-run verification (AWS checks skipped)](images/step-11a-verify-dry-run.png)
 
 ```powershell
-Clear
+clear
 python scripts\run_lab0_setup.py
 ```
 
 ![Step 11b — Full Lab 0 setup and verification](images/step-11b-run-setup.png)
 
 ```powershell
-Clear
+clear
 python scripts\verify_environment.py
 ```
 
@@ -429,7 +448,7 @@ Terminal panel → **˅** next to **+** → **Select Default Profile** → **Pow
 
 ### Terminal cluttered from prior step
 
-Type `Clear` and press **Enter** before the next command block
+Type `clear` and press **Enter** before the next command block
 
 ### `git` not found
 

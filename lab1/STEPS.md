@@ -4,19 +4,40 @@
 ## Duration · 30 minutes
 ## Region · `us-west-2`
 ## Repo · [github.com/gjkaur/ai-infra-mlops](https://github.com/gjkaur/ai-infra-mlops)
-## Editor · VS Code
+## Editor · Visual Studio Code (VS Code)
 ## Terminal · PowerShell (integrated terminal only)
 ## Prerequisite · [Lab 0](../lab0/STEPS.md) complete
 
 ---
 
+# Terms (full forms)
+
+| Short | Full form |
+|-------|-----------|
+| **VS Code** | Visual Studio Code |
+| **AWS** | Amazon Web Services |
+| **CLI** | Command Line Interface |
+| **KMS** | AWS Key Management Service |
+| **S3** | Simple Storage Service |
+| **IAM** | Identity and Access Management |
+| **MLOps** | Machine Learning Operations |
+| **CloudTrail** | AWS CloudTrail (audit logging service) |
+| **SageMaker** | Amazon SageMaker (managed ML platform) |
+| **VPC** | Virtual Private Cloud |
+| **ARN** | Amazon Resource Name |
+| **STS** | AWS Security Token Service |
+| **CloudWatch** | Amazon CloudWatch (monitoring and dashboards) |
+| **PowerShell** | Cross-platform shell (`pwsh`) |
+
+---
+
 # How to use this guide
 
-Do every step **in order**. Terminal commands run in **VS Code → PowerShell**. Some verification steps use the **AWS Console** in your browser.
+Do every step **in order**. Terminal commands run in **Visual Studio Code (VS Code) → PowerShell**. Some verification steps use the **Amazon Web Services (AWS) Console** in your browser.
 
-### Clear the terminal between steps
+### clear the terminal between steps
 
-Type `Clear` and press **Enter** before each new command block.
+Type `clear` and press **Enter** before each new command block.
 
 ### Where your outputs go
 
@@ -30,11 +51,11 @@ That folder is gitignored — your AWS resource IDs stay on your machine only.
 
 # What you will build
 
-- KMS encryption keys (S3 + SageMaker)
-- Six banking-compliant S3 buckets
-- Three IAM roles (data scientist, ML engineer, compliance officer)
-- SageMaker Studio domain
-- CloudTrail audit logging
+- **AWS Key Management Service (KMS)** encryption keys (S3 + SageMaker)
+- Six banking-compliant **Simple Storage Service (S3)** buckets
+- Three **Identity and Access Management (IAM)** roles (data scientist, ML engineer, compliance officer)
+- **Amazon SageMaker** Studio domain
+- **AWS CloudTrail** audit logging
 - Compliance validation report
 
 ---
@@ -46,7 +67,7 @@ That folder is gitignored — your AWS resource IDs stay on your machine only.
 ### Do this (VS Code terminal)
 
 ```powershell
-Clear
+clear
 cd D:\Current_work\ai-infra-mlops
 git pull
 Get-ChildItem lab1
@@ -63,7 +84,7 @@ You see `lab1/STEPS.md`, `lab1/scripts/`, and `lab1/config/`.
 ### Do this (VS Code terminal)
 
 ```powershell
-Clear
+clear
 cd D:\Current_work\ai-infra-mlops\lab1
 Get-ChildItem ..\workspace\lab1
 ```
@@ -71,7 +92,7 @@ Get-ChildItem ..\workspace\lab1
 If folders are missing, re-run Lab 0 setup:
 
 ```powershell
-Clear
+clear
 cd D:\Current_work\ai-infra-mlops\lab0
 python scripts\setup_lab_directories.py
 ```
@@ -87,7 +108,7 @@ Under `workspace\lab1\` you see `config`, `data`, `logs`, `results`, `scripts`.
 ### Do this (VS Code terminal)
 
 ```powershell
-Clear
+clear
 cd D:\Current_work\ai-infra-mlops\lab1
 aws sts get-caller-identity
 aws configure get region
@@ -99,12 +120,12 @@ JSON with your IAM user ARN; region is `us-west-2`.
 
 ---
 
-# Step 4 — Create KMS encryption keys
+# Step 4 — Create KMS (Key Management Service) encryption keys
 
 ### Do this (VS Code terminal)
 
 ```powershell
-Clear
+clear
 cd D:\Current_work\ai-infra-mlops\lab1
 python scripts\create_kms_keys.py
 ```
@@ -115,12 +136,12 @@ Two keys created (S3 + SageMaker). Config saved to `workspace\lab1\config\kms_ke
 
 ---
 
-# Step 5 — Create S3 buckets
+# Step 5 — Create S3 (Simple Storage Service) buckets
 
 ### Do this (VS Code terminal)
 
 ```powershell
-Clear
+clear
 python scripts\create_banking_buckets.py
 ```
 
@@ -130,12 +151,12 @@ Six buckets named `bank-mlops-<account-id>-<type>` (raw, processed, models, moni
 
 ---
 
-# Step 6 — Create IAM roles
+# Step 6 — Create IAM (Identity and Access Management) roles
 
 ### Do this (VS Code terminal)
 
 ```powershell
-Clear
+clear
 python scripts\create_banking_iam_roles.py
 ```
 
@@ -145,12 +166,12 @@ Roles created: `BankingDataScientistRole`, `BankingMLEngineerRole`, `BankingComp
 
 ---
 
-# Step 7 — Set up SageMaker Studio
+# Step 7 — Set up Amazon SageMaker Studio
 
 ### Do this (VS Code terminal)
 
 ```powershell
-Clear
+clear
 python scripts\create_sagemaker_studio.py
 ```
 
@@ -162,18 +183,18 @@ SageMaker Studio domain created. Config saved to `workspace\lab1\config\sagemake
 
 ---
 
-# Step 8 — Enable audit logging
+# Step 8 — Enable AWS CloudTrail audit logging
 
 ### Do this (VS Code terminal)
 
 ```powershell
-Clear
+clear
 python scripts\enable_audit_logging.py
 ```
 
 ### Expected result
 
-CloudTrail trail, S3 access logging, and CloudWatch dashboard configured.
+CloudTrail trail, S3 access logging, and Amazon CloudWatch dashboard configured.
 
 ---
 
@@ -182,14 +203,14 @@ CloudTrail trail, S3 access logging, and CloudWatch dashboard configured.
 ### Do this (VS Code terminal)
 
 ```powershell
-Clear
+clear
 python scripts\validate_environment.py
 ```
 
 Or run the full lab in one command (Steps 4–9):
 
 ```powershell
-Clear
+clear
 python scripts\run_lab1.py
 ```
 
