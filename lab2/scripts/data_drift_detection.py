@@ -51,7 +51,7 @@ class BankingDataDriftDetector:
             "type": "numerical",
             "ks_statistic": float(ks_statistic),
             "p_value": float(p_value),
-            "drift_detected": p_value < self.drift_thresholds["p_value_threshold"],
+            "drift_detected": bool(p_value < self.drift_thresholds["p_value_threshold"]),
             "drift_severity": "HIGH"
             if ks_statistic > 0.2
             else "MEDIUM"
@@ -73,7 +73,7 @@ class BankingDataDriftDetector:
             "feature": feature,
             "type": "categorical",
             "max_probability_diff": float(max_diff),
-            "drift_detected": max_diff > 0.1,
+            "drift_detected": bool(max_diff > 0.1),
             "drift_severity": "HIGH"
             if max_diff > 0.2
             else "MEDIUM"

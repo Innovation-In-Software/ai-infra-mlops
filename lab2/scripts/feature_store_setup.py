@@ -38,11 +38,15 @@ class BankingFeatureStore:
             status = resp.get("FeatureGroupStatus", "Unknown")
             offline_status = (resp.get("OfflineStoreStatus") or {}).get("Status")
 
-            if status == "Created" and offline_status == "Active":
-                # Online store can lag behind group creation; offline ingest is enough for the lab.
-                time.sleep(15)
-                print(f"   ✅ Feature group active: {feature_group_name}")
-                return resp
+            if status == "Created":
+                if offline_status in (None, "Active", "RegisteringTable"):
+                    time.sleep(15)
+                    print(f"   ✅ Feature group active: {feature_group_name}")
+                    return resp
+                if offline_status in ("CreateFailed",):
+                    raise RuntimeError(
+                        f"Feature group {feature_group_name} offline store failed: {offline_status}"
+                    )
 
             if status in ("CreateFailed", "DeleteFailed"):
                 raise RuntimeError(

@@ -21,10 +21,10 @@ def main():
     print(f"Workspace: {WORKSPACE}\n")
 
     steps = [
-        ("SageMaker Studio", create_sagemaker_studio),
         ("KMS keys", create_banking_kms_keys),
         ("S3 buckets", create_banking_buckets),
         ("IAM roles", create_banking_iam_roles),
+        ("SageMaker Studio", create_sagemaker_studio),
         ("Audit logging", enable_audit_logging),
     ]
 

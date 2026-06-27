@@ -18,12 +18,11 @@
 | Minutes | Step |
 |---------|------|
 | 0–3 | Steps 1–3 — confirm folders and AWS |
-| **3–5** | **Step 4 — SageMaker domain (start first)** |
-| 5–20 | Steps 5–7 — KMS, S3, IAM while domain provisions |
-| 20–27 | Steps 8–9 — CloudTrail + validation |
-| 27–30 | Step 10 — optional console check |
+| 3–10 | Steps 4–6 — KMS, S3, IAM (~5–8 min) |
+| **10–25** | **Step 7 — SageMaker domain (longest wait)** |
+| 25–30 | Steps 8–9 — CloudTrail + validation |
 
-**Important:** Step 4 can run **15+ minutes**. Start it before KMS/S3/IAM.
+**Important:** Complete **Steps 4–6 before Step 7**. SageMaker needs `kms_keys.json`, `buckets.json`, and `iam_roles.json`.
 
 ---
 
@@ -149,15 +148,68 @@ JSON with your IAM user ARN; region is `us-west-2`.
 
 ---
 
-# Step 4 — Set up Amazon SageMaker Studio (start first)
+# Step 4 — Create KMS encryption keys
 
-Longest step — run this **before** Steps 5–7 so the domain provisions while you create KMS, S3, and IAM.
-
-### Do this (terminal)
+Required before SageMaker and S3.
 
 ```bash
 clear
 cd ~/ai-infra-mlops/lab1
+python3 scripts/create_kms_keys.py
+```
+
+![Step 4a — KMS keys created](images/step-04a-kms-keys.png)
+
+![Step 4b — KMS key creation complete](images/step-04b-kms-complete.png)
+
+![Step 4c — kms_keys.json in workspace/lab1/config](images/step-04c-kms-config-file.png)
+
+### Expected result
+
+Two keys; `workspace/lab1/config/kms_keys.json`.
+
+---
+
+# Step 5 — Create S3 buckets
+
+```bash
+clear
+python3 scripts/create_banking_buckets.py
+```
+
+![Step 5a — S3 buckets creating](images/step-05a-s3-buckets.png)
+
+![Step 5b — all six buckets created](images/step-05b-s3-buckets-complete.png)
+
+### Expected result
+
+Six `bank-mlops-<account-id>-*` buckets; `workspace/lab1/config/buckets.json`.
+
+---
+
+# Step 6 — Create IAM roles
+
+```bash
+clear
+python3 scripts/create_banking_iam_roles.py
+```
+
+![Step 6 — IAM roles created](images/step-06-iam-roles.png)
+
+### Expected result
+
+`BankingDataScientistRole`, `BankingMLEngineerRole`, `BankingComplianceOfficerRole`; `iam_roles.json`.
+
+**Lab 2 needs this step** — Feature Store uses `BankingDataScientistRole` S3 permissions from here.
+
+---
+
+# Step 7 — Set up Amazon SageMaker Studio (longest step)
+
+Run after Steps 4–6. This can take **15+ minutes** while the domain becomes `InService`.
+
+```bash
+clear
 python3 scripts/create_sagemaker_studio.py
 ```
 
@@ -176,59 +228,6 @@ Save the Studio URL from the terminal or from `workspace/lab1/config/sagemaker_s
 ### Expected result
 
 Domain created and `InService`. Config: `workspace/lab1/config/sagemaker_studio.json`.
-
----
-
-# Step 5 — Create KMS encryption keys
-
-```bash
-clear
-python3 scripts/create_kms_keys.py
-```
-
-![Step 4a — KMS keys created](images/step-04a-kms-keys.png)
-
-![Step 4b — KMS key creation complete](images/step-04b-kms-complete.png)
-
-![Step 4c — kms_keys.json in workspace/lab1/config](images/step-04c-kms-config-file.png)
-
-### Expected result
-
-Two keys; `workspace/lab1/config/kms_keys.json`.
-
----
-
-# Step 6 — Create S3 buckets
-
-```bash
-clear
-python3 scripts/create_banking_buckets.py
-```
-
-![Step 5a — S3 buckets creating](images/step-05a-s3-buckets.png)
-
-![Step 5b — all six buckets created](images/step-05b-s3-buckets-complete.png)
-
-### Expected result
-
-Six `bank-mlops-<account-id>-*` buckets; `workspace/lab1/config/buckets.json`.
-
----
-
-# Step 7 — Create IAM roles
-
-```bash
-clear
-python3 scripts/create_banking_iam_roles.py
-```
-
-![Step 6 — IAM roles created](images/step-06-iam-roles.png)
-
-### Expected result
-
-`BankingDataScientistRole`, `BankingMLEngineerRole`, `BankingComplianceOfficerRole`; `iam_roles.json`.
-
-**Lab 2 needs this step** — Feature Store uses `BankingDataScientistRole` S3 permissions from here.
 
 ---
 

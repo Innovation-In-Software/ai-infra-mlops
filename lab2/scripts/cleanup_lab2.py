@@ -1,6 +1,7 @@
 """Reset Lab 2 local workspace and optional SageMaker Feature Groups."""
 import shutil
 import sys
+import time
 
 import boto3
 from lab_paths import CONFIG_DIR, DATA_DIR, LOGS_DIR, RESULTS_DIR, VALIDATION_DIR, ensure_workspace
@@ -38,9 +39,17 @@ def delete_feature_groups(region="us-west-2"):
             continue
         print(f"   🗑️ Deleting feature group: {name}")
         sm.delete_feature_group(FeatureGroupName=name)
-        waiter = sm.get_waiter("feature_group_deleted")
-        waiter.wait(FeatureGroupName=name, WaiterConfig={"Delay": 15, "MaxAttempts": 40})
-        print(f"   ✅ Deleted: {name}")
+        deadline = time.time() + 600
+        while time.time() < deadline:
+            try:
+                sm.describe_feature_group(FeatureGroupName=name)
+                print(f"   ... waiting for delete: {name}")
+                time.sleep(15)
+            except sm.exceptions.ResourceNotFound:
+                print(f"   ✅ Deleted: {name}")
+                break
+        else:
+            print(f"   ⚠️ Timed out waiting for delete: {name}")
 
 
 def cleanup_lab2(delete_aws_feature_groups=False):
