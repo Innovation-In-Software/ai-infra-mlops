@@ -115,6 +115,12 @@ def generate_banking_dataset():
     customers_df = pd.DataFrame(customers)
     transactions_df = pd.DataFrame(transactions)
 
+    for col in ("phone", "ssn", "account_number", "routing_number", "zip_code"):
+        if col in customers_df.columns:
+            customers_df[col] = customers_df[col].astype(str)
+    if "account_number" in transactions_df.columns:
+        transactions_df["account_number"] = transactions_df["account_number"].astype(str)
+
     ensure_workspace()
     customers_df.to_csv(DATA_DIR / "customers.csv", index=False)
     transactions_df.to_csv(DATA_DIR / "transactions.csv", index=False)

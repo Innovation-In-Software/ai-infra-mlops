@@ -8,6 +8,35 @@ import pandas as pd
 from lab_paths import CONFIG_DIR, DATA_DIR, LAB1_CONFIG_DIR, RESULTS_DIR, ensure_workspace
 
 
+PII_TEXT_COLUMNS = frozenset(
+    {
+        "first_name",
+        "last_name",
+        "email",
+        "phone",
+        "ssn",
+        "account_number",
+        "routing_number",
+        "address",
+        "zip_code",
+        "name",
+        "merchant",
+    }
+)
+
+
+def _coerce_pii_columns_to_text(df, columns):
+    """PII redaction uses string tokens; numeric dtypes cannot hold [REDACTED_*]."""
+    out = df.copy()
+    for col in columns:
+        if col not in out.columns:
+            continue
+        if out[col].dtype == object:
+            continue
+        out[col] = out[col].map(lambda v: "" if pd.isna(v) else str(v))
+    return out
+
+
 class BankingPIIHandler:
     """Banking-specific PII detection and anonymization."""
 
@@ -73,16 +102,7 @@ class BankingPIIHandler:
         print("=" * 60)
 
         if columns_to_scan is None:
-            string_columns = df.select_dtypes(include=["object"]).columns
-            columns_to_scan = [
-                col
-                for col in string_columns
-                if col.lower()
-                in [
-                    "first_name", "last_name", "email", "phone", "ssn",
-                    "account_number", "routing_number", "address", "zip_code", "name",
-                ]
-            ]
+            columns_to_scan = [col for col in df.columns if col.lower() in PII_TEXT_COLUMNS]
 
         print(f"📋 Scanning columns: {', '.join(columns_to_scan)}")
 
@@ -93,13 +113,14 @@ class BankingPIIHandler:
             "anonymized_count": 0,
         }
 
-        anonymized_df = df.copy()
+        scan_df = _coerce_pii_columns_to_text(df, columns_to_scan)
+        anonymized_df = scan_df.copy()
 
         for col in columns_to_scan:
             print(f"\n🔎 Scanning column: {col}")
             pii_in_column = []
 
-            for idx, value in df[col].items():
+            for idx, value in scan_df[col].items():
                 if pd.isna(value) or value == "":
                     continue
 
