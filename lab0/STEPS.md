@@ -463,4 +463,4 @@ Re-run `python scripts\setup_lab_directories.py` from `lab0/`; check `..\workspa
 
 ## Lab 0 complete
 
-Lab 1.1 will be added as `lab1/` when published.
+Next: **[lab1/STEPS.md](../lab1/STEPS.md)** — Secure MLOps Environment Setup.
