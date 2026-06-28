@@ -20,6 +20,7 @@ def main():
     repo_name = "banking-ml-inference"
     if not args.dry_run:
         import boto3
+        from botocore.exceptions import ClientError
 
         ecr = boto3.client("ecr", region_name="us-west-2")
         try:
@@ -31,6 +32,12 @@ def main():
             print(f"   ✅ Created ECR repository: {repo_name}")
         except ecr.exceptions.RepositoryAlreadyExistsException:
             print(f"   ✅ Repository already exists: {repo_name}")
+        except ClientError as exc:
+            code = exc.response.get("Error", {}).get("Code", "")
+            if code in ("AccessDeniedException", "UnauthorizedOperation"):
+                print(f"   ⚠️ Cannot create repository ({code}) — ensure repo exists or add ecr:CreateRepository")
+            else:
+                raise
     cfg = {
         "repository": "banking-ml-inference",
         "encryption": "KMS",
