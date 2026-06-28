@@ -2,23 +2,29 @@
 
 Use this workflow for **every lab** (0–10). All commands run in the **EC2 integrated terminal** (bash).
 
-## 1. SSH config (on your laptop)
+**First-time setup (AWS login, region, launch EC2, connect VS Code):** follow **[lab0/STEPS.md](../lab0/STEPS.md) Steps 1–10** in full.
+
+---
+
+## Quick reference (after Lab 0)
+
+### SSH config (on ProTech VM or laptop)
 
 Edit `~/.ssh/config` (Windows: `C:\Users\<you>\.ssh\config`):
 
 ```
-Host student-ec2
-    HostName <EC2-public-ip>
+Host mlops-lab-ec2
+    HostName YOUR_EC2_PUBLIC_IP
     User ec2-user
-    IdentityFile ~/.ssh/your-lab-key.pem
+    IdentityFile C:/Users/<you>/.ssh/mlops-lab-key.pem
 ```
 
-Example from instructor handout — replace IP and key path.
+Replace `YOUR_EC2_PUBLIC_IP` with the value from EC2 console (Lab 0 Step 7). Update after stop/start.
 
-## 2. Connect in VS Code
+### Connect in VS Code
 
-1. Install extension **Remote - SSH**
-2. **Ctrl+Shift+P** → **Remote-SSH: Connect to Host** → `student-ec2`
+1. Extension **Remote - SSH** installed
+2. **Ctrl+Shift+P** → **Remote-SSH: Connect to Host** → `mlops-lab-ec2`
 3. **File → Open Folder** → `/home/ec2-user/ai-infra-mlops`
 4. **Terminal → New Terminal** (bash)
 
@@ -28,7 +34,9 @@ Confirm prompt:
 [ec2-user@ip-172-31-xx-xx ai-infra-mlops]$
 ```
 
-## 3. Rules for every lab
+---
+
+## Rules for every lab
 
 | Rule | Detail |
 |------|--------|
@@ -39,13 +47,17 @@ Confirm prompt:
 | Region | `us-west-2` |
 | Clear terminal | Run `clear` before each step (cleaner screenshots) |
 
-## 4. Optional screenshots
+---
+
+## Optional screenshots
 
 Each step in `STEPS.md` has an **Optional screenshot** line. Capture from VS Code terminal or AWS Console when ready; save as `labN/images/step-XX-description.png`.
 
 Screenshots are **optional** for passing the lab — scripts and expected output text are the source of truth.
 
-## 5. Fresh start
+---
+
+## Fresh start
 
 ```bash
 cd ~/ai-infra-mlops
@@ -54,3 +66,10 @@ python3 scripts/reset_course.py --labs lab1,lab2
 ```
 
 See [CLOUD-DELIVERY.md](../CLOUD-DELIVERY.md) for full reset including AWS resources.
+
+---
+
+## Related
+
+- [Lab 0 STEPS.md](../lab0/STEPS.md) — full AWS Console + EC2 + VS Code setup
+- [PROTECH-VM-SETUP.md](PROTECH-VM-SETUP.md) — instructor ProTech VM + EC2 dual delivery

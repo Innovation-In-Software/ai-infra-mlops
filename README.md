@@ -9,9 +9,9 @@ Outputs are saved under `workspace/labN/` (not committed to git).
 
 ## How to follow the labs
 
-1. Connect to your EC2 instance with [VS Code Remote SSH](docs/SSH-VSCODE-SETUP.md).
+1. **Lab 0:** Sign in to AWS, set region **`us-west-2`**, launch EC2, connect [VS Code Remote SSH](docs/SSH-VSCODE-SETUP.md) — full steps in [lab0/STEPS.md](lab0/STEPS.md).
 2. Open folder: `/home/ec2-user/ai-infra-mlops`
-3. Configure AWS (demo): `aws configure` with your instructor access keys — **never commit keys to git**.
+3. Configure AWS on EC2: `aws configure` with your instructor access keys — **never commit keys to git**.
 4. Work through labs **in order** using each folder’s **`STEPS.md`** guide.
 5. Each step has:
    - **Do this** — command to run in the terminal
