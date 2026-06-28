@@ -609,16 +609,62 @@ Then in VS Code → Extensions → install **`ms-vscode-remote.remote-ssh`**.
    - Windows: `C:\Users\Administrator\.ssh\mlops-lab-key.pem`
    - macOS/Linux: `~/.ssh/mlops-lab-key.pem`
 
-2. **Restrict PEM permissions** (required for SSH):
-   - **Windows (PowerShell — setup only):**
-     ```powershell
-     icacls C:\Users\Administrator\.ssh\mlops-lab-key.pem /inheritance:r
-     icacls C:\Users\Administrator\.ssh\mlops-lab-key.pem /grant:r "$($env:USERNAME):(R)"
-     ```
-   - **macOS/Linux:**
-     ```bash
-     chmod 400 ~/.ssh/mlops-lab-key.pem
-     ```
+2. **Restrict PEM permissions** (required for SSH) — **ProTech VM only** (Windows):
+
+   SSH will fail with `Permission denied (publickey)` if the `.pem` is too open. Fix it with **PowerShell** on the **ProTech VM desktop** (not inside EC2 yet).
+
+   **2a. Open PowerShell on the ProTech VM**
+
+   | Step | Action |
+   |------|--------|
+   | 1 | Click the **Windows Start** button (or press the **Windows** key) |
+   | 2 | Type **`PowerShell`** |
+   | 3 | Click **Windows PowerShell** (blue icon) — **Run as administrator** is **not** required |
+   | 4 | A blue window opens with a prompt like `PS C:\Users\Administrator>` |
+
+   **Alternative:** press **`Win + R`**, type `powershell`, press **Enter**.
+
+   **2b. Confirm the PEM file exists**
+
+   Students (`mlops-lab-key.pem`):
+
+   ```powershell
+   Test-Path C:\Users\Administrator\.ssh\mlops-lab-key.pem
+   ```
+
+   Instructor (`ai-mlops-instructor.pem`):
+
+   ```powershell
+   Test-Path C:\Users\Administrator\.ssh\ai-mlops-instructor.pem
+   ```
+
+   **Expected:** `True`. If `False`, repeat **Step 7** (move the `.pem` into `C:\Users\Administrator\.ssh\`).
+
+   **2c. Lock down PEM permissions (run each line, press Enter)**
+
+   Students:
+
+   ```powershell
+   icacls C:\Users\Administrator\.ssh\mlops-lab-key.pem /inheritance:r
+   icacls C:\Users\Administrator\.ssh\mlops-lab-key.pem /grant:r "$($env:USERNAME):(R)"
+   icacls C:\Users\Administrator\.ssh\mlops-lab-key.pem
+   ```
+
+   Instructor:
+
+   ```powershell
+   icacls C:\Users\Administrator\.ssh\ai-mlops-instructor.pem /inheritance:r
+   icacls C:\Users\Administrator\.ssh\ai-mlops-instructor.pem /grant:r "$($env:USERNAME):(R)"
+   icacls C:\Users\Administrator\.ssh\ai-mlops-instructor.pem
+   ```
+
+   **Expected:** Last command lists only **`Administrator:(R)`** (read) for that file — no `Everyone`, no `Users` with full control.
+
+   **macOS/Linux** (if not on ProTech VM):
+
+   ```bash
+   chmod 400 ~/.ssh/mlops-lab-key.pem
+   ```
 
 3. Create or edit SSH config:
    - **Windows:** `C:\Users\Administrator\.ssh\config`
@@ -647,23 +693,29 @@ Then in VS Code → Extensions → install **`ms-vscode-remote.remote-ssh`**.
 
 **Instructor example (copy-paste):**
 
-**1. PEM permissions (ProTech VM — PowerShell):**
+**1. Open PowerShell** — Start menu → type **PowerShell** → open **Windows PowerShell**.
+
+**2. PEM permissions** — paste one line at a time:
 
 ```powershell
+Test-Path C:\Users\Administrator\.ssh\ai-mlops-instructor.pem
 icacls C:\Users\Administrator\.ssh\ai-mlops-instructor.pem /inheritance:r
 icacls C:\Users\Administrator\.ssh\ai-mlops-instructor.pem /grant:r "$($env:USERNAME):(R)"
+icacls C:\Users\Administrator\.ssh\ai-mlops-instructor.pem
 ```
 
-**2. SSH config** — edit `C:\Users\Administrator\.ssh\config` (create file if missing). Replace `35.161.45.178` with the IP from Step 10 if different:
+**Expected:** `True`, then `processed file` messages, then permissions showing **`Administrator:(R)`** only.
+
+**3. SSH config** — edit `C:\Users\Administrator\.ssh\config` (create file if missing). Replace `YOUR_PUBLIC_IP` with the IP from Step 10:
 
 ```
 Host ai-mlops-lab
-    HostName 35.161.45.178
+    HostName YOUR_PUBLIC_IP
     User ec2-user
     IdentityFile C:/Users/Administrator/.ssh/ai-mlops-instructor.pem
 ```
 
-**3. Test SSH (PowerShell or Git Bash):**
+**4. Test SSH** (same PowerShell window):
 
 ```bash
 ssh ai-mlops-lab
@@ -1218,7 +1270,7 @@ Passwords and access keys: **instructor handout only** (not in git).
 | Cannot sign in to ProTech portal | Check **User ID** / password from handout; use [labs.protechtraining.com](https://labs.protechtraining.com) |
 | VM will not connect | Start host on portal; retry **Connect**; confirm **COMPUTER###** matches handout |
 | SSH timeout | Instance running? Correct **public IP** in SSH config? Security group allows **port 22** from your IP? |
-| `Permission denied (publickey)` | PEM path in SSH config; Windows `icacls` on `.pem`; user must be **`ec2-user`** |
+| `Permission denied (publickey)` | Step 12: PEM at `C:\Users\Administrator\.ssh\`; run **icacls** in PowerShell (Start → type PowerShell); SSH user **`ec2-user`** |
 | Wrong region in console | Set **us-west-2** and open EC2 (Step 6) before creating the instance |
 | No EC2 instance yet | Complete **Steps 7–10** (key pair, security group, launch) before VS Code (Step 11) |
 | Only 1 security group (`default`) | Normal **before** Step 8 — create **`mlops-lab-sg`** in Step 8 |
