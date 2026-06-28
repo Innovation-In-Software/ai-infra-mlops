@@ -98,6 +98,8 @@ git pull
 
 See [docs/SSH-VSCODE-SETUP.md](docs/SSH-VSCODE-SETUP.md) for full setup.
 
+**Instructor dual setup (ProTech VM + EC2):** [docs/PROTECH-VM-SETUP.md](docs/PROTECH-VM-SETUP.md) — slides/browser on ProTech, lab commands on EC2.
+
 1. Install **Remote - SSH** extension on your laptop.
 2. Connect to EC2 via `~/.ssh/config` host entry.
 3. **File → Open Folder → `/home/ec2-user/ai-infra-mlops`**

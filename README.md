@@ -78,5 +78,6 @@ Teardown AWS resources: [Lab 10 Step 11](lab10/STEPS.md) → `python3 scripts/te
 
 - [How to read STEPS.md](docs/READING-THE-LABS.md)
 - [SSH + VS Code setup](docs/SSH-VSCODE-SETUP.md)
+- [Instructor ProTech VM + EC2 setup](docs/PROTECH-VM-SETUP.md)
 - [Instructor cloud delivery](CLOUD-DELIVERY.md)
 - [EC2 testing notes](docs/EC2-TESTING.md)

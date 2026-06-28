@@ -1,5 +1,7 @@
 # EC2 terminal capture (instructor testing)
 
+**Dual delivery:** ProTech VM for slides/console + EC2 for lab commands — see [PROTECH-VM-SETUP.md](PROTECH-VM-SETUP.md).
+
 ## SSH status
 
 **Instructor lab EC2** (account `028417007274`):
