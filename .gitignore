@@ -20,11 +20,11 @@ venv/
 
 # Generated locally
 **/logs/
-**/setup_info.txt
 workspace/
 
 # OS / IDE
 .DS_Store
 Thumbs.db
 .idea/
-.vscode/
+.vscode/*
+!.vscode/settings.json
