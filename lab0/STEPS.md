@@ -862,17 +862,31 @@ git pull
 ls -1
 ```
 
+> **Do not enter a GitHub username or password.** This repo is **public** — `git clone` should **not** ask for credentials.  
+> If you see `Username for 'https://github.com':` — press **Ctrl+C**, then run the clone again **without typing anything** when prompted.  
+> **Never** use your GitHub account password — GitHub returns: `Password authentication is not supported for Git operations.`
+
 **Expected result:**
 
 ```text
+Cloning into 'ai-infra-mlops'...
+remote: Enumerating objects...
+...
 CLOUD-DELIVERY.md
 README.md
 docs
 lab0
 lab1
-lab2
 ...
-scripts
+```
+
+**If clone failed** (you see `Authentication failed`, `cd: ai-infra-mlops: No such file or directory`, or `not a git repository`):
+
+```bash
+cd ~
+rm -rf ai-infra-mlops
+git clone https://github.com/gjkaur/ai-infra-mlops.git
+cd ai-infra-mlops && ls -1
 ```
 
 **Instructor example (copy-paste):**
@@ -1293,6 +1307,8 @@ Passwords and access keys: **instructor handout only** (not in git).
 | Public IP changed | Repeat Step 10 (console or CLI); update `HostName` in `C:\Users\Administrator\.ssh\config` |
 | `aws describe-instances` returns `None` | Instance not **Running** yet, wrong name, or `aws` not configured — use Step 10 **Method 1** |
 | `bash: git: command not found` | Run on **EC2** (Step 13 SSH connected, `whoami` = `ec2-user`): `sudo dnf install -y git`. If on ProTech VM, connect VS Code to EC2 first — do not use `git` on Windows for labs |
+| GitHub `Password authentication is not supported` | **Step 15:** Public repo — do **not** enter GitHub user/password at clone prompt. `rm -rf ~/ai-infra-mlops` then `git clone` again; cancel prompt with **Ctrl+C** if needed |
+| `aws sts` AccessDenied | Re-run Step 17; confirm keys and IAM permissions with instructor |
 | Pip / disk full | Root volume **30 GiB** minimum (Step 9) |
 | `docker: permission denied` | Complete Step 19, then **reconnect** VS Code SSH |
 | `docker: command not found` | Re-run Lab 0 Step 19 |
