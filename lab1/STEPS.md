@@ -281,6 +281,7 @@ python3 scripts/enable_audit_logging.py
    ⏳ Waiting 12s for IAM role propagation...
    ✅ CloudTrail trail created: BankingMLOpsAuditTrail-<account-id>
    ✅ Logging started
+   ✅ S3 object-level logging enabled for data buckets
 ...
 ✅ Audit Logging Enabled!
    CloudTrail Trail: BankingMLOpsAuditTrail-<account-id>
@@ -289,12 +290,15 @@ python3 scripts/enable_audit_logging.py
 ```
 
 > **If you see** `InvalidCloudWatchLogsRoleArnException` **(Access denied — trust relationships):**  
-> This is usually **IAM propagation delay** right after the CloudTrail role is created.  
-> Wait **60 seconds**, then re-run the same command:
+> IAM propagation delay right after the CloudTrail role is created. Wait **60 seconds**, then re-run:
 > ```bash
 > python3 scripts/enable_audit_logging.py
 > ```
-> S3 access logging lines above the error are OK — re-run completes CloudTrail.
+> The script also retries automatically (up to 5 times). S3 access logging above the error is OK.
+
+> **If you see** `InvalidCloudWatchLogsLogGroupArnException` **(cannot validate log group ARN):**  
+> Run `git pull` on EC2 for the latest `enable_audit_logging.py`, then re-run Step 8.  
+> A failed partial run is safe to re-run — the script updates an existing trail if needed.
 
 **Optional screenshot:** `images/step-08-cloudtrail.png`
 
@@ -386,7 +390,8 @@ On the **ProTech VM browser** (not the EC2 terminal), region **us-west-2**:
 | SageMaker domain `Failed` or timeout | Wait 5 min, re-run Step 7; check VPC/subnets exist (default VPC) |
 | SageMaker validation `Status: Pending` | Domain still creating — re-run Step 7 or wait and re-run Step 9 |
 | `PythonDeprecationWarning` (Boto3 / Python 3.9) | [Lab 0 Step 17a](../lab0/STEPS.md) — upgrade to Python 3.11, re-run Step 18, then continue Lab 1 |
-| CloudTrail `InvalidCloudWatchLogsRoleArnException` | IAM role propagation — wait **60s**, re-run Step 8 (`git pull` first for script fix) |
+| CloudTrail `InvalidCloudWatchLogsRoleArnException` | IAM propagation — wait **60s**, re-run Step 8 (script auto-retries) |
+| CloudTrail `InvalidCloudWatchLogsLogGroupArnException` | `git pull` then re-run Step 8 (log group ARN format fix) |
 | CloudTrail `TrailAlreadyExists` | Warning only — script updates trail and starts logging |
 | Step 9 partial failures | Re-run the failed step (4–8), then Step 9 |
 | Re-running Step 4 creates extra keys | Use [Fresh start](#fresh-start-after-teardown-or-failed-partial-run) instead of repeating Step 4 |

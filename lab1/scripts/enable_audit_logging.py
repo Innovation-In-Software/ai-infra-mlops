@@ -15,14 +15,19 @@ IAM_PROPAGATION_WAIT_SEC = 12
 CREATE_TRAIL_RETRIES = 5
 
 
-def log_group_arn_for_trail(region: str, account_id: str, log_group_name: str) -> str:
-    """ARN for CreateTrail/UpdateTrail — no :* suffix (per AWS console / banking lab)."""
+def log_group_arn_base(region: str, account_id: str, log_group_name: str) -> str:
+    """Base CloudWatch log group ARN (no :* suffix)."""
     return f"arn:aws:logs:{region}:{account_id}:log-group:{log_group_name}"
+
+
+def log_group_arn_for_trail(region: str, account_id: str, log_group_name: str) -> str:
+    """ARN for CreateTrail/UpdateTrail CloudWatchLogsLogGroupArn (requires :* suffix)."""
+    return f"{log_group_arn_base(region, account_id, log_group_name)}:*"
 
 
 def cloudtrail_role_policy(region: str, account_id: str, log_group_name: str) -> dict:
     """IAM role policy per AWS CloudTrail + CloudWatch Logs integration docs."""
-    log_group_arn = log_group_arn_for_trail(region, account_id, log_group_name)
+    log_group_arn = log_group_arn_base(region, account_id, log_group_name)
     stream_prefix = f"{account_id}_CloudTrail_{region}"
     stream_arn = f"{log_group_arn}:log-stream:{stream_prefix}*"
     return {
@@ -97,7 +102,7 @@ def ensure_audit_bucket_policy(s3, account_id, audit_bucket, region):
 
 def ensure_log_group_policy(logs, account_id, region, log_group_name, trail_name):
     trail_arn = f"arn:aws:cloudtrail:{region}:{account_id}:trail/{trail_name}"
-    log_group_arn = f"arn:aws:logs:{region}:{account_id}:log-group:{log_group_name}"
+    log_group_arn = log_group_arn_base(region, account_id, log_group_name)
 
     policy_document = {
         "Version": "2012-10-17",
@@ -254,8 +259,12 @@ def enable_audit_logging():
     except Exception as e:
         print(f"   ❌ Error creating CloudTrail: {str(e)}")
         print(
-            "   💡 If you see InvalidCloudWatchLogsRoleArnException, wait 60 seconds "
-            "and re-run: python3 scripts/enable_audit_logging.py"
+            "   💡 CloudTrail errors: wait 60s and re-run "
+            "python3 scripts/enable_audit_logging.py"
+        )
+        print(
+            "      RoleArnException = IAM propagation; LogGroupArnException = "
+            "git pull for latest script fix"
         )
 
     print("\n📋 Enabling S3 Access Logging...")
