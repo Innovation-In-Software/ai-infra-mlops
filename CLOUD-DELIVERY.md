@@ -15,7 +15,7 @@ Participants run **every step** on an **EC2 instance** in `us-west-2` via **SSH*
 | EC2 | `t3.large`, Amazon Linux 2023, **us-west-2** |
 | Access | SSH key or SSM Session Manager |
 | Editor | VS Code **Remote - SSH** |
-| AWS auth | IAM **instance role** (preferred) or `aws configure` access keys |
+| AWS auth | **`aws configure` access keys** (instructor demo) or IAM instance role |
 | Repo path | `~/ai-infra-mlops` |
 
 **Golden AMI (build before class):**

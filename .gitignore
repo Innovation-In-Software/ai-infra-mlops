@@ -1,9 +1,16 @@
 # AWS credentials — never commit
 .aws/
-credentials
+**/credentials
+**/credentials.*
 *.pem
 .env
 .env.*
+**/setup_info.txt
+
+# Local test logs (may echo env vars)
+*.log
+full_course_test.log
+ec2_*.log
 
 # Python
 __pycache__/

@@ -46,15 +46,21 @@ chmod +x scripts/capture_lab_steps.sh
 # Review: docs/terminal-captures/
 ```
 
-## Configure AWS on EC2 (once per session)
+## Configure AWS on EC2 (instructor demo — access keys)
+
+For this training demo, use **Instructor01 access keys** on EC2 (not committed to git):
 
 ```bash
+aws configure set aws_access_key_id YOUR_KEY
+aws configure set aws_secret_access_key YOUR_SECRET
 aws configure set region us-west-2
 aws configure set output json
-aws sts get-caller-identity   # confirm account 028417007274
+aws sts get-caller-identity   # confirm account 028417007274, user Instructor01
 ```
 
-Use instructor console or `aws configure` with your access keys — **never commit keys to git**.
+Keys stay in `~/.aws/credentials` on the EC2 instance only. **Never commit keys to git** or paste them into lab repos.
+
+The instructor EC2 may also have instance profile `EC2MLOpsLabRole`; for demos that match student steps, **`aws configure` with access keys** is fine.
 
 ## Instructor console
 
@@ -62,11 +68,11 @@ Use instructor console or `aws configure` with your access keys — **never comm
 - Username: `Instructor01` (case-sensitive)
 - Region: `us-west-2`
 
-## Security (instructor)
+## Security (instructor demo)
 
 - **Never commit** access keys or `.pem` files (see `.gitignore`).
-- If credentials were shared in chat or email, **rotate IAM access keys** before class.
-- Prefer EC2 instance profile `EC2MLOpsLabProfile` over embedding keys on the instance.
+- Store keys only in `~/.aws/credentials` on your demo EC2 or local shell for the session.
+- Do not embed keys in scripts, STEPS.md, or screenshots.
 
 ## Full course teardown (after Lab 10)
 
