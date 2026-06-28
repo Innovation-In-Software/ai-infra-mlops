@@ -57,6 +57,8 @@
 
 **Expected result:** The ProTech Training labs sign-in page loads with fields for **User ID** and **Password**.
 
+![ProTech portal sign-in page](images/step-01-protech-portal.png)
+
 **Instructor example (copy-paste):**
 
 ```
@@ -102,6 +104,8 @@ https://labs.protechtraining.com
 
 **Expected result:** You are logged into a **Windows training VM**. The desktop shows the taskbar; you can open a browser and applications. **All remaining Lab 0 steps (except EC2 terminal work) run on this VM** until you connect VS Code to EC2 in Step 13.
 
+![ProTech VM Windows desktop](images/step-03-vm-desktop.png)
+
 **Instructor example (copy-paste):**
 
 | Field | Value |
@@ -125,10 +129,15 @@ https://labs.protechtraining.com
 **Do this:**
 
 1. On your **ProTech VM desktop**, open **Edge** or **Chrome** (from Step 3).
-2. Go to the **AWS access portal URL** from your handout (example format: `https://YOUR-ACCOUNT.signin.aws.amazon.com/console`).
-3. Bookmark the page for the rest of the course.
+2. In the address bar, paste the **AWS access portal URL** from your handout (example below).
+3. Press **Enter**.
+4. Bookmark the page for the rest of the course.
 
-**Expected result:** The AWS sign-in page loads with fields for **Account ID** (or alias), **IAM user name**, and **Password**.
+**Expected result:** The AWS IAM sign-in page loads.
+
+![Paste AWS sign-in URL](images/step-04a-aws-signin-url.png)
+
+![AWS sign-in form (empty)](images/step-04b-aws-signin-form.png)
 
 **Instructor example (copy-paste):**
 
@@ -164,6 +173,10 @@ Paste that URL into the browser address bar and press Enter.
 
 After sign-in, top-right should show **`Instructor01`** and account **`028417007274`**.
 
+![Sign-in fields filled (do not screenshot your password)](images/step-05-aws-signin-filled.png)
+
+![AWS Console home after sign-in](images/step-05-console-home.png)
+
 **Screenshot (optional):** `images/step-02-console-home.png`
 
 ---
@@ -185,6 +198,12 @@ After sign-in, top-right should show **`Instructor01`** and account **`028417007
 
 **Tip:** Before each lab session, glance at the region selector — it sometimes resets after logout.
 
+![Select region us-west-2 (Oregon)](images/step-06a-region-us-west-2.png)
+
+![Search for EC2 in the console](images/step-06b-ec2-search.png)
+
+![EC2 dashboard — note 0 instances before you launch](images/step-06c-ec2-dashboard.png)
+
 **Instructor example (copy-paste):**
 
 1. Console search bar → type `EC2` → open **EC2**.
@@ -195,8 +214,6 @@ Or open EC2 directly for this class:
 ```
 https://us-west-2.console.aws.amazon.com/ec2/home?region=us-west-2
 ```
-
-**Screenshot (optional):** `images/step-03-region-us-west-2.png`
 
 ---
 
@@ -212,22 +229,49 @@ https://us-west-2.console.aws.amazon.com/ec2/home?region=us-west-2
 **Do this:**
 
 1. Confirm the region (top-right) is still **us-west-2** and you are in **EC2** (Step 6).
-2. In the left menu, under **Network & Security**, click **Key Pairs**.
-3. Click **Create key pair**.
-4. Use these settings:
+2. Left menu → **Network & Security** → **Key pairs**.
+3. Click the orange **Create key pair** button.
+
+![Key pairs page — empty before you create one](images/step-07a-key-pairs-empty.png)
+
+4. Fill in the form:
 
    | Setting | Value |
    |---------|--------|
-   | Name | `mlops-lab-key` (or your name, e.g. `student1-mlops-key`) |
-   | Key pair type | **RSA** |
-   | Private key format | **`.pem`** (for SSH from VS Code) |
+   | **Key pair name** | `mlops-lab-key` (students) or `ai-mlops-instructor` (instructor) |
+   | **Key pair type** | **RSA** |
+   | **Private key file format** | **.pem** (for OpenSSH / VS Code) |
+
+![Create key pair — name and type](images/step-07b-create-key-pair.png)
+
+![Confirm RSA + .pem selected](images/step-07c-create-key-pair-options.png)
 
 5. Click **Create key pair**.
-6. Save the downloaded `.pem` file to a safe folder, for example:
-   - **Windows (ProTech VM):** `C:\Users\Administrator\.ssh\mlops-lab-key.pem`
-   - **macOS/Linux:** `~/.ssh/mlops-lab-key.pem`
+6. The browser downloads a `.pem` file **once**. You cannot download it again.
 
-**Expected result:** A `.pem` file downloads once. You cannot download it again — if you lose it, create a new key pair and attach it to a new instance.
+![Success banner and downloaded key](images/step-07d-key-pair-success.png)
+
+7. **Move the `.pem` to your SSH folder** (ProTech VM):
+
+   | Action | Windows path |
+   |--------|----------------|
+   | Open **Downloads** | `C:\Users\Administrator\Downloads` |
+   | Create folder **`.ssh`** if missing | inside Downloads **or** `C:\Users\Administrator\.ssh` |
+   | Move `mlops-lab-key.pem` into `.ssh` | Final path: `C:\Users\Administrator\.ssh\mlops-lab-key.pem` |
+
+   **Recommended:** use `C:\Users\Administrator\.ssh\` (not Downloads) so Step 12 SSH config paths stay simple.
+
+![PEM file in Downloads](images/step-07e-pem-in-downloads.png)
+
+![Drag PEM into .ssh folder](images/step-07f-pem-move-to-ssh.png)
+
+![PEM in .ssh folder — ready for Step 12](images/step-07g-pem-in-ssh-folder.png)
+
+8. EC2 → **Key pairs** should list your key:
+
+![Key pair listed in EC2](images/step-07h-key-pair-listed.png)
+
+**Expected result:** Green banner **Successfully created key pair**; `mlops-lab-key.pem` saved under `C:\Users\Administrator\.ssh\`.
 
 **Security:** Do not email the `.pem` file or commit it to git.
 
@@ -240,36 +284,48 @@ https://us-west-2.console.aws.amazon.com/ec2/home?region=us-west-2
 
 If `ai-mlops-instructor` already exists in EC2 → **Key Pairs**, you cannot re-download it — use the PEM from your secure folder. Students create their own key (e.g. `mlops-lab-key`).
 
-**Screenshot (optional):** `images/step-04-key-pair.png`
-
 ---
 
 ## Step 8 — Create a security group for SSH (browser)
 
 **Do this:**
 
-1. In the EC2 left menu, under **Network & Security**, click **Security Groups**.
-2. Click **Create security group**.
-3. Use these settings:
+1. EC2 left menu → **Network & Security** → **Security groups**.
+2. **Before you create anything:** seeing **only 1** group named **`default`** is normal (every VPC has one; you cannot delete it). You will add **`mlops-lab-sg`** next.
+
+![Security groups — only default exists before Step 8](images/step-08a-security-groups-default.png)
+
+3. Click **Create security group**.
+4. **Basic details:**
 
    | Setting | Value |
    |---------|--------|
    | Security group name | `mlops-lab-sg` |
    | Description | `SSH access for MLOps lab EC2` |
-   | VPC | **default** (unless your handout says otherwise) |
+   | VPC | **default** (`vpc-…` — any default VPC in us-west-2 is fine) |
 
-4. **Inbound rules** — click **Add rule**:
+![Create security group — name and VPC](images/step-08b-create-sg-basic.png)
 
-   | Type | Port | Source |
-   |------|------|--------|
-   | SSH | 22 | **My IP** (recommended) |
+5. **Inbound rules** — click **Add rule** (the list starts empty):
 
-   If **My IP** is unavailable, use your instructor’s allowed CIDR from the handout.
+![Inbound rules empty — click Add rule](images/step-08c-create-sg-inbound-empty.png)
 
-5. Leave **Outbound rules** as default (all traffic allowed).
-6. Click **Create security group**.
+6. Configure the SSH rule:
 
-**Expected result:** Security group `mlops-lab-sg` appears in the list with inbound **SSH (22)** from your IP.
+   | Field | Value |
+   |-------|--------|
+   | **Type** | **SSH** (search “ssh” in the dropdown) |
+   | **Port** | **22** (fills automatically) |
+   | **Source** | **My IP** (recommended) |
+
+![Select SSH and My IP for port 22](images/step-08d-create-sg-ssh-rule.png)
+
+   If **My IP** is greyed out, choose **Anywhere-IPv4** (`0.0.0.0/0`) only when your instructor allows it for class labs.
+
+7. Leave **Outbound rules** as default (all traffic allowed).
+8. Click **Create security group**.
+
+**Expected result:** Security groups list shows **`default`** and **`mlops-lab-sg`** (2 total). `mlops-lab-sg` has inbound **SSH (22)** from your IP.
 
 **Instructor example (copy-paste):**
 
@@ -280,32 +336,80 @@ If `ai-mlops-instructor` already exists in EC2 → **Key Pairs**, you cannot re-
 
 If `mlops-lab-sg` already exists, open it → **Inbound rules** → **Edit** → add **My IP** on port 22 if SSH times out.
 
-**Screenshot (optional):** `images/step-05-security-group.png`
-
 ---
 
 ## Step 9 — Launch your lab EC2 instance (browser)
 
 **Do this:**
 
-1. EC2 left menu → **Instances** → **Launch instances**.
-2. Configure the instance:
+1. EC2 left menu → **Instances** → orange **Launch instances** (top right).
 
-   | Section | Setting | Value |
-   |---------|---------|--------|
-   | **Name** | Instance name | `mlops-lab` |
-   | **Application and OS Images** | AMI | **Amazon Linux 2023** (64-bit x86) |
-   | **Instance type** | Type | **`t3.large`** (2 vCPU, 8 GiB RAM) |
-   | **Key pair** | Key pair | Select the key from Step 7 |
-   | **Network settings** | Security group | Select existing → **`mlops-lab-sg`** |
-   | **Configure storage** | Root volume | **30 GiB**, **gp3** (required for Lab 0 pip installs) |
+2. **Name and tags**
 
-3. Expand **Advanced details** (optional): if your handout provides an **IAM instance profile** for labs, select it. Otherwise skip — you will use `aws configure` with access keys in Step 17.
-4. Review summary on the right: **1 instance**, **Amazon Linux 2023**, **t3.large**.
-5. Click **Launch instance**.
-6. Click **View all instances**.
+   | Field | Value |
+   |-------|--------|
+   | Name | `mlops-lab` (students) or `ai-mlops-lab` (instructor) |
 
-**Expected result:** Instance `mlops-lab` shows state **Pending**, then **Running**. Wait until **Status check** shows **2/2 checks passed** (may take 2–5 minutes).
+3. **Application and OS Images (AMI)**
+
+   | Field | Value |
+   |-------|--------|
+   | Quick Start | **Amazon Linux** |
+   | AMI | **Amazon Linux 2023 AMI** · **64-bit (x86)** |
+
+4. **Instance type**
+
+   | Field | Value |
+   |-------|--------|
+   | Instance type | **`t3.large`** (2 vCPU, 8 GiB RAM) |
+
+   Use the instance type search box if `t3.large` is not visible.
+
+5. **Key pair (login)**
+
+   | Field | Value |
+   |-------|--------|
+   | Key pair | Select **`mlops-lab-key`** (or `ai-mlops-instructor`) from Step 7 |
+
+6. **Network settings** — click **Edit** if collapsed:
+
+   | Field | Value |
+   |-------|--------|
+   | VPC | **default** |
+   | Subnet | No preference (any default subnet) |
+   | Auto-assign public IP | **Enable** |
+   | Firewall (security groups) | **Select existing security group** |
+   | Security groups | Check **`mlops-lab-sg`** only (uncheck `default` if selected) |
+
+7. **Configure storage**
+
+   | Field | Value |
+   |-------|--------|
+   | Root volume size | **30** GiB |
+   | Volume type | **gp3** |
+
+   **30 GiB is required** — smaller disks cause `pip install` failures in Step 18.
+
+8. **Advanced details** (expand, optional)
+
+   | Field | Value |
+   |-------|--------|
+   | IAM instance profile | `EC2MLOpsLabProfile` if it exists; otherwise **None** — you will run `aws configure` in Step 17 |
+
+9. **Summary** (right panel) should show:
+
+   - Number of instances: **1**
+   - AMI: Amazon Linux 2023
+   - Instance type: t3.large
+   - Security group: mlops-lab-sg
+
+10. Click **Launch instance**.
+11. On the success page, click **View all instances**.
+12. Wait until:
+    - **Instance state:** `Running`
+    - **Status check:** `2/2 checks passed` (2–5 minutes)
+
+**Expected result:** One instance named `mlops-lab` in **Running** state with status checks passed.
 
 **Instructor example (copy-paste):**
 
@@ -323,7 +427,7 @@ If `mlops-lab-sg` already exists, open it → **Inbound rules** → **Edit** →
 
 After launch: EC2 → **Instances** → select your instance → copy **Public IPv4 address** (Step 10).
 
-**Screenshot (optional):** `images/step-06-launch-instance.png`
+> **Screenshot:** Capture your own launch wizard screens to `lab0/images/step-09-launch-*.png` if you want a local copy — instructor screenshots for this step are added in a future update.
 
 ---
 
@@ -331,15 +435,22 @@ After launch: EC2 → **Instances** → select your instance → copy **Public I
 
 **Do this:**
 
-1. EC2 → **Instances** → select **`mlops-lab`**.
-2. In the **Details** tab, find **Public IPv4 address** (example: `35.161.45.178`).
-3. Copy the IP to a notepad — you need it for SSH and VS Code.
-4. Confirm:
-   - **Instance state:** Running
-   - **Status check:** 2/2 checks passed
-   - **Region:** us-west-2
+1. EC2 → **Instances** → click the row for **`mlops-lab`** (single click — do not open Launch wizard again).
+2. In the lower **Details** panel, find **Public IPv4 address** (example shape: `35.x.x.x`).
+3. **Copy the full IP** to Notepad — you need it for Step 12 SSH config.
+4. Confirm in the same panel:
+
+   | Field | Expected |
+   |-------|----------|
+   | Instance state | **Running** |
+   | Status check | **2/2 checks passed** |
+   | Region (top-right) | **us-west-2** |
+   | Key pair name | Your key from Step 7 |
+   | Security groups | `mlops-lab-sg` |
 
 **Expected result:** You have a **Public IPv4 address** written down. This IP **changes** if you stop and start the instance — update SSH config after a restart.
+
+**Where to look:** Details tab → **Networking** section → **Public IPv4 address** (not Private IPv4).
 
 **Instructor example (copy-paste):**
 
@@ -1018,6 +1129,8 @@ Update `HostName` in SSH config (Step 12) when the IP changes.
 | `Permission denied (publickey)` | PEM path in SSH config; Windows `icacls` on `.pem`; user must be **`ec2-user`** |
 | Wrong region in console | Set **us-west-2** and open EC2 (Step 6) before creating the instance |
 | No EC2 instance yet | Complete **Steps 7–10** (key pair, security group, launch) before VS Code (Step 11) |
+| Only 1 security group (`default`) | Normal **before** Step 8 — create **`mlops-lab-sg`** in Step 8 |
+| Lost `.pem` file | Create a new key pair + launch a new instance (cannot re-download) |
 | Public IP changed | Run Step 10 IP command; update `HostName` in `C:\Users\Administrator\.ssh\config` |
 | `aws sts` AccessDenied | Re-run Step 17; confirm keys and IAM permissions with instructor |
 | Pip / disk full | Root volume **30 GiB** minimum (Step 9) |

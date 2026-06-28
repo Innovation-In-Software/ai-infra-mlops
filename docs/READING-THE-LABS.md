@@ -10,7 +10,7 @@ Lab steps live in **`labN/STEPS.md`**. Each file uses the same layout so you can
 | **Before you start** | `git pull` and `cd labN` |
 | **Do this** | Copy into the EC2 terminal (bash) |
 | **Expected result** | Match this before moving on |
-| **Screenshot (optional)** | Save under `labN/images/` if you want proof of work |
+| **Screenshot (optional)** | Reference images are embedded in **Lab 0**; save your own under `labN/images/` if needed |
 
 ## Comfortable reading in VS Code
 
