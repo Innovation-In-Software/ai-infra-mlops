@@ -51,8 +51,7 @@ def _run_processing(role_arn, train_uri, output_path):
     print("   Note: Training Job quota is 0 on many sandbox accounts — Processing is equivalent managed compute.")
 
     processor.run(
-        code="train.py",
-        source_dir=str(ROOT / "source"),
+        code=str(ROOT / "source" / "train.py"),
         inputs=[
             ProcessingInput(
                 source=train_uri,
