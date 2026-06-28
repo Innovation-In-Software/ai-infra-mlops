@@ -90,10 +90,12 @@ Optional — force classic Training Job (only if your account has quota):
 LAB3B_USE_TRAINING=1 python3 scripts/run_training_job.py
 ```
 
-If IAM logs errors appear, re-apply Lab 1 roles once:
+If IAM/S3 errors appear, patch the Data Scientist role **once**, wait 10 seconds, then retry:
 
 ```bash
 python3 scripts/patch_iam_for_sagemaker.py
+sleep 10
+python3 scripts/run_training_job.py
 ```
 
 ---
@@ -135,7 +137,7 @@ Removes nothing automatically — documents where artifacts live. Delete S3 obje
 |-------|-----|
 | `ResourceLimitExceeded` … **training job usage** is **0** | Expected on sandbox accounts — script uses **Processing Job** automatically; `git pull` for latest `run_training_job.py` |
 | `Missing X_train.csv` | Complete Lab 3 Step 4 |
-| `AccessDenied` on processing/training | Run `python3 scripts/patch_iam_for_sagemaker.py` (adds CloudWatch Logs to Data Scientist role) |
+| `s3:ListBucket` / `not authorized` on `sagemaker-us-west-2-*` | Run `python3 scripts/patch_iam_for_sagemaker.py`, wait 10s, retry |
 | Job stuck **InProgress** | Wait up to 10 min; check CloudWatch logs under `/aws/sagemaker/ProcessingJobs` |
 | `ResourceLimitExceeded` on processing too | Request quota increase in Service Quotas → SageMaker → processing job usage |
 

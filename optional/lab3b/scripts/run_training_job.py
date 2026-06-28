@@ -31,13 +31,16 @@ def _load_config():
     return s3_cfg, roles["data_scientist"]["arn"], buckets["models"]["name"]
 
 
-def _run_processing(role_arn, train_uri, output_path):
+def _run_processing(role_arn, train_uri, output_path, default_bucket):
     import boto3
     import sagemaker
     from sagemaker.processing import ProcessingInput, ProcessingOutput
     from sagemaker.sklearn.processing import SKLearnProcessor
 
-    session = sagemaker.Session(boto_session=boto3.Session(region_name="us-west-2"))
+    session = sagemaker.Session(
+        boto_session=boto3.Session(region_name="us-west-2"),
+        default_bucket=default_bucket,
+    )
     processor = SKLearnProcessor(
         framework_version="1.2-1",
         role=role_arn,
@@ -78,13 +81,16 @@ def _run_processing(role_arn, train_uri, output_path):
     return processor.latest_job.name, output_path
 
 
-def _run_training(role_arn, train_uri, output_path, job_name):
+def _run_training(role_arn, train_uri, output_path, job_name, default_bucket):
     import boto3
     import sagemaker
     from sagemaker.inputs import TrainingInput
     from sagemaker.sklearn import SKLearn
 
-    session = sagemaker.Session(boto_session=boto3.Session(region_name="us-west-2"))
+    session = sagemaker.Session(
+        boto_session=boto3.Session(region_name="us-west-2"),
+        default_bucket=default_bucket,
+    )
     estimator = SKLearn(
         entry_point="train.py",
         source_dir=str(ROOT / "source"),
@@ -119,22 +125,28 @@ def main():
     print(f"   Role: {role_arn}")
     print(f"   Input: {train_uri}")
     print(f"   Output: {output_path}")
+    print(f"   SDK bucket: {models_bucket}")
     print("\n   ⏳ Starting SageMaker job (typically 3–8 minutes)...")
 
     mode = "processing"
     artifact_uri = output_path
     try:
         if __import__("os").environ.get("LAB3B_USE_TRAINING") == "1":
-            job_id, artifact_uri = _run_training(role_arn, train_uri, output_path, job_name)
+            job_id, artifact_uri = _run_training(role_arn, train_uri, output_path, job_name, models_bucket)
             mode = "training"
         else:
-            job_id, artifact_uri = _run_processing(role_arn, train_uri, output_path)
+            job_id, artifact_uri = _run_processing(role_arn, train_uri, output_path, models_bucket)
     except Exception as exc:
         err = str(exc)
         if "ResourceLimitExceeded" in err and "training job" in err.lower():
             print("\n   ⚠️ Training Job quota is 0 — retrying with Processing Job...")
-            job_id, artifact_uri = _run_processing(role_arn, train_uri, output_path)
+            job_id, artifact_uri = _run_processing(role_arn, train_uri, output_path, models_bucket)
             mode = "processing"
+        elif "s3:ListBucket" in err or "not authorized" in err.lower():
+            print("\n   ❌ SageMaker execution role needs S3 on the SDK bucket.")
+            print("   Run: python3 scripts/patch_iam_for_sagemaker.py")
+            print("   Wait 10 seconds, then re-run this script.")
+            sys.exit(1)
         else:
             raise
 
