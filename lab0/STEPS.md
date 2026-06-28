@@ -519,7 +519,6 @@ Use this **only after** `aws` works on that machine:
 **2a. Test AWS CLI first**
 
 ```bash
-clear
 aws sts get-caller-identity
 aws configure get region
 ```
@@ -532,7 +531,6 @@ If you see `Unable to locate credentials`, use **Method 1 (console)** or complet
 Replace `mlops-lab` with your instance name if different:
 
 ```bash
-clear
 aws ec2 describe-instances \
   --region us-west-2 \
   --filters "Name=tag:Name,Values=mlops-lab" "Name=instance-state-name,Values=running" \
@@ -555,7 +553,6 @@ Copy the IP from the **rightmost column**.
 **2c. Print only the IP (one line)**
 
 ```bash
-clear
 aws ec2 describe-instances \
   --region us-west-2 \
   --filters "Name=tag:Name,Values=mlops-lab" "Name=instance-state-name,Values=running" \
@@ -755,7 +752,6 @@ Type `exit` when you see `[ec2-user@...]$`.
 6. Run:
 
    ```bash
-   clear
    whoami
    pwd
    hostname
@@ -780,7 +776,6 @@ Status bar shows **`SSH: ai-mlops-lab`** (or your host alias). The integrated te
 **Instructor example (copy-paste):** After connect, run:
 
 ```bash
-clear
 whoami
 hostname
 pwd
@@ -811,7 +806,6 @@ From Step 14 onward, all commands run in the **VS Code integrated terminal** con
 **Do this:**
 
 ```bash
-clear
 python3 --version
 git --version
 aws --version
@@ -847,7 +841,6 @@ git --version
 **Instructor example (copy-paste):**
 
 ```bash
-clear
 python3 --version
 git --version
 aws --version
@@ -872,7 +865,6 @@ Linux ... amzn2023.x86_64 GNU/Linux
 **Do this:**
 
 ```bash
-clear
 cd ~
 git clone https://github.com/gjkaur/ai-infra-mlops.git
 cd ai-infra-mlops
@@ -912,7 +904,6 @@ cd ai-infra-mlops && ls -1
 If repo already exists, pull instead of clone:
 
 ```bash
-clear
 cd ~
 if [ -d ai-infra-mlops ]; then cd ai-infra-mlops && git pull; else git clone https://github.com/gjkaur/ai-infra-mlops.git && cd ai-infra-mlops; fi
 ls -1
@@ -930,7 +921,6 @@ ls -1
 2. In the terminal:
 
    ```bash
-   clear
    cd ~/ai-infra-mlops/lab0
    ls -1
    ```
@@ -956,7 +946,6 @@ VS Code: **File → Open Folder** → paste:
 Terminal:
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab0 && ls -1
 ```
 
@@ -971,7 +960,6 @@ cd ~/ai-infra-mlops/lab0 && ls -1
 Configure the CLI with **access keys from your handout** (demo/training account). Keys stay on this EC2 instance only.
 
 ```bash
-clear
 aws configure set region us-west-2
 aws configure set output json
 aws configure set aws_access_key_id YOUR_ACCESS_KEY_ID
@@ -1002,7 +990,6 @@ Account ID and ARN will match your assigned user. Region must be **`us-west-2`**
 **Option A — access keys** (paste keys from handout when prompted; not stored in git):
 
 ```bash
-clear
 aws configure set region us-west-2
 aws configure set output json
 aws configure
@@ -1029,7 +1016,6 @@ us-west-2
 **Option B — instance profile** (no keys; `ai-mlops-lab` with `EC2MLOpsLabProfile`):
 
 ```bash
-clear
 aws configure set region us-west-2
 aws configure set output json
 aws sts get-caller-identity
@@ -1071,7 +1057,6 @@ Upgrade **on EC2** before Step 18 so `python3` points to 3.11 for all labs.
 **Do this:**
 
 ```bash
-clear
 python3 --version
 sudo dnf install -y python3.11 python3.11-pip
 sudo alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
@@ -1097,7 +1082,6 @@ pip 23.x from ... (python 3.11)
 **Instructor example (copy-paste):**
 
 ```bash
-clear
 python3 --version
 sudo dnf install -y python3.11 python3.11-pip
 sudo alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
@@ -1123,7 +1107,6 @@ pip 23.3.2 from /usr/lib/python3.11/site-packages/pip (python 3.11)
 **Do this:**
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab0
 python3 --version
 ```
@@ -1160,7 +1143,6 @@ If pip fails with **no space left on device**, return to Step 9 and increase the
 **Instructor example (copy-paste):**
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab0
 python3 --version
 sudo dnf install -y python3.11-pip
@@ -1186,7 +1168,6 @@ All imports successful!
 **Do this:**
 
 ```bash
-clear
 sudo dnf install -y docker
 sudo systemctl enable --now docker
 sudo usermod -aG docker ec2-user
@@ -1218,7 +1199,6 @@ docker ps
 **Do this:**
 
 ```bash
-clear
 source ~/ai-infra-mlops/lab0/scripts/setup_classroom_env.sh
 grep LAB_ ~/.bashrc || { echo 'export LAB_NUM_RECORDS=1000' >> ~/.bashrc; echo 'export LAB_USE_COMPREHEND=0' >> ~/.bashrc; }
 echo $LAB_NUM_RECORDS $LAB_USE_COMPREHEND
@@ -1234,7 +1214,6 @@ MLOps lab env: LAB_NUM_RECORDS=1000 LAB_USE_COMPREHEND=0 region=us-west-2
 **Instructor example (copy-paste):**
 
 ```bash
-clear
 source ~/ai-infra-mlops/lab0/scripts/setup_classroom_env.sh
 grep LAB_ ~/.bashrc || { echo 'export LAB_NUM_RECORDS=1000' >> ~/.bashrc; echo 'export LAB_USE_COMPREHEND=0' >> ~/.bashrc; }
 echo $LAB_NUM_RECORDS $LAB_USE_COMPREHEND
@@ -1249,7 +1228,6 @@ echo $LAB_NUM_RECORDS $LAB_USE_COMPREHEND
 **Do this:**
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab0
 python3 scripts/setup_lab_directories.py
 ls ../workspace
@@ -1271,7 +1249,6 @@ config  lab1  lab2  lab3  ...  logs  results  scripts  shared_data
 **Instructor example (copy-paste):**
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab0
 python3 scripts/setup_lab_directories.py
 ls ../workspace
@@ -1286,7 +1263,6 @@ ls ../workspace
 **Do this:**
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab0
 python3 scripts/run_lab0_setup.py
 python3 scripts/verify_environment.py
@@ -1322,7 +1298,6 @@ Results saved: /home/ec2-user/ai-infra-mlops/lab0/logs/verification_results.json
 **Instructor example (copy-paste):**
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab0
 python3 scripts/run_lab0_setup.py
 python3 scripts/verify_environment.py
