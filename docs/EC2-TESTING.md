@@ -81,6 +81,8 @@ The instructor EC2 may also have instance profile `EC2MLOpsLabRole`; for demos t
 ```bash
 cd ~/ai-infra-mlops
 python3 scripts/teardown_course.py --yes
+python3 scripts/teardown_course.py --yes --terminate-ec2   # also terminate mlops EC2
+python3 scripts/teardown_course.py --dry-run               # preview only
 ```
 
-See [Lab 10 Step 11](../lab10/STEPS.md#step-11--delete-all-aws-resources-instructor).
+Removes workspace, Lab 1–2 AWS resources, IAM roles, KMS keys (7-day pending), alarms, SageMaker experiments, ECR, EC2 key pairs/SG, and more. See [Lab 10 Step 11](../lab10/STEPS.md).

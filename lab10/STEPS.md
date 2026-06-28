@@ -1,51 +1,29 @@
 # Lab 10: Enterprise MLOps Architecture
 
-| | |
-|---|---|
-| **Class** | `ai-mlops-2026-jun30` |
-| **Duration** | ~30 minutes |
-| **Region** | `us-west-2` |
-| **Platform** | EC2 · [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) · **bash** |
-| **Prerequisite** | [Lab 9](../lab9/STEPS.md) |
-| **Working directory** | `~/ai-infra-mlops/lab10` |
-| **Outputs** | `~/ai-infra-mlops/workspace/lab10/` |
+## Class · `ai-mlops-2026-jun30` · **30 min** · **us-west-2**
+## Platform · **EC2** + [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) + **bash**
+## Prerequisite · [Lab 9](../lab9/STEPS.md) complete
+## Working directory · `~/ai-infra-mlops/lab10`
+## Outputs · `~/ai-infra-mlops/workspace/lab10/`
 
-> All commands run in the **VS Code integrated terminal** on EC2. Do not use local Windows PowerShell for lab steps.
-
-> **Quick run:** `python3 scripts/run_lab10.py` runs all script steps in order.
+## Run all · `python3 scripts/run_lab10.py`
 
 ---
 
-## Before you start
-
-```bash
-cd ~/ai-infra-mlops && git pull
-cd lab10
-```
-
-Run `clear` before each step for clean terminal screenshots.
-
----
-
-## Step 1 — Confirm lab10 folder
-
-**Do this:**
+# Step 1 — Confirm lab10 folder
 
 ```bash
 clear
 cd ~/ai-infra-mlops && ls -1 lab10
 ```
 
-**Expected result:** `Validate Lab 10 — Course Completion`
+**Expected output:** `Validate Lab 10 — Course Completion`, `config`, `images`, `requirements.txt`, `scripts`
 
-
-**Screenshot (optional):** `images/step-01-lab10-folder.png`
+**Optional screenshot:** `images/step-01-lab10-folder.png`
 
 ---
 
-## Step 2 — Collect course artifacts
-
-**Do this:**
+# Step 2 — Collect course artifacts
 
 ```bash
 clear
@@ -54,7 +32,7 @@ pip install -r requirements.txt
 python3 scripts/collect_course_artifacts.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 📦 Course Artifact Collection
@@ -66,21 +44,18 @@ python3 scripts/collect_course_artifacts.py
 ✅ Artifact manifest saved
 ```
 
-
-**Screenshot (optional):** `images/step-02-collect.png`
+**Optional screenshot:** `images/step-02-collect.png`
 
 ---
 
-## Step 3 — Architecture assessment
-
-**Do this:**
+# Step 3 — Architecture assessment
 
 ```bash
 clear
 python3 scripts/architecture_assessment.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 🏗️ Enterprise Architecture Assessment
@@ -94,21 +69,18 @@ python3 scripts/architecture_assessment.py
    Score: 94/100
 ```
 
-
-**Screenshot (optional):** `images/step-03-assessment.png`
+**Optional screenshot:** `images/step-03-assessment.png`
 
 ---
 
-## Step 4 — Gap analysis
-
-**Do this:**
+# Step 4 — Gap analysis
 
 ```bash
 clear
 python3 scripts/gap_analysis.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 📋 Gap Analysis
@@ -118,21 +90,18 @@ python3 scripts/gap_analysis.py
 ✅ Gap report saved
 ```
 
-
-**Screenshot (optional):** `images/step-04-gaps.png`
+**Optional screenshot:** `images/step-04-gaps.png`
 
 ---
 
-## Step 5 — Implementation roadmap
-
-**Do this:**
+# Step 5 — Implementation roadmap
 
 ```bash
 clear
 python3 scripts/implementation_roadmap.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 🗺️ Implementation Roadmap
@@ -143,21 +112,18 @@ python3 scripts/implementation_roadmap.py
 ✅ Roadmap saved: results/implementation_roadmap.json
 ```
 
-
-**Screenshot (optional):** `images/step-05-roadmap.png`
+**Optional screenshot:** `images/step-05-roadmap.png`
 
 ---
 
-## Step 6 — Implementation checklist
-
-**Do this:**
+# Step 6 — Implementation checklist
 
 ```bash
 clear
 python3 scripts/implementation_checklist.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 ☑️ Implementation Checklist
@@ -170,14 +136,11 @@ python3 scripts/implementation_checklist.py
    Completed: 18/20 items
 ```
 
-
-**Screenshot (optional):** `images/step-06-checklist.png`
+**Optional screenshot:** `images/step-06-checklist.png`
 
 ---
 
-## Step 7 — Executive summary
-
-**Do this:**
+# Step 7 — Executive summary
 
 ```bash
 clear
@@ -185,7 +148,7 @@ python3 scripts/generate_executive_summary.py
 cat ../workspace/lab10/results/executive_summary.md | head -20
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 ✅ Executive summary generated
@@ -194,14 +157,11 @@ cat ../workspace/lab10/results/executive_summary.md | head -20
 ...
 ```
 
-
-**Screenshot (optional):** `images/step-07-summary.png`
+**Optional screenshot:** `images/step-07-summary.png`
 
 ---
 
-## Step 8 — Final compliance bundle
-
-**Do this:**
+# Step 8 — Final compliance bundle
 
 ```bash
 clear
@@ -209,7 +169,7 @@ python3 scripts/build_compliance_bundle.py
 ls -1 ../workspace/lab10/results
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 ✅ Compliance bundle created: results/course_compliance_bundle.zip
@@ -219,21 +179,18 @@ executive_summary.md
 implementation_roadmap.json
 ```
 
-
-**Screenshot (optional):** `images/step-08-bundle.png`
+**Optional screenshot:** `images/step-08-bundle.png`
 
 ---
 
-## Step 9 — Course completion validation
-
-**Do this:**
+# Step 9 — Course completion validation
 
 ```bash
 clear
 python3 scripts/validate_lab10.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 Validate Lab 10 — Course Completion
@@ -241,14 +198,11 @@ Validate Lab 10 — Course Completion
 🎉 COURSE COMPLETE — ai-mlops-2026-jun30
 ```
 
-
-**Screenshot (optional):** `images/step-09-complete.png`
+**Optional screenshot:** `images/step-09-complete.png`
 
 ---
 
-## Step 10 — Reset workspace (optional, next cohort)
-
-**Do this:**
+# Step 10 — Reset workspace (optional, next cohort)
 
 ```bash
 clear
@@ -256,7 +210,7 @@ cd ~/ai-infra-mlops
 python3 scripts/reset_course.py --labs lab1,lab2,lab3,lab4,lab5,lab6,lab7,lab8,lab9,lab10
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 🧹 Reset course workspace
@@ -270,14 +224,13 @@ python3 scripts/reset_course.py --labs lab1,lab2,lab3,lab4,lab5,lab6,lab7,lab8,l
 ✅ Done. Re-run labs from STEPS.md (Lab 0 verify → Labs 1–10).
 ```
 
-
-**Screenshot (optional):** `images/step-10-reset.png`
+**Optional screenshot:** `images/step-10-reset.png`
 
 ---
 
-## Step 11 — Delete all AWS resources (instructor)
+# Step 11 — Delete all AWS resources (instructor)
 
-**Do this:**
+After completing the course, tear down AWS resources so the account is clean for the next cohort.
 
 ```bash
 clear
@@ -285,7 +238,37 @@ cd ~/ai-infra-mlops
 python3 scripts/teardown_course.py --yes
 ```
 
-**Expected result:**
+To also terminate lab EC2 instances (name contains `mlops`):
+
+```bash
+python3 scripts/teardown_course.py --yes --terminate-ec2
+```
+
+Preview without deleting:
+
+```bash
+python3 scripts/teardown_course.py --dry-run
+```
+
+This runs in order:
+
+1. Reset all `workspace/lab1`–`lab10` folders  
+2. Delete Lab 2 SageMaker Feature Groups (`banking-transaction-features`, `banking-customer-features`)  
+3. Delete Lab 1 CloudTrail + dashboard (`delete_audit_logging.py`)  
+4. Delete SageMaker Studio domain (`delete_sagemaker_studio.py`)  
+5. Empty and delete Lab 1 S3 buckets (`delete_banking_buckets.py`)  
+6. **Extended cleanup** (`teardown_aws_extras.py`):
+   - CloudWatch alarms and dashboards (`BankingDataDriftAlarm`, `banking-ml-*`, …)
+   - SageMaker experiments (`banking-risk-experiments` + trials)
+   - SageMaker endpoints (`banking-*`) and pipeline (`banking-ml-pipeline`)
+   - ECR repository `banking-ml-inference`
+   - SNS topics (`banking-drift-alerts`, …)
+   - IAM roles (`Banking*`, `EC2MLOpsLabRole`) and instance profile `EC2MLOpsLabProfile`
+   - KMS keys (from `workspace/lab1/config/kms_keys.json` or description contains `Banking`) — **scheduled deletion in 7 days**
+   - EC2 key pairs (`ai-mlops-instructor`, `mlops-lab-key`, …) and security group `mlops-lab-sg`
+7. Optional `--terminate-ec2`: terminate running/stopped instances with `mlops` in the Name tag
+
+**Expected output:**
 
 ```text
 🧹 Full course teardown
@@ -293,17 +276,26 @@ python3 scripts/teardown_course.py --yes
    ✅ Cleared workspace/lab1/ … lab10/
    ✅ Deleted: banking-transaction-features
    ✅ Deleted: banking-customer-features
-   ✅ CloudTrail / SageMaker / S3 cleanup complete
-   ✅ Deleted ECR repository: banking-ml-inference
+   ✅ CloudTrail / SageMaker Studio / S3 cleanup complete
+
+📋 Extended AWS cleanup (IAM, KMS, alarms, SageMaker, EC2, …)
+============================================================
+   ✅ Deleted CloudWatch alarms: BankingDataDriftAlarm
+   ✅ Deleted experiment: banking-risk-experiments
+   ✅ Deleted IAM role: BankingDataScientistRole
+   ✅ Scheduled KMS key deletion (7d): ...
+   ✅ Deleted security group: mlops-lab-sg
 
 ✅ Teardown complete.
-   Manual (if re-running Lab 1 from scratch):
-   - IAM Console: delete BankingDataScientistRole, BankingMLEngineerRole, BankingComplianceOfficerRole
-   - KMS Console: disable/delete keys from workspace/lab1/config/kms_keys.json (after Lab 1 re-run saves new IDs)
-   - CloudWatch: delete BankingDataDriftAlarm if desired
+   Re-run Lab 0 → Lab 1 to provision a fresh environment.
 ```
 
+**Note:** KMS keys enter **PendingDeletion** for 7 days (AWS minimum). New Lab 1 runs create fresh keys.
 
-**Screenshot (optional):** `images/step-11-teardown.png`
+**Optional screenshot:** `images/step-11-teardown.png`
 
 ---
+
+## Course complete
+
+You have finished Labs 0–10 on EC2. Run **Step 11** to delete AWS resources when the class is done.
