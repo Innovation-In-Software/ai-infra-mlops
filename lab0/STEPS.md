@@ -826,6 +826,8 @@ git --version
 
 > **On the ProTech VM (Windows):** `git` is **not** required before Step 13. Do **not** run `git clone` in PowerShell, Git Bash, or CMD on the VM — clone the repo in **Step 15** on **EC2** after VS Code SSH connects.
 
+**Instructor example (copy-paste):**
+
 ```bash
 clear
 python3 --version
@@ -1290,7 +1292,7 @@ Passwords and access keys: **instructor handout only** (not in git).
 | PEM in `Downloads\.ssh` | Move to `C:\Users\Administrator\.ssh\` (Step 7) — Step 12 expects the profile `.ssh` folder |
 | Public IP changed | Repeat Step 10 (console or CLI); update `HostName` in `C:\Users\Administrator\.ssh\config` |
 | `aws describe-instances` returns `None` | Instance not **Running** yet, wrong name, or `aws` not configured — use Step 10 **Method 1** |
-| `aws sts` AccessDenied | Re-run Step 17; confirm keys and IAM permissions with instructor |
+| `bash: git: command not found` | Run on **EC2** (Step 13 SSH connected, `whoami` = `ec2-user`): `sudo dnf install -y git`. If on ProTech VM, connect VS Code to EC2 first — do not use `git` on Windows for labs |
 | Pip / disk full | Root volume **30 GiB** minimum (Step 9) |
 | `docker: permission denied` | Complete Step 19, then **reconnect** VS Code SSH |
 | `docker: command not found` | Re-run Lab 0 Step 19 |
