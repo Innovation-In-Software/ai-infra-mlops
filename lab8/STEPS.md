@@ -23,8 +23,6 @@ cd ~/ai-infra-mlops && git pull
 cd lab8
 ```
 
-Run `clear` before each step for clean terminal screenshots.
-
 ---
 
 ## Step 1 — Confirm lab8 folder
@@ -32,7 +30,6 @@ Run `clear` before each step for clean terminal screenshots.
 **Do this:**
 
 ```bash
-clear
 cd ~/ai-infra-mlops && ls -1 lab8
 ```
 
@@ -47,7 +44,6 @@ requirements.txt
 scripts
 ```
 
-
 **Screenshot (optional):** `images/step-01-lab8-folder.png`
 
 ---
@@ -57,14 +53,12 @@ scripts
 **Do this:**
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab8
 pip install -r requirements.txt
 python3 -c "import sagemaker; print('SageMaker SDK', sagemaker.__version__)"
 ```
 
 **Expected result:** `SageMaker SDK 2.x.x`
-
 
 **Screenshot (optional):** `images/step-02-pip.png`
 
@@ -75,7 +69,6 @@ python3 -c "import sagemaker; print('SageMaker SDK', sagemaker.__version__)"
 **Do this:**
 
 ```bash
-clear
 python3 scripts/define_pipeline_params.py
 cat ../workspace/lab8/config/pipeline_params.json | head -12
 ```
@@ -91,7 +84,6 @@ cat ../workspace/lab8/config/pipeline_params.json | head -12
 }
 ```
 
-
 **Screenshot (optional):** `images/step-03-params.png`
 
 ---
@@ -101,7 +93,6 @@ cat ../workspace/lab8/config/pipeline_params.json | head -12
 **Do this:**
 
 ```bash
-clear
 python3 scripts/build_pipeline.py
 ```
 
@@ -117,7 +108,6 @@ python3 scripts/build_pipeline.py
 ✅ Pipeline definition saved
 ```
 
-
 **Screenshot (optional):** `images/step-04-build.png`
 
 ---
@@ -127,7 +117,6 @@ python3 scripts/build_pipeline.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/upsert_pipeline.py
 ```
 
@@ -139,7 +128,6 @@ python3 scripts/upsert_pipeline.py
 ✅ Pipeline registered 
 ```
 
-
 **Screenshot (optional):** `images/step-05-upsert.png`
 
 ---
@@ -149,7 +137,6 @@ python3 scripts/upsert_pipeline.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/start_pipeline.py
 ```
 
@@ -163,7 +150,6 @@ python3 scripts/start_pipeline.py
 ✅ Pipeline started 
 ```
 
-
 **Screenshot (optional):** `images/step-06-execute.png`
 
 ---
@@ -173,7 +159,6 @@ python3 scripts/start_pipeline.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/monitor_pipeline.py
 ```
 
@@ -187,7 +172,6 @@ data-validation     ✅ Succeeded
 ✅ All steps succeeded (simulated)
 ```
 
-
 **Screenshot (optional):** `images/step-07-monitor.png`
 
 ---
@@ -197,7 +181,6 @@ data-validation     ✅ Succeeded
 **Do this:**
 
 ```bash
-clear
 python3 scripts/register_model.py
 ```
 
@@ -211,7 +194,6 @@ python3 scripts/register_model.py
 ✅ Model registered 
 ```
 
-
 **Screenshot (optional):** `images/step-08-registry.png`
 
 ---
@@ -221,7 +203,6 @@ python3 scripts/register_model.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/generate_pipeline_report.py
 ```
 
@@ -232,7 +213,6 @@ python3 scripts/generate_pipeline_report.py
    File: results/pipeline_compliance_report_final.json
 ```
 
-
 **Screenshot (optional):** `images/step-09-report.png`
 
 ---
@@ -242,7 +222,6 @@ python3 scripts/generate_pipeline_report.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/validate_lab8.py
 ```
 
@@ -255,7 +234,6 @@ Validate Lab 8
    ✅ pipeline_compliance_report_final.json
 Prerequisites OK — proceed to Lab 9
 ```
-
 
 **Screenshot (optional):** `images/step-10-validate.png`
 

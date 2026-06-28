@@ -20,14 +20,11 @@ cd lab5
 docker ps    # must work without sudo after Lab 0 Step 19 + SSH reconnect
 ```
 
-Run `clear` before each step for clean terminal screenshots.
-
 ---
 
 # Step 1 — Confirm lab5 folder
 
 ```bash
-clear
 cd ~/ai-infra-mlops && ls -1 lab5
 ```
 
@@ -40,7 +37,6 @@ cd ~/ai-infra-mlops && ls -1 lab5
 # Step 2 — Verify Docker
 
 ```bash
-clear
 docker --version
 docker ps
 ```
@@ -59,7 +55,6 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 # Step 3 — Prepare model artifacts
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab5
 pip install -r requirements.txt
 python3 scripts/prepare_artifacts.py
@@ -83,7 +78,6 @@ preprocessor.pkl
 # Step 4 — Build container image
 
 ```bash
-clear
 bash scripts/build_container.sh
 ```
 
@@ -103,7 +97,6 @@ Successfully tagged banking-ml-inference:latest
 # Step 5 — Test container locally
 
 ```bash
-clear
 python3 scripts/test_container.py
 ```
 
@@ -124,7 +117,6 @@ python3 scripts/test_container.py
 # Step 6 — Create ECR repository
 
 ```bash
-clear
 python3 scripts/create_ecr_repo.py
 ```
 
@@ -146,7 +138,6 @@ python3 scripts/create_ecr_repo.py
 # Step 7 — Push image to ECR
 
 ```bash
-clear
 bash scripts/push_to_ecr.sh
 ```
 
@@ -165,7 +156,6 @@ bash scripts/push_to_ecr.sh
 # Step 8 — Vulnerability scan
 
 ```bash
-clear
 python3 scripts/scan_container.py
 ```
 
@@ -187,7 +177,6 @@ python3 scripts/scan_container.py
 # Step 9 — Compliance report
 
 ```bash
-clear
 python3 scripts/generate_container_report.py
 ```
 
@@ -205,7 +194,6 @@ python3 scripts/generate_container_report.py
 # Step 10 — Validate lab5
 
 ```bash
-clear
 python3 scripts/validate_lab5.py
 ```
 

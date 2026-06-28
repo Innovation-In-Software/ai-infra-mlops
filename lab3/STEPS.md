@@ -23,8 +23,6 @@ cd ~/ai-infra-mlops && git pull
 cd lab3
 ```
 
-Run `clear` before each step for clean terminal screenshots.
-
 ---
 
 ## Step 1 — Confirm lab3 in repo
@@ -32,7 +30,6 @@ Run `clear` before each step for clean terminal screenshots.
 **Do this:**
 
 ```bash
-clear
 cd ~/ai-infra-mlops
 ls -1 lab3
 ```
@@ -47,7 +44,6 @@ requirements.txt
 scripts
 ```
 
-
 **Screenshot (optional):** `images/step-01-lab3-folder.png`
 
 ---
@@ -57,7 +53,6 @@ scripts
 **Do this:**
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab3
 ls -1 ../workspace/lab3 2>/dev/null || echo "Run Lab 0 Step 21 if missing"
 ```
@@ -73,7 +68,6 @@ results
 validation
 ```
 
-
 **Screenshot (optional):** `images/step-02-workspace-lab3.png`
 
 ---
@@ -83,14 +77,12 @@ validation
 **Do this:**
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab3
 pip install -r requirements.txt
 python3 -c "import sklearn, xgboost, sagemaker; print('Lab 3 imports OK')"
 ```
 
 **Expected result:** `Lab 3 imports OK`
-
 
 **Screenshot (optional):** `images/step-03-pip.png`
 
@@ -101,7 +93,6 @@ python3 -c "import sklearn, xgboost, sagemaker; print('Lab 3 imports OK')"
 **Do this:**
 
 ```bash
-clear
 python3 scripts/load_training_data.py
 ```
 
@@ -122,7 +113,6 @@ python3 scripts/load_training_data.py
 ✅ Training data prepared
 ```
 
-
 **Screenshot (optional):** `images/step-04-load-data.png`
 
 ---
@@ -132,7 +122,6 @@ python3 scripts/load_training_data.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/train_models.py
 ```
 
@@ -147,7 +136,6 @@ python3 scripts/train_models.py
 ✅ Model training complete
 ```
 
-
 **Screenshot (optional):** `images/step-05-train.png`
 
 ---
@@ -157,7 +145,6 @@ python3 scripts/train_models.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/sagemaker_experiments.py
 ```
 
@@ -173,7 +160,6 @@ python3 scripts/sagemaker_experiments.py
 ✅ Experiment tracking complete
 ```
 
-
 **Screenshot (optional):** `images/step-06-experiments.png`
 
 ---
@@ -183,7 +169,6 @@ python3 scripts/sagemaker_experiments.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/fairness_testing.py
 ```
 
@@ -198,7 +183,6 @@ python3 scripts/fairness_testing.py
 ✅ Fairness report saved: results/fairness_report.json
 ```
 
-
 **Screenshot (optional):** `images/step-07-fairness.png`
 
 ---
@@ -208,7 +192,6 @@ python3 scripts/fairness_testing.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/select_best_model.py
 ls -1 ../workspace/lab3/models
 ```
@@ -229,7 +212,6 @@ ls -1 ../workspace/lab3/models
 Lab 3 complete.
 ```
 
-
 **Screenshot (optional):** `images/step-08-model-select.png`
 
 ---
@@ -239,7 +221,6 @@ Lab 3 complete.
 **Do this:**
 
 ```bash
-clear
 python3 scripts/validate_lab3.py
 ```
 
@@ -259,7 +240,6 @@ Validate Lab 3
 ============================================================
 Prerequisites OK — proceed to Lab 4
 ```
-
 
 **Screenshot (optional):** `images/step-09-validate.png`
 

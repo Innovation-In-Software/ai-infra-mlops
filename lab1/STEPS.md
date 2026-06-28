@@ -35,8 +35,6 @@ cd ~/ai-infra-mlops/lab0 && python3 scripts/verify_environment.py
 
 If lab scripts print **`PythonDeprecationWarning`** (Boto3 / Python 3.9), complete [Lab 0 Step 17a](../lab0/STEPS.md) and re-run [Lab 0 Step 18](../lab0/STEPS.md) before continuing.
 
-Run `clear` before each step for clean terminal screenshots.
-
 ---
 
 ## Fresh start (after teardown or failed partial run)
@@ -75,7 +73,6 @@ Start **Step 7** as soon as Steps 4–6 finish. Steps 5–8 depend on earlier co
 # Step 1 — Confirm lab1 in repo
 
 ```bash
-clear
 cd ~/ai-infra-mlops
 ls -1 lab1
 ```
@@ -97,7 +94,6 @@ scripts
 # Step 2 — Confirm workspace
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab1
 ls -1 ../workspace/lab1
 ```
@@ -121,7 +117,6 @@ If missing: run [Lab 0 Step 21](../lab0/STEPS.md) (`python3 scripts/setup_lab_di
 # Step 3 — Verify AWS CLI
 
 ```bash
-clear
 aws sts get-caller-identity
 aws configure get region
 ```
@@ -149,7 +144,6 @@ If you used an **instance profile** in Lab 0, the ARN may show `assumed-role/EC2
 **Requires:** Step 3 (`aws` works).
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab1
 python3 scripts/create_kms_keys.py
 ```
@@ -177,7 +171,6 @@ Config written to: `~/ai-infra-mlops/workspace/lab1/config/kms_keys.json`
 **Requires:** Step 4 (`kms_keys.json` exists).
 
 ```bash
-clear
 python3 scripts/create_banking_buckets.py
 ```
 
@@ -205,7 +198,6 @@ Config: `~/ai-infra-mlops/workspace/lab1/config/buckets.json`
 **Requires:** Step 5 (`buckets.json` exists).
 
 ```bash
-clear
 python3 scripts/create_banking_iam_roles.py
 ```
 
@@ -237,7 +229,6 @@ Config: `~/ai-infra-mlops/workspace/lab1/config/iam_roles.json`
 **Requires:** Step 6 (`iam_roles.json` exists — uses `BankingDataScientistRole`).
 
 ```bash
-clear
 python3 scripts/create_sagemaker_studio.py
 ```
 
@@ -268,7 +259,6 @@ If you see `Timed out` or `not ready yet`, wait 5 minutes and **re-run this step
 **Requires:** Step 5 (`buckets.json` — audit bucket).
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab1
 python3 scripts/enable_audit_logging.py
 ```
@@ -307,7 +297,6 @@ python3 scripts/enable_audit_logging.py
 # Step 9 — Validate environment
 
 ```bash
-clear
 python3 scripts/validate_environment.py
 ```
 

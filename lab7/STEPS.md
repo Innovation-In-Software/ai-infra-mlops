@@ -23,8 +23,6 @@ cd ~/ai-infra-mlops && git pull
 cd lab7
 ```
 
-Run `clear` before each step for clean terminal screenshots.
-
 ---
 
 ## Step 1 — Confirm lab7 folder
@@ -32,7 +30,6 @@ Run `clear` before each step for clean terminal screenshots.
 **Do this:**
 
 ```bash
-clear
 cd ~/ai-infra-mlops && ls -1 lab7
 ```
 
@@ -46,7 +43,6 @@ requirements.txt
 scripts
 ```
 
-
 **Screenshot (optional):** `images/step-01-lab7-folder.png`
 
 ---
@@ -56,7 +52,6 @@ scripts
 **Do this:**
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab7
 pip install -r requirements.txt
 python3 scripts/prepare_monitoring_data.py
@@ -72,7 +67,6 @@ baseline_data.csv
 current_data.csv
 ```
 
-
 **Screenshot (optional):** `images/step-02-baseline.png`
 
 ---
@@ -82,7 +76,6 @@ current_data.csv
 **Do this:**
 
 ```bash
-clear
 python3 scripts/setup_cloudwatch_dashboard.py
 ```
 
@@ -96,7 +89,6 @@ python3 scripts/setup_cloudwatch_dashboard.py
 ✅ Dashboard configuration saved
 ```
 
-
 **Screenshot (optional):** `images/step-03-dashboard.png`
 
 ---
@@ -106,7 +98,6 @@ python3 scripts/setup_cloudwatch_dashboard.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/setup_model_monitor.py
 ```
 
@@ -118,7 +109,6 @@ python3 scripts/setup_model_monitor.py
 ✅ Model Monitor configured 
 ```
 
-
 **Screenshot (optional):** `images/step-04-model-monitor.png`
 
 ---
@@ -128,7 +118,6 @@ python3 scripts/setup_model_monitor.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/monitor_data_drift.py
 ```
 
@@ -144,7 +133,6 @@ python3 scripts/monitor_data_drift.py
 ✅ Drift report saved
 ```
 
-
 **Screenshot (optional):** `images/step-05-drift.png`
 
 ---
@@ -154,7 +142,6 @@ python3 scripts/monitor_data_drift.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/monitor_model_quality.py
 ```
 
@@ -169,7 +156,6 @@ python3 scripts/monitor_model_quality.py
 ✅ Quality report saved
 ```
 
-
 **Screenshot (optional):** `images/step-06-quality.png`
 
 ---
@@ -179,7 +165,6 @@ python3 scripts/monitor_model_quality.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/setup_alarms.py
 ```
 
@@ -194,7 +179,6 @@ python3 scripts/setup_alarms.py
 ✅ Alarms configured 
 ```
 
-
 **Screenshot (optional):** `images/step-07-alarms.png`
 
 ---
@@ -204,7 +188,6 @@ python3 scripts/setup_alarms.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/simulate_incident.py
 ```
 
@@ -218,7 +201,6 @@ python3 scripts/simulate_incident.py
 ✅ Incident drill complete
 ```
 
-
 **Screenshot (optional):** `images/step-08-incident.png`
 
 ---
@@ -228,7 +210,6 @@ python3 scripts/simulate_incident.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/generate_monitoring_report.py
 ```
 
@@ -240,7 +221,6 @@ python3 scripts/generate_monitoring_report.py
    Audit trail: logs/monitoring_audit.json
 ```
 
-
 **Screenshot (optional):** `images/step-09-report.png`
 
 ---
@@ -250,7 +230,6 @@ python3 scripts/generate_monitoring_report.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/validate_lab7.py
 ```
 
@@ -264,7 +243,6 @@ Validate Lab 7
    ✅ monitoring_report_final.json
 Prerequisites OK — proceed to Lab 8
 ```
-
 
 **Screenshot (optional):** `images/step-10-validate.png`
 

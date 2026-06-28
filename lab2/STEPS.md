@@ -21,8 +21,6 @@ cd ~/ai-infra-mlops && git pull
 cd lab2
 ```
 
-Run `clear` before each step for clean terminal screenshots.
-
 ---
 
 ## Classroom env (run once per session)
@@ -49,7 +47,6 @@ cd lab2 && python3 scripts/cleanup_lab2.py --aws   # if re-running Feature Store
 **Do this:**
 
 ```bash
-clear
 cd ~/ai-infra-mlops
 ls -1 lab2
 ```
@@ -64,7 +61,6 @@ requirements.txt
 scripts
 ```
 
-
 **Screenshot (optional):** `images/step-01-lab2-folder.png`
 
 ---
@@ -74,7 +70,6 @@ scripts
 **Do this:**
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab2
 ls -1 ../workspace/lab2
 ```
@@ -89,7 +84,6 @@ results
 scripts
 ```
 
-
 **Screenshot (optional):** `images/step-02-workspace-lab2.png`
 
 ---
@@ -99,7 +93,6 @@ scripts
 **Do this:**
 
 ```bash
-clear
 python3 scripts/validate_lab2.py
 cd ../lab1 && python3 scripts/validate_environment.py && cd ../lab2
 ```
@@ -120,7 +113,6 @@ Status: COMPLIANT
 ✅ ALL CHECKS PASSED! Environment is compliant.
 ```
 
-
 **Screenshot (optional):** `images/step-03-prerequisites.png`
 
 ---
@@ -130,7 +122,6 @@ Status: COMPLIANT
 **Do this:**
 
 ```bash
-clear
 python3 scripts/download_banking_data.py
 ```
 
@@ -144,7 +135,6 @@ python3 scripts/download_banking_data.py
 ✅ Dataset metadata saved
 ```
 
-
 **Screenshot (optional):** `images/step-04-dataset.png`
 
 ---
@@ -154,7 +144,6 @@ python3 scripts/download_banking_data.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/pii_detection_anonymization.py
 ```
 
@@ -169,7 +158,6 @@ python3 scripts/pii_detection_anonymization.py
 ✅ Banking Data Processing Complete!
 ```
 
-
 **Screenshot (optional):** `images/step-05-pii.png`
 
 ---
@@ -179,7 +167,6 @@ python3 scripts/pii_detection_anonymization.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/data_validation.py
 ```
 
@@ -191,7 +178,6 @@ python3 scripts/data_validation.py
    Transaction Quality Score: 70.0%
 ```
 
-
 **Screenshot (optional):** `images/step-06-validation.png`
 
 ---
@@ -201,7 +187,6 @@ python3 scripts/data_validation.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/feature_engineering.py
 ```
 
@@ -214,7 +199,6 @@ python3 scripts/feature_engineering.py
    Feature Metadata: .../config/feature_metadata.json
 ```
 
-
 **Screenshot (optional):** `images/step-07-features.png`
 
 ---
@@ -224,7 +208,6 @@ python3 scripts/feature_engineering.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/feature_store_setup.py
 ```
 
@@ -241,7 +224,6 @@ python3 scripts/feature_store_setup.py
 ✅ Feature Store Setup Complete!
 ```
 
-
 **Screenshot (optional):** `images/step-08-feature-store.png`
 
 ---
@@ -251,7 +233,6 @@ python3 scripts/feature_store_setup.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/data_drift_detection.py
 ```
 
@@ -266,7 +247,6 @@ python3 scripts/data_drift_detection.py
 ✅ Drift Detection Complete!
 ```
 
-
 **Screenshot (optional):** `images/step-09-drift.png`
 
 ---
@@ -276,7 +256,6 @@ python3 scripts/data_drift_detection.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/generate_compliance_doc.py
 ```
 
@@ -290,7 +269,6 @@ python3 scripts/generate_compliance_doc.py
 ✅ Drift Monitoring: NORMAL
 ```
 
-
 **Screenshot (optional):** `images/step-10-compliance.png`
 
 ---
@@ -300,7 +278,6 @@ python3 scripts/generate_compliance_doc.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/validate_lab2.py
 ls -1 ../workspace/lab2/data
 ls -1 ../workspace/lab2/config
@@ -331,7 +308,6 @@ Validate Lab 2
 ============================================================
 Prerequisites OK — run lab2 scripts in STEPS.md order.
 ```
-
 
 **Screenshot (optional):** `images/step-11-validate.png`
 

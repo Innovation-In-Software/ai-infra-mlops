@@ -23,8 +23,6 @@ cd ~/ai-infra-mlops && git pull
 cd lab6
 ```
 
-Run `clear` before each step for clean terminal screenshots.
-
 ---
 
 ## Step 1 — Confirm lab6 folder
@@ -32,7 +30,6 @@ Run `clear` before each step for clean terminal screenshots.
 **Do this:**
 
 ```bash
-clear
 cd ~/ai-infra-mlops && ls -1 lab6
 ```
 
@@ -55,7 +52,6 @@ scripts
 **Do this:**
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab6
 pip install -r requirements.txt
 python3 scripts/prepare_deployment.py
@@ -86,7 +82,6 @@ Preparing deployment configuration
 **Do this:**
 
 ```bash
-clear
 python3 scripts/configure_blue_green.py
 ```
 
@@ -109,7 +104,6 @@ python3 scripts/configure_blue_green.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/deploy_staging.py
 ```
 
@@ -129,7 +123,6 @@ python3 scripts/deploy_staging.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/test_deployment.py --environment staging
 ```
 
@@ -153,7 +146,6 @@ python3 scripts/test_deployment.py --environment staging
 **Do this:**
 
 ```bash
-clear
 python3 scripts/deploy_production.py
 ```
 
@@ -173,7 +165,6 @@ python3 scripts/deploy_production.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/shift_traffic.py --steps 90,50,0
 ```
 
@@ -195,7 +186,6 @@ Step 1: Blue 90% / Green 10%
 **Do this:**
 
 ```bash
-clear
 python3 scripts/rollback.py --endpoint-name banking-endpoint-prod-demo
 ```
 
@@ -218,7 +208,6 @@ python3 scripts/rollback.py --endpoint-name banking-endpoint-prod-demo
 **Do this:**
 
 ```bash
-clear
 python3 scripts/generate_deployment_report.py
 ```
 
@@ -239,7 +228,6 @@ python3 scripts/generate_deployment_report.py
 **Do this:**
 
 ```bash
-clear
 python3 scripts/validate_lab6.py
 ```
 

@@ -19,14 +19,11 @@ cd ~/ai-infra-mlops && git pull
 cd lab10
 ```
 
-Run `clear` before each step for clean terminal screenshots.
-
 ---
 
 # Step 1 — Confirm lab10 folder
 
 ```bash
-clear
 cd ~/ai-infra-mlops && ls -1 lab10
 ```
 
@@ -39,7 +36,6 @@ cd ~/ai-infra-mlops && ls -1 lab10
 # Step 2 — Collect course artifacts
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab10
 pip install -r requirements.txt
 python3 scripts/collect_course_artifacts.py
@@ -64,7 +60,6 @@ python3 scripts/collect_course_artifacts.py
 # Step 3 — Architecture assessment
 
 ```bash
-clear
 python3 scripts/architecture_assessment.py
 ```
 
@@ -89,7 +84,6 @@ python3 scripts/architecture_assessment.py
 # Step 4 — Gap analysis
 
 ```bash
-clear
 python3 scripts/gap_analysis.py
 ```
 
@@ -110,7 +104,6 @@ python3 scripts/gap_analysis.py
 # Step 5 — Implementation roadmap
 
 ```bash
-clear
 python3 scripts/implementation_roadmap.py
 ```
 
@@ -132,7 +125,6 @@ python3 scripts/implementation_roadmap.py
 # Step 6 — Implementation checklist
 
 ```bash
-clear
 python3 scripts/implementation_checklist.py
 ```
 
@@ -156,7 +148,6 @@ python3 scripts/implementation_checklist.py
 # Step 7 — Executive summary
 
 ```bash
-clear
 python3 scripts/generate_executive_summary.py
 cat ../workspace/lab10/results/executive_summary.md | head -20
 ```
@@ -177,7 +168,6 @@ cat ../workspace/lab10/results/executive_summary.md | head -20
 # Step 8 — Final compliance bundle
 
 ```bash
-clear
 python3 scripts/build_compliance_bundle.py
 ls -1 ../workspace/lab10/results
 ```
@@ -199,7 +189,6 @@ implementation_roadmap.json
 # Step 9 — Course completion validation
 
 ```bash
-clear
 python3 scripts/validate_lab10.py
 ```
 
@@ -218,7 +207,6 @@ Validate Lab 10 — Course Completion
 # Step 10 — Reset workspace (optional, next cohort)
 
 ```bash
-clear
 cd ~/ai-infra-mlops
 python3 scripts/reset_course.py --labs lab1,lab2,lab3,lab4,lab5,lab6,lab7,lab8,lab9,lab10
 ```
@@ -246,7 +234,6 @@ python3 scripts/reset_course.py --labs lab1,lab2,lab3,lab4,lab5,lab6,lab7,lab8,l
 After completing the course, tear down AWS resources so the account is clean for the next cohort.
 
 ```bash
-clear
 cd ~/ai-infra-mlops
 python3 scripts/teardown_course.py --yes
 ```

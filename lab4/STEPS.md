@@ -19,14 +19,11 @@ cd ~/ai-infra-mlops && git pull
 cd lab4
 ```
 
-Run `clear` before each step for clean terminal screenshots.
-
 ---
 
 # Step 1 — Confirm lab4 folder
 
 ```bash
-clear
 cd ~/ai-infra-mlops && ls -1 lab4
 ```
 
@@ -39,7 +36,6 @@ cd ~/ai-infra-mlops && ls -1 lab4
 # Step 2 — Copy prior lab artifacts
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab4
 mkdir -p ../workspace/lab4/{config,models,results,artifacts,logs}
 cp ../workspace/lab1/config/buckets.json ../workspace/lab4/config/
@@ -62,7 +58,6 @@ best_model.pkl
 # Step 3 — Install dependencies
 
 ```bash
-clear
 pip install -r requirements.txt
 python3 -c "import boto3, pytest; print('Lab 4 imports OK')"
 ```
@@ -76,7 +71,6 @@ python3 -c "import boto3, pytest; print('Lab 4 imports OK')"
 # Step 4 — Set up project structure
 
 ```bash
-clear
 python3 scripts/setup_project_structure.py
 ```
 
@@ -96,7 +90,6 @@ python3 scripts/setup_project_structure.py
 # Step 5 — Run unit tests
 
 ```bash
-clear
 python3 -m pytest tests/unit -q
 ```
 
@@ -114,7 +107,6 @@ python3 -m pytest tests/unit -q
 # Step 6 — Compliance gate checks
 
 ```bash
-clear
 python3 scripts/run_compliance_checks.py
 ```
 
@@ -136,7 +128,6 @@ python3 scripts/run_compliance_checks.py
 # Step 7 — Configure CodePipeline (classroom mode)
 
 ```bash
-clear
 python3 scripts/setup_codepipeline.py
 ```
 
@@ -158,7 +149,6 @@ python3 scripts/setup_codepipeline.py
 # Step 8 — Simulate pipeline run
 
 ```bash
-clear
 python3 scripts/simulate_pipeline_run.py
 ```
 
@@ -180,7 +170,6 @@ python3 scripts/simulate_pipeline_run.py
 # Step 9 — Generate CI/CD compliance report
 
 ```bash
-clear
 python3 scripts/generate_cicd_report.py
 cat ../workspace/lab4/artifacts/cicd_compliance_report_final.json | head -20
 ```
@@ -203,7 +192,6 @@ cat ../workspace/lab4/artifacts/cicd_compliance_report_final.json | head -20
 # Step 10 — Validate lab4
 
 ```bash
-clear
 python3 scripts/validate_lab4.py
 ```
 

@@ -18,14 +18,11 @@ cd ~/ai-infra-mlops && git pull
 cd lab9
 ```
 
-Run `clear` before each step for clean terminal screenshots.
-
 ---
 
 # Step 1 — Confirm lab9 folder
 
 ```bash
-clear
 cd ~/ai-infra-mlops && ls -1 lab9
 ```
 
@@ -38,7 +35,6 @@ cd ~/ai-infra-mlops && ls -1 lab9
 # Step 2 — Load governance baseline
 
 ```bash
-clear
 cd ~/ai-infra-mlops/lab9
 pip install -r requirements.txt
 python3 scripts/load_governance_baseline.py
@@ -62,7 +58,6 @@ python3 scripts/load_governance_baseline.py
 # Step 3 — IAM least-privilege review
 
 ```bash
-clear
 python3 scripts/review_iam_policies.py
 ```
 
@@ -84,7 +79,6 @@ python3 scripts/review_iam_policies.py
 # Step 4 — Encryption audit
 
 ```bash
-clear
 python3 scripts/audit_encryption.py
 ```
 
@@ -106,7 +100,6 @@ python3 scripts/audit_encryption.py
 # Step 5 — Model approval workflow
 
 ```bash
-clear
 python3 scripts/model_approval_workflow.py
 ```
 
@@ -129,7 +122,6 @@ python3 scripts/model_approval_workflow.py
 # Step 6 — Explainability report
 
 ```bash
-clear
 python3 scripts/generate_explainability.py
 ```
 
@@ -150,7 +142,6 @@ python3 scripts/generate_explainability.py
 # Step 7 — Fairness governance check
 
 ```bash
-clear
 python3 scripts/governance_fairness_check.py
 ```
 
@@ -172,7 +163,6 @@ python3 scripts/governance_fairness_check.py
 # Step 8 — Audit trail export
 
 ```bash
-clear
 python3 scripts/export_audit_trail.py
 ```
 
@@ -194,7 +184,6 @@ python3 scripts/export_audit_trail.py
 # Step 9 — Governance compliance report
 
 ```bash
-clear
 python3 scripts/generate_governance_report.py
 ```
 
@@ -212,7 +201,6 @@ python3 scripts/generate_governance_report.py
 # Step 10 — Validate lab9
 
 ```bash
-clear
 python3 scripts/validate_lab9.py
 ```
 
