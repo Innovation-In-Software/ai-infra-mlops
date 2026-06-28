@@ -44,8 +44,6 @@ cd lab2 && python3 scripts/cleanup_lab2.py --aws   # if re-running Feature Store
 
 ---
 
----
-
 ## Step 1 — Confirm lab2 in repo
 
 **Do this:**
@@ -56,7 +54,15 @@ cd ~/ai-infra-mlops
 ls -1 lab2
 ```
 
-**Expected result:** `Validate Lab 2`
+**Expected result:**
+
+```text
+STEPS.md
+config
+images
+requirements.txt
+scripts
+```
 
 
 **Screenshot (optional):** `images/step-01-lab2-folder.png`
@@ -73,7 +79,15 @@ cd ~/ai-infra-mlops/lab2
 ls -1 ../workspace/lab2
 ```
 
-**Expected result:** `config`
+**Expected result:**
+
+```text
+config
+data
+logs
+results
+scripts
+```
 
 
 **Screenshot (optional):** `images/step-02-workspace-lab2.png`

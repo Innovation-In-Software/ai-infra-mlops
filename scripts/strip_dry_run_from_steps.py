@@ -11,10 +11,6 @@ def main():
         text = text.replace(" --dry-run", "")
         text = text.replace("(dry-run)", "")
         text = text.replace("[dry-run] ", "")
-        text = text.replace(
-            "python3 scripts/verify_environment.py\npython3 scripts/run_lab0_setup.py\npython3 scripts/verify_environment.py",
-            "python3 scripts/verify_environment.py",
-        )
         if text != orig:
             path.write_text(text, encoding="utf-8")
             print(f"Updated {path.relative_to(REPO)}")

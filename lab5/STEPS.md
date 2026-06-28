@@ -1,18 +1,14 @@
 # Lab 5: Secure Containerization for Banking
 
-| | |
-|---|---|
-| **Class** | `ai-mlops-2026-jun30` |
-| **Duration** | ~30 minutes |
-| **Region** | `us-west-2` |
-| **Platform** | EC2 · [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) · **bash** |
-| **Prerequisite** | [Lab 4](../lab4/STEPS.md) |
-| **Working directory** | `~/ai-infra-mlops/lab5` |
-| **Outputs** | `~/ai-infra-mlops/workspace/lab5/` |
+## Class · `ai-mlops-2026-jun30` · **30 min** · **us-west-2**
+## Platform · **EC2** + [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) + **bash**
+## Prerequisite · [Lab 4](../lab4/STEPS.md) complete
+## Working directory · `~/ai-infra-mlops/lab5`
+## Outputs · `~/ai-infra-mlops/workspace/lab5/`
 
 > All commands run in the **VS Code integrated terminal** on EC2. Do not use local Windows PowerShell for lab steps.
 
-> **Quick run:** `python3 scripts/run_lab5.py` runs all script steps in order.
+> **Scripts:** `lab5/scripts/` · Run all: `python3 scripts/run_lab5.py` · **Requires Docker** on EC2 ([Lab 0 Step 19](../lab0/STEPS.md)) for the build step.
 
 ---
 
@@ -21,31 +17,27 @@
 ```bash
 cd ~/ai-infra-mlops && git pull
 cd lab5
+docker ps    # must work without sudo after Lab 0 Step 19 + SSH reconnect
 ```
 
 Run `clear` before each step for clean terminal screenshots.
 
 ---
 
-## Step 1 — Confirm lab5 folder
-
-**Do this:**
+# Step 1 — Confirm lab5 folder
 
 ```bash
 clear
 cd ~/ai-infra-mlops && ls -1 lab5
 ```
 
-**Expected result:** `Validate Lab 5`
+**Expected output:** `STEPS.md`, `config`, `images`, `requirements.txt`, `scripts`, `src`
 
-
-**Screenshot (optional):** `images/step-01-lab5-folder.png`
+**Optional screenshot:** `images/step-01-lab5-folder.png`
 
 ---
 
-## Step 2 — Verify Docker
-
-**Do this:**
+# Step 2 — Verify Docker
 
 ```bash
 clear
@@ -53,21 +45,18 @@ docker --version
 docker ps
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 Docker version 25.x.x, build ...
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 
-
-**Screenshot (optional):** `images/step-02-docker.png`
+**Optional screenshot:** `images/step-02-docker.png`
 
 ---
 
-## Step 3 — Prepare model artifacts
-
-**Do this:**
+# Step 3 — Prepare model artifacts
 
 ```bash
 clear
@@ -77,59 +66,48 @@ python3 scripts/prepare_artifacts.py
 ls -1 ../workspace/lab5/models
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
-✅ Copied: best_model.pkl
+   ✅ Copied: best_model.pkl
    ✅ Copied: preprocessor.pkl
    ✅ Copied: feature_metadata.json
 best_model.pkl
 preprocessor.pkl
 ```
 
-
-**Screenshot (optional):** `images/step-03-artifacts.png`
+**Optional screenshot:** `images/step-03-artifacts.png`
 
 ---
 
-## Step 4 — Build container image
-
-**Do this:**
+# Step 4 — Build container image
 
 ```bash
 clear
 bash scripts/build_container.sh
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
-🔍 Container Scan
-============================================================
-   Critical: 0
-   High: 0
-   Status: PASS (banking threshold)
-✅ Scan report saved
-✅ Container compliance report generated
-
-Lab 5 complete.
+🔨 Building banking-ml-inference:latest
+...
+Successfully tagged banking-ml-inference:latest
+✅ Container build complete
 ```
 
-
-**Screenshot (optional):** `images/step-04-build.png`
+**Optional screenshot:** `images/step-04-build.png`
 
 ---
 
-## Step 5 — Test container locally
-
-**Do this:**
+# Step 5 — Test container locally
 
 ```bash
 clear
 python3 scripts/test_container.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 🧪 Container Inference Test
@@ -139,21 +117,18 @@ python3 scripts/test_container.py
 ✅ Container tests passed
 ```
 
-
-**Screenshot (optional):** `images/step-05-test.png`
+**Optional screenshot:** `images/step-05-test.png`
 
 ---
 
-## Step 6 — Create ECR repository
-
-**Do this:**
+# Step 6 — Create ECR repository
 
 ```bash
 clear
 python3 scripts/create_ecr_repo.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 📦 ECR Repository
@@ -164,43 +139,37 @@ python3 scripts/create_ecr_repo.py
 ✅ ECR repository ready
 ```
 
-
-**Screenshot (optional):** `images/step-06-ecr.png`
+**Optional screenshot:** `images/step-06-ecr.png`
 
 ---
 
-## Step 7 — Push image to ECR
-
-**Do this:**
+# Step 7 — Push image to ECR
 
 ```bash
 clear
 bash scripts/push_to_ecr.sh
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
-✅ Login to ECR succeeded
+   ✅ Login to ECR succeeded
    ✅ Pushed: <account-id>.dkr.ecr.us-west-2.amazonaws.com/banking-ml-inference:latest
 ✅ Image push complete
 ```
 
-
-**Screenshot (optional):** `images/step-07-push.png`
+**Optional screenshot:** `images/step-07-push.png`
 
 ---
 
-## Step 8 — Vulnerability scan
-
-**Do this:**
+# Step 8 — Vulnerability scan
 
 ```bash
 clear
 python3 scripts/scan_container.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 🔍 Container Scan
@@ -211,42 +180,36 @@ python3 scripts/scan_container.py
 ✅ Scan report saved
 ```
 
-
-**Screenshot (optional):** `images/step-08-scan.png`
+**Optional screenshot:** `images/step-08-scan.png`
 
 ---
 
-## Step 9 — Compliance report
-
-**Do this:**
+# Step 9 — Compliance report
 
 ```bash
 clear
 python3 scripts/generate_container_report.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 ✅ Container compliance report generated
    Manifest: validation/container_deployment_manifest.json
 ```
 
-
-**Screenshot (optional):** `images/step-09-report.png`
+**Optional screenshot:** `images/step-09-report.png`
 
 ---
 
-## Step 10 — Validate lab5
-
-**Do this:**
+# Step 10 — Validate lab5
 
 ```bash
 clear
 python3 scripts/validate_lab5.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 Validate Lab 5
@@ -256,8 +219,7 @@ Validate Lab 5
 Prerequisites OK — proceed to Lab 6
 ```
 
-
-**Screenshot (optional):** `images/step-10-validate.png`
+**Optional screenshot:** `images/step-10-validate.png`
 
 ---
 

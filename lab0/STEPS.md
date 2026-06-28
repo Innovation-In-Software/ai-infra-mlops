@@ -13,7 +13,7 @@
 
 > **Steps 1–3:** Sign in at [labs.protechtraining.com](https://labs.protechtraining.com) and connect to your **training VM** first.  
 > **Steps 4–13:** AWS Console in the VM **browser** + VS Code on the **VM desktop** (not on EC2 yet).  
-> **Steps 14–21:** All commands in the **VS Code integrated terminal** on EC2 (**bash**). Do not use Windows PowerShell for lab commands.
+> **Steps 14–22:** All commands in the **VS Code integrated terminal** on EC2 (**bash**). Do not use Windows PowerShell for lab commands.
 
 **Instructor dual setup:** [docs/PROTECH-VM-SETUP.md](../docs/PROTECH-VM-SETUP.md)
 
@@ -754,7 +754,37 @@ All imports successful!
 
 ---
 
-## Step 19 — Set classroom environment variables
+## Step 19 — Install Docker on EC2 (required before Lab 5)
+
+**Do this:**
+
+```bash
+clear
+sudo dnf install -y docker
+sudo systemctl enable --now docker
+sudo usermod -aG docker ec2-user
+docker --version
+```
+
+**Expected result:**
+
+```text
+Docker version 25.x.x, build ...
+```
+
+**Important:** Disconnect VS Code Remote SSH and **reconnect** so the `docker` group applies. Then verify:
+
+```bash
+docker ps
+```
+
+**Expected result:** Empty table (no error). If `permission denied`, reconnect SSH or run `newgrp docker` once.
+
+**Screenshot (optional):** `images/step-19-docker.png`
+
+---
+
+## Step 20 — Set classroom environment variables
 
 **Do this:**
 
@@ -785,7 +815,7 @@ echo $LAB_NUM_RECORDS $LAB_USE_COMPREHEND
 
 ---
 
-## Step 20 — Create the student workspace
+## Step 21 — Create the student workspace
 
 **Do this:**
 
@@ -822,7 +852,7 @@ ls ../workspace
 
 ---
 
-## Step 21 — Verify the full environment
+## Step 22 — Verify the full environment
 
 **Do this:**
 
@@ -948,6 +978,8 @@ Example at last test: `35.161.45.178` — update `HostName` in SSH config (Step 
 | Public IP changed | Run Step 10 IP command; update `HostName` in `C:\Users\Administrator\.ssh\config` |
 | `aws sts` AccessDenied | Re-run Step 17; confirm keys and IAM permissions with instructor |
 | Pip / disk full | Root volume **30 GiB** minimum (Step 9) |
+| `docker: permission denied` | Complete Step 19, then **reconnect** VS Code SSH |
+| `docker: command not found` | Re-run Lab 0 Step 19 |
 
 ---
 

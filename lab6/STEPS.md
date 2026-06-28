@@ -12,7 +12,7 @@
 
 > All commands run in the **VS Code integrated terminal** on EC2. Do not use local Windows PowerShell for lab steps.
 
-> **Quick run:** `python3 scripts/run_lab6.py` runs all script steps in order.
+> **Quick run:** `python3 scripts/run_lab6.py` runs all script steps in order (same as Steps 3–8).
 
 ---
 
@@ -36,8 +36,15 @@ clear
 cd ~/ai-infra-mlops && ls -1 lab6
 ```
 
-**Expected result:** `Validate Lab 6`
+**Expected result:**
 
+```text
+STEPS.md
+config
+images
+requirements.txt
+scripts
+```
 
 **Screenshot (optional):** `images/step-01-lab6-folder.png`
 
@@ -58,16 +65,17 @@ cat ../workspace/lab6/config/deployment_state.json | head -15
 **Expected result:**
 
 ```text
-✅ Model URI resolved from Lab 5 ECR manifest
-   ✅ IAM roles loaded from Lab 1
+Preparing deployment configuration
+============================================================
+   ✅ Model URI resolved from Lab 3 best_model.pkl
+   ✅ IAM roles loaded from Lab 1 (via workspace)
 ✅ Deployment state ready
 {
-  "environment": "staging",
-  "model_package": "...",
+  "model_uri": "s3://bank-mlops-...",
+  "image_uri": "...dkr.ecr.us-west-2.amazonaws.com/banking-ml-inference:latest",
   ...
 }
 ```
-
 
 **Screenshot (optional):** `images/step-02-prepare.png`
 
@@ -92,7 +100,6 @@ python3 scripts/configure_blue_green.py
 ✅ Plan saved: config/blue_green_plan.json
 ```
 
-
 **Screenshot (optional):** `images/step-03-blue-green.png`
 
 ---
@@ -109,10 +116,9 @@ python3 scripts/deploy_staging.py
 **Expected result:**
 
 ```text
-✅ Staging endpoint: banking-endpoint-staging-20260628
+   ✅ Staging endpoint: banking-endpoint-staging-YYYYMMDD
 ✅ Staging deployment complete
 ```
-
 
 **Screenshot (optional):** `images/step-04-staging.png`
 
@@ -138,7 +144,6 @@ python3 scripts/test_deployment.py --environment staging
 ✅ Staging tests passed
 ```
 
-
 **Screenshot (optional):** `images/step-05-test-staging.png`
 
 ---
@@ -158,7 +163,6 @@ python3 scripts/deploy_production.py
 ✅ Production endpoint configured
 ✅ Production deployment complete
 ```
-
 
 **Screenshot (optional):** `images/step-06-production.png`
 
@@ -181,7 +185,6 @@ Step 1: Blue 90% / Green 10%
    Step 3: Blue 0% / Green 100%
 ✅ Traffic shift complete (simulated)
 ```
-
 
 **Screenshot (optional):** `images/step-07-traffic.png`
 
@@ -206,7 +209,6 @@ python3 scripts/rollback.py --endpoint-name banking-endpoint-prod-demo
 ✅ Rollback complete
 ```
 
-
 **Screenshot (optional):** `images/step-08-rollback.png`
 
 ---
@@ -227,7 +229,6 @@ python3 scripts/generate_deployment_report.py
    Status: COMPLIANT
    Zero-downtime: verified (simulation)
 ```
-
 
 **Screenshot (optional):** `images/step-09-report.png`
 
@@ -252,7 +253,6 @@ Validate Lab 6
    ✅ config: deployment_report.json
 Prerequisites OK — proceed to Lab 7
 ```
-
 
 **Screenshot (optional):** `images/step-10-validate.png`
 

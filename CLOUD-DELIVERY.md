@@ -83,7 +83,7 @@ git pull
 
 | Lab | Critical path |
 |-----|----------------|
-| **0** | VS Code SSH; verify Python/AWS; clone repo; workspace; `verify_environment.py` |
+| **0** | VS Code SSH; verify Python/AWS; clone repo; workspace; Docker; `verify_environment.py` |
 | **1** | KMS → S3 → IAM → **SageMaker domain** (longest) → CloudTrail → validate |
 | **2** | Steps 4–7 (~15 min with 1k rows + pattern PII); Step 8 Feature Store (~10–15 min) |
 | **3–10** | Follow each `labN/STEPS.md`; run steps as written (live AWS with your access keys) |
@@ -130,4 +130,4 @@ Each step includes **Expected output** blocks (from EC2 terminal testing) and op
 | Feature group already exists | `python3.11 scripts/cleanup_lab2.py --aws` then Step 8 again |
 | PII too slow | `export LAB_USE_COMPREHEND=0` |
 | Lab 2 over 30 min | Confirm `LAB_NUM_RECORDS=1000`; run Step 8 while discussing Step 9 |
-| Docker permission denied | `sudo usermod -aG docker ec2-user` then reconnect SSH |
+| Docker permission denied | `sudo usermod -aG docker ec2-user` then reconnect SSH ([Lab 0 Step 19](lab0/STEPS.md)) |

@@ -36,7 +36,15 @@ clear
 cd ~/ai-infra-mlops && ls -1 lab7
 ```
 
-**Expected result:** `Validate Lab 7`
+**Expected result:**
+
+```text
+STEPS.md
+config
+images
+requirements.txt
+scripts
+```
 
 
 **Screenshot (optional):** `images/step-01-lab7-folder.png`

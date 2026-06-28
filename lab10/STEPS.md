@@ -8,6 +8,19 @@
 
 ## Run all · `python3 scripts/run_lab10.py`
 
+> All commands run in the **VS Code integrated terminal** on EC2. Do not use local Windows PowerShell for lab steps.
+
+---
+
+## Before you start
+
+```bash
+cd ~/ai-infra-mlops && git pull
+cd lab10
+```
+
+Run `clear` before each step for clean terminal screenshots.
+
 ---
 
 # Step 1 — Confirm lab10 folder
@@ -17,7 +30,7 @@ clear
 cd ~/ai-infra-mlops && ls -1 lab10
 ```
 
-**Expected output:** `Validate Lab 10 — Course Completion`, `config`, `images`, `requirements.txt`, `scripts`
+**Expected output:** `STEPS.md`, `config`, `images`, `requirements.txt`, `scripts`
 
 **Optional screenshot:** `images/step-01-lab10-folder.png`
 

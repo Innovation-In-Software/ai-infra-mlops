@@ -1,18 +1,13 @@
 # Lab 9: Banking Security & Governance Framework
 
-| | |
-|---|---|
-| **Class** | `ai-mlops-2026-jun30` |
-| **Duration** | ~30 minutes |
-| **Region** | `us-west-2` |
-| **Platform** | EC2 · [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) · **bash** |
-| **Prerequisite** | [Lab 8](../lab8/STEPS.md) |
-| **Working directory** | `~/ai-infra-mlops/lab9` |
-| **Outputs** | `~/ai-infra-mlops/workspace/lab9/` |
+## Class · `ai-mlops-2026-jun30` · **30 min** · **us-west-2**
+## Platform · **EC2** + [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) + **bash**
+## Prerequisite · [Lab 8](../lab8/STEPS.md) complete
+## Working directory · `~/ai-infra-mlops/lab9`
+## Outputs · `~/ai-infra-mlops/workspace/lab9/`
+## Run all · `python3 scripts/run_lab9.py`
 
 > All commands run in the **VS Code integrated terminal** on EC2. Do not use local Windows PowerShell for lab steps.
-
-> **Quick run:** `python3 scripts/run_lab9.py` runs all script steps in order.
 
 ---
 
@@ -27,25 +22,20 @@ Run `clear` before each step for clean terminal screenshots.
 
 ---
 
-## Step 1 — Confirm lab9 folder
-
-**Do this:**
+# Step 1 — Confirm lab9 folder
 
 ```bash
 clear
 cd ~/ai-infra-mlops && ls -1 lab9
 ```
 
-**Expected result:** `Validate Lab 9`
+**Expected output:** `STEPS.md`, `config`, `images`, `requirements.txt`, `scripts`
 
-
-**Screenshot (optional):** `images/step-01-lab9-folder.png`
+**Optional screenshot:** `images/step-01-lab9-folder.png`
 
 ---
 
-## Step 2 — Load governance baseline
-
-**Do this:**
+# Step 2 — Load governance baseline
 
 ```bash
 clear
@@ -54,7 +44,7 @@ pip install -r requirements.txt
 python3 scripts/load_governance_baseline.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 🛡️ Governance Baseline
@@ -65,21 +55,18 @@ python3 scripts/load_governance_baseline.py
 ✅ Baseline ready
 ```
 
-
-**Screenshot (optional):** `images/step-02-baseline.png`
+**Optional screenshot:** `images/step-02-baseline.png`
 
 ---
 
-## Step 3 — IAM least-privilege review
-
-**Do this:**
+# Step 3 — IAM least-privilege review
 
 ```bash
 clear
 python3 scripts/review_iam_policies.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 🔑 IAM Review
@@ -90,21 +77,18 @@ python3 scripts/review_iam_policies.py
 ✅ IAM review report saved
 ```
 
-
-**Screenshot (optional):** `images/step-03-iam.png`
+**Optional screenshot:** `images/step-03-iam.png`
 
 ---
 
-## Step 4 — Encryption audit
-
-**Do this:**
+# Step 4 — Encryption audit
 
 ```bash
 clear
 python3 scripts/audit_encryption.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 🔐 Encryption Audit
@@ -115,21 +99,18 @@ python3 scripts/audit_encryption.py
 ✅ Encryption audit PASS
 ```
 
-
-**Screenshot (optional):** `images/step-04-encryption.png`
+**Optional screenshot:** `images/step-04-encryption.png`
 
 ---
 
-## Step 5 — Model approval workflow
-
-**Do this:**
+# Step 5 — Model approval workflow
 
 ```bash
 clear
 python3 scripts/model_approval_workflow.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 📋 Model Approval
@@ -141,21 +122,18 @@ python3 scripts/model_approval_workflow.py
 ✅ Workflow state saved
 ```
 
-
-**Screenshot (optional):** `images/step-05-approval.png`
+**Optional screenshot:** `images/step-05-approval.png`
 
 ---
 
-## Step 6 — Explainability report
-
-**Do this:**
+# Step 6 — Explainability report
 
 ```bash
 clear
 python3 scripts/generate_explainability.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 🔍 Explainability (SHAP)
@@ -165,21 +143,18 @@ python3 scripts/generate_explainability.py
 ✅ Explainability complete
 ```
 
-
-**Screenshot (optional):** `images/step-06-explainability.png`
+**Optional screenshot:** `images/step-06-explainability.png`
 
 ---
 
-## Step 7 — Fairness governance check
-
-**Do this:**
+# Step 7 — Fairness governance check
 
 ```bash
 clear
 python3 scripts/governance_fairness_check.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 ⚖️ Governance Fairness
@@ -190,21 +165,18 @@ python3 scripts/governance_fairness_check.py
 ✅ Fairness governance PASS
 ```
 
-
-**Screenshot (optional):** `images/step-07-fairness.png`
+**Optional screenshot:** `images/step-07-fairness.png`
 
 ---
 
-## Step 8 — Audit trail export
-
-**Do this:**
+# Step 8 — Audit trail export
 
 ```bash
 clear
 python3 scripts/export_audit_trail.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 📝 Audit Trail Export
@@ -215,52 +187,46 @@ python3 scripts/export_audit_trail.py
 ✅ Audit export complete
 ```
 
-
-**Screenshot (optional):** `images/step-08-audit.png`
+**Optional screenshot:** `images/step-08-audit.png`
 
 ---
 
-## Step 9 — Governance compliance report
-
-**Do this:**
+# Step 9 — Governance compliance report
 
 ```bash
 clear
 python3 scripts/generate_governance_report.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 ✅ Governance report: results/governance_report_final.json
    Overall status: COMPLIANT
 ```
 
-
-**Screenshot (optional):** `images/step-09-report.png`
+**Optional screenshot:** `images/step-09-report.png`
 
 ---
 
-## Step 10 — Validate lab9
-
-**Do this:**
+# Step 10 — Validate lab9
 
 ```bash
 clear
 python3 scripts/validate_lab9.py
 ```
 
-**Expected result:**
+**Expected output:**
 
 ```text
 Validate Lab 9
+============================================================
    ✅ governance_report_final.json
    ✅ governance_state.json
 Prerequisites OK — proceed to Lab 10
 ```
 
-
-**Screenshot (optional):** `images/step-10-validate.png`
+**Optional screenshot:** `images/step-10-validate.png`
 
 ---
 
