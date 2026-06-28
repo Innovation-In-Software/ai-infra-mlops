@@ -14,7 +14,8 @@
     "step-pending-66.png": "step-09-drift.png",
     "step-pending-67.png": "step-10-compliance.png",
     "step-pending-68.png": "step-11a-validate.png",
-    "step-pending-69.png": "step-11b-validate-files.png"
+    "step-pending-69.png": "step-11b-validate-files.png",
+    "step-pending-70.png": "step-11c-workspace-explorer.png"
   },
   "aliases": {
     "step-02-workspace-lab2.png": "step-01-lab2-folder.png"

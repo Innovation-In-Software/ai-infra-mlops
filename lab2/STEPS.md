@@ -339,6 +339,8 @@ You should also see `preprocessor.pkl` under `config/` from Step 7.
 
 ![Step 11b — `ls -1 ../workspace/lab2/data` and `ls -1 ../workspace/lab2/config`](images/step-11b-validate-files.png)
 
+![Step 11c — Lab 2 complete: `workspace/lab2` in VS Code Explorer (all data + config files)](images/step-11c-workspace-explorer.png)
+
 ---
 
 ## Troubleshooting
