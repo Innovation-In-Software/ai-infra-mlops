@@ -71,8 +71,12 @@ def generate_comprehensive_compliance_report():
             "anonymized_count": reports.get("pii_report.json", {}).get("anonymized_count", 0),
         },
         "data_quality": {
-            "customers": reports.get("data_quality_report_customers.json", {}).get("summary", {}),
-            "transactions": reports.get("data_quality_report_transactions.json", {}).get("summary", {}),
+            "customers": reports.get("data_quality_report_customers.json", {})
+            .get("validation_results", {})
+            .get("summary", {}),
+            "transactions": reports.get("data_quality_report_transactions.json", {})
+            .get("validation_results", {})
+            .get("summary", {}),
         },
         "feature_management": {
             "total_features": reports.get("feature_metadata.json", {}).get("total_features", 0),
