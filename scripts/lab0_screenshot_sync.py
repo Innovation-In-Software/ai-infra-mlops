@@ -98,6 +98,11 @@ def sync_to_repo(source_dir: Path, skip_names: set[str] | None = None) -> list[s
         for path in sorted(gen, key=lambda p: p.name):
             if path.name in seen or path.name in skip:
                 continue
+            # Junk from old watcher — use reorganize_lab0_screenshots.py instead.
+            if path.name.startswith("step-09-launch-"):
+                continue
+            if path.name.startswith("step-pending-"):
+                continue
             seen.add(path.name)
             dest = DEST / path.name
             shutil.copy2(path, dest)
@@ -116,12 +121,19 @@ def git_push(repo: Path, message: str) -> bool:
             check=False,
         )
 
-    status = run("git", "status", "--porcelain", "lab0/images", "lab0/config/screenshot_map.json")
+    paths = [
+        "lab0/images",
+        "lab0/config/screenshot_map.json",
+        "lab0/config/lab0_screenshot_manifest.json",
+        "lab0/STEPS.md",
+        "scripts/reorganize_lab0_screenshots.py",
+    ]
+    status = run("git", "status", "--porcelain", *paths)
     if not status.stdout.strip():
         print("   Git: no screenshot changes to push")
         return False
 
-    run("git", "add", "lab0/images", "lab0/config/screenshot_map.json")
+    run("git", "add", *paths)
     commit = run("git", "commit", "-m", message)
     if commit.returncode != 0:
         print(f"   Git commit failed: {commit.stderr.strip()}")
