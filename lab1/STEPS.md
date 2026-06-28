@@ -180,8 +180,6 @@ Config file: `~/ai-infra-mlops/workspace/lab1/config/kms_keys.json`
 
 ![KMS key creation complete](images/step-04b-kms-complete.png)
 
-![kms_keys.json in workspace](images/step-04c-kms-config-file.png)
-
 ---
 
 # Step 5 — Create S3 buckets
@@ -316,8 +314,6 @@ python3 scripts/enable_audit_logging.py
 
 ![Audit logging complete summary](images/step-08b-audit-complete.png)
 
-![Audit dashboard in CloudWatch](images/step-08c-audit-dashboard.png)
-
 ---
 
 # Step 9 — Validate environment
@@ -367,18 +363,6 @@ Report saved to: `~/ai-infra-mlops/workspace/lab1/results/compliance_report.json
 | **KMS** | Two customer managed keys for S3 and SageMaker |
 | **SageMaker** | Domain `banking-mlops-domain-<account-id>` — status **InService** |
 | **CloudTrail** | Trail `BankingMLOpsAuditTrail-<account-id>` — **Logging** |
-
-![S3 console — six buckets](images/step-10a-s3-console.png)
-
-![IAM console — banking roles](images/step-10b-iam-console.png)
-
-![KMS console — encryption keys](images/step-10c-kms-console.png)
-
-![CloudTrail search](images/step-10d-cloudtrail-search.png)
-
-![CloudTrail dashboard](images/step-10e-cloudtrail-dashboard.png)
-
-![CloudTrail events](images/step-10f-cloudtrail-events.png)
 
 ---
 

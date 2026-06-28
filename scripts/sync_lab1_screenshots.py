@@ -56,7 +56,14 @@ def main() -> int:
     print(f"\nCopied: {copied}")
     kept = data.get("keep_existing", [])
     if kept:
-        print(f"Kept existing: {len(kept)} file(s) not overwritten by manifest")
+        print(f"Kept existing: {len(kept)} file(s) listed in manifest")
+
+    # Remove lab1 images not in the canonical destination set
+    allowed = set(data.get("canonical", {}).values())
+    for path in IMAGES.glob("*.png"):
+        if path.name not in allowed:
+            path.unlink()
+            print(f"   DELETE unmapped: {path.name}")
 
     if args.git_push:
         subprocess.run(
