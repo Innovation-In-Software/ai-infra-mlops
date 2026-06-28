@@ -27,6 +27,43 @@
 
 ---
 
+## Instructor account — this class (copy-paste)
+
+Use these values when you **demo or test** Lab 0. Password and access keys come from your **instructor handout only** (not stored in git).
+
+| Field | Copy this value |
+|-------|-----------------|
+| **AWS sign-in URL** | `https://iis-instructor-03.signin.aws.amazon.com/console` |
+| **Account ID** | `028417007274` |
+| **IAM user name** | `Instructor01` (case-sensitive) |
+| **Console region** | `us-west-2` (United States Oregon) |
+| **ProTech portal** | `https://labs.protechtraining.com` |
+| **ProTech host** | `COMPUTER540` |
+| **ProTech portal user** | `PTACCESS540` |
+
+**Pre-built instructor EC2** (skip Steps 4–6 if you use this instance):
+
+| Field | Copy this value |
+|-------|-----------------|
+| Instance name | `ai-mlops-lab` |
+| Instance ID | `i-0326933d0bc3b45f1` |
+| Key pair name | `ai-mlops-instructor` |
+| PEM file (ProTech VM) | `C:\Users\Administrator\.ssh\ai-mlops-instructor.pem` |
+| SSH user | `ec2-user` |
+| Security group | `mlops-lab-sg` |
+| IAM instance profile | `EC2MLOpsLabProfile` |
+| Root volume | 30 GiB |
+
+**Refresh public IP** (IP changes after stop/start) — run on ProTech VM with AWS CLI configured, or on EC2:
+
+```bash
+aws ec2 describe-instances --instance-ids i-0326933d0bc3b45f1 --region us-west-2 --query "Reservations[0].Instances[0].PublicIpAddress" --output text
+```
+
+Example output at last test: `35.161.45.178` — replace in SSH config if different.
+
+---
+
 ## Step 1 — Open the AWS sign-in page (browser)
 
 **Do this:**
@@ -36,6 +73,14 @@
 3. Bookmark the page for the rest of the course.
 
 **Expected result:** The AWS sign-in page loads with fields for **Account ID** (or alias), **IAM user name**, and **Password**.
+
+**Instructor example (copy-paste):**
+
+```
+https://iis-instructor-03.signin.aws.amazon.com/console
+```
+
+Paste that URL into the browser address bar and press Enter.
 
 **Screenshot (optional):** `images/step-01-aws-signin-page.png`
 
@@ -53,6 +98,16 @@
 
 **Expected result:** The **AWS Management Console** home page opens. The top navigation bar shows **Services**, **Search**, and your user name on the right.
 
+**Instructor example (copy-paste):**
+
+| Field | Value |
+|-------|--------|
+| Account ID | `028417007274` |
+| IAM user name | `Instructor01` |
+| Password | *(from instructor handout — do not commit)* |
+
+After sign-in, top-right should show **`Instructor01`** and account **`028417007274`**.
+
 **Screenshot (optional):** `images/step-02-console-home.png`
 
 ---
@@ -69,6 +124,17 @@
 **Expected result:** Every EC2, S3, and SageMaker resource you create in this course must be in **`us-west-2`**. If the wrong region is selected, later lab steps will fail or create resources in the wrong place.
 
 **Tip:** Before each lab session, glance at the region selector — it sometimes resets after logout.
+
+**Instructor example (copy-paste):**
+
+1. Console search bar → type `EC2` → open **EC2**.
+2. Region selector (top-right) → choose **United States (Oregon) us-west-2**.
+
+Or open EC2 directly for this class:
+
+```
+https://us-west-2.console.aws.amazon.com/ec2/home?region=us-west-2
+```
 
 **Screenshot (optional):** `images/step-03-region-us-west-2.png`
 
@@ -98,6 +164,15 @@
 **Expected result:** A `.pem` file downloads once. You cannot download it again — if you lose it, create a new key pair and attach it to a new instance.
 
 **Security:** Do not email the `.pem` file or commit it to git.
+
+**Instructor example (copy-paste):**
+
+| Setting | Instructor value |
+|---------|------------------|
+| Key pair name | `ai-mlops-instructor` |
+| PEM on ProTech VM | `C:\Users\Administrator\.ssh\ai-mlops-instructor.pem` |
+
+If `ai-mlops-instructor` already exists in EC2 → **Key Pairs**, you cannot re-download it — use the PEM from your secure folder. Students create their own key (e.g. `mlops-lab-key`).
 
 **Screenshot (optional):** `images/step-04-key-pair.png`
 
@@ -130,6 +205,15 @@
 
 **Expected result:** Security group `mlops-lab-sg` appears in the list with inbound **SSH (22)** from your IP.
 
+**Instructor example (copy-paste):**
+
+| Setting | Instructor value |
+|---------|------------------|
+| Security group name | `mlops-lab-sg` |
+| Inbound | SSH **22** from **My IP** |
+
+If `mlops-lab-sg` already exists, open it → **Inbound rules** → **Edit** → add **My IP** on port 22 if SSH times out.
+
 **Screenshot (optional):** `images/step-05-security-group.png`
 
 ---
@@ -157,6 +241,22 @@
 
 **Expected result:** Instance `mlops-lab` shows state **Pending**, then **Running**. Wait until **Status check** shows **2/2 checks passed** (may take 2–5 minutes).
 
+**Instructor example (copy-paste):**
+
+**Shortcut:** Instance **`ai-mlops-lab`** is already provisioned for this class. EC2 → **Instances** → confirm it is **Running** → skip to **Step 7**.
+
+If you launch a new instance for testing, use:
+
+| Setting | Value |
+|---------|--------|
+| Name | `ai-mlops-lab` |
+| AMI | Amazon Linux 2023 |
+| Instance type | `t3.large` |
+| Key pair | `ai-mlops-instructor` |
+| Security group | `mlops-lab-sg` |
+| Storage | 30 GiB gp3 |
+| IAM instance profile | `EC2MLOpsLabProfile` (optional — enables role-based `aws` on EC2) |
+
 **Screenshot (optional):** `images/step-06-launch-instance.png`
 
 ---
@@ -175,6 +275,22 @@
 
 **Expected result:** You have a **Public IPv4 address** written down. This IP **changes** if you stop and start the instance — update SSH config after a restart.
 
+**Instructor example (copy-paste):**
+
+Console: EC2 → Instances → select **`ai-mlops-lab`** (`i-0326933d0bc3b45f1`) → copy **Public IPv4 address**.
+
+CLI (ProTech VM or EC2, with `aws` configured):
+
+```bash
+aws ec2 describe-instances --instance-ids i-0326933d0bc3b45f1 --region us-west-2 --query "Reservations[0].Instances[0].PublicIpAddress" --output text
+```
+
+Example output (yours may differ):
+
+```text
+35.161.45.178
+```
+
 **Screenshot (optional):** `images/step-07-public-ip.png`
 
 ---
@@ -191,6 +307,16 @@ On your **ProTech VM** or **laptop** (not on EC2):
 4. Optional but helpful: install **Remote Explorer** (same publisher).
 
 **Expected result:** The VS Code status bar can show remote connections; **Remote Explorer** appears in the activity bar (monitor icon).
+
+**Instructor example (copy-paste):**
+
+On ProTech VM **`COMPUTER540`**, install VS Code if needed:
+
+```powershell
+winget install Microsoft.VisualStudioCode
+```
+
+Then in VS Code → Extensions → install **`ms-vscode-remote.remote-ssh`**.
 
 **Screenshot (optional):** `images/step-08-vscode-remote-ssh-ext.png`
 
@@ -240,6 +366,32 @@ On your **ProTech VM** or **laptop** (not on EC2):
 
 **Expected result:** SSH connects as `ec2-user@...` without a password prompt (key-based auth). First connect may ask to trust the host fingerprint — type `yes`.
 
+**Instructor example (copy-paste):**
+
+**1. PEM permissions (ProTech VM — PowerShell):**
+
+```powershell
+icacls C:\Users\Administrator\.ssh\ai-mlops-instructor.pem /inheritance:r
+icacls C:\Users\Administrator\.ssh\ai-mlops-instructor.pem /grant:r "$($env:USERNAME):(R)"
+```
+
+**2. SSH config** — edit `C:\Users\Administrator\.ssh\config` (create file if missing). Replace `35.161.45.178` with the IP from Step 7 if different:
+
+```
+Host ai-mlops-lab
+    HostName 35.161.45.178
+    User ec2-user
+    IdentityFile C:/Users/Administrator/.ssh/ai-mlops-instructor.pem
+```
+
+**3. Test SSH (PowerShell or Git Bash):**
+
+```bash
+ssh ai-mlops-lab
+```
+
+Type `exit` when you see `[ec2-user@...]$`.
+
 **Screenshot (optional):** `images/step-09-ssh-config.png`
 
 ---
@@ -249,7 +401,7 @@ On your **ProTech VM** or **laptop** (not on EC2):
 **Do this:**
 
 1. Open **VS Code** on your ProTech VM or laptop.
-2. Press **`Ctrl+Shift+P`** → type **`Remote-SSH: Connect to Host`** → select **`mlops-lab-ec2`**.
+2. Press **`Ctrl+Shift+P`** → type **`Remote-SSH: Connect to Host`** → select **`ai-mlops-lab`** (instructor) or **`mlops-lab-ec2`** (your own host name from Step 9).
 3. Wait for VS Code to install the VS Code Server on EC2 (first connect takes 1–2 minutes).
 4. **File → Open Folder** → enter `/home/ec2-user` → **OK**.
 5. **Terminal → New Terminal** — confirm the shell is **bash**.
@@ -268,10 +420,27 @@ ec2-user
 /home/ec2-user
 ```
 
-Status bar shows **`SSH: mlops-lab-ec2`**. The integrated terminal prompt looks like:
+Status bar shows **`SSH: ai-mlops-lab`** (or your host alias). The integrated terminal prompt looks like:
 
 ```text
 [ec2-user@ip-172-31-xx-xx ~]$
+```
+
+**Instructor example (copy-paste):** After connect, run:
+
+```bash
+clear
+whoami
+hostname
+pwd
+```
+
+Expected:
+
+```text
+ec2-user
+ip-172-31-xx-xx.us-west-2.compute.internal
+/home/ec2-user
 ```
 
 From this step onward, **all lab commands** run in this EC2 terminal — not in Windows PowerShell.
@@ -307,6 +476,25 @@ If `aws` is missing:
 sudo dnf install -y awscli
 ```
 
+**Instructor example (copy-paste):**
+
+```bash
+clear
+python3 --version
+git --version
+aws --version
+uname -a
+```
+
+Expected (versions may vary slightly):
+
+```text
+Python 3.9.25
+git version 2.50.1
+aws-cli/2.33.15 Python/3.9.25 Linux/6.12.92-122.166.amzn2023.x86_64 source/x86_64.amzn.2023
+Linux ... amzn2023.x86_64 GNU/Linux
+```
+
 **Screenshot (optional):** `images/step-11-tools.png`
 
 ---
@@ -337,6 +525,17 @@ lab2
 scripts
 ```
 
+**Instructor example (copy-paste):**
+
+If repo already exists, pull instead of clone:
+
+```bash
+clear
+cd ~
+if [ -d ai-infra-mlops ]; then cd ai-infra-mlops && git pull; else git clone https://github.com/gjkaur/ai-infra-mlops.git && cd ai-infra-mlops; fi
+ls -1
+```
+
 **Screenshot (optional):** `images/step-12-clone.png`
 
 ---
@@ -362,6 +561,21 @@ config
 images
 requirements.txt
 scripts
+```
+
+**Instructor example (copy-paste):**
+
+VS Code: **File → Open Folder** → paste:
+
+```
+/home/ec2-user/ai-infra-mlops
+```
+
+Terminal:
+
+```bash
+clear
+cd ~/ai-infra-mlops/lab0 && ls -1
 ```
 
 **Screenshot (optional):** `images/step-13-lab0-folder.png`
@@ -401,6 +615,62 @@ Account ID and ARN will match your assigned user. Region must be **`us-west-2`**
 
 **Alternative:** If your instance has an IAM **instance profile**, `aws sts get-caller-identity` may show an `assumed-role` ARN instead of a user — that is OK if your instructor confirms the role has lab permissions.
 
+**Instructor example (copy-paste):**
+
+**Option A — access keys** (paste keys from handout when prompted; not stored in git):
+
+```bash
+clear
+aws configure set region us-west-2
+aws configure set output json
+aws configure
+```
+
+At the prompts, enter access key ID and secret from the handout. Then:
+
+```bash
+aws sts get-caller-identity
+aws configure get region
+```
+
+Expected:
+
+```text
+{
+    "UserId": "AIDAXXXXXXXXXXXXXXXXX",
+    "Account": "028417007274",
+    "Arn": "arn:aws:iam::028417007274:user/Instructor01"
+}
+us-west-2
+```
+
+**Option B — instance profile** (no keys; `ai-mlops-lab` with `EC2MLOpsLabProfile`):
+
+```bash
+clear
+aws configure set region us-west-2
+aws configure set output json
+aws sts get-caller-identity
+aws configure get region
+```
+
+Expected:
+
+```text
+{
+    "UserId": "AROAQNHOJD2VP3ODHKF4S:i-0326933d0bc3b45f1",
+    "Account": "028417007274",
+    "Arn": "arn:aws:sts::028417007274:assumed-role/EC2MLOpsLabRole/i-0326933d0bc3b45f1"
+}
+us-west-2
+```
+
+Quick S3 check:
+
+```bash
+aws s3 ls --region us-west-2 | head -5
+```
+
 **Screenshot (optional):** `images/step-14-aws-cli.png`
 
 ---
@@ -427,6 +697,24 @@ All imports successful!
 
 If pip fails with **no space left on device**, return to Step 6 and increase the root volume to **30 GiB**, then expand the filesystem or relaunch the instance.
 
+**Instructor example (copy-paste):**
+
+```bash
+clear
+cd ~/ai-infra-mlops/lab0
+python3 -m pip install --upgrade pip
+pip install -r requirements.txt
+pip install -r ../lab1/requirements.txt
+pip install -r ../lab2/requirements.txt
+python3 scripts/test_imports.py
+```
+
+Expected last line:
+
+```text
+All imports successful!
+```
+
 **Screenshot (optional):** `images/step-15-pip.png`
 
 ---
@@ -447,6 +735,15 @@ echo $LAB_NUM_RECORDS $LAB_USE_COMPREHEND
 ```text
 MLOps lab env: LAB_NUM_RECORDS=1000 LAB_USE_COMPREHEND=0 region=us-west-2
 1000 0
+```
+
+**Instructor example (copy-paste):**
+
+```bash
+clear
+source ~/ai-infra-mlops/lab0/scripts/setup_classroom_env.sh
+grep LAB_ ~/.bashrc || { echo 'export LAB_NUM_RECORDS=1000' >> ~/.bashrc; echo 'export LAB_USE_COMPREHEND=0' >> ~/.bashrc; }
+echo $LAB_NUM_RECORDS $LAB_USE_COMPREHEND
 ```
 
 **Screenshot (optional):** `images/step-16-env.png`
@@ -475,6 +772,15 @@ Creating Banking MLOps Lab Directory Structure
 
 Directory structure ready.
 config  lab1  lab2  lab3  ...  logs  results  scripts  shared_data
+```
+
+**Instructor example (copy-paste):**
+
+```bash
+clear
+cd ~/ai-infra-mlops/lab0
+python3 scripts/setup_lab_directories.py
+ls ../workspace
 ```
 
 **Screenshot (optional):** `images/step-17-workspace.png`
@@ -519,6 +825,40 @@ ALL CHECKS PASSED. Environment is ready.
 Results saved: /home/ec2-user/ai-infra-mlops/lab0/logs/verification_results.json
 ```
 
+**Instructor example (copy-paste):**
+
+```bash
+clear
+cd ~/ai-infra-mlops/lab0
+python3 scripts/run_lab0_setup.py
+python3 scripts/verify_environment.py
+```
+
+Expected summary (account/ARN matches Option A or B from Step 14):
+
+```text
+Banking MLOps Environment Verification
+============================================================
+   [PASS] Python Version: Python 3.9.25
+   [PASS] Required Packages: Installed: 12, Missing: 0
+   [PASS] Default Region Config: us-west-2
+   [PASS] AWS CLI Region: Region: us-west-2
+   [PASS] AWS CLI Credentials: Arn: arn:aws:sts::028417007274:assumed-role/EC2MLOpsLabRole/i-0326933d0bc3b45f1
+   [PASS] Boto3 AWS Access: Account: 028417007274
+   [PASS] Course Lab Folders: Found 11 lab folder(s) in repo
+   [PASS] Student Workspace: Workspace: /home/ec2-user/ai-infra-mlops/workspace (0 missing)
+   [PASS] Git Repository: Repo cloned
+
+============================================================
+Verification Summary:
+   Total Checks: 9
+   Passed: 9
+   Failed: 0
+
+ALL CHECKS PASSED. Environment is ready.
+   Proceed to Lab 1 (open lab1/STEPS.md)
+```
+
 **Screenshot (optional):** `images/step-18-verify-pass.png`
 
 ---
@@ -530,7 +870,7 @@ Results saved: /home/ec2-user/ai-infra-mlops/lab0/logs/verification_results.json
 | SSH timeout | Instance running? Correct **public IP** in SSH config? Security group allows **port 22** from your IP? |
 | `Permission denied (publickey)` | PEM path in SSH config; Windows `icacls` on `.pem`; user must be **`ec2-user`** |
 | Wrong region in console | Set **us-west-2** before creating EC2 (Step 3) |
-| Public IP changed | EC2 → instance → copy new IP → update SSH config → reconnect VS Code |
+| Public IP changed | Run Step 7 IP command; update `HostName` in `C:\Users\Administrator\.ssh\config` |
 | `aws sts` AccessDenied | Re-run Step 14; confirm keys and IAM permissions with instructor |
 | Pip / disk full | Root volume **30 GiB** minimum (Step 6) |
 
