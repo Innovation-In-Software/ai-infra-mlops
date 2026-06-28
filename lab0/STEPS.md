@@ -1046,12 +1046,28 @@ aws s3 ls --region us-west-2 | head -5
 ```bash
 clear
 cd ~/ai-infra-mlops/lab0
+```
+
+**18a. Install pip** (if `python3 -m pip` says `No module named pip`):
+
+```bash
+sudo dnf install -y python3-pip
+python3 -m pip --version
+```
+
+**Expected:** `pip 21.x` or newer from `python3 -m pip`.
+
+**18b. Install lab requirements**
+
+```bash
 python3 -m pip install --upgrade pip
-pip install -r requirements.txt
-pip install -r ../lab1/requirements.txt
-pip install -r ../lab2/requirements.txt
+python3 -m pip install -r requirements.txt
+python3 -m pip install -r ../lab1/requirements.txt
+python3 -m pip install -r ../lab2/requirements.txt
 python3 scripts/test_imports.py
 ```
+
+> Use **`python3 -m pip`** (not bare `pip`) so packages install for the same Python you run in the labs.
 
 **Expected result:**
 
@@ -1066,10 +1082,11 @@ If pip fails with **no space left on device**, return to Step 9 and increase the
 ```bash
 clear
 cd ~/ai-infra-mlops/lab0
+sudo dnf install -y python3-pip
 python3 -m pip install --upgrade pip
-pip install -r requirements.txt
-pip install -r ../lab1/requirements.txt
-pip install -r ../lab2/requirements.txt
+python3 -m pip install -r requirements.txt
+python3 -m pip install -r ../lab1/requirements.txt
+python3 -m pip install -r ../lab2/requirements.txt
 python3 scripts/test_imports.py
 ```
 
@@ -1309,6 +1326,7 @@ Passwords and access keys: **instructor handout only** (not in git).
 | `bash: git: command not found` | Run on **EC2** (Step 13 SSH connected, `whoami` = `ec2-user`): `sudo dnf install -y git`. If on ProTech VM, connect VS Code to EC2 first — do not use `git` on Windows for labs |
 | GitHub `Password authentication is not supported` | **Step 15:** Public repo — do **not** enter GitHub user/password at clone prompt. `rm -rf ~/ai-infra-mlops` then `git clone` again; cancel prompt with **Ctrl+C** if needed |
 | `aws sts` AccessDenied | Re-run Step 17; confirm keys and IAM permissions with instructor |
+| `No module named pip` | **Step 18a:** `sudo dnf install -y python3-pip` then use `python3 -m pip install ...` |
 | Pip / disk full | Root volume **30 GiB** minimum (Step 9) |
 | `docker: permission denied` | Complete Step 19, then **reconnect** VS Code SSH |
 | `docker: command not found` | Re-run Lab 0 Step 19 |
