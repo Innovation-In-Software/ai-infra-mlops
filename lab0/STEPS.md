@@ -247,21 +247,42 @@ https://us-west-2.console.aws.amazon.com/ec2/home?region=us-west-2
 
 ![Success banner and downloaded key](images/step-07d-key-pair-success.png)
 
-7. **Move the `.pem` to your SSH folder** (ProTech VM):
+7. **Move the `.pem` to the Administrator SSH folder** (ProTech VM) — **not** `Downloads\.ssh`:
 
-   | Action | Windows path |
-   |--------|----------------|
-   | Open **Downloads** | `C:\Users\Administrator\Downloads` |
-   | Create folder **`.ssh`** if missing | inside Downloads **or** `C:\Users\Administrator\.ssh` |
-   | Move `mlops-lab-key.pem` into `.ssh` | Final path: `C:\Users\Administrator\.ssh\mlops-lab-key.pem` |
+   The browser saves the key to **Downloads** first. Move it to:
 
-   **Recommended:** use `C:\Users\Administrator\.ssh\` (not Downloads) so Step 12 SSH config paths stay simple.
+   ```text
+   C:\Users\Administrator\.ssh\mlops-lab-key.pem
+   ```
 
-![PEM file in Downloads](images/step-07e-pem-in-downloads.png)
+   **Option A — File Explorer**
 
-![Drag PEM into .ssh folder](images/step-07f-pem-move-to-ssh.png)
+   | Step | Action |
+   |------|--------|
+   | 1 | Open **File Explorer** → **Downloads** — confirm `mlops-lab-key.pem` is there |
 
-![PEM in .ssh folder — ready for Step 12](images/step-07g-pem-in-ssh-folder.png)
+   ![PEM downloaded to Downloads](images/step-07e-pem-in-downloads.png)
+
+   | 2 | Click the address bar, paste `C:\Users\Administrator\.ssh`, press **Enter** |
+   | 3 | If the folder does not exist, create it: **New folder** → name `.ssh` inside `C:\Users\Administrator` |
+   | 4 | Open **Downloads** in a second window (or **Win+E** again) |
+   | 5 | **Drag** `mlops-lab-key.pem` into `C:\Users\Administrator\.ssh` |
+
+   **Option B — PowerShell (copy-paste on ProTech VM)**
+
+   ```powershell
+   New-Item -ItemType Directory -Force -Path C:\Users\Administrator\.ssh
+   Move-Item -Force C:\Users\Administrator\Downloads\mlops-lab-key.pem C:\Users\Administrator\.ssh\
+   Get-ChildItem C:\Users\Administrator\.ssh
+   ```
+
+   **Expected path in File Explorer address bar:**
+
+   ```text
+   C:\Users\Administrator\.ssh
+   ```
+
+   **Not** `C:\Users\Administrator\Downloads\.ssh` — VS Code SSH (Step 12) uses the profile `.ssh` folder above.
 
 8. EC2 → **Key pairs** should list your key:
 
@@ -1127,6 +1148,7 @@ Update `HostName` in SSH config (Step 12) when the IP changes.
 | No EC2 instance yet | Complete **Steps 7–10** (key pair, security group, launch) before VS Code (Step 11) |
 | Only 1 security group (`default`) | Normal **before** Step 8 — create **`mlops-lab-sg`** in Step 8 |
 | Lost `.pem` file | Create a new key pair + launch a new instance (cannot re-download) |
+| PEM in `Downloads\.ssh` | Move to `C:\Users\Administrator\.ssh\` (Step 7) — Step 12 expects the profile `.ssh` folder |
 | Public IP changed | Run Step 10 IP command; update `HostName` in `C:\Users\Administrator\.ssh\config` |
 | `aws sts` AccessDenied | Re-run Step 17; confirm keys and IAM permissions with instructor |
 | Pip / disk full | Root volume **30 GiB** minimum (Step 9) |

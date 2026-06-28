@@ -2,7 +2,9 @@
   "skip_sources": [
     "Screenshot 2026-06-28 003036.png",
     "Screenshot 2026-06-28 115310.png",
-    "step-09-launch-09.png"
+    "step-09-launch-09.png",
+    "step-07f-pem-move-to-ssh.png",
+    "step-07g-pem-in-ssh-folder.png"
   ],
   "mappings": {
     "Screenshot 2026-06-28 003154.png": "step-01-protech-portal.png",
