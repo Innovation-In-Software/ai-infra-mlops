@@ -742,6 +742,7 @@ Type `exit` when you see `[ec2-user@...]$`.
    clear
    whoami
    pwd
+   hostname
    ```
 
 **Expected result:**
@@ -749,7 +750,10 @@ Type `exit` when you see `[ec2-user@...]$`.
 ```text
 ec2-user
 /home/ec2-user
+ip-172-31-xx-xx.us-west-2.compute.internal
 ```
+
+> **Wrong terminal?** If `whoami` shows **`Administrator`** or hostname **`COMPUTER540`**, you are still on the **ProTech VM** — not EC2. Reconnect with **Remote-SSH: Connect to Host** (step 2). Lab commands (`git`, `aws`, `python3`) run on **EC2 only** after this step.
 
 Status bar shows **`SSH: ai-mlops-lab`** (or your host alias). The integrated terminal prompt looks like:
 
@@ -813,7 +817,14 @@ If `aws` is missing:
 sudo dnf install -y awscli
 ```
 
-**Instructor example (copy-paste):**
+If `git` is missing (`bash: git: command not found`):
+
+```bash
+sudo dnf install -y git
+git --version
+```
+
+> **On the ProTech VM (Windows):** `git` is **not** required before Step 13. Do **not** run `git clone` in PowerShell, Git Bash, or CMD on the VM — clone the repo in **Step 15** on **EC2** after VS Code SSH connects.
 
 ```bash
 clear
