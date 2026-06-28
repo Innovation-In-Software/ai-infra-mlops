@@ -1,28 +1,51 @@
 # Lab 8: End-to-End SageMaker Pipeline
 
-## Class · `ai-mlops-2026-jun30` · **30 min** · **us-west-2**
-## Platform · **EC2** + [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) + **bash**
-## Prerequisite · [Lab 7](../lab7/STEPS.md) complete
-## Working directory · `~/ai-infra-mlops/lab8`
-## Outputs · `~/ai-infra-mlops/workspace/lab8/`
-## Run all · `python3 scripts/run_lab8.py` (uses `--dry-run` for AWS steps)
+| | |
+|---|---|
+| **Class** | `ai-mlops-2026-jun30` |
+| **Duration** | ~30 minutes |
+| **Region** | `us-west-2` |
+| **Platform** | EC2 · [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) · **bash** |
+| **Prerequisite** | [Lab 7](../lab7/STEPS.md) |
+| **Working directory** | `~/ai-infra-mlops/lab8` |
+| **Outputs** | `~/ai-infra-mlops/workspace/lab8/` |
+
+> All commands run in the **VS Code integrated terminal** on EC2. Do not use local Windows PowerShell for lab steps.
+
+> **Quick run:** `python3 scripts/run_lab8.py` runs all script steps in order.
 
 ---
 
-# Step 1 — Confirm lab8 folder
+## Before you start
+
+```bash
+cd ~/ai-infra-mlops && git pull
+cd lab8
+```
+
+Run `clear` before each step for clean terminal screenshots.
+
+---
+
+## Step 1 — Confirm lab8 folder
+
+**Do this:**
 
 ```bash
 clear
 cd ~/ai-infra-mlops && ls -1 lab8
 ```
 
-**Expected output:** `Validate Lab 8`, `config`, `images`, `pipeline`, `requirements.txt`, `scripts`
+**Expected result:** `Validate Lab 8`
 
-**Optional screenshot:** `images/step-01-lab8-folder.png`
+
+**Screenshot (optional):** `images/step-01-lab8-folder.png`
 
 ---
 
-# Step 2 — Install pipeline dependencies
+## Step 2 — Install pipeline dependencies
+
+**Do this:**
 
 ```bash
 clear
@@ -31,17 +54,16 @@ pip install -r requirements.txt
 python3 -c "import sagemaker; print('SageMaker SDK', sagemaker.__version__)"
 ```
 
-**Expected output:**
+**Expected result:** `SageMaker SDK 2.x.x`
 
-```text
-SageMaker SDK 2.x.x
-```
 
-**Optional screenshot:** `images/step-02-pip.png`
+**Screenshot (optional):** `images/step-02-pip.png`
 
 ---
 
-# Step 3 — Define pipeline parameters
+## Step 3 — Define pipeline parameters
+
+**Do this:**
 
 ```bash
 clear
@@ -49,7 +71,7 @@ python3 scripts/define_pipeline_params.py
 cat ../workspace/lab8/config/pipeline_params.json | head -12
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 ✅ Pipeline parameters defined
@@ -60,18 +82,21 @@ cat ../workspace/lab8/config/pipeline_params.json | head -12
 }
 ```
 
-**Optional screenshot:** `images/step-03-params.png`
+
+**Screenshot (optional):** `images/step-03-params.png`
 
 ---
 
-# Step 4 — Build pipeline definition
+## Step 4 — Build pipeline definition
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/build_pipeline.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 🔧 SageMaker Pipeline
@@ -83,37 +108,43 @@ python3 scripts/build_pipeline.py
 ✅ Pipeline definition saved
 ```
 
-**Optional screenshot:** `images/step-04-build.png`
+
+**Screenshot (optional):** `images/step-04-build.png`
 
 ---
 
-# Step 5 — Upsert pipeline to SageMaker
+## Step 5 — Upsert pipeline to SageMaker
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/upsert_pipeline.py --dry-run
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
-   ✅ Pipeline name: banking-ml-pipeline
+✅ Pipeline name: banking-ml-pipeline
    ✅ Upsert: simulated success
 ✅ Pipeline registered (dry-run)
 ```
 
-**Optional screenshot:** `images/step-05-upsert.png`
+
+**Screenshot (optional):** `images/step-05-upsert.png`
 
 ---
 
-# Step 6 — Start pipeline execution
+## Step 6 — Start pipeline execution
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/start_pipeline.py --dry-run
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 ▶️ Pipeline Execution
@@ -123,39 +154,45 @@ python3 scripts/start_pipeline.py --dry-run
 ✅ Pipeline started (dry-run)
 ```
 
-**Optional screenshot:** `images/step-06-execute.png`
+
+**Screenshot (optional):** `images/step-06-execute.png`
 
 ---
 
-# Step 7 — Monitor pipeline steps
+## Step 7 — Monitor pipeline steps
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/monitor_pipeline.py --dry-run
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
-   data-validation     ✅ Succeeded
+data-validation     ✅ Succeeded
    xgboost-training    ✅ Succeeded
    model-evaluation    ✅ Succeeded
    model-registry      ✅ Succeeded
 ✅ All steps succeeded (simulated)
 ```
 
-**Optional screenshot:** `images/step-07-monitor.png`
+
+**Screenshot (optional):** `images/step-07-monitor.png`
 
 ---
 
-# Step 8 — Register model in Model Registry
+## Step 8 — Register model in Model Registry
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/register_model.py --dry-run
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 📋 Model Registry
@@ -165,36 +202,42 @@ python3 scripts/register_model.py --dry-run
 ✅ Model registered (dry-run)
 ```
 
-**Optional screenshot:** `images/step-08-registry.png`
+
+**Screenshot (optional):** `images/step-08-registry.png`
 
 ---
 
-# Step 9 — Pipeline compliance report
+## Step 9 — Pipeline compliance report
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/generate_pipeline_report.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 ✅ Pipeline compliance report generated
    File: results/pipeline_compliance_report_final.json
 ```
 
-**Optional screenshot:** `images/step-09-report.png`
+
+**Screenshot (optional):** `images/step-09-report.png`
 
 ---
 
-# Step 10 — Validate lab8
+## Step 10 — Validate lab8
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/validate_lab8.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 Validate Lab 8
@@ -204,7 +247,8 @@ Validate Lab 8
 Prerequisites OK — proceed to Lab 9
 ```
 
-**Optional screenshot:** `images/step-10-validate.png`
+
+**Screenshot (optional):** `images/step-10-validate.png`
 
 ---
 

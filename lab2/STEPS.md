@@ -1,10 +1,27 @@
 # Lab 2: Banking Data Management & PII Protection
 
-## Class · `ai-mlops-2026-jun30` · **30 min** · **us-west-2**
-## Platform · **EC2** + [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) + **bash**
-## Prerequisite · [Lab 1](../lab1/STEPS.md) — `Compliance Score: 100%`
-## Working directory · `~/ai-infra-mlops/lab2`
-## Outputs · `~/ai-infra-mlops/workspace/lab2/`
+| | |
+|---|---|
+| **Class** | `ai-mlops-2026-jun30` |
+| **Duration** | ~30 minutes |
+| **Region** | `us-west-2` |
+| **Platform** | EC2 · [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) · **bash** |
+| **Prerequisite** | [Lab 1](../lab1/STEPS.md) |
+| **Working directory** | `~/ai-infra-mlops/lab2` |
+| **Outputs** | `~/ai-infra-mlops/workspace/lab2/` |
+
+> All commands run in the **VS Code integrated terminal** on EC2. Do not use local Windows PowerShell for lab steps.
+
+---
+
+## Before you start
+
+```bash
+cd ~/ai-infra-mlops && git pull
+cd lab2
+```
+
+Run `clear` before each step for clean terminal screenshots.
 
 ---
 
@@ -27,7 +44,11 @@ cd lab2 && python3 scripts/cleanup_lab2.py --aws   # if re-running Feature Store
 
 ---
 
-# Step 1 — Confirm lab2 in repo
+---
+
+## Step 1 — Confirm lab2 in repo
+
+**Do this:**
 
 ```bash
 clear
@@ -35,13 +56,16 @@ cd ~/ai-infra-mlops
 ls -1 lab2
 ```
 
-**Expected output:** `Validate Lab 2`, `config`, `images`, `requirements.txt`, `scripts`
+**Expected result:** `Validate Lab 2`
 
-**Optional screenshot:** `images/step-01-lab2-folder.png`
+
+**Screenshot (optional):** `images/step-01-lab2-folder.png`
 
 ---
 
-# Step 2 — Confirm workspace
+## Step 2 — Confirm workspace
+
+**Do this:**
 
 ```bash
 clear
@@ -49,13 +73,16 @@ cd ~/ai-infra-mlops/lab2
 ls -1 ../workspace/lab2
 ```
 
-**Expected output:** `config`, `data`, `logs`, `results`, `validation`
+**Expected result:** `config`
 
-**Optional screenshot:** `images/step-02-workspace-lab2.png`
+
+**Screenshot (optional):** `images/step-02-workspace-lab2.png`
 
 ---
 
-# Step 3 — Verify Lab 1 prerequisites
+## Step 3 — Verify Lab 1 prerequisites
+
+**Do this:**
 
 ```bash
 clear
@@ -63,7 +90,7 @@ python3 scripts/validate_lab2.py
 cd ../lab1 && python3 scripts/validate_environment.py && cd ../lab2
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 Validate Lab 2
@@ -79,18 +106,21 @@ Status: COMPLIANT
 ✅ ALL CHECKS PASSED! Environment is compliant.
 ```
 
-**Optional screenshot:** `images/step-03-prerequisites.png`
+
+**Screenshot (optional):** `images/step-03-prerequisites.png`
 
 ---
 
-# Step 4 — Generate banking dataset
+## Step 4 — Generate banking dataset
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/download_banking_data.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 🏦 Generating Banking Transaction Dataset
@@ -100,20 +130,21 @@ python3 scripts/download_banking_data.py
 ✅ Dataset metadata saved
 ```
 
-Files: `workspace/lab2/data/customers.csv`, `transactions.csv`
 
-**Optional screenshot:** `images/step-04-dataset.png`
+**Screenshot (optional):** `images/step-04-dataset.png`
 
 ---
 
-# Step 5 — PII detection & anonymization
+## Step 5 — PII detection & anonymization
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/pii_detection_anonymization.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 🏦 Processing Banking Data with PII Protection
@@ -124,20 +155,21 @@ python3 scripts/pii_detection_anonymization.py
 ✅ Banking Data Processing Complete!
 ```
 
-Files: `anonymized_customers.csv`, `anonymized_transactions.csv`, `config/pii_*.json`
 
-**Optional screenshot:** `images/step-05-pii.png`
+**Screenshot (optional):** `images/step-05-pii.png`
 
 ---
 
-# Step 6 — Data validation
+## Step 6 — Data validation
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/data_validation.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 ✅ Data Validation Complete!
@@ -145,20 +177,21 @@ python3 scripts/data_validation.py
    Transaction Quality Score: 70.0%
 ```
 
-Reports: `config/data_quality_report_*.json`
 
-**Optional screenshot:** `images/step-06-validation.png`
+**Screenshot (optional):** `images/step-06-validation.png`
 
 ---
 
-# Step 7 — Feature engineering
+## Step 7 — Feature engineering
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/feature_engineering.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 ✅ Feature Engineering Complete!
@@ -167,18 +200,21 @@ python3 scripts/feature_engineering.py
    Feature Metadata: .../config/feature_metadata.json
 ```
 
-**Optional screenshot:** `images/step-07-features.png`
+
+**Screenshot (optional):** `images/step-07-features.png`
 
 ---
 
-# Step 8 — SageMaker Feature Store
+## Step 8 — SageMaker Feature Store
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/feature_store_setup.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 🏦 Setting Up Banking Feature Store
@@ -191,20 +227,21 @@ python3 scripts/feature_store_setup.py
 ✅ Feature Store Setup Complete!
 ```
 
-Config: `config/feature_store_config.json` · **~5–15 min**
 
-**Optional screenshot:** `images/step-08-feature-store.png`
+**Screenshot (optional):** `images/step-08-feature-store.png`
 
 ---
 
-# Step 9 — Drift detection
+## Step 9 — Drift detection
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/data_drift_detection.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 📊 Drift Detection Summary:
@@ -215,18 +252,21 @@ python3 scripts/data_drift_detection.py
 ✅ Drift Detection Complete!
 ```
 
-**Optional screenshot:** `images/step-09-drift.png`
+
+**Screenshot (optional):** `images/step-09-drift.png`
 
 ---
 
-# Step 10 — Compliance report
+## Step 10 — Compliance report
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/generate_compliance_doc.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 📋 COMPLIANCE REPORT SUMMARY
@@ -236,15 +276,14 @@ python3 scripts/generate_compliance_doc.py
 ✅ Drift Monitoring: NORMAL
 ```
 
-File: `data/compliance_report_final.json`
 
-Or all steps: `python3 scripts/run_lab2.py`
-
-**Optional screenshot:** `images/step-10-compliance.png`
+**Screenshot (optional):** `images/step-10-compliance.png`
 
 ---
 
-# Step 11 — Final validation
+## Step 11 — Final validation
+
+**Do this:**
 
 ```bash
 clear
@@ -253,7 +292,7 @@ ls -1 ../workspace/lab2/data
 ls -1 ../workspace/lab2/config
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 Validate Lab 2
@@ -279,7 +318,8 @@ Validate Lab 2
 Prerequisites OK — run lab2 scripts in STEPS.md order.
 ```
 
-**Optional screenshot:** `images/step-11-validate.png`
+
+**Screenshot (optional):** `images/step-11-validate.png`
 
 ---
 

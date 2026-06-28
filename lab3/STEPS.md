@@ -1,16 +1,35 @@
 # Lab 3: Model Training & Fairness Testing
 
-## Class · `ai-mlops-2026-jun30` · **30 min** · **us-west-2**
-## Platform · **EC2** + [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) + **bash**
-## Prerequisite · [Lab 2](../lab2/STEPS.md) complete
-## Working directory · `~/ai-infra-mlops/lab3`
-## Outputs · `~/ai-infra-mlops/workspace/lab3/`
+| | |
+|---|---|
+| **Class** | `ai-mlops-2026-jun30` |
+| **Duration** | ~30 minutes |
+| **Region** | `us-west-2` |
+| **Platform** | EC2 · [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) · **bash** |
+| **Prerequisite** | [Lab 2](../lab2/STEPS.md) |
+| **Working directory** | `~/ai-infra-mlops/lab3` |
+| **Outputs** | `~/ai-infra-mlops/workspace/lab3/` |
 
-> **Scripts:** Runnable under `lab3/scripts/`. Run `python3 scripts/run_lab3.py` for all steps.
+> All commands run in the **VS Code integrated terminal** on EC2. Do not use local Windows PowerShell for lab steps.
+
+> **Quick run:** `python3 scripts/run_lab3.py` runs all script steps in order.
 
 ---
 
-# Step 1 — Confirm lab3 in repo
+## Before you start
+
+```bash
+cd ~/ai-infra-mlops && git pull
+cd lab3
+```
+
+Run `clear` before each step for clean terminal screenshots.
+
+---
+
+## Step 1 — Confirm lab3 in repo
+
+**Do this:**
 
 ```bash
 clear
@@ -18,7 +37,7 @@ cd ~/ai-infra-mlops
 ls -1 lab3
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 STEPS.md
@@ -28,11 +47,14 @@ requirements.txt
 scripts
 ```
 
-**Optional screenshot:** `images/step-01-lab3-folder.png`
+
+**Screenshot (optional):** `images/step-01-lab3-folder.png`
 
 ---
 
-# Step 2 — Confirm workspace
+## Step 2 — Confirm workspace
+
+**Do this:**
 
 ```bash
 clear
@@ -40,7 +62,7 @@ cd ~/ai-infra-mlops/lab3
 ls -1 ../workspace/lab3 2>/dev/null || echo "Run lab0 Step 10 if missing"
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 config
@@ -51,11 +73,14 @@ results
 validation
 ```
 
-**Optional screenshot:** `images/step-02-workspace-lab3.png`
+
+**Screenshot (optional):** `images/step-02-workspace-lab3.png`
 
 ---
 
-# Step 3 — Install lab3 packages
+## Step 3 — Install lab3 packages
+
+**Do this:**
 
 ```bash
 clear
@@ -64,20 +89,23 @@ pip install -r requirements.txt
 python3 -c "import sklearn, xgboost, sagemaker; print('Lab 3 imports OK')"
 ```
 
-**Expected output:** `Lab 3 imports OK`
+**Expected result:** `Lab 3 imports OK`
 
-**Optional screenshot:** `images/step-03-pip.png`
+
+**Screenshot (optional):** `images/step-03-pip.png`
 
 ---
 
-# Step 4 — Load training data (copies Lab 2 artifacts)
+## Step 4 — Load training data (copies Lab 2 artifacts)
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/load_training_data.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 📂 Loading Lab 2 Training Data
@@ -94,18 +122,21 @@ python3 scripts/load_training_data.py
 ✅ Training data prepared
 ```
 
-**Optional screenshot:** `images/step-04-load-data.png`
+
+**Screenshot (optional):** `images/step-04-load-data.png`
 
 ---
 
-# Step 5 — Train baseline models
+## Step 5 — Train baseline models
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/train_models.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 🏦 Training Banking Risk Models
@@ -116,18 +147,21 @@ python3 scripts/train_models.py
 ✅ Model training complete
 ```
 
-**Optional screenshot:** `images/step-05-train.png`
+
+**Screenshot (optional):** `images/step-05-train.png`
 
 ---
 
-# Step 6 — SageMaker Experiments tracking
+## Step 6 — SageMaker Experiments tracking
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/sagemaker_experiments.py --dry-run
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 📊 SageMaker Experiments
@@ -139,18 +173,21 @@ python3 scripts/sagemaker_experiments.py --dry-run
 ✅ Experiment tracking complete
 ```
 
-**Optional screenshot:** `images/step-06-experiments.png`
+
+**Screenshot (optional):** `images/step-06-experiments.png`
 
 ---
 
-# Step 7 — Fairness testing
+## Step 7 — Fairness testing
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/fairness_testing.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 ⚖️ Fairness Testing
@@ -161,11 +198,14 @@ python3 scripts/fairness_testing.py
 ✅ Fairness report saved: results/fairness_report.json
 ```
 
-**Optional screenshot:** `images/step-07-fairness.png`
+
+**Screenshot (optional):** `images/step-07-fairness.png`
 
 ---
 
-# Step 8 — Select best model
+## Step 8 — Select best model
+
+**Do this:**
 
 ```bash
 clear
@@ -173,7 +213,7 @@ python3 scripts/select_best_model.py
 ls -1 ../workspace/lab3/models
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 📋 Banking Model Selection
@@ -189,18 +229,21 @@ ls -1 ../workspace/lab3/models
 Lab 3 complete.
 ```
 
-**Optional screenshot:** `images/step-08-model-select.png`
+
+**Screenshot (optional):** `images/step-08-model-select.png`
 
 ---
 
-# Step 9 — Validate lab3
+## Step 9 — Validate lab3
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/validate_lab3.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 Validate Lab 3
@@ -217,7 +260,8 @@ Validate Lab 3
 Prerequisites OK — proceed to Lab 4
 ```
 
-**Optional screenshot:** `images/step-09-validate.png`
+
+**Screenshot (optional):** `images/step-09-validate.png`
 
 ---
 

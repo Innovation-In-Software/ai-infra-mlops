@@ -1,29 +1,51 @@
-# Lab 6: Model Deployment with Blue-Green
+# Lab 6: Blue-Green Deployment
 
-## Class · `ai-mlops-2026-jun30` · **30 min** · **us-west-2**
-## Platform · **EC2** + [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) + **bash**
-## Prerequisite · [Lab 5](../lab5/STEPS.md) complete
-## Working directory · `~/ai-infra-mlops/lab6`
-## Outputs · `~/ai-infra-mlops/workspace/lab6/`
+| | |
+|---|---|
+| **Class** | `ai-mlops-2026-jun30` |
+| **Duration** | ~30 minutes |
+| **Region** | `us-west-2` |
+| **Platform** | EC2 · [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) · **bash** |
+| **Prerequisite** | [Lab 5](../lab5/STEPS.md) |
+| **Working directory** | `~/ai-infra-mlops/lab6` |
+| **Outputs** | `~/ai-infra-mlops/workspace/lab6/` |
 
-> **Scripts:** `lab6/scripts/` · Run all: `python3 scripts/run_lab6.py` · Classroom: use `--dry-run` on deploy scripts.
+> All commands run in the **VS Code integrated terminal** on EC2. Do not use local Windows PowerShell for lab steps.
+
+> **Quick run:** `python3 scripts/run_lab6.py` runs all script steps in order.
 
 ---
 
-# Step 1 — Confirm lab6 folder
+## Before you start
+
+```bash
+cd ~/ai-infra-mlops && git pull
+cd lab6
+```
+
+Run `clear` before each step for clean terminal screenshots.
+
+---
+
+## Step 1 — Confirm lab6 folder
+
+**Do this:**
 
 ```bash
 clear
 cd ~/ai-infra-mlops && ls -1 lab6
 ```
 
-**Expected output:** `Validate Lab 6`, `config`, `images`, `requirements.txt`, `scripts`
+**Expected result:** `Validate Lab 6`
 
-**Optional screenshot:** `images/step-01-lab6-folder.png`
+
+**Screenshot (optional):** `images/step-01-lab6-folder.png`
 
 ---
 
-# Step 2 — Prepare deployment state
+## Step 2 — Prepare deployment state
+
+**Do this:**
 
 ```bash
 clear
@@ -33,10 +55,10 @@ python3 scripts/prepare_deployment.py
 cat ../workspace/lab6/config/deployment_state.json | head -15
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
-   ✅ Model URI resolved from Lab 5 ECR manifest
+✅ Model URI resolved from Lab 5 ECR manifest
    ✅ IAM roles loaded from Lab 1
 ✅ Deployment state ready
 {
@@ -46,18 +68,21 @@ cat ../workspace/lab6/config/deployment_state.json | head -15
 }
 ```
 
-**Optional screenshot:** `images/step-02-prepare.png`
+
+**Screenshot (optional):** `images/step-02-prepare.png`
 
 ---
 
-# Step 3 — Configure blue-green plan
+## Step 3 — Configure blue-green plan
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/configure_blue_green.py --dry-run
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 🔄 Blue-Green Plan
@@ -67,36 +92,42 @@ python3 scripts/configure_blue_green.py --dry-run
 ✅ Plan saved: config/blue_green_plan.json
 ```
 
-**Optional screenshot:** `images/step-03-blue-green.png`
+
+**Screenshot (optional):** `images/step-03-blue-green.png`
 
 ---
 
-# Step 4 — Deploy staging endpoint
+## Step 4 — Deploy staging endpoint
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/deploy_staging.py --dry-run
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
-   ✅ Staging endpoint: banking-endpoint-staging-20260628
+✅ Staging endpoint: banking-endpoint-staging-20260628
 ✅ Staging deployment complete
 ```
 
-**Optional screenshot:** `images/step-04-staging.png`
+
+**Screenshot (optional):** `images/step-04-staging.png`
 
 ---
 
-# Step 5 — Test staging endpoint
+## Step 5 — Test staging endpoint
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/test_deployment.py --dry-run --environment staging
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 🧪 Endpoint Tests (staging)
@@ -107,56 +138,65 @@ python3 scripts/test_deployment.py --dry-run --environment staging
 ✅ Staging tests passed
 ```
 
-**Optional screenshot:** `images/step-05-test-staging.png`
+
+**Screenshot (optional):** `images/step-05-test-staging.png`
 
 ---
 
-# Step 6 — Deploy production (blue-green)
+## Step 6 — Deploy production (blue-green)
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/deploy_production.py --dry-run
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
-   ✅ Production endpoint configured
+✅ Production endpoint configured
 ✅ Production deployment complete
 ```
 
-**Optional screenshot:** `images/step-06-production.png`
+
+**Screenshot (optional):** `images/step-06-production.png`
 
 ---
 
-# Step 7 — A/B traffic shift simulation
+## Step 7 — A/B traffic shift simulation
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/shift_traffic.py --dry-run --steps 90,50,0
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
-   Step 1: Blue 90% / Green 10%
+Step 1: Blue 90% / Green 10%
    Step 2: Blue 50% / Green 50%
    Step 3: Blue 0% / Green 100%
 ✅ Traffic shift complete (simulated)
 ```
 
-**Optional screenshot:** `images/step-07-traffic.png`
+
+**Screenshot (optional):** `images/step-07-traffic.png`
 
 ---
 
-# Step 8 — Rollback drill
+## Step 8 — Rollback drill
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/rollback.py --endpoint-name banking-endpoint-prod-demo --dry-run
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 ↩️ Rollback
@@ -166,18 +206,21 @@ python3 scripts/rollback.py --endpoint-name banking-endpoint-prod-demo --dry-run
 ✅ Rollback complete
 ```
 
-**Optional screenshot:** `images/step-08-rollback.png`
+
+**Screenshot (optional):** `images/step-08-rollback.png`
 
 ---
 
-# Step 9 — Deployment compliance report
+## Step 9 — Deployment compliance report
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/generate_deployment_report.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 ✅ Deployment report: config/deployment_report.json
@@ -185,18 +228,21 @@ python3 scripts/generate_deployment_report.py
    Zero-downtime: verified (simulation)
 ```
 
-**Optional screenshot:** `images/step-09-report.png`
+
+**Screenshot (optional):** `images/step-09-report.png`
 
 ---
 
-# Step 10 — Validate lab6
+## Step 10 — Validate lab6
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/validate_lab6.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 Validate Lab 6
@@ -207,7 +253,8 @@ Validate Lab 6
 Prerequisites OK — proceed to Lab 7
 ```
 
-**Optional screenshot:** `images/step-10-validate.png`
+
+**Screenshot (optional):** `images/step-10-validate.png`
 
 ---
 

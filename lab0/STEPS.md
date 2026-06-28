@@ -1,34 +1,47 @@
 # Lab 0: Environment Setup & Prerequisites
 
-## Class · `ai-mlops-2026-jun30` · **30 min** · **us-west-2**
-## Platform · **EC2** + [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) + **bash**
-## Repo · [github.com/gjkaur/ai-infra-mlops](https://github.com/gjkaur/ai-infra-mlops)
+| | |
+|---|---|
+| **Class** | `ai-mlops-2026-jun30` |
+| **Duration** | ~30 minutes |
+| **Region** | `us-west-2` |
+| **Platform** | EC2 · [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) · **bash** |
+| **Prerequisite** | None — start here |
+| **Working directory** | `~/ai-infra-mlops/lab0` |
+| **Outputs** | `~/ai-infra-mlops/workspace/lab0/` |
+| **Repo** | [github.com/gjkaur/ai-infra-mlops](https://github.com/gjkaur/ai-infra-mlops) |
 
-> **All steps run on EC2** in the VS Code integrated terminal. Do not use local Windows PowerShell for labs.
+> All commands run in the **VS Code integrated terminal** on EC2. Do not use local Windows PowerShell for lab steps.
 
 ---
 
 ## Before you start
 
 ```bash
-cd ~/ai-infra-mlops && git pull    # get latest guides
+cd ~/ai-infra-mlops && git pull
+cd lab0
 ```
 
-Re-testing Labs 1–2? Run `python3 scripts/reset_course.py --labs lab1,lab2` first.
+Run `clear` before each step for clean terminal screenshots.
 
 ---
 
-# Step 1 — Connect VS Code to EC2
+## Step 1 — Connect VS Code to EC2
 
-**Do:** Follow [docs/SSH-VSCODE-SETUP.md](../docs/SSH-VSCODE-SETUP.md). Open folder `/home/ec2-user/ai-infra-mlops` (or `/home/ec2-user` before clone).
+**Do this:**
+
+Follow [docs/SSH-VSCODE-SETUP.md](../docs/SSH-VSCODE-SETUP.md). Open folder `/home/ec2-user/ai-infra-mlops` (or `/home/ec2-user` before clone).
 
 **Expected result:** Status bar shows `SSH: ec2-user@...`. Terminal is bash.
 
-**Optional screenshot:** `images/step-01-vscode-remote-ssh.png`
+
+**Screenshot (optional):** `images/step-01-vscode-remote-ssh.png`
 
 ---
 
-# Step 2 — Verify tools
+## Step 2 — Verify tools
+
+**Do this:**
 
 ```bash
 clear
@@ -37,7 +50,7 @@ git --version
 aws --version
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 Python 3.9.25
@@ -45,13 +58,14 @@ git version 2.50.1
 aws-cli/2.33.15 Python/3.9.25 Linux/6.12.92-122.166.amzn2023.x86_64 source/x86_64.amzn.2023
 ```
 
-If missing: `sudo dnf install -y awscli python3.11 python3.11-pip`
 
-**Optional screenshot:** `images/step-02-tools.png`
+**Screenshot (optional):** `images/step-02-tools.png`
 
 ---
 
-# Step 3 — Clone repo
+## Step 3 — Clone repo
+
+**Do this:**
 
 ```bash
 clear
@@ -62,7 +76,7 @@ git pull
 ls -1
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 CLOUD-DELIVERY.md
@@ -76,11 +90,14 @@ lab3
 scripts
 ```
 
-**Optional screenshot:** `images/step-03-clone.png`
+
+**Screenshot (optional):** `images/step-03-clone.png`
 
 ---
 
-# Step 4 — Confirm lab0 folder
+## Step 4 — Confirm lab0 folder
+
+**Do this:**
 
 ```bash
 clear
@@ -88,7 +105,7 @@ cd ~/ai-infra-mlops/lab0
 ls -1
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 STEPS.md
@@ -98,30 +115,31 @@ requirements.txt
 scripts
 ```
 
-**Optional screenshot:** `images/step-04-lab0-folder.png`
+
+**Screenshot (optional):** `images/step-04-lab0-folder.png`
 
 ---
 
-# Step 5 — AWS Console login (browser)
+## Step 5 — AWS Console login (browser)
 
-1. Open instructor console URL · sign in as `StudentXX`
-2. Region **US West (Oregon) `us-west-2`**
+**Expected result:** `Console home loads; region `us-west-2`.`
 
-**Expected result:** Console home loads; region `us-west-2`.
 
-**Optional screenshot:** `images/step-05-console.png`
+**Screenshot (optional):** `images/step-05-console.png`
 
 ---
 
-# Step 6 — Console permissions (browser)
+## Step 6 — Console permissions (browser)
 
-Open **IAM**, **SageMaker**, **S3** — no Access Denied.
 
-**Optional screenshot:** `images/step-06-iam.png`
+
+**Screenshot (optional):** `images/step-06-iam.png`
 
 ---
 
-# Step 7 — AWS CLI on EC2
+## Step 7 — AWS CLI on EC2
+
+**Do this:**
 
 ```bash
 clear
@@ -131,7 +149,7 @@ aws configure set output json
 aws s3 ls --region us-west-2 | head
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 {
@@ -142,11 +160,14 @@ aws s3 ls --region us-west-2 | head
 us-west-2
 ```
 
-**Optional screenshot:** `images/step-07-aws-cli.png`
+
+**Screenshot (optional):** `images/step-07-aws-cli.png`
 
 ---
 
-# Step 8 — Install Python packages
+## Step 8 — Install Python packages
+
+**Do this:**
 
 ```bash
 clear
@@ -158,17 +179,16 @@ pip install -r ../lab2/requirements.txt
 python3 scripts/test_imports.py
 ```
 
-**Expected output:**
+**Expected result:** `All imports successful!`
 
-```text
-All imports successful!
-```
 
-**Optional screenshot:** `images/step-08-pip.png`
+**Screenshot (optional):** `images/step-08-pip.png`
 
 ---
 
-# Step 9 — Classroom env vars
+## Step 9 — Classroom env vars
+
+**Do this:**
 
 ```bash
 clear
@@ -176,17 +196,20 @@ source ~/ai-infra-mlops/lab0/scripts/setup_classroom_env.sh
 grep LAB_ ~/.bashrc || { echo 'export LAB_NUM_RECORDS=1000' >> ~/.bashrc; echo 'export LAB_USE_COMPREHEND=0' >> ~/.bashrc; }
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 MLOps lab env: LAB_NUM_RECORDS=1000 LAB_USE_COMPREHEND=0 region=us-west-2
 ```
 
-**Optional screenshot:** `images/step-09-env.png`
+
+**Screenshot (optional):** `images/step-09-env.png`
 
 ---
 
-# Step 10 — Create workspace
+## Step 10 — Create workspace
+
+**Do this:**
 
 ```bash
 clear
@@ -195,7 +218,7 @@ python3 scripts/setup_lab_directories.py
 ls ../workspace
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 Creating Banking MLOps Lab Directory Structure
@@ -208,11 +231,14 @@ Directory structure ready.
 config  lab1  lab2  lab3  ...  logs  results  scripts  shared_data
 ```
 
-**Optional screenshot:** `images/step-10-workspace.png`
+
+**Screenshot (optional):** `images/step-10-workspace.png`
 
 ---
 
-# Step 11 — Verify environment
+## Step 11 — Verify environment
+
+**Do this:**
 
 ```bash
 clear
@@ -222,7 +248,7 @@ python3 scripts/run_lab0_setup.py
 python3 scripts/verify_environment.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 Banking MLOps Environment Verification
@@ -249,7 +275,8 @@ ALL CHECKS PASSED. Environment is ready.
 Results saved: /home/ec2-user/ai-infra-mlops/lab0/logs/verification_results.json
 ```
 
-**Optional screenshot:** `images/step-11-verify-pass.png`
+
+**Screenshot (optional):** `images/step-11-verify-pass.png`
 
 ---
 

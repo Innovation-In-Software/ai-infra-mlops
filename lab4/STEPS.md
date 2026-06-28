@@ -1,29 +1,51 @@
 # Lab 4: CI/CD Pipeline with Compliance Gates
 
-## Class · `ai-mlops-2026-jun30` · **30 min** · **us-west-2**
-## Platform · **EC2** + [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) + **bash**
-## Prerequisite · [Lab 3](../lab3/STEPS.md) complete
-## Working directory · `~/ai-infra-mlops/lab4`
-## Outputs · `~/ai-infra-mlops/workspace/lab4/`
+| | |
+|---|---|
+| **Class** | `ai-mlops-2026-jun30` |
+| **Duration** | ~30 minutes |
+| **Region** | `us-west-2` |
+| **Platform** | EC2 · [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) · **bash** |
+| **Prerequisite** | [Lab 3](../lab3/STEPS.md) |
+| **Working directory** | `~/ai-infra-mlops/lab4` |
+| **Outputs** | `~/ai-infra-mlops/workspace/lab4/` |
 
-> **Scripts:** `lab4/scripts/` · Run all: `python3 scripts/run_lab4.py`
+> All commands run in the **VS Code integrated terminal** on EC2. Do not use local Windows PowerShell for lab steps.
+
+> **Quick run:** `python3 scripts/run_lab4.py` runs all script steps in order.
 
 ---
 
-# Step 1 — Confirm lab4 folder
+## Before you start
+
+```bash
+cd ~/ai-infra-mlops && git pull
+cd lab4
+```
+
+Run `clear` before each step for clean terminal screenshots.
+
+---
+
+## Step 1 — Confirm lab4 folder
+
+**Do this:**
 
 ```bash
 clear
 cd ~/ai-infra-mlops && ls -1 lab4
 ```
 
-**Expected output:** `Validate Lab 4`, `config`, `images`, `requirements.txt`, `scripts`, `src`, `tests`, `buildspecs`
+**Expected result:** `Validate Lab 4`
 
-**Optional screenshot:** `images/step-01-lab4-folder.png`
+
+**Screenshot (optional):** `images/step-01-lab4-folder.png`
 
 ---
 
-# Step 2 — Copy prior lab artifacts
+## Step 2 — Copy prior lab artifacts
+
+**Do this:**
 
 ```bash
 clear
@@ -36,17 +58,16 @@ cp ../workspace/lab3/results/fairness_report.json ../workspace/lab4/results/
 ls -1 ../workspace/lab4/models
 ```
 
-**Expected output:**
+**Expected result:** `best_model.pkl`
 
-```text
-best_model.pkl
-```
 
-**Optional screenshot:** `images/step-02-artifacts.png`
+**Screenshot (optional):** `images/step-02-artifacts.png`
 
 ---
 
-# Step 3 — Install dependencies
+## Step 3 — Install dependencies
+
+**Do this:**
 
 ```bash
 clear
@@ -54,40 +75,46 @@ pip install -r requirements.txt
 python3 -c "import boto3, pytest; print('Lab 4 imports OK')"
 ```
 
-**Expected output:** `Lab 4 imports OK`
+**Expected result:** `Lab 4 imports OK`
 
-**Optional screenshot:** `images/step-03-pip.png`
+
+**Screenshot (optional):** `images/step-03-pip.png`
 
 ---
 
-# Step 4 — Set up project structure
+## Step 4 — Set up project structure
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/setup_project_structure.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
-   ✅ Created: src/
+✅ Created: src/
    ✅ Created: tests/unit/
    ✅ Created: buildspecs/
 ✅ Banking ML CI/CD project structure ready
 ```
 
-**Optional screenshot:** `images/step-04-structure.png`
+
+**Screenshot (optional):** `images/step-04-structure.png`
 
 ---
 
-# Step 5 — Run unit tests
+## Step 5 — Run unit tests
+
+**Do this:**
 
 ```bash
 clear
 python3 -m pytest tests/unit -q
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 🔒 Compliance Gates
@@ -98,18 +125,21 @@ python3 -m pytest tests/unit -q
 ✅ All compliance gates passed
 ```
 
-**Optional screenshot:** `images/step-05-unit-tests.png`
+
+**Screenshot (optional):** `images/step-05-unit-tests.png`
 
 ---
 
-# Step 6 — Compliance gate checks
+## Step 6 — Compliance gate checks
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/run_compliance_checks.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 🔄 CodePipeline Setup
@@ -120,21 +150,24 @@ python3 scripts/run_compliance_checks.py
 ✅ Pipeline configuration saved
 ```
 
-**Optional screenshot:** `images/step-06-compliance.png`
+
+**Screenshot (optional):** `images/step-06-compliance.png`
 
 ---
 
-# Step 7 — Configure CodePipeline (classroom mode)
+## Step 7 — Configure CodePipeline (classroom mode)
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/setup_codepipeline.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
-   ✅ Source: PASS
+✅ Source: PASS
    ✅ Build: PASS
    ✅ Test: PASS
    ✅ Compliance: PASS
@@ -143,21 +176,24 @@ python3 scripts/setup_codepipeline.py
 ✅ Pipeline run complete (simulation)
 ```
 
-**Optional screenshot:** `images/step-07-pipeline.png`
+
+**Screenshot (optional):** `images/step-07-pipeline.png`
 
 ---
 
-# Step 8 — Simulate pipeline run
+## Step 8 — Simulate pipeline run
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/simulate_pipeline_run.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
-   ✅ Source: PASS
+✅ Source: PASS
    ✅ Build: PASS
    ✅ Test: PASS
    ✅ Compliance: PASS
@@ -165,11 +201,14 @@ python3 scripts/simulate_pipeline_run.py
 ✅ Pipeline run complete (simulation)
 ```
 
-**Optional screenshot:** `images/step-08-simulate.png`
+
+**Screenshot (optional):** `images/step-08-simulate.png`
 
 ---
 
-# Step 9 — Generate CI/CD compliance report
+## Step 9 — Generate CI/CD compliance report
+
+**Do this:**
 
 ```bash
 clear
@@ -177,7 +216,7 @@ python3 scripts/generate_cicd_report.py
 cat ../workspace/lab4/artifacts/cicd_compliance_report_final.json | head -20
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 ✅ CI/CD compliance report generated
@@ -188,18 +227,21 @@ cat ../workspace/lab4/artifacts/cicd_compliance_report_final.json | head -20
 }
 ```
 
-**Optional screenshot:** `images/step-09-report.png`
+
+**Screenshot (optional):** `images/step-09-report.png`
 
 ---
 
-# Step 10 — Validate lab4
+## Step 10 — Validate lab4
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/validate_lab4.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 Validate Lab 4
@@ -210,7 +252,8 @@ Validate Lab 4
 Prerequisites OK — proceed to Lab 5
 ```
 
-**Optional screenshot:** `images/step-10-validate.png`
+
+**Screenshot (optional):** `images/step-10-validate.png`
 
 ---
 

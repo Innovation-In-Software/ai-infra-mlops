@@ -1,27 +1,33 @@
 # Lab 1: Secure MLOps Environment Setup
 
-## Class · `ai-mlops-2026-jun30` · **30 min** · **us-west-2**
-## Platform · **EC2** + [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) + **bash**
-## Prerequisite · [Lab 0](../lab0/STEPS.md) complete
-## Working directory · `~/ai-infra-mlops/lab1`
-## Outputs · `~/ai-infra-mlops/workspace/lab1/`
+| | |
+|---|---|
+| **Class** | `ai-mlops-2026-jun30` |
+| **Duration** | ~30 minutes |
+| **Region** | `us-west-2` |
+| **Platform** | EC2 · [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) · **bash** |
+| **Prerequisite** | [Lab 0](../lab0/STEPS.md) |
+| **Working directory** | `~/ai-infra-mlops/lab1` |
+| **Outputs** | `~/ai-infra-mlops/workspace/lab1/` |
+
+> All commands run in the **VS Code integrated terminal** on EC2. Do not use local Windows PowerShell for lab steps.
 
 ---
 
-## Pacing (30 min)
+## Before you start
 
-| Min | Steps |
-|-----|-------|
-| 0–3 | 1–3 confirm repo + AWS |
-| 3–10 | 4–6 KMS, S3, IAM |
-| 10–25 | **7 SageMaker (longest)** |
-| 25–30 | 8–9 CloudTrail + validate |
+```bash
+cd ~/ai-infra-mlops && git pull
+cd lab1
+```
 
-Run **Step 7** as soon as Steps 4–6 finish — domain creation takes the most time.
+Run `clear` before each step for clean terminal screenshots.
 
 ---
 
-# Step 1 — Confirm lab1 in repo
+## Step 1 — Confirm lab1 in repo
+
+**Do this:**
 
 ```bash
 clear
@@ -29,7 +35,7 @@ cd ~/ai-infra-mlops
 ls -1 lab1
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 STEPS.md
@@ -39,11 +45,14 @@ requirements.txt
 scripts
 ```
 
-**Optional screenshot:** `images/step-01-lab1-folder.png`
+
+**Screenshot (optional):** `images/step-01-lab1-folder.png`
 
 ---
 
-# Step 2 — Confirm workspace
+## Step 2 — Confirm workspace
+
+**Do this:**
 
 ```bash
 clear
@@ -51,7 +60,7 @@ cd ~/ai-infra-mlops/lab1
 ls -1 ../workspace/lab1
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 config
@@ -61,13 +70,14 @@ results
 scripts
 ```
 
-If missing: `cd ~/ai-infra-mlops/lab0 && python3 scripts/setup_lab_directories.py`
 
-**Optional screenshot:** `images/step-02-workspace-lab1.png`
+**Screenshot (optional):** `images/step-02-workspace-lab1.png`
 
 ---
 
-# Step 3 — Verify AWS CLI
+## Step 3 — Verify AWS CLI
+
+**Do this:**
 
 ```bash
 clear
@@ -75,7 +85,7 @@ aws sts get-caller-identity
 aws configure get region
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 {
@@ -86,11 +96,14 @@ aws configure get region
 us-west-2
 ```
 
-**Optional screenshot:** `images/step-03-aws-identity.png`
+
+**Screenshot (optional):** `images/step-03-aws-identity.png`
 
 ---
 
-# Step 4 — Create KMS keys
+## Step 4 — Create KMS keys
+
+**Do this:**
 
 ```bash
 clear
@@ -98,7 +111,7 @@ cd ~/ai-infra-mlops/lab1
 python3 scripts/create_kms_keys.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 🔐 Creating KMS Keys for Banking Compliance
@@ -110,20 +123,21 @@ python3 scripts/create_kms_keys.py
 ✅ KMS Key Creation Complete!
 ```
 
-Config: `workspace/lab1/config/kms_keys.json`
 
-**Optional screenshot:** `images/step-04-kms.png`
+**Screenshot (optional):** `images/step-04-kms.png`
 
 ---
 
-# Step 5 — Create S3 buckets
+## Step 5 — Create S3 buckets
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/create_banking_buckets.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 📦 Creating Banking-Compliant S3 Buckets
@@ -134,20 +148,21 @@ python3 scripts/create_banking_buckets.py
    ...
 ```
 
-Config: `workspace/lab1/config/buckets.json`
 
-**Optional screenshot:** `images/step-05-s3.png`
+**Screenshot (optional):** `images/step-05-s3.png`
 
 ---
 
-# Step 6 — Create IAM roles
+## Step 6 — Create IAM roles
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/create_banking_iam_roles.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 🔑 Creating Banking-Compliant IAM Roles
@@ -160,20 +175,21 @@ python3 scripts/create_banking_iam_roles.py
    DATA_SCIENTIST: arn:aws:iam::<account-id>:role/BankingDataScientistRole
 ```
 
-Config: `workspace/lab1/config/iam_roles.json`
 
-**Optional screenshot:** `images/step-06-iam.png`
+**Screenshot (optional):** `images/step-06-iam.png`
 
 ---
 
-# Step 7 — SageMaker Studio (longest step)
+## Step 7 — SageMaker Studio (longest step)
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/create_sagemaker_studio.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 🖥️ Setting Up SageMaker Studio with Banking Security
@@ -187,20 +203,21 @@ python3 scripts/create_sagemaker_studio.py
    https://us-west-2.console.aws.amazon.com/sagemaker/home?region=us-west-2#/studio/d-...
 ```
 
-Config: `workspace/lab1/config/sagemaker_studio.json`
 
-**Optional screenshot:** `images/step-07-sagemaker.png`
+**Screenshot (optional):** `images/step-07-sagemaker.png`
 
 ---
 
-# Step 8 — CloudTrail audit logging
+## Step 8 — CloudTrail audit logging
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/enable_audit_logging.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 📝 Enabling Audit Logging for Banking Compliance
@@ -211,18 +228,21 @@ python3 scripts/enable_audit_logging.py
    https://us-west-2.console.aws.amazon.com/cloudwatch/home?region=us-west-2#dashboards:name=Banking-MLOps-Audit-Dashboard
 ```
 
-**Optional screenshot:** `images/step-08-cloudtrail.png`
+
+**Screenshot (optional):** `images/step-08-cloudtrail.png`
 
 ---
 
-# Step 9 — Validate environment
+## Step 9 — Validate environment
+
+**Do this:**
 
 ```bash
 clear
 python3 scripts/validate_environment.py
 ```
 
-**Expected output:**
+**Expected result:**
 
 ```text
 🔍 Validating Banking MLOps Environment
@@ -266,17 +286,16 @@ Status: COMPLIANT
    Proceed to Lab 2 (lab2/STEPS.md)
 ```
 
-Or run all steps: `python3 scripts/run_lab1.py`
 
-**Optional screenshot:** `images/step-09-validation-pass.png`
+**Screenshot (optional):** `images/step-09-validation-pass.png`
 
 ---
 
-# Step 10 — Console check (optional)
+## Step 10 — Console check (optional)
 
-Browser: S3 (6 buckets), IAM (Banking roles), SageMaker (domain Ready), CloudTrail (Logging).
 
-**Optional screenshot:** `images/step-10-console.png`
+
+**Screenshot (optional):** `images/step-10-console.png`
 
 ---
 
