@@ -23,7 +23,7 @@ Host mlops-lab-ec2
     IdentityFile C:/Users/<you>/.ssh/mlops-lab-key.pem
 ```
 
-Replace `YOUR_EC2_PUBLIC_IP` with the value from EC2 console (Lab 0 Step 7). Update after stop/start.
+Replace `YOUR_EC2_PUBLIC_IP` with the value from EC2 console (Lab 0 Step 10). Update after stop/start.
 
 ### Connect in VS Code
 

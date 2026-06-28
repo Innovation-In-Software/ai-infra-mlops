@@ -59,7 +59,7 @@ scripts
 ```bash
 clear
 cd ~/ai-infra-mlops/lab3
-ls -1 ../workspace/lab3 2>/dev/null || echo "Run lab0 Step 10 if missing"
+ls -1 ../workspace/lab3 2>/dev/null || echo "Run Lab 0 Step 21 if missing"
 ```
 
 **Expected result:**

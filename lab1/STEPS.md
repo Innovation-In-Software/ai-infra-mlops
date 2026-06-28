@@ -74,7 +74,7 @@ results
 scripts
 ```
 
-If missing: `cd ~/ai-infra-mlops/lab0 && python3 scripts/setup_lab_directories.py`
+If missing: run [Lab 0 Step 21](../lab0/STEPS.md) (`python3 scripts/setup_lab_directories.py` from `lab0/`).
 
 **Optional screenshot:** `images/step-02-workspace-lab1.png`
 
