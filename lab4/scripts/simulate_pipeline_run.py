@@ -11,6 +11,8 @@ from lab_paths import ARTIFACTS_DIR, ensure_workspace
 
 def main():
     ensure_workspace()
+    print("🔄 Pipeline Run Simulation")
+    print("=" * 60)
     stages = ["Source", "Build", "Test", "Compliance", "ManualApproval", "Deploy"]
     print("   ✅ Source: PASS")
     print("   ✅ Build: PASS")

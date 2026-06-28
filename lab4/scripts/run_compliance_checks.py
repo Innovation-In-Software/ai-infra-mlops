@@ -34,7 +34,7 @@ def main():
     pii_ok = (REPO_ROOT / "workspace" / "lab2" / "config" / "pii_report.json").exists()
     security_ok = True
 
-    print(f"   ✅ PII scan: {'PASS' if pii_ok else 'WARN (no Lab 2 pii_report)'}")
+    print(f"   {'✅' if pii_ok else '⚠️'} PII scan: {'PASS' if pii_ok else 'WARN (complete Lab 2 for pii_report.json)'}")
     print(f"   {'✅' if fairness_ok else '❌'} Fairness threshold: {'PASS' if fairness_ok else 'FAIL'}")
     print("   ✅ Security lint: PASS")
 
