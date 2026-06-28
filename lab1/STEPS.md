@@ -33,6 +33,8 @@ cd ~/ai-infra-mlops/lab0 && python3 scripts/verify_environment.py
 
 **Expected:** `Passed: 9` / `Failed: 0` — then `cd ../lab1`.
 
+If lab scripts print **`PythonDeprecationWarning`** (Boto3 / Python 3.9), complete [Lab 0 Step 17a](../lab0/STEPS.md) and re-run [Lab 0 Step 18](../lab0/STEPS.md) before continuing.
+
 Run `clear` before each step for clean terminal screenshots.
 
 ---
@@ -383,6 +385,7 @@ On the **ProTech VM browser** (not the EC2 terminal), region **us-west-2**:
 | KMS `LimitExceededException` | Too many keys in account — wait for teardown pending deletion or ask instructor |
 | SageMaker domain `Failed` or timeout | Wait 5 min, re-run Step 7; check VPC/subnets exist (default VPC) |
 | SageMaker validation `Status: Pending` | Domain still creating — re-run Step 7 or wait and re-run Step 9 |
+| `PythonDeprecationWarning` (Boto3 / Python 3.9) | [Lab 0 Step 17a](../lab0/STEPS.md) — upgrade to Python 3.11, re-run Step 18, then continue Lab 1 |
 | CloudTrail `InvalidCloudWatchLogsRoleArnException` | IAM role propagation — wait **60s**, re-run Step 8 (`git pull` first for script fix) |
 | CloudTrail `TrailAlreadyExists` | Warning only — script updates trail and starts logging |
 | Step 9 partial failures | Re-run the failed step (4–8), then Step 9 |

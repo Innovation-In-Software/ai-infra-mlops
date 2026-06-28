@@ -57,11 +57,10 @@ class EnvironmentVerifier:
     def verify_python(self):
         version_info = sys.version_info
         ok = version_info >= (3, 8)
-        self.add_check(
-            "Python Version",
-            ok,
-            f"Python {version_info.major}.{version_info.minor}.{version_info.micro}",
-        )
+        details = f"Python {version_info.major}.{version_info.minor}.{version_info.micro}"
+        if version_info < (3, 10):
+            details += " — upgrade: Lab 0 Step 17a (boto3 drops Python 3.9)"
+        self.add_check("Python Version", ok, details)
 
     def verify_packages(self):
         installed = []

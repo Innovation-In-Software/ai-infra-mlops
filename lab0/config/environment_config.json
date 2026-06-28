@@ -3,7 +3,7 @@
   "console_url": "https://iis-instructor-03.signin.aws.amazon.com/console",
   "student_username_pattern": "StudentXX",
   "required_policies": ["PowerUserAccess", "IAMFullAccess"],
-  "python_min_version": "3.8",
+  "python_min_version": "3.10",
   "course_labs": [
     "lab0", "lab1", "lab2", "lab3", "lab4", "lab5",
     "lab6", "lab7", "lab8", "lab9", "lab10"
