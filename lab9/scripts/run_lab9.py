@@ -1,5 +1,4 @@
 """Run Lab 9 governance workflow."""
-import sys
 from audit_encryption import main as enc_main
 from export_audit_trail import main as audit_main
 from generate_explainability import main as explain_main
@@ -15,8 +14,6 @@ def run_lab9():
     print("=" * 60)
     base_main()
     for fn in [iam_main, enc_main, approval_main, explain_main, fair_main, audit_main, report_main]:
-        if fn is approval_main:
-            sys.argv = ["", "--dry-run"]
         print(f"\n▶ {fn.__module__}")
         fn()
     print("\nLab 9 complete.")

@@ -158,7 +158,7 @@ python3 scripts/train_models.py
 
 ```bash
 clear
-python3 scripts/sagemaker_experiments.py --dry-run
+python3 scripts/sagemaker_experiments.py
 ```
 
 **Expected result:**

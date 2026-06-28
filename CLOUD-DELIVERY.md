@@ -86,7 +86,7 @@ git pull
 | **0** | VS Code SSH; verify Python/AWS; clone repo; workspace; `verify_environment.py` |
 | **1** | KMS → S3 → IAM → **SageMaker domain** (longest) → CloudTrail → validate |
 | **2** | Steps 4–7 (~15 min with 1k rows + pattern PII); Step 8 Feature Store (~10–15 min) |
-| **3–10** | Follow each `labN/STEPS.md`; Labs 6–8 support `--dry-run` for classroom cost control |
+| **3–10** | Follow each `labN/STEPS.md`; run steps as written (live AWS with your access keys) |
 
 **Lab 1 rule:** Run KMS, S3, and IAM before SageMaker — the domain script needs keys and buckets from earlier steps.
 

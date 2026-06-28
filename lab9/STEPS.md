@@ -126,7 +126,7 @@ python3 scripts/audit_encryption.py
 
 ```bash
 clear
-python3 scripts/model_approval_workflow.py --dry-run
+python3 scripts/model_approval_workflow.py
 ```
 
 **Expected result:**

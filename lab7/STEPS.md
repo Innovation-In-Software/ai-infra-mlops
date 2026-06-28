@@ -99,7 +99,7 @@ python3 scripts/setup_cloudwatch_dashboard.py
 
 ```bash
 clear
-python3 scripts/setup_model_monitor.py --dry-run
+python3 scripts/setup_model_monitor.py
 ```
 
 **Expected result:**
@@ -107,7 +107,7 @@ python3 scripts/setup_model_monitor.py --dry-run
 ```text
 ✅ Baseline constraints generated
    ✅ Monitoring schedule: hourly (simulated)
-✅ Model Monitor configured (dry-run)
+✅ Model Monitor configured 
 ```
 
 
@@ -172,7 +172,7 @@ python3 scripts/monitor_model_quality.py
 
 ```bash
 clear
-python3 scripts/setup_alarms.py --dry-run
+python3 scripts/setup_alarms.py
 ```
 
 **Expected result:**
@@ -183,7 +183,7 @@ python3 scripts/setup_alarms.py --dry-run
    ✅ banking-ml-high-latency
    ✅ banking-ml-error-rate
    ✅ banking-ml-drift-severity
-✅ Alarms configured (dry-run)
+✅ Alarms configured 
 ```
 
 

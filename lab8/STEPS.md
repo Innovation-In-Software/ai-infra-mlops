@@ -119,7 +119,7 @@ python3 scripts/build_pipeline.py
 
 ```bash
 clear
-python3 scripts/upsert_pipeline.py --dry-run
+python3 scripts/upsert_pipeline.py
 ```
 
 **Expected result:**
@@ -127,7 +127,7 @@ python3 scripts/upsert_pipeline.py --dry-run
 ```text
 ✅ Pipeline name: banking-ml-pipeline
    ✅ Upsert: simulated success
-✅ Pipeline registered (dry-run)
+✅ Pipeline registered 
 ```
 
 
@@ -141,7 +141,7 @@ python3 scripts/upsert_pipeline.py --dry-run
 
 ```bash
 clear
-python3 scripts/start_pipeline.py --dry-run
+python3 scripts/start_pipeline.py
 ```
 
 **Expected result:**
@@ -151,7 +151,7 @@ python3 scripts/start_pipeline.py --dry-run
 ============================================================
    Execution ARN: arn:aws:sagemaker:us-west-2:...:pipeline/banking-ml-pipeline/execution/...
    Status: Executing (simulated)
-✅ Pipeline started (dry-run)
+✅ Pipeline started 
 ```
 
 
@@ -165,7 +165,7 @@ python3 scripts/start_pipeline.py --dry-run
 
 ```bash
 clear
-python3 scripts/monitor_pipeline.py --dry-run
+python3 scripts/monitor_pipeline.py
 ```
 
 **Expected result:**
@@ -189,7 +189,7 @@ data-validation     ✅ Succeeded
 
 ```bash
 clear
-python3 scripts/register_model.py --dry-run
+python3 scripts/register_model.py
 ```
 
 **Expected result:**
@@ -199,7 +199,7 @@ python3 scripts/register_model.py --dry-run
 ============================================================
    ✅ Model package group: banking-risk-models
    ✅ Approval status: PendingManualApproval
-✅ Model registered (dry-run)
+✅ Model registered 
 ```
 
 

@@ -243,8 +243,6 @@ config  lab1  lab2  lab3  ...  logs  results  scripts  shared_data
 ```bash
 clear
 cd ~/ai-infra-mlops/lab0
-python3 scripts/verify_environment.py --dry-run
-python3 scripts/run_lab0_setup.py
 python3 scripts/verify_environment.py
 ```
 

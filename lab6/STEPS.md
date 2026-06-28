@@ -79,7 +79,7 @@ cat ../workspace/lab6/config/deployment_state.json | head -15
 
 ```bash
 clear
-python3 scripts/configure_blue_green.py --dry-run
+python3 scripts/configure_blue_green.py
 ```
 
 **Expected result:**
@@ -103,7 +103,7 @@ python3 scripts/configure_blue_green.py --dry-run
 
 ```bash
 clear
-python3 scripts/deploy_staging.py --dry-run
+python3 scripts/deploy_staging.py
 ```
 
 **Expected result:**
@@ -124,7 +124,7 @@ python3 scripts/deploy_staging.py --dry-run
 
 ```bash
 clear
-python3 scripts/test_deployment.py --dry-run --environment staging
+python3 scripts/test_deployment.py --environment staging
 ```
 
 **Expected result:**
@@ -149,7 +149,7 @@ python3 scripts/test_deployment.py --dry-run --environment staging
 
 ```bash
 clear
-python3 scripts/deploy_production.py --dry-run
+python3 scripts/deploy_production.py
 ```
 
 **Expected result:**
@@ -170,7 +170,7 @@ python3 scripts/deploy_production.py --dry-run
 
 ```bash
 clear
-python3 scripts/shift_traffic.py --dry-run --steps 90,50,0
+python3 scripts/shift_traffic.py --steps 90,50,0
 ```
 
 **Expected result:**
@@ -193,7 +193,7 @@ Step 1: Blue 90% / Green 10%
 
 ```bash
 clear
-python3 scripts/rollback.py --endpoint-name banking-endpoint-prod-demo --dry-run
+python3 scripts/rollback.py --endpoint-name banking-endpoint-prod-demo
 ```
 
 **Expected result:**
