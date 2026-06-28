@@ -27,6 +27,8 @@ whoami
 
 **Expected:** `ec2-user`
 
+![git pull on EC2 before Lab 2](images/step-00a-git-pull.png)
+
 3. Confirm Lab 1 still passes:
 
 ```bash
@@ -34,6 +36,8 @@ cd ~/ai-infra-mlops/lab1 && python3 scripts/validate_environment.py
 ```
 
 **Expected:** `Compliance Score: 100.0%` and `✅ ALL CHECKS PASSED!`
+
+![Lab 1 validation 13/13 COMPLIANT](images/step-00b-lab1-validate.png)
 
 4. Set classroom variables (once per terminal session — speeds up the lab, skips Comprehend API calls):
 
@@ -80,7 +84,7 @@ requirements.txt
 scripts
 ```
 
-**Screenshot (optional):** `images/step-01-lab2-folder.png`
+![Lab 2 folder listing](images/step-01-lab2-folder.png)
 
 ---
 
@@ -105,7 +109,7 @@ scripts
 
 If the folder is missing, re-run [Lab 0 Step 16](../lab0/STEPS.md) (`setup_lab_directories.py`), then return here.
 
-**Screenshot (optional):** `images/step-02-workspace-lab2.png`
+![Lab 2 workspace folders](images/step-02-workspace-lab2.png)
 
 ---
 
@@ -132,7 +136,7 @@ Prerequisites OK — run lab2 scripts in STEPS.md order.
 
 If you see `❌ Missing Lab 1 config`, complete [Lab 1](../lab1/STEPS.md) first.
 
-**Screenshot (optional):** `images/step-03-prerequisites.png`
+![Lab 2 prerequisites check](images/step-03-prerequisites.png)
 
 ---
 
@@ -156,7 +160,7 @@ python3 scripts/download_banking_data.py
 ✅ Dataset metadata saved
 ```
 
-**Screenshot (optional):** `images/step-04-dataset.png`
+![Banking dataset generated](images/step-04-dataset.png)
 
 ---
 
@@ -182,7 +186,7 @@ python3 scripts/pii_detection_anonymization.py
 
 The script also uploads a PII compliance report to your Lab 1 **governance** S3 bucket.
 
-**Screenshot (optional):** `images/step-05-pii.png`
+![PII anonymization complete — 3700 instances](images/step-05-pii.png)
 
 ---
 
@@ -204,7 +208,7 @@ python3 scripts/data_validation.py
 
 `REVIEW_REQUIRED` on customers is **expected** in classroom mode (anonymized fields fail strict type/pattern checks). Scores above 50% confirm the pipeline ran correctly.
 
-**Screenshot (optional):** `images/step-06-validation.png`
+![Data validation quality scores](images/step-06-validation.png)
 
 ---
 
@@ -225,7 +229,7 @@ python3 scripts/feature_engineering.py
    Feature Metadata: .../config/feature_metadata.json
 ```
 
-**Screenshot (optional):** `images/step-07-features.png`
+![Feature engineering — 52 features](images/step-07-features.png)
 
 ---
 
@@ -252,7 +256,7 @@ python3 scripts/feature_store_setup.py
 
 On re-run, you may see `Feature group already exists` or ingest warnings — that is OK if Step 11 passes.
 
-**Screenshot (optional):** `images/step-08-feature-store.png`
+![Feature Store ingest complete](images/step-08-feature-store.png)
 
 ---
 
@@ -277,7 +281,7 @@ python3 scripts/data_drift_detection.py
 
 A CloudWatch alarm warning (`SNS topic may not exist`) is **expected** — the alarm is optional in this lab.
 
-**Screenshot (optional):** `images/step-09-drift.png`
+![Drift detection — 0% drift NORMAL](images/step-09-drift.png)
 
 ---
 
@@ -300,7 +304,7 @@ python3 scripts/generate_compliance_doc.py
 ✅ Drift Monitoring: NORMAL
 ```
 
-**Screenshot (optional):** `images/step-10-compliance.png`
+![Compliance report summary](images/step-10-compliance.png)
 
 ---
 
@@ -342,7 +346,9 @@ Prerequisites OK — run lab2 scripts in STEPS.md order.
 
 You should also see `preprocessor.pkl` under `config/` from Step 7.
 
-**Screenshot (optional):** `images/step-11-validate.png`
+![Final validation — all checks green](images/step-11a-validate.png)
+
+![Lab 2 data and config files](images/step-11b-validate-files.png)
 
 ---
 

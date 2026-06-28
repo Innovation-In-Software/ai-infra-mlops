@@ -1,5 +1,22 @@
 {
-  "notes": "Maps step-pending-*.png (ProTech VM / EC2 captures) to lab2/images/. Add entries after manual testing.",
-  "source_dir": "D:/Current_work/Innovation in Software/MLOps On AWS June 4/screenshots/lab2",
-  "canonical": {}
+  "notes": "Maps step-pending-*.png (ProTech VM / EC2 Jun 28) to lab2/images/. Run: python scripts/sync_lab2_screenshots.py",
+  "source_dir": "D:/Current_work/Innovation in Software/MLOps On AWS June 4/screenshots",
+  "canonical": {
+    "step-pending-54.png": "step-00a-git-pull.png",
+    "step-pending-55.png": "step-00b-lab1-validate.png",
+    "step-pending-56.png": "step-01-lab2-folder.png",
+    "step-pending-57.png": "step-03-prerequisites.png",
+    "step-pending-58.png": "step-04-dataset.png",
+    "step-pending-60.png": "step-05-pii.png",
+    "step-pending-62.png": "step-06-validation.png",
+    "step-pending-63.png": "step-07-features.png",
+    "step-pending-65.png": "step-08-feature-store.png",
+    "step-pending-66.png": "step-09-drift.png",
+    "step-pending-67.png": "step-10-compliance.png",
+    "step-pending-68.png": "step-11a-validate.png",
+    "step-pending-69.png": "step-11b-validate-files.png"
+  },
+  "aliases": {
+    "step-02-workspace-lab2.png": "step-01-lab2-folder.png"
+  }
 }
