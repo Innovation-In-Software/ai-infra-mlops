@@ -81,3 +81,4 @@ Teardown AWS resources: [Lab 10 Step 11](lab10/STEPS.md) → `python3 scripts/te
 - [Instructor ProTech VM + EC2 setup](docs/PROTECH-VM-SETUP.md)
 - [Instructor cloud delivery](CLOUD-DELIVERY.md)
 - [EC2 testing notes](docs/EC2-TESTING.md)
+- [Canonical repo / clone instructions](CANONICAL-REPO.md)
