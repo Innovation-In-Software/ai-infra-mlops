@@ -59,7 +59,17 @@ def main() -> int:
             shutil.copy2(src, IMAGES / dest_name)
             print(f"   ALIAS: {src_name} -> {dest_name}")
 
-    allowed = set(data.get("canonical", {}).values()) | set(data.get("aliases", {}).keys())
+    for dest_name, rel_src in data.get("reuse_from_lab3", {}).items():
+        src = REPO / rel_src
+        if src.is_file():
+            shutil.copy2(src, IMAGES / dest_name)
+            print(f"   REUSE lab3: {rel_src} -> {dest_name}")
+
+    allowed = (
+        set(data.get("canonical", {}).values())
+        | set(data.get("aliases", {}).keys())
+        | set(data.get("reuse_from_lab3", {}).keys())
+    )
     for path in IMAGES.glob("*.png"):
         if path.name not in allowed and path.name != ".gitkeep":
             path.unlink()
