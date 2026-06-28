@@ -1,0 +1,8 @@
+=== Lab 5 Step val ===
+$ cd lab5 && python3 scripts/validate_lab5.py
+Validate Lab 5
+============================================================
+   ✅ models: best_model.pkl
+   ✅ Container compliance: PASS
+Prerequisites OK — proceed to Lab 6
+

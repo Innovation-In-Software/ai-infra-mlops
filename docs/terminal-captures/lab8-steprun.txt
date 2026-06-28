@@ -1,0 +1,40 @@
+=== Lab 8 Step run ===
+$ cd lab8 && python3 scripts/run_lab8.py
+Lab 8 — SageMaker Pipelines (LIVE)
+============================================================
+   ✅ Input data from Lab 2
+✅ Pipeline parameters defined
+🔧 SageMaker Pipeline
+============================================================
+   ✅ ProcessingStep: data-validation
+   ✅ TrainingStep: xgboost-training
+   ✅ EvaluationStep: model-evaluation
+   ✅ RegisterStep: model-registry
+✅ Pipeline definition saved
+
+▶ upsert_pipeline
+   ✅ Pipeline name: banking-ml-pipeline
+✅ Pipeline registered
+
+▶ start_pipeline
+▶️ Pipeline Execution
+============================================================
+   Execution ARN: arn:aws:sagemaker:us-west-2:000000000000:pipeline/banking-ml-pipeline/execution/20260628003748
+✅ Pipeline started
+
+▶ monitor_pipeline
+   data-validation        ✅ Succeeded
+   xgboost-training       ✅ Succeeded
+   model-evaluation       ✅ Succeeded
+   model-registry         ✅ Succeeded
+✅ All steps succeeded (simulated)
+
+▶ register_model
+📋 Model Registry
+============================================================
+   ✅ Model package group: banking-risk-models
+✅ Model registered
+✅ Pipeline compliance report generated
+
+Lab 8 complete.
+

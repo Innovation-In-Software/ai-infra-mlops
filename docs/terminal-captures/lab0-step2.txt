@@ -1,0 +1,6 @@
+=== Lab 0 Step 2 ===
+$ python3 --version; git --version; aws --version
+Python 3.9.25
+git version 2.50.1
+aws-cli/2.33.15 Python/3.9.25 Linux/6.12.92-122.166.amzn2023.x86_64 source/x86_64.amzn.2023
+

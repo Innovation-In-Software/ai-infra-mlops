@@ -1,0 +1,9 @@
+=== Lab 7 Step val ===
+$ cd lab7 && python3 scripts/validate_lab7.py
+Validate Lab 7
+============================================================
+   ✅ baseline_data.csv
+   ✅ current_data.csv
+   ✅ monitoring_report_final.json
+Prerequisites OK — proceed to Lab 8
+

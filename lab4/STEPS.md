@@ -17,7 +17,7 @@ clear
 cd ~/ai-infra-mlops && ls -1 lab4
 ```
 
-**Expected output:** `STEPS.md`, `config`, `images`, `requirements.txt`, `scripts`, `src`, `tests`, `buildspecs`
+**Expected output:** `Validate Lab 4`, `config`, `images`, `requirements.txt`, `scripts`, `src`, `tests`, `buildspecs`
 
 **Optional screenshot:** `images/step-01-lab4-folder.png`
 
@@ -90,8 +90,12 @@ python3 -m pytest tests/unit -q
 **Expected output:**
 
 ```text
-.....
-5 passed in 2.1s
+🔒 Compliance Gates
+============================================================
+   ✅ PII scan: PASS
+   ✅ Fairness threshold: PASS
+   ✅ Security lint: PASS
+✅ All compliance gates passed
 ```
 
 **Optional screenshot:** `images/step-05-unit-tests.png`
@@ -108,12 +112,12 @@ python3 scripts/run_compliance_checks.py
 **Expected output:**
 
 ```text
-🔒 Compliance Gates
+🔄 CodePipeline Setup
 ============================================================
-   ✅ PII scan: PASS
-   ✅ Fairness threshold: PASS
-   ✅ Security lint: PASS
-✅ All compliance gates passed
+   ✅ Pipeline: banking-ml-cicd-028417007274
+   ✅ Stages: Source → Build → Test → Compliance → Deploy
+   ✅ Manual approval gate: enabled
+✅ Pipeline configuration saved
 ```
 
 **Optional screenshot:** `images/step-06-compliance.png`
@@ -130,12 +134,13 @@ python3 scripts/setup_codepipeline.py
 **Expected output:**
 
 ```text
-🔄 CodePipeline Setup
-============================================================
-   ✅ Pipeline: banking-ml-cicd-<account-id>
-   ✅ Stages: Source → Build → Test → Compliance → Deploy
-   ✅ Manual approval gate: enabled
-✅ Pipeline configuration saved
+   ✅ Source: PASS
+   ✅ Build: PASS
+   ✅ Test: PASS
+   ✅ Compliance: PASS
+   ⏸ Manual approval: simulated APPROVED
+   ✅ Deploy: PASS (simulation)
+✅ Pipeline run complete (simulation)
 ```
 
 **Optional screenshot:** `images/step-07-pipeline.png`
@@ -199,9 +204,9 @@ python3 scripts/validate_lab4.py
 ```text
 Validate Lab 4
 ============================================================
-   ✅ config: buckets.json
-   ✅ models: best_model.pkl
-   ✅ artifacts: cicd_compliance_report_final.json
+   ✅ Lab 1 buckets.json
+   ✅ Lab 3 best_model.pkl
+   ✅ cicd_compliance_report_final.json
 Prerequisites OK — proceed to Lab 5
 ```
 

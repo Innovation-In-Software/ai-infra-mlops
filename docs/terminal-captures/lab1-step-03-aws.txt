@@ -1,0 +1,6 @@
+{
+    "UserId": "AIDAQNHOJD2VNL53DHIX6",
+    "Account": "028417007274",
+    "Arn": "arn:aws:iam::028417007274:user/instructors/Instructor01"
+}
+us-west-2

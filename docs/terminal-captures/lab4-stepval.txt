@@ -1,0 +1,9 @@
+=== Lab 4 Step val ===
+$ cd lab4 && python3 scripts/validate_lab4.py
+Validate Lab 4
+============================================================
+   ✅ Lab 1 buckets.json
+   ✅ Lab 3 best_model.pkl
+   ✅ cicd_compliance_report_final.json
+Prerequisites OK — proceed to Lab 5
+

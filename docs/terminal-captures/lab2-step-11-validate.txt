@@ -1,0 +1,21 @@
+Validate Lab 2
+============================================================
+   ✅ Lab 1 config: buckets.json
+   ✅ Lab 1 config: iam_roles.json
+   ✅ data: customers.csv
+   ✅ data: transactions.csv
+   ✅ data: anonymized_customers.csv
+   ✅ data: anonymized_transactions.csv
+   ✅ data: engineered_banking_data.csv
+   ✅ data: compliance_report_final.json
+   ✅ config: dataset_metadata.json
+   ✅ config: pii_report.json
+   ✅ config: pii_compliance_report.json
+   ✅ config: feature_metadata.json
+   ✅ config: feature_store_config.json
+   ✅ config: drift_report.json
+   ✅ config: data_quality_report_customers.json
+   ✅ config: data_quality_report_transactions.json
+
+============================================================
+Prerequisites OK — run lab2 scripts in STEPS.md order.

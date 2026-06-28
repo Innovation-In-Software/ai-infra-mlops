@@ -16,7 +16,7 @@ clear
 cd ~/ai-infra-mlops && ls -1 lab7
 ```
 
-**Expected output:** `STEPS.md`, `config`, `images`, `requirements.txt`, `scripts`
+**Expected output:** `Validate Lab 7`, `config`, `images`, `requirements.txt`, `scripts`
 
 **Optional screenshot:** `images/step-01-lab7-folder.png`
 
@@ -204,9 +204,9 @@ python3 scripts/validate_lab7.py
 ```text
 Validate Lab 7
 ============================================================
-   ✅ data: baseline_data.csv
-   ✅ data: current_data.csv
-   ✅ results: monitoring_report_final.json
+   ✅ baseline_data.csv
+   ✅ current_data.csv
+   ✅ monitoring_report_final.json
 Prerequisites OK — proceed to Lab 8
 ```
 

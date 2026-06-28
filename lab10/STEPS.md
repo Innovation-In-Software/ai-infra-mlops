@@ -17,7 +17,7 @@ clear
 cd ~/ai-infra-mlops && ls -1 lab10
 ```
 
-**Expected output:** `STEPS.md`, `config`, `images`, `requirements.txt`, `scripts`
+**Expected output:** `Validate Lab 10 — Course Completion`, `config`, `images`, `requirements.txt`, `scripts`
 
 **Optional screenshot:** `images/step-01-lab10-folder.png`
 
@@ -195,9 +195,6 @@ python3 scripts/validate_lab10.py
 ```text
 Validate Lab 10 — Course Completion
 ============================================================
-   ✅ All lab workspaces referenced
-   ✅ Governance reports linked
-   ✅ Architecture score ≥ 90
 🎉 COURSE COMPLETE — ai-mlops-2026-jun30
 ```
 
@@ -205,7 +202,7 @@ Validate Lab 10 — Course Completion
 
 ---
 
-# Step 10 — Optional: reset for next cohort
+# Step 10 — Reset workspace (optional, next cohort)
 
 ```bash
 clear
@@ -216,14 +213,62 @@ python3 scripts/reset_course.py --labs lab1,lab2,lab3,lab4,lab5,lab6,lab7,lab8,l
 **Expected output:**
 
 ```text
-Reset complete. Workspace lab folders cleared.
-Re-run Lab 0 verify, then Lab 1 from STEPS.md.
+🧹 Reset course workspace
+============================================================
+   Repo: /home/ec2-user/ai-infra-mlops
+   ✅ Cleared workspace/lab1/
+   ✅ Cleared workspace/lab2/
+   ...
+   ✅ Cleared workspace/lab10/
+
+✅ Done. Re-run labs from STEPS.md (Lab 0 verify → Labs 1–10).
 ```
 
 **Optional screenshot:** `images/step-10-reset.png`
 
 ---
 
+# Step 11 — Delete all AWS resources (instructor)
+
+After completing the course, tear down AWS resources so the account is clean for the next cohort.
+
+```bash
+clear
+cd ~/ai-infra-mlops
+python3 scripts/teardown_course.py --yes
+```
+
+This runs in order:
+
+1. Reset all `workspace/lab1`–`lab10` folders  
+2. Delete Lab 2 SageMaker Feature Groups (`banking-transaction-features`, `banking-customer-features`)  
+3. Delete Lab 1 CloudTrail + dashboard (`delete_audit_logging.py`)  
+4. Delete SageMaker Studio domain (`delete_sagemaker_studio.py`)  
+5. Empty and delete Lab 1 S3 buckets (`delete_banking_buckets.py`)  
+6. Delete Lab 5 ECR repository `banking-ml-inference` (if created)
+
+**Expected output:**
+
+```text
+🧹 Full course teardown
+============================================================
+   ✅ Cleared workspace/lab1/ … lab10/
+   ✅ Deleted: banking-transaction-features
+   ✅ Deleted: banking-customer-features
+   ✅ CloudTrail / SageMaker / S3 cleanup complete
+   ✅ Deleted ECR repository: banking-ml-inference
+
+✅ Teardown complete.
+   Manual (if re-running Lab 1 from scratch):
+   - IAM Console: delete BankingDataScientistRole, BankingMLEngineerRole, BankingComplianceOfficerRole
+   - KMS Console: disable/delete keys from workspace/lab1/config/kms_keys.json (after Lab 1 re-run saves new IDs)
+   - CloudWatch: delete BankingDataDriftAlarm if desired
+```
+
+**Optional screenshot:** `images/step-11-teardown.png`
+
+---
+
 ## Course complete
 
-You have finished Labs 0–10 on EC2. Retain `workspace/` outputs for audit; use `reset_course.py` before the next cohort.
+You have finished Labs 0–10 on EC2. Run **Step 11** to delete AWS resources when the class is done.

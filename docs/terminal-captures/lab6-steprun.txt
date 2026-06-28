@@ -1,0 +1,53 @@
+=== Lab 6 Step run ===
+$ cd lab6 && python3 scripts/run_lab6.py
+/home/ec2-user/.local/lib/python3.9/site-packages/boto3/compat.py:89: PythonDeprecationWarning: Boto3 will no longer support Python 3.9 starting April 29, 2026. To continue receiving service updates, bug fixes, and security updates please upgrade to Python 3.10 or later. More information can be found here: https://aws.amazon.com/blogs/developer/python-support-policy-updates-for-aws-sdks-and-tools/
+  warnings.warn(warning, PythonDeprecationWarning)
+Lab 6 — Blue-Green Deployment (LIVE)
+============================================================
+Preparing deployment configuration
+============================================================
+   ✅ Model URI resolved from Lab 3 best_model.pkl
+   ✅ IAM roles loaded from Lab 1 (via workspace)
+✅ Deployment state ready
+
+▶ Blue-green plan
+🔄 Blue-Green Plan
+============================================================
+   Blue variant: banking-model-blue (100%)
+   Green variant: banking-model-green (0%)
+✅ Plan saved: config/blue_green_plan.json
+
+▶ Staging deploy
+   ✅ Staging endpoint: banking-endpoint-staging-20260628
+✅ Staging deployment complete
+
+▶ Test staging
+🧪 Endpoint Tests (staging)
+============================================================
+   ✅ Health: PASS
+   ✅ Sample transaction latency: 45ms
+   ✅ Error rate: 0%
+✅ Staging tests passed
+
+▶ Production deploy
+   ✅ Production endpoint configured
+✅ Production deployment complete
+
+▶ Traffic shift
+   Step 1: Blue 90% / Green 10%
+   Step 2: Blue 50% / Green 50%
+   Step 3: Blue 0% / Green 100%
+✅ Traffic shift complete (simulated)
+
+▶ Rollback drill
+↩️ Rollback
+============================================================
+   ✅ Restored previous variant weights
+   ✅ Rollback logged for audit
+✅ Rollback complete
+
+▶ Report
+✅ Deployment report: config/deployment_report.json
+
+Lab 6 complete.
+

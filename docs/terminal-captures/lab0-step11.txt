@@ -1,0 +1,29 @@
+=== Lab 0 Step 11 ===
+$ cd lab0 && python3 scripts/verify_environment.py
+Banking MLOps Environment Verification
+============================================================
+   [PASS] Python Version: Python 3.9.25
+sagemaker.config INFO - Not applying SDK defaults from location: /etc/xdg/sagemaker/config.yaml
+sagemaker.config INFO - Not applying SDK defaults from location: /home/ec2-user/.config/sagemaker/config.yaml
+/home/ec2-user/.local/lib/python3.9/site-packages/boto3/compat.py:89: PythonDeprecationWarning: Boto3 will no longer support Python 3.9 starting April 29, 2026. To continue receiving service updates, bug fixes, and security updates please upgrade to Python 3.10 or later. More information can be found here: https://aws.amazon.com/blogs/developer/python-support-policy-updates-for-aws-sdks-and-tools/
+  warnings.warn(warning, PythonDeprecationWarning)
+   [PASS] Required Packages: Installed: 12, Missing: 0
+   [PASS] Default Region Config: us-west-2
+   [PASS] AWS CLI Region: Region: us-west-2
+   [PASS] AWS CLI Credentials: Arn: arn:aws:sts::028417007274:assumed-role/EC2MLOpsLabRole/i-0326933d0bc3b45f1
+   [PASS] Boto3 AWS Access: Account: 028417007274
+   [PASS] Course Lab Folders: Found 11 lab folder(s) in repo
+   [PASS] Student Workspace: Workspace: /home/ec2-user/ai-infra-mlops/workspace (0 missing)
+   [PASS] Git Repository: Repo cloned
+
+============================================================
+Verification Summary:
+   Total Checks: 9
+   Passed: 9
+   Failed: 0
+
+ALL CHECKS PASSED. Environment is ready.
+   Proceed to Lab 1 (open lab1/STEPS.md)
+
+Results saved: /home/ec2-user/ai-infra-mlops/lab0/logs/verification_results.json
+

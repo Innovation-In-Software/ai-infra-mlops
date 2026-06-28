@@ -1,0 +1,9 @@
+=== Lab 6 Step val ===
+$ cd lab6 && python3 scripts/validate_lab6.py
+Validate Lab 6
+============================================================
+   ✅ config: deployment_state.json
+   ✅ config: blue_green_plan.json
+   ✅ config: deployment_report.json
+Prerequisites OK — proceed to Lab 7
+

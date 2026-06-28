@@ -1,0 +1,4 @@
+Validate Lab 9
+   ✅ governance_report_final.json
+   ✅ governance_state.json
+Prerequisites OK — proceed to Lab 10

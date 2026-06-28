@@ -1,0 +1,21 @@
+🧹 Reset course workspace
+============================================================
+   Repo: /home/ec2-user/ai-infra-mlops
+   ✅ Cleared workspace/lab1/
+   ✅ Cleared workspace/lab2/
+   ✅ Cleared workspace/lab3/
+   ✅ Cleared workspace/lab4/
+   ✅ Cleared workspace/lab5/
+   ✅ Cleared workspace/lab6/
+   ✅ Cleared workspace/lab7/
+   ✅ Cleared workspace/lab8/
+   ✅ Cleared workspace/lab9/
+   ✅ Cleared workspace/lab10/
+
+✅ Done. Re-run labs from STEPS.md (Lab 0 verify → Labs 1–10).
+🧹 Full course teardown
+============================================================
+
+>>> C:\Python313\python.exe scripts/reset_course.py --labs lab1,lab2,lab3,lab4,lab5,lab6,lab7,lab8,lab9,lab10
+
+✅ Workspace reset only (--skip-aws).

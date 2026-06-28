@@ -1,0 +1,132 @@
+Lab 5 — Secure Containerization (LIVE)
+============================================================
+Preparing container artifacts from Lab 3
+============================================================
+   ✅ Copied: best_model.pkl
+
+Artifacts ready for Docker build.
+🧪 Container Inference Test
+============================================================
+   ✅ Container started — curl http://localhost:8080/ping
+✅ Container tests passed
+📦 ECR Repository
+============================================================
+   ✅ Repository already exists: banking-ml-inference
+   ✅ Repository: banking-ml-inference
+   ✅ Encryption: KMS
+   ✅ Scan on push: enabled
+✅ ECR repository ready
+
+▶ Docker build
+🔍 Container Scan
+============================================================
+   Critical: 0
+   High: 0
+   Status: PASS (banking threshold)
+✅ Scan report saved
+✅ Container compliance report generated
+
+Lab 5 complete.
+docker: error during connect: this error may indicate that the docker daemon is not running: Post "http://%2F%2F.%2Fpipe%2Fdocker_engine/v1.24/containers/create?name=banking-ml-test": open //./pipe/docker_engine: The system cannot find the file specified.
+See 'docker run --help'.
+<3>WSL (10) ERROR: CreateProcessParseCommon:708: Failed to translate /home/ec2-user/ai-infra-mlops
+<3>WSL (10) ERROR: CreateProcessParseCommon:754: getpwuid(0) failed 2
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\PowerShell\7
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate c:\Program Files\cursor\resources\app\node_modules\@vscode\ripgrep\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Semeru\jdk-26.0.1.8-openj9\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\Downloads\WINDOWS.X64_213000_db_home\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\app\Gurinderjeet\product\21c\dbhomeXE\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Python313\Scripts\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Python313\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\hadoop\hadoop-3.3.6\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\hadoop\hadoop-3.3.6\sbin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Microsoft\jdk-11.0.19.7-hotspot\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files (x86)\VMware\VMware Workstation\bin\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Common Files\Oracle\Java\javapath
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Windows\system32
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Windows
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Windows\System32\Wbem
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Windows\System32\WindowsPowerShell\v1.0\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Windows\System32\OpenSSH\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Docker\Docker\resources\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\GitHub CLI\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\ProgramData\anaconda3\condabin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Git LFS
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Local\Programs\Python\Python312\Scripts
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Pandoc\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Microchip\xc8\v2.36\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\Gurinder Data\Spires\Thassilo\dynare-6.2-win\dynare-6.2\preprocessor
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Roaming\MathWorks\MATLAB Add-Ons\Toolboxes\Dynare\preprocessor\dynare-preprocessor.exe
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\MinGW\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\dotnet\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\ffmpeg\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Git\cmd
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\z3-master
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\z3-master\build
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files (x86)\Microsoft SQL Server\160\Tools\Binn\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Microsoft SQL Server\160\Tools\Binn\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Microsoft SQL Server\160\DTS\Binn\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Microsoft SQL Server\170\DTS\Binn\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\cursor\resources\app\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Roaming\Python\Python312\Scripts
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\nodejs\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\PowerShell\7\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\MiKTeX\miktex\bin\x64\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\.local\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Local\Programs\Microsoft VS Code\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Local\GitHubDesktop\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Local\Python\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\MySQL\MySQL Server 9.1\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Roaming\Python\Python313\Scripts
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\G
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Amazon\AWSCLIV2\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Local\Programs\Python\Python314\Scripts\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Local\Programs\Python\Python314\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\.local\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\hadoop\hadoop-3.3.6\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\hadoop\hadoop-3.3.6\sbin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\hadoop\hadoop-3.3.6\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Microsoft\jdk-11.0.19.7-hotspot\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Python313\Scripts\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Python313\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files (x86)\VMware\VMware Workstation\bin\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Common Files\Oracle\Java\javapath
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Windows\system32
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Windows
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Windows\System32\Wbem
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Windows\System32\WindowsPowerShell\v1.0\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Windows\System32\OpenSSH\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Docker\Docker\resources\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\GitHub CLI\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\ProgramData\anaconda3\condabin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Git LFS
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Git\cmd
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Local\Programs\Python\Python312\Scripts
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Pandoc\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\MATLAB\R2024b\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\Microchip\xc8\v2.36\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\PowerShell\7\
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\Gurinder Data\Spires\Thassilo\dynare-6.2-win\dynare-6.2\preprocessor
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Roaming\MathWorks\MATLAB Add-Ons\Toolboxes\D
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Local\Programs\Microsoft VS Code\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\Gurinder Data\ffmpeg-2025-06-23-git-e6298e0759-essentials_build\ffmpeg-2025-06-23-git-e6298e0759-essentials_build\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Local\Programs\cursor\resources\app\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\z3-master
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\z3-master\build
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Local\GitHubDesktop\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Local\Python\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Program Files\MySQL\MySQL Server 9.1\bin
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Roaming\Python\Python313\Scripts
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Roaming\Python\Python312\Scripts
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Roaming\npm
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\.dotnet\tools
+<3>WSL (10) ERROR: UtilTranslatePathList:2866: Failed to translate C:\Users\GURINDER\AppData\Local\cursor-agent
+<3>WSL (10) ERROR: CreateProcessEntryCommon:331: getpwuid(0) failed 2
+<3>WSL (10) ERROR: CreateProcessEntryCommon:502: execvpe /bin/bash failed 2
+<3>WSL (10) ERROR: CreateProcessEntryCommon:505: Create process not expected to return

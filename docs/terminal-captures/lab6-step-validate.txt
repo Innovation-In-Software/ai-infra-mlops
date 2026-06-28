@@ -1,0 +1,6 @@
+Validate Lab 6
+============================================================
+   ✅ config: deployment_state.json
+   ✅ config: blue_green_plan.json
+   ✅ config: deployment_report.json
+Prerequisites OK — proceed to Lab 7

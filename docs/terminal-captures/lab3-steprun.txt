@@ -1,0 +1,67 @@
+=== Lab 3 Step run ===
+$ cd lab3 && python3 scripts/run_lab3.py
+/home/ec2-user/.local/lib/python3.9/site-packages/sklearn/linear_model/_logistic.py:465: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  n_iter_i = _check_optimize_result(
+/home/ec2-user/.local/lib/python3.9/site-packages/boto3/compat.py:89: PythonDeprecationWarning: Boto3 will no longer support Python 3.9 starting April 29, 2026. To continue receiving service updates, bug fixes, and security updates please upgrade to Python 3.10 or later. More information can be found here: https://aws.amazon.com/blogs/developer/python-support-policy-updates-for-aws-sdks-and-tools/
+  warnings.warn(warning, PythonDeprecationWarning)
+Lab 3 — Model Training & Fairness Testing
+============================================================
+
+▶ Load training data
+📂 Loading Lab 2 Training Data
+============================================================
+   ✅ Copied: engineered_banking_data.csv
+   ✅ Copied: anonymized_customers.csv
+   ✅ Copied: anonymized_transactions.csv
+   ✅ Copied: feature_metadata.json
+   ✅ Copied: preprocessor.pkl
+
+   Records: 1000
+   Features: 30
+   Train: 800 / Test: 200
+✅ Training data prepared
+
+▶ Train models
+🏦 Training Banking Risk Models
+============================================================
+   ✅ LogisticRegression — AUC: 0.83
+   ✅ RandomForest — AUC: 1.00
+   ✅ XGBoost — AUC: 1.00
+✅ Model training complete
+
+▶ SageMaker experiments
+📊 SageMaker Experiments
+============================================================
+   ✅ Experiment: banking-risk-experiments
+   ✅ Trial: trial-randomforest-20260628003742
+   ✅ Metrics recorded locally: 3 models
+   ✅ Metrics logged: auc, accuracy, f1
+✅ Experiment tracking complete
+
+▶ Fairness testing
+⚖️ Fairness Testing
+============================================================
+   Protected attribute: age_group
+   Disparate impact ratio: 0.84
+   Status: PASS (within banking threshold)
+✅ Fairness report saved: results/fairness_report.json
+
+▶ Select best model
+📋 Banking Model Selection
+============================================================
+   LogisticRegression: combined=0.895 AUC=0.83
+   RandomForest: combined=1.000 AUC=1.00
+   XGBoost: combined=1.000 AUC=1.00
+
+✅ Best model: RandomForest (AUC 1.00, fairness PASS)
+   Saved: models/best_model.pkl
+
+============================================================
+Lab 3 complete.
+

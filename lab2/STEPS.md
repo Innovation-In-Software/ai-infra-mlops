@@ -35,7 +35,7 @@ cd ~/ai-infra-mlops
 ls -1 lab2
 ```
 
-**Expected output:** `STEPS.md`, `config`, `images`, `requirements.txt`, `scripts`
+**Expected output:** `Validate Lab 2`, `config`, `images`, `requirements.txt`, `scripts`
 
 **Optional screenshot:** `images/step-01-lab2-folder.png`
 
@@ -256,6 +256,8 @@ ls -1 ../workspace/lab2/config
 **Expected output:**
 
 ```text
+Validate Lab 2
+============================================================
    ✅ Lab 1 config: buckets.json
    ✅ Lab 1 config: iam_roles.json
    ✅ data: customers.csv
@@ -266,7 +268,14 @@ ls -1 ../workspace/lab2/config
    ✅ data: compliance_report_final.json
    ✅ config: dataset_metadata.json
    ✅ config: pii_report.json
-   ...
+   ✅ config: pii_compliance_report.json
+   ✅ config: feature_metadata.json
+   ✅ config: feature_store_config.json
+   ✅ config: drift_report.json
+   ✅ config: data_quality_report_customers.json
+   ✅ config: data_quality_report_transactions.json
+
+============================================================
 Prerequisites OK — run lab2 scripts in STEPS.md order.
 ```
 

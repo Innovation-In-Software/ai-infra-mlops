@@ -40,9 +40,9 @@ aws --version
 **Expected output:**
 
 ```text
-Python 3.11.x
-git version 2.x.x
-aws-cli/2.x.x Python/3.x.x Linux/x86_64
+Python 3.9.25
+git version 2.50.1
+aws-cli/2.33.15 Python/3.9.25 Linux/6.12.92-122.166.amzn2023.x86_64 source/x86_64.amzn.2023
 ```
 
 If missing: `sudo dnf install -y awscli python3.11 python3.11-pip`
@@ -135,9 +135,9 @@ aws s3 ls --region us-west-2 | head
 
 ```text
 {
-    "UserId": "...",
+    "UserId": "AROAQNHOJD2VP3ODHKF4S:i-0326933d0bc3b45f1",
     "Account": "028417007274",
-    "Arn": "arn:aws:iam::028417007274:user/..."
+    "Arn": "arn:aws:sts::028417007274:assumed-role/EC2MLOpsLabRole/i-0326933d0bc3b45f1"
 }
 us-west-2
 ```
@@ -227,14 +227,14 @@ python3 scripts/verify_environment.py
 ```text
 Banking MLOps Environment Verification
 ============================================================
-   [PASS] Python Version: Python 3.11.x
+   [PASS] Python Version: Python 3.9.25
    [PASS] Required Packages: Installed: 12, Missing: 0
    [PASS] Default Region Config: us-west-2
    [PASS] AWS CLI Region: Region: us-west-2
-   [PASS] AWS CLI Credentials: Arn: arn:aws:iam::...
+   [PASS] AWS CLI Credentials: Arn: arn:aws:sts::028417007274:assumed-role/EC2MLOpsLabRole/i-0326933d0bc3b45f1
    [PASS] Boto3 AWS Access: Account: 028417007274
    [PASS] Course Lab Folders: Found 11 lab folder(s) in repo
-   [PASS] Student Workspace: Workspace: .../workspace (0 missing)
+   [PASS] Student Workspace: Workspace: /home/ec2-user/ai-infra-mlops/workspace (0 missing)
    [PASS] Git Repository: Repo cloned
 
 ============================================================
@@ -246,7 +246,7 @@ Verification Summary:
 ALL CHECKS PASSED. Environment is ready.
    Proceed to Lab 1 (open lab1/STEPS.md)
 
-Results saved: lab0/logs/verification_results.json
+Results saved: /home/ec2-user/ai-infra-mlops/lab0/logs/verification_results.json
 ```
 
 **Optional screenshot:** `images/step-11-verify-pass.png`

@@ -1,0 +1,53 @@
+=== Lab 7 Step run ===
+$ cd lab7 && python3 scripts/run_lab7.py
+Lab 7 — Monitoring & Observability (LIVE)
+============================================================
+Preparing monitoring data and configuration
+============================================================
+   ✅ Baseline data loaded from Lab 3: 800 rows
+   ✅ baseline_data.csv / current_data.csv
+✅ Monitoring data ready
+
+▶ setup_cloudwatch_dashboard
+📊 CloudWatch Dashboard
+============================================================
+   ✅ Dashboard: Banking-MLOps-Model-Monitor
+✅ Dashboard configuration saved
+
+▶ setup_model_monitor
+   ✅ Baseline constraints generated
+   ✅ Monitoring schedule: hourly (simulated)
+✅ Model Monitor configured
+
+▶ monitor_data_drift
+📉 Data Drift Check
+============================================================
+   Features checked: 30
+   Drift detected: 0
+   Status: NORMAL
+✅ Drift report saved
+
+▶ monitor_model_quality
+📈 Model Quality
+============================================================
+   AUC (rolling): 0.86
+   Status: WITHIN SLA
+✅ Quality report saved
+
+▶ setup_alarms
+   ✅ banking-ml-high-latency
+   ✅ banking-ml-error-rate
+   ✅ banking-ml-drift-severity
+✅ Alarms configured
+
+▶ simulate_incident
+⚠️ Simulated incident: latency spike
+   ✅ Alarm triggered
+   ✅ Runbook executed
+✅ Incident drill complete
+
+▶ generate_monitoring_report
+✅ Monitoring compliance report generated
+
+Lab 7 complete.
+

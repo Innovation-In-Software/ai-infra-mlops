@@ -16,7 +16,7 @@ clear
 cd ~/ai-infra-mlops && ls -1 lab9
 ```
 
-**Expected output:** `STEPS.md`, `config`, `images`, `requirements.txt`, `scripts`
+**Expected output:** `Validate Lab 9`, `config`, `images`, `requirements.txt`, `scripts`
 
 **Optional screenshot:** `images/step-01-lab9-folder.png`
 
@@ -207,9 +207,8 @@ python3 scripts/validate_lab9.py
 
 ```text
 Validate Lab 9
-============================================================
-   ✅ results: governance_report_final.json
-   ✅ config: governance_state.json
+   ✅ governance_report_final.json
+   ✅ governance_state.json
 Prerequisites OK — proceed to Lab 10
 ```
 

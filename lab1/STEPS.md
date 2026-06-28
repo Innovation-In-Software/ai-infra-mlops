@@ -79,8 +79,9 @@ aws configure get region
 
 ```text
 {
+    "UserId": "AROAQNHOJD2VP3ODHKF4S:i-0326933d0bc3b45f1",
     "Account": "028417007274",
-    "Arn": "arn:aws:iam::028417007274:user/..."
+    "Arn": "arn:aws:sts::028417007274:assumed-role/EC2MLOpsLabRole/i-0326933d0bc3b45f1"
 }
 us-west-2
 ```
@@ -225,7 +226,34 @@ python3 scripts/validate_environment.py
 
 ```text
 🔍 Validating Banking MLOps Environment
-...
+============================================================
+
+📋 Validating KMS Keys...
+✅ KMS Key s3_key_id: Enabled: 49b1f378-6376-4c94-87e7-7706ffb5200a
+✅ KMS Key sm_key_id: Enabled: 118d3cd2-4c44-48af-91a3-21c5a3842750
+
+📋 Validating S3 Buckets...
+✅ Bucket raw: Exists and encrypted: bank-mlops-028417007274-raw
+✅ Bucket processed: Exists and encrypted: bank-mlops-028417007274-processed
+✅ Bucket models: Exists and encrypted: bank-mlops-028417007274-models
+✅ Bucket monitoring: Exists and encrypted: bank-mlops-028417007274-monitoring
+✅ Bucket governance: Exists and encrypted: bank-mlops-028417007274-governance
+✅ Bucket audit: Exists and encrypted: bank-mlops-028417007274-audit
+
+📋 Validating IAM Roles...
+✅ Role data_scientist: Exists: BankingDataScientistRole
+✅ Role ml_engineer: Exists: BankingMLEngineerRole
+✅ Role compliance_officer: Exists: BankingComplianceOfficerRole
+
+📋 Validating SageMaker Studio...
+✅ SageMaker Studio: InService: d-baoslyw06atv
+
+📋 Validating Audit Logging...
+✅ CloudTrail: Logging enabled: BankingMLOpsAuditTrail-028417007274
+
+📋 Generating Compliance Report...
+
+============================================================
 📋 COMPLIANCE REPORT SUMMARY
 ============================================================
 Total Checks: 13

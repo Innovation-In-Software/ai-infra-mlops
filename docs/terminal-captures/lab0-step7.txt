@@ -1,0 +1,9 @@
+=== Lab 0 Step 7 ===
+$ aws sts get-caller-identity; aws configure get region
+{
+    "UserId": "AROAQNHOJD2VP3ODHKF4S:i-0326933d0bc3b45f1",
+    "Account": "028417007274",
+    "Arn": "arn:aws:sts::028417007274:assumed-role/EC2MLOpsLabRole/i-0326933d0bc3b45f1"
+}
+us-west-2
+

@@ -1,0 +1,37 @@
+=== Lab 9 Step run ===
+$ cd lab9 && python3 scripts/run_lab9.py
+Lab 9 — Security & Governance
+============================================================
+🛡️ Governance Baseline
+============================================================
+   ✅ Model copied from lab5
+   ✅ Lab 1 IAM / CloudTrail context linked (workspace)
+✅ Baseline ready
+
+▶ review_iam_policies
+🔑 IAM Review
+============================================================
+   Roles reviewed: 3
+   Status: COMPLIANT
+✅ IAM review report saved
+
+▶ audit_encryption
+🔐 Encryption Audit — PASS
+
+▶ model_approval_workflow
+📋 Model Approval — workflow state saved
+
+▶ generate_explainability
+🔍 Explainability complete
+
+▶ governance_fairness_check
+⚖️ Governance Fairness — APPROVED
+
+▶ export_audit_trail
+📝 Audit export complete
+
+▶ generate_governance_report
+✅ Governance report generated
+
+Lab 9 complete.
+

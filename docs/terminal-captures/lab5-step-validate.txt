@@ -1,0 +1,5 @@
+Validate Lab 5
+============================================================
+   ✅ models: best_model.pkl
+   ✅ Container compliance: PASS
+Prerequisites OK — proceed to Lab 6

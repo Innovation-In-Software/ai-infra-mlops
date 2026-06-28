@@ -17,7 +17,7 @@ clear
 cd ~/ai-infra-mlops && ls -1 lab6
 ```
 
-**Expected output:** `STEPS.md`, `config`, `images`, `requirements.txt`, `scripts`
+**Expected output:** `Validate Lab 6`, `config`, `images`, `requirements.txt`, `scripts`
 
 **Optional screenshot:** `images/step-01-lab6-folder.png`
 
@@ -64,7 +64,6 @@ python3 scripts/configure_blue_green.py --dry-run
 ============================================================
    Blue variant: banking-model-blue (100%)
    Green variant: banking-model-green (0%)
-   Traffic shift: 90/10 → 50/50 → 0/100
 ✅ Plan saved: config/blue_green_plan.json
 ```
 
@@ -82,9 +81,8 @@ python3 scripts/deploy_staging.py --dry-run
 **Expected output:**
 
 ```text
-   ✅ Staging endpoint: banking-endpoint-staging (simulated)
-   ✅ Instance type: ml.m5.large
-✅ Staging deployment complete (dry-run)
+   ✅ Staging endpoint: banking-endpoint-staging-20260628
+✅ Staging deployment complete
 ```
 
 **Optional screenshot:** `images/step-04-staging.png`
@@ -123,10 +121,8 @@ python3 scripts/deploy_production.py --dry-run
 **Expected output:**
 
 ```text
-   ✅ Production endpoint: banking-endpoint-prod
-   ✅ Blue/Green variants configured
-   ✅ Auto-scaling policy attached (simulated)
-✅ Production deployment complete (dry-run)
+   ✅ Production endpoint configured
+✅ Production deployment complete
 ```
 
 **Optional screenshot:** `images/step-06-production.png`
@@ -167,7 +163,7 @@ python3 scripts/rollback.py --endpoint-name banking-endpoint-prod-demo --dry-run
 ============================================================
    ✅ Restored previous variant weights
    ✅ Rollback logged for audit
-✅ Rollback complete (dry-run)
+✅ Rollback complete
 ```
 
 **Optional screenshot:** `images/step-08-rollback.png`

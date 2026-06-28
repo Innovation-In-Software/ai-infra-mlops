@@ -16,7 +16,7 @@ clear
 cd ~/ai-infra-mlops && ls -1 lab8
 ```
 
-**Expected output:** `STEPS.md`, `config`, `images`, `pipeline`, `requirements.txt`, `scripts`
+**Expected output:** `Validate Lab 8`, `config`, `images`, `pipeline`, `requirements.txt`, `scripts`
 
 **Optional screenshot:** `images/step-01-lab8-folder.png`
 
@@ -199,8 +199,8 @@ python3 scripts/validate_lab8.py
 ```text
 Validate Lab 8
 ============================================================
-   ✅ config: pipeline_params.json
-   ✅ results: pipeline_compliance_report_final.json
+   ✅ pipeline_params.json
+   ✅ pipeline_compliance_report_final.json
 Prerequisites OK — proceed to Lab 9
 ```
 

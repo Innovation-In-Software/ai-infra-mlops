@@ -1,0 +1,6 @@
+=== Lab 10 Step val ===
+$ cd lab10 && python3 scripts/validate_lab10.py
+Validate Lab 10 — Course Completion
+============================================================
+🎉 COURSE COMPLETE — ai-mlops-2026-jun30
+

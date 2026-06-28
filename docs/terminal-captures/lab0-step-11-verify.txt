@@ -1,0 +1,24 @@
+Banking MLOps Environment Verification
+============================================================
+   [PASS] Python Version: Python 3.11.x
+sagemaker.config INFO - Not applying SDK defaults from location: C:\ProgramData\sagemaker\sagemaker\config.yaml
+sagemaker.config INFO - Not applying SDK defaults from location: C:\Users\GURINDER\AppData\Local\sagemaker\sagemaker\config.yaml
+   [PASS] Required Packages: Installed: 12, Missing: 0
+   [PASS] Default Region Config: us-west-2
+   [PASS] AWS CLI Region: Region: us-west-2
+   [PASS] AWS CLI Credentials: Arn: arn:aws:iam::028417007274:user/instructors/Instructor01
+   [PASS] Boto3 AWS Access: Account: 028417007274
+   [PASS] Course Lab Folders: Found 11 lab folder(s) in repo
+   [PASS] Student Workspace: Workspace: /home/ec2-user/ai-infra-mlops\workspace (0 missing)
+   [PASS] Git Repository: Repo cloned
+
+============================================================
+Verification Summary:
+   Total Checks: 9
+   Passed: 9
+   Failed: 0
+
+ALL CHECKS PASSED. Environment is ready.
+   Proceed to Lab 1 (open lab1/STEPS.md)
+
+Results saved: /home/ec2-user/ai-infra-mlops\lab0\logs\verification_results.json

@@ -1,0 +1,12 @@
+Validate Lab 3
+============================================================
+   ✅ Lab 2: engineered_banking_data.csv
+   ✅ Lab 2: feature_metadata.json
+   ✅ data: X_train.csv
+   ✅ models: best_model.pkl
+   ✅ results: fairness_report.json
+   ✅ results: training_report_final.json
+   ✅ config: training_results.json
+
+============================================================
+Prerequisites OK — proceed to Lab 4

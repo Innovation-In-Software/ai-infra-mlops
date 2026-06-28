@@ -83,9 +83,14 @@ python3 scripts/load_training_data.py
 📂 Loading Lab 2 Training Data
 ============================================================
    ✅ Copied: engineered_banking_data.csv
-   ...
+   ✅ Copied: anonymized_customers.csv
+   ✅ Copied: anonymized_transactions.csv
+   ✅ Copied: feature_metadata.json
+   ✅ Copied: preprocessor.pkl
+
    Records: 1000
-   Features: 48
+   Features: 30
+   Train: 800 / Test: 200
 ✅ Training data prepared
 ```
 
@@ -105,9 +110,9 @@ python3 scripts/train_models.py
 ```text
 🏦 Training Banking Risk Models
 ============================================================
-   ✅ LogisticRegression — AUC: 0.82
-   ✅ RandomForest — AUC: 0.85
-   ✅ XGBoost — AUC: 0.87
+   ✅ LogisticRegression — AUC: 0.83
+   ✅ RandomForest — AUC: 1.00
+   ✅ XGBoost — AUC: 1.00
 ✅ Model training complete
 ```
 
@@ -128,7 +133,8 @@ python3 scripts/sagemaker_experiments.py --dry-run
 📊 SageMaker Experiments
 ============================================================
    ✅ Experiment: banking-risk-experiments
-   ✅ Trial: trial-baseline-xgboost
+   ✅ Trial: trial-randomforest-20260628003742
+   ✅ Metrics recorded locally: 3 models
    ✅ Metrics logged: auc, accuracy, f1
 ✅ Experiment tracking complete
 ```
@@ -149,8 +155,8 @@ python3 scripts/fairness_testing.py
 ```text
 ⚖️ Fairness Testing
 ============================================================
-   Protected attribute: customer_segment
-   Disparate impact ratio: 0.91
+   Protected attribute: age_group
+   Disparate impact ratio: 0.84
    Status: PASS (within banking threshold)
 ✅ Fairness report saved: results/fairness_report.json
 ```
@@ -170,9 +176,17 @@ ls -1 ../workspace/lab3/models
 **Expected output:**
 
 ```text
-✅ Best model: XGBoost (AUC 0.87, fairness PASS)
+📋 Banking Model Selection
+============================================================
+   LogisticRegression: combined=0.895 AUC=0.83
+   RandomForest: combined=1.000 AUC=1.00
+   XGBoost: combined=1.000 AUC=1.00
+
+✅ Best model: RandomForest (AUC 1.00, fairness PASS)
    Saved: models/best_model.pkl
-best_model.pkl
+
+============================================================
+Lab 3 complete.
 ```
 
 **Optional screenshot:** `images/step-08-model-select.png`
@@ -191,10 +205,15 @@ python3 scripts/validate_lab3.py
 ```text
 Validate Lab 3
 ============================================================
-   ✅ data: engineered_banking_data.csv
+   ✅ Lab 2: engineered_banking_data.csv
+   ✅ Lab 2: feature_metadata.json
+   ✅ data: X_train.csv
    ✅ models: best_model.pkl
    ✅ results: fairness_report.json
    ✅ results: training_report_final.json
+   ✅ config: training_results.json
+
+============================================================
 Prerequisites OK — proceed to Lab 4
 ```
 

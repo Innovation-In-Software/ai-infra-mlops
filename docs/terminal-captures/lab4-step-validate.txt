@@ -1,0 +1,6 @@
+Validate Lab 4
+============================================================
+   ✅ Lab 1 buckets.json
+   ✅ Lab 3 best_model.pkl
+   ✅ cicd_compliance_report_final.json
+Prerequisites OK — proceed to Lab 5

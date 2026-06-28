@@ -17,7 +17,7 @@ clear
 cd ~/ai-infra-mlops && ls -1 lab5
 ```
 
-**Expected output:** `STEPS.md`, `config`, `images`, `requirements.txt`, `scripts`, `src`
+**Expected output:** `Validate Lab 5`, `config`, `images`, `requirements.txt`, `scripts`, `src`
 
 **Optional screenshot:** `images/step-01-lab5-folder.png`
 
@@ -76,10 +76,15 @@ bash scripts/build_container.sh
 **Expected output:**
 
 ```text
-🔨 Building banking-ml-inference:latest
-...
-Successfully tagged banking-ml-inference:latest
-✅ Container build complete
+🔍 Container Scan
+============================================================
+   Critical: 0
+   High: 0
+   Status: PASS (banking threshold)
+✅ Scan report saved
+✅ Container compliance report generated
+
+Lab 5 complete.
 ```
 
 **Optional screenshot:** `images/step-04-build.png`
@@ -200,7 +205,7 @@ python3 scripts/validate_lab5.py
 ```text
 Validate Lab 5
 ============================================================
-   ✅ ECR image URI recorded
+   ✅ models: best_model.pkl
    ✅ Container compliance: PASS
 Prerequisites OK — proceed to Lab 6
 ```

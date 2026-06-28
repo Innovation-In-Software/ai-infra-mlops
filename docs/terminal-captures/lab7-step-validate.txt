@@ -1,0 +1,6 @@
+Validate Lab 7
+============================================================
+   ✅ baseline_data.csv
+   ✅ current_data.csv
+   ✅ monitoring_report_final.json
+Prerequisites OK — proceed to Lab 8
