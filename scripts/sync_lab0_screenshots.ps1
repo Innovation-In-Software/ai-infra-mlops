@@ -10,7 +10,6 @@ New-Item -ItemType Directory -Force -Path $dst | Out-Null
 # Raw capture -> lab0/images filename (skip 003036 — contains handout passwords)
 $renameMap = [ordered]@{
     "Screenshot 2026-06-28 003154.png" = "step-01-protech-portal.png"
-    "Screenshot 2026-06-28 115310.png" = "step-03-vm-desktop.png"
     "Screenshot 2026-06-28 005210.png" = "step-04a-aws-signin-url.png"
     "Screenshot 2026-06-28 005344.png" = "step-04b-aws-signin-form.png"
     "Screenshot 2026-06-28 005425.png" = "step-05-aws-signin-filled.png"

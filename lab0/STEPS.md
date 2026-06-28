@@ -104,8 +104,6 @@ https://labs.protechtraining.com
 
 **Expected result:** You are logged into a **Windows training VM**. The desktop shows the taskbar; you can open a browser and applications. **All remaining Lab 0 steps (except EC2 terminal work) run on this VM** until you connect VS Code to EC2 in Step 13.
 
-![ProTech VM Windows desktop](images/step-03-vm-desktop.png)
-
 **Instructor example (copy-paste):**
 
 | Field | Value |
@@ -115,8 +113,6 @@ https://labs.protechtraining.com
 | Windows password | *(from instructor handout — do not commit)* |
 
 **Tip:** If RDP fails, confirm the host is **started** on the portal and try **Connect** again. Ask the instructor before using your personal laptop for AWS steps — the course expects the ProTech VM + EC2 workflow.
-
-**Screenshot (optional):** `images/step-03-vm-desktop.png`
 
 ---
 
