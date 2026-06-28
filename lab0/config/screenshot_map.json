@@ -42,7 +42,13 @@
     "Screenshot 2026-06-28 123706.png": "step-09-launch-14.png",
     "Screenshot 2026-06-28 124631.png": "step-09-launch-15.png",
     "Screenshot 2026-06-28 124637.png": "step-09-launch-16.png",
-    "Screenshot 2026-06-28 124651.png": "step-09-launch-17.png"
+    "Screenshot 2026-06-28 124651.png": "step-09-launch-17.png",
+    "Screenshot 2026-06-28 124718.png": "step-09-launch-18.png",
+    "Screenshot 2026-06-28 124735.png": "step-09-launch-19.png",
+    "Screenshot 2026-06-28 124757.png": "step-09-launch-20.png",
+    "Screenshot 2026-06-28 124810.png": "step-09-launch-21.png",
+    "Screenshot 2026-06-28 124837.png": "step-09-launch-22.png",
+    "Screenshot 2026-06-28 124859.png": "step-09-launch-23.png"
   },
   "auto_prefix_unmapped": "step-09-launch",
   "notes": "Add new Screenshot*.png captures to mappings, or they auto-rename to step-09-launch-01.png, step-09-launch-02.png, ..."
