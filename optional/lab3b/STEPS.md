@@ -58,7 +58,7 @@ Verify in S3 console: **processed** bucket → `training/sagemaker-lab3b/`.
 
 ---
 
-# Step 2 — Run SageMaker Training Job
+# Step 2 — Run SageMaker managed job
 
 ```bash
 python3 scripts/run_training_job.py
@@ -67,20 +67,34 @@ python3 scripts/run_training_job.py
 **Expected:**
 
 ```text
-🏋️ SageMaker Training Job (Lab 3b)
+🏋️ SageMaker Managed Training (Lab 3b)
 ============================================================
    Role: arn:aws:iam::<account-id>:role/BankingDataScientistRole
    Input: s3://bank-mlops-<account-id>-processed/training/sagemaker-lab3b/
    Output: s3://bank-mlops-<account-id>-models/experiments/lab3b/
-   Instance: ml.m5.large
+   Mode: SageMaker Processing Job (ml.t3.medium)
+   Note: Training Job quota is 0 on many sandbox accounts — Processing is equivalent managed compute.
 
-   ⏳ Starting training job (typically 3–8 minutes)...
-   ✅ Training job: banking-rf-lab3b-YYYYMMDDHHMMSS
-   ✅ Model artifact: s3://bank-mlops-<account-id>-models/experiments/lab3b/.../output/model.tar.gz
-✅ SageMaker training complete
+   ⏳ Starting SageMaker job (typically 3–8 minutes)...
+   ✅ SageMaker job: banking-rf-lab3b-... (processing)
+   ✅ Output: s3://bank-mlops-<account-id>-models/experiments/lab3b/...
+✅ SageMaker managed training complete
 ```
 
-**Console:** SageMaker → Training → Training jobs → filter `banking-rf-lab3b`.
+> **Sandbox accounts:** AWS often sets **Training Job quota to 0**. This lab uses a **Processing Job** on `ml.t3.medium` instead — still SageMaker-managed EC2 in AWS.  
+> Console: SageMaker → **Processing** → **Processing jobs** (not Training jobs).
+
+Optional — force classic Training Job (only if your account has quota):
+
+```bash
+LAB3B_USE_TRAINING=1 python3 scripts/run_training_job.py
+```
+
+If IAM logs errors appear, re-apply Lab 1 roles once:
+
+```bash
+python3 scripts/patch_iam_for_sagemaker.py
+```
 
 ---
 
@@ -119,10 +133,11 @@ Removes nothing automatically — documents where artifacts live. Delete S3 obje
 
 | Issue | Fix |
 |-------|-----|
+| `ResourceLimitExceeded` … **training job usage** is **0** | Expected on sandbox accounts — script uses **Processing Job** automatically; `git pull` for latest `run_training_job.py` |
 | `Missing X_train.csv` | Complete Lab 3 Step 4 |
-| `AccessDenied` on training job | EC2 role/user needs `sagemaker:CreateTrainingJob`; role `BankingDataScientistRole` must exist (Lab 1) |
-| Job stuck **InProgress** | Wait up to 10 min; check CloudWatch logs for the training job |
-| `ResourceLimitExceeded` | Account training job quota — try again later or use another region (not recommended mid-course) |
+| `AccessDenied` on processing/training | Run `python3 scripts/patch_iam_for_sagemaker.py` (adds CloudWatch Logs to Data Scientist role) |
+| Job stuck **InProgress** | Wait up to 10 min; check CloudWatch logs under `/aws/sagemaker/ProcessingJobs` |
+| `ResourceLimitExceeded` on processing too | Request quota increase in Service Quotas → SageMaker → processing job usage |
 
 ---
 

@@ -105,6 +105,17 @@ def create_banking_iam_roles():
                 ],
                 "Resource": "*",
             },
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents",
+                    "logs:DescribeLogGroups",
+                    "logs:DescribeLogStreams",
+                ],
+                "Resource": "*",
+            },
         ],
     }
 
