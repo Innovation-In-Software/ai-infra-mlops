@@ -459,44 +459,114 @@ After launch: EC2 → **Instances** → select your instance → copy **Public I
 
 ---
 
-## Step 10 — Note the instance public IP (browser)
+## Step 10 — Note the instance public IP
 
-**Do this:**
+You need the **public IP** for Step 12 (SSH config). Use **Method 1** unless your instructor says otherwise.
 
-1. EC2 → **Instances** → click the row for **`mlops-lab`** (single click — do not open Launch wizard again).
-2. In the lower **Details** panel, find **Public IPv4 address** (example shape: `35.x.x.x`).
-3. **Copy the full IP** to Notepad — you need it for Step 12 SSH config.
-4. Confirm in the same panel:
+---
 
-   | Field | Expected |
-   |-------|----------|
-   | Instance state | **Running** |
-   | Status check | **2/2 checks passed** |
-   | Region (top-right) | **us-west-2** |
-   | Key pair name | Your key from Step 7 |
-   | Security groups | `mlops-lab-sg` |
+### Method 1 — AWS Console (recommended)
 
-**Expected result:** You have a **Public IPv4 address** written down. This IP **changes** if you stop and start the instance — update SSH config after a restart.
+**Do this** on the ProTech VM **browser** (no terminal required):
 
-**Where to look:** Details tab → **Networking** section → **Public IPv4 address** (not Private IPv4).
+1. Open **EC2** → **Instances** (region **us-west-2**).
+2. Click your instance row once (`mlops-lab` or `ai-mlops-lab`).
+3. In the **Details** tab (bottom panel), scroll to **Networking**.
+4. Copy **Public IPv4 address** (looks like `35.x.x.x` or `54.x.x.x`).
+5. Paste it into Notepad — label it `EC2 public IP`.
 
-**Instructor example (copy-paste):**
+**Expected result:**
 
-Console: EC2 → **Instances** → select **`ai-mlops-lab`** (or **`mlops-lab`**) → copy **Public IPv4 address**.
+| Field | Expected |
+|-------|----------|
+| Instance state | **Running** |
+| Status check | **2/2 checks passed** |
+| Public IPv4 address | A dotted IP (not blank, not `-`) |
+| Region (top-right) | **us-west-2** |
+| Security groups | `mlops-lab-sg` |
 
-CLI (after `aws configure` on EC2 or ProTech VM):
+> **Do not use** **Private IPv4 address** (`172.31.x.x`) — that only works inside AWS, not for SSH from the ProTech VM.
+
+**If Public IPv4 is blank or `-`:** wait until status is **Running** and **2/2 checks passed**, or confirm **Auto-assign public IP** was enabled at launch (Step 9).
+
+---
+
+### Method 2 — AWS CLI (optional)
+
+Use this **only after** `aws` works on that machine:
+
+| Where | When |
+|-------|------|
+| **ProTech VM** | After you run `aws configure` there with instructor keys (not required for Lab 0) |
+| **EC2** (VS Code SSH) | After **Step 17** `aws configure` on the instance |
+
+**2a. Test AWS CLI first**
 
 ```bash
-aws ec2 describe-instances --region us-west-2 --filters "Name=tag:Name,Values=ai-mlops-lab,mlops-lab" "Name=instance-state-name,Values=running" --query "Reservations[0].Instances[0].PublicIpAddress" --output text
+clear
+aws sts get-caller-identity
+aws configure get region
 ```
 
-Example output (yours may differ):
+**Expected:** JSON with your account id; region `us-west-2`.  
+If you see `Unable to locate credentials`, use **Method 1 (console)** or complete **Step 17** first.
+
+**2b. List your lab instance (easiest to read)**
+
+Replace `mlops-lab` with your instance name if different:
+
+```bash
+clear
+aws ec2 describe-instances \
+  --region us-west-2 \
+  --filters "Name=tag:Name,Values=mlops-lab" "Name=instance-state-name,Values=running" \
+  --query "Reservations[].Instances[].[Tags[?Key=='Name']|[0].Value,InstanceId,PublicIpAddress]" \
+  --output table
+```
+
+**Expected result:**
 
 ```text
-35.161.45.178
+-------------------------------------------------------
+|                  DescribeInstances                  |
++-------------+-----------------------+---------------+
+|  mlops-lab  |  i-0abc123def4567890  |  35.x.x.x    |
++-------------+-----------------------+---------------+
 ```
 
-**Screenshot (optional):** `images/step-07-public-ip.png`
+Copy the IP from the **rightmost column**.
+
+**2c. Print only the IP (one line)**
+
+```bash
+clear
+aws ec2 describe-instances \
+  --region us-west-2 \
+  --filters "Name=tag:Name,Values=mlops-lab" "Name=instance-state-name,Values=running" \
+  --query "Reservations[0].Instances[0].PublicIpAddress" \
+  --output text
+```
+
+**Expected result:**
+
+```text
+35.x.x.x
+```
+
+**If you see `None` or empty output:**
+
+| Cause | Fix |
+|-------|-----|
+| Instance still **Pending** | Wait 2–5 min; re-run when **Running** |
+| Wrong instance name | Use the name from Step 9 (`mlops-lab` / `ai-mlops-lab`) |
+| Wrong region | Add `--region us-west-2` or set region in `aws configure` |
+| No credentials | Use **Method 1** or complete **Step 17** |
+
+---
+
+**Remember:** This IP **changes** if you **stop** and **start** the instance. After a restart, repeat Step 10 and update Step 12 SSH config.
+
+**Screenshot (optional):** `images/step-10-public-ip.png`
 
 ---
 
@@ -1137,13 +1207,7 @@ Passwords and access keys: **instructor handout only** (not in git).
 | IAM instance profile | **None** for fresh setup; optional `EC2MLOpsLabProfile` (instructor script) |
 | Root volume | 30 GiB |
 
-**Refresh public IP** (after stop/start):
-
-```bash
-aws ec2 describe-instances --region us-west-2 --filters "Name=tag:Name,Values=ai-mlops-lab,mlops-lab" "Name=instance-state-name,Values=running,pending" --query "Reservations[0].Instances[0].PublicIpAddress" --output text
-```
-
-Update `HostName` in SSH config (Step 12) when the IP changes.
+**Refresh public IP** (after stop/start): repeat **Step 10 Method 1** in the EC2 console, or **Method 2b** if `aws` is configured. Update `HostName` in SSH config (Step 12).
 
 ---
 
@@ -1161,7 +1225,8 @@ Update `HostName` in SSH config (Step 12) when the IP changes.
 | Lost `.pem` file | Create a new key pair + launch a new instance (cannot re-download) |
 | No `EC2MLOpsLabProfile` in launch wizard | **Expected after teardown** — set **None**; use Step 17 `aws configure`. Instructor: `python3 scripts/create_ec2_lab_instance_profile.py` then refresh launch page |
 | PEM in `Downloads\.ssh` | Move to `C:\Users\Administrator\.ssh\` (Step 7) — Step 12 expects the profile `.ssh` folder |
-| Public IP changed | Run Step 10 IP command; update `HostName` in `C:\Users\Administrator\.ssh\config` |
+| Public IP changed | Repeat Step 10 (console or CLI); update `HostName` in `C:\Users\Administrator\.ssh\config` |
+| `aws describe-instances` returns `None` | Instance not **Running** yet, wrong name, or `aws` not configured — use Step 10 **Method 1** |
 | `aws sts` AccessDenied | Re-run Step 17; confirm keys and IAM permissions with instructor |
 | Pip / disk full | Root volume **30 GiB** minimum (Step 9) |
 | `docker: permission denied` | Complete Step 19, then **reconnect** VS Code SSH |
