@@ -407,11 +407,22 @@ If `mlops-lab-sg` already exists, open it → **Inbound rules** → **Edit** →
 
    **30 GiB is required** — smaller disks cause `pip install` failures in Step 18.
 
-8. **Advanced details** (expand, optional)
+8. **Advanced details** (expand)
 
    | Field | Value |
    |-------|--------|
-   | IAM instance profile | `EC2MLOpsLabProfile` if it exists; otherwise **None** — you will run `aws configure` in Step 17 |
+   | **IAM instance profile** | **`None`** (default after course teardown) |
+
+   > **You will not see `EC2MLOpsLabProfile` on a fresh account** — teardown deletes it. That is normal. Leave **IAM instance profile** as **None** and complete **Step 17** (`aws configure` with your instructor access keys on EC2).
+
+   **Instructor only (optional):** To attach a role at launch instead of access keys, run this **once** from the ProTech VM (with `aws` configured as `Instructor01`):
+
+   ```bash
+   cd ~/ai-infra-mlops && git pull
+   python3 scripts/create_ec2_lab_instance_profile.py
+   ```
+
+   Wait ~30 seconds, refresh the launch page, then you may select **`EC2MLOpsLabProfile`**. Students should still use **None** + Step 17 unless your handout says otherwise.
 
 9. **Summary** (right panel) should show:
 
@@ -440,7 +451,7 @@ If `mlops-lab-sg` already exists, open it → **Inbound rules** → **Edit** →
 | Key pair | `ai-mlops-instructor` |
 | Security group | `mlops-lab-sg` |
 | Storage | 30 GiB gp3 |
-| IAM instance profile | `EC2MLOpsLabProfile` (optional — enables role-based `aws` on EC2) |
+| IAM instance profile | **None** (or `EC2MLOpsLabProfile` only after running `scripts/create_ec2_lab_instance_profile.py`) |
 
 After launch: EC2 → **Instances** → select your instance → copy **Public IPv4 address** (Step 10).
 
@@ -1123,7 +1134,7 @@ Passwords and access keys: **instructor handout only** (not in git).
 | PEM file (ProTech VM) | `C:\Users\Administrator\.ssh\ai-mlops-instructor.pem` |
 | SSH user | `ec2-user` |
 | Security group | `mlops-lab-sg` |
-| IAM instance profile | `EC2MLOpsLabProfile` (optional) |
+| IAM instance profile | **None** for fresh setup; optional `EC2MLOpsLabProfile` (instructor script) |
 | Root volume | 30 GiB |
 
 **Refresh public IP** (after stop/start):
@@ -1148,6 +1159,7 @@ Update `HostName` in SSH config (Step 12) when the IP changes.
 | No EC2 instance yet | Complete **Steps 7–10** (key pair, security group, launch) before VS Code (Step 11) |
 | Only 1 security group (`default`) | Normal **before** Step 8 — create **`mlops-lab-sg`** in Step 8 |
 | Lost `.pem` file | Create a new key pair + launch a new instance (cannot re-download) |
+| No `EC2MLOpsLabProfile` in launch wizard | **Expected after teardown** — set **None**; use Step 17 `aws configure`. Instructor: `python3 scripts/create_ec2_lab_instance_profile.py` then refresh launch page |
 | PEM in `Downloads\.ssh` | Move to `C:\Users\Administrator\.ssh\` (Step 7) — Step 12 expects the profile `.ssh` folder |
 | Public IP changed | Run Step 10 IP command; update `HostName` in `C:\Users\Administrator\.ssh\config` |
 | `aws sts` AccessDenied | Re-run Step 17; confirm keys and IAM permissions with instructor |
