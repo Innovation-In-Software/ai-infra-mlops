@@ -10,7 +10,7 @@
 | **Working directory** | `~/ai-infra-mlops/lab3` |
 | **Outputs** | `~/ai-infra-mlops/workspace/lab3/` |
 
-> **Run Steps 1–9 once, in order.** Step 4 copies Lab 2 artifacts; Steps 5–8 train and evaluate models locally.  
+> **Run Steps 1–9 once, in order.** Run each command block below, then compare your terminal to the screenshot under that step.  
 > All commands run in the **VS Code terminal on EC2** (`whoami` = `ec2-user`). Do not use Windows PowerShell on the ProTech VM.
 
 ---
@@ -27,6 +27,8 @@ whoami
 
 **Expected:** `ec2-user`
 
+![git pull — `cd ~/ai-infra-mlops && git pull`](images/step-00a-git-pull.png)
+
 3. Confirm Lab 2 outputs exist:
 
 ```bash
@@ -34,6 +36,8 @@ cd ~/ai-infra-mlops/lab2 && python3 scripts/validate_lab2.py
 ```
 
 **Expected:** All data and config files show ✅ (no `⚠️ not yet created` for Step 11 artifacts).
+
+![Lab 2 validation — `python3 scripts/validate_lab2.py`](images/step-00b-lab2-validate.png)
 
 4. Go to Lab 3:
 
@@ -76,7 +80,7 @@ requirements.txt
 scripts
 ```
 
-**Screenshot (optional):** `images/step-01-lab3-folder.png`
+![Step 1 — `ls -1 lab3` (Step 2 workspace listing is below it in the same capture)](images/step-01-lab3-folder.png)
 
 ---
 
@@ -101,7 +105,7 @@ scripts
 
 If the folder is missing, re-run [Lab 0 Step 16](../lab0/STEPS.md) (`setup_lab_directories.py`), then return here.
 
-**Screenshot (optional):** `images/step-02-workspace-lab3.png`
+![Step 2 — `ls -1 ../workspace/lab3` (same screenshot as Step 1 — scroll to the second listing)](images/step-02-workspace-lab3.png)
 
 ---
 
@@ -118,8 +122,6 @@ python3 -c "import sklearn, xgboost, sagemaker; print('Lab 3 imports OK')"
 **Expected:** `Lab 3 imports OK`
 
 > If you completed [Lab 0 Step 18](../lab0/STEPS.md), packages may already be installed — re-running `pip install` is safe.
-
-**Screenshot (optional):** `images/step-03-pip.png`
 
 ---
 
@@ -148,7 +150,7 @@ python3 scripts/load_training_data.py
 ✅ Training data prepared
 ```
 
-**Screenshot (optional):** `images/step-04-load-data.png`
+![Step 4 — `python3 scripts/load_training_data.py` (ignore `train_models.py` at the bottom — that is Step 5)](images/step-04-load-data.png)
 
 ---
 
@@ -165,7 +167,7 @@ python3 scripts/train_models.py
 ```text
 🏦 Training Banking Risk Models
 ============================================================
-   ✅ LogisticRegression — AUC: 0.82
+   ✅ LogisticRegression — AUC: 0.81
    ✅ RandomForest — AUC: 1.00
    ✅ XGBoost — AUC: 1.00
 ✅ Model training complete
@@ -173,7 +175,7 @@ python3 scripts/train_models.py
 
 A `ConvergenceWarning` from LogisticRegression is **expected** on unscaled numeric features — Random Forest and XGBoost are the primary models for this lab.
 
-**Screenshot (optional):** `images/step-05-train.png`
+![Step 5 — `python3 scripts/train_models.py` (scroll down in the same capture for Step 6 experiments output)](images/step-05-train.png)
 
 ---
 
@@ -199,7 +201,7 @@ python3 scripts/sagemaker_experiments.py
 
 On re-run, you may see `ResourceInUse` for the experiment — that is OK. If AWS calls fail, the script still saves `config/experiment_tracking.json` locally.
 
-**Screenshot (optional):** `images/step-06-experiments.png`
+![Step 6 — `python3 scripts/sagemaker_experiments.py` (below Step 5 output in the same capture; ignore `fairness_testing.py` at the bottom — that is Step 7)](images/step-06-experiments.png)
 
 ---
 
@@ -222,7 +224,7 @@ python3 scripts/fairness_testing.py
 ✅ Fairness report saved: results/fairness_report.json
 ```
 
-**Screenshot (optional):** `images/step-07-fairness.png`
+![Step 7 — `python3 scripts/fairness_testing.py` (scroll down in the same capture for Step 8 model selection)](images/step-07-fairness.png)
 
 ---
 
@@ -240,7 +242,7 @@ ls -1 ../workspace/lab3/models
 ```text
 📋 Banking Model Selection
 ============================================================
-   LogisticRegression: combined=0.895 AUC=0.82
+   LogisticRegression: combined=0.886 AUC=0.81
    RandomForest: combined=1.000 AUC=1.00
    XGBoost: combined=1.000 AUC=1.00
 
@@ -250,7 +252,7 @@ ls -1 ../workspace/lab3/models
 
 You should also see `logisticregression_model.pkl`, `randomforest_model.pkl`, and `xgboost_model.pkl` in `models/`.
 
-**Screenshot (optional):** `images/step-08-model-select.png`
+![Step 8 — `python3 scripts/select_best_model.py` and `ls -1 ../workspace/lab3/models` (same capture as Step 7 — scroll down; ignore `validate_lab3.py` at the bottom — that is Step 9)](images/step-08-model-select.png)
 
 ---
 
@@ -279,7 +281,7 @@ Validate Lab 3
 Prerequisites OK — proceed to Lab 4
 ```
 
-**Screenshot (optional):** `images/step-09-validate.png`
+![Step 9 — `python3 scripts/validate_lab3.py`](images/step-09-validate.png)
 
 ---
 
@@ -293,6 +295,7 @@ Prerequisites OK — proceed to Lab 4
 | `No such file: training_results.json` | Run Step 5 before Steps 6–8 |
 | `No such file: fairness_report.json` | Run Step 7 before Step 8 |
 | SageMaker Experiments warning | OK if `experiment_tracking.json` was saved — check Step 6 output |
+| Screenshot shows the **next** step's command at the bottom | Normal — captures were taken in one continuous terminal session |
 | `PythonDeprecationWarning` | [Lab 0 Step 17a](../lab0/STEPS.md) — upgrade to Python 3.11 |
 
 ---
