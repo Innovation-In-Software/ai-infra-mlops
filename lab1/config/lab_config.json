@@ -5,8 +5,8 @@
   "region": "us-west-2",
   "prerequisites": ["lab0"],
   "learning_objectives": [
-    "Set up SageMaker Studio domain (start first — longest wait)",
     "Create KMS keys for encryption at rest",
+    "Set up SageMaker Studio domain (Step 7 — longest wait, up to 15 min)",
     "Create banking-compliant S3 buckets",
     "Configure IAM roles with least privilege (includes Feature Store permissions)",
     "Enable CloudTrail audit logging",

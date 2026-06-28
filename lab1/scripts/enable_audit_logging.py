@@ -1,7 +1,9 @@
 """Enable comprehensive audit logging for banking compliance."""
 import json
+import time
 
 import boto3
+from botocore.exceptions import ClientError
 
 from lab_paths import CONFIG_DIR, ensure_workspace
 
@@ -9,6 +11,37 @@ from lab_paths import CONFIG_DIR, ensure_workspace
 LOG_RETENTION_DAYS = 2557
 LOGS_POLICY_NAME = "BankingMLOpsCloudTrailLogsPolicy"
 ROLE_POLICY_NAME = "CloudTrailCloudWatchLogsPolicy"
+IAM_PROPAGATION_WAIT_SEC = 12
+CREATE_TRAIL_RETRIES = 5
+
+
+def log_group_arn_for_trail(region: str, account_id: str, log_group_name: str) -> str:
+    """ARN for CreateTrail/UpdateTrail — no :* suffix (per AWS console / banking lab)."""
+    return f"arn:aws:logs:{region}:{account_id}:log-group:{log_group_name}"
+
+
+def cloudtrail_role_policy(region: str, account_id: str, log_group_name: str) -> dict:
+    """IAM role policy per AWS CloudTrail + CloudWatch Logs integration docs."""
+    log_group_arn = log_group_arn_for_trail(region, account_id, log_group_name)
+    stream_prefix = f"{account_id}_CloudTrail_{region}"
+    stream_arn = f"{log_group_arn}:log-stream:{stream_prefix}*"
+    return {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "AWSCloudTrailCreateLogStream",
+                "Effect": "Allow",
+                "Action": ["logs:CreateLogStream"],
+                "Resource": [stream_arn],
+            },
+            {
+                "Sid": "AWSCloudTrailPutLogEvents",
+                "Effect": "Allow",
+                "Action": ["logs:PutLogEvents"],
+                "Resource": [stream_arn],
+            },
+        ],
+    }
 
 
 def ensure_cloudtrail_role(iam, account_id, role_name, log_group_name, region):
@@ -16,6 +49,7 @@ def ensure_cloudtrail_role(iam, account_id, role_name, log_group_name, region):
         "Version": "2012-10-17",
         "Statement": [
             {
+                "Sid": "AWSCloudTrailAssumeRole",
                 "Effect": "Allow",
                 "Principal": {"Service": "cloudtrail.amazonaws.com"},
                 "Action": "sts:AssumeRole",
@@ -23,6 +57,7 @@ def ensure_cloudtrail_role(iam, account_id, role_name, log_group_name, region):
         ],
     }
 
+    created = False
     try:
         iam.create_role(
             RoleName=role_name,
@@ -30,27 +65,24 @@ def ensure_cloudtrail_role(iam, account_id, role_name, log_group_name, region):
             Description="CloudTrail role for banking MLOps audit",
         )
         print(f"   ✅ CloudTrail role created: {role_name}")
+        created = True
     except iam.exceptions.EntityAlreadyExistsException:
         print(f"   ⚠️ CloudTrail role already exists: {role_name}")
+        iam.update_assume_role_policy(
+            RoleName=role_name,
+            PolicyDocument=json.dumps(trust_policy),
+        )
 
-    logs_policy = {
-        "Version": "2012-10-17",
-        "Statement": [
-            {
-                "Effect": "Allow",
-                "Action": ["logs:CreateLogStream", "logs:PutLogEvents"],
-                "Resource": (
-                    f"arn:aws:logs:{region}:{account_id}:log-group:{log_group_name}:*"
-                ),
-            }
-        ],
-    }
     iam.put_role_policy(
         RoleName=role_name,
         PolicyName=ROLE_POLICY_NAME,
-        PolicyDocument=json.dumps(logs_policy),
+        PolicyDocument=json.dumps(cloudtrail_role_policy(region, account_id, log_group_name)),
     )
     print("   ✅ CloudTrail role policy attached for CloudWatch Logs")
+
+    if created:
+        print(f"   ⏳ Waiting {IAM_PROPAGATION_WAIT_SEC}s for IAM role propagation...")
+        time.sleep(IAM_PROPAGATION_WAIT_SEC)
 
     return f"arn:aws:iam::{account_id}:role/{role_name}"
 
@@ -96,6 +128,65 @@ def ensure_log_group_policy(logs, account_id, region, log_group_name, trail_name
     print("   ✅ CloudWatch Logs resource policy configured for CloudTrail")
 
 
+def create_or_start_trail(
+    cloudtrail,
+    trail_name: str,
+    audit_bucket: str,
+    log_group_arn: str,
+    role_arn: str,
+    account_id: str,
+) -> bool:
+    """Create trail (with retries) or update existing trail with CloudWatch Logs."""
+    tags = [
+        {"Key": "Environment", "Value": "MLOps"},
+        {"Key": "Compliance", "Value": "Banking"},
+        {"Key": "Service", "Value": "CloudTrail"},
+        {"Key": "Owner", "Value": "DataScienceTeam"},
+    ]
+    trail_kwargs = {
+        "Name": trail_name,
+        "S3BucketName": audit_bucket,
+        "S3KeyPrefix": "cloudtrail",
+        "CloudWatchLogsLogGroupArn": log_group_arn,
+        "CloudWatchLogsRoleArn": role_arn,
+        "IncludeGlobalServiceEvents": True,
+        "IsMultiRegionTrail": False,
+        "EnableLogFileValidation": True,
+        "TagsList": tags,
+    }
+
+    for attempt in range(1, CREATE_TRAIL_RETRIES + 1):
+        try:
+            cloudtrail.create_trail(**trail_kwargs)
+            print(f"   ✅ CloudTrail trail created: {trail_name}")
+            cloudtrail.start_logging(Name=trail_name)
+            print("   ✅ Logging started")
+            return True
+        except cloudtrail.exceptions.TrailAlreadyExistsException:
+            print(f"   ⚠️ Trail already exists: {trail_name} — updating CloudWatch Logs")
+            cloudtrail.update_trail(
+                Name=trail_name,
+                CloudWatchLogsLogGroupArn=log_group_arn,
+                CloudWatchLogsRoleArn=role_arn,
+            )
+            cloudtrail.start_logging(Name=trail_name)
+            print("   ✅ Trail updated and logging started")
+            return True
+        except ClientError as exc:
+            code = exc.response.get("Error", {}).get("Code", "")
+            if code == "InvalidCloudWatchLogsRoleArnException" and attempt < CREATE_TRAIL_RETRIES:
+                wait = IAM_PROPAGATION_WAIT_SEC * attempt
+                print(
+                    f"   ⏳ IAM role not ready yet (attempt {attempt}/{CREATE_TRAIL_RETRIES}) "
+                    f"— retrying in {wait}s..."
+                )
+                time.sleep(wait)
+                continue
+            raise
+
+    return False
+
+
 def enable_audit_logging():
     """
     Enable comprehensive audit logging for banking compliance
@@ -120,7 +211,7 @@ def enable_audit_logging():
     role_name = f"CloudTrailBankingRole-{account_id}"
     log_group_name = f"/aws/cloudtrail/banking-mlops-{account_id}"
     audit_bucket = buckets["audit"]["name"]
-    log_group_arn = f"arn:aws:logs:{region}:{account_id}:log-group:{log_group_name}:*"
+    log_group_arn = log_group_arn_for_trail(region, account_id, log_group_name)
 
     cloudtrail_ok = False
 
@@ -152,32 +243,20 @@ def enable_audit_logging():
         )
         ensure_log_group_policy(logs, account_id, region, log_group_name, trail_name)
 
-        try:
-            cloudtrail.create_trail(
-                Name=trail_name,
-                S3BucketName=audit_bucket,
-                S3KeyPrefix="cloudtrail",
-                CloudWatchLogsLogGroupArn=log_group_arn,
-                CloudWatchLogsRoleArn=role_arn,
-                IncludeGlobalServiceEvents=True,
-                IsMultiRegionTrail=False,
-                EnableLogFileValidation=True,
-                TagsList=[
-                    {"Key": "Environment", "Value": "MLOps"},
-                    {"Key": "Compliance", "Value": "Banking"},
-                    {"Key": "Service", "Value": "CloudTrail"},
-                    {"Key": "Owner", "Value": "DataScienceTeam"},
-                ],
-            )
-            print(f"   ✅ CloudTrail trail created: {trail_name}")
-        except cloudtrail.exceptions.TrailAlreadyExistsException:
-            print(f"   ⚠️ Trail already exists: {trail_name}")
-
-        cloudtrail.start_logging(Name=trail_name)
-        print("   ✅ Logging started")
-        cloudtrail_ok = True
+        cloudtrail_ok = create_or_start_trail(
+            cloudtrail,
+            trail_name,
+            audit_bucket,
+            log_group_arn,
+            role_arn,
+            account_id,
+        )
     except Exception as e:
         print(f"   ❌ Error creating CloudTrail: {str(e)}")
+        print(
+            "   💡 If you see InvalidCloudWatchLogsRoleArnException, wait 60 seconds "
+            "and re-run: python3 scripts/enable_audit_logging.py"
+        )
 
     print("\n📋 Enabling S3 Access Logging...")
 
