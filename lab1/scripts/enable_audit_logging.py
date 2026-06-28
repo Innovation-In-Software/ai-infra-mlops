@@ -391,7 +391,7 @@ def enable_audit_logging():
     print(
         "   https://us-west-2.console.aws.amazon.com/cloudwatch/home?region=us-west-2#dashboards:name=Banking-MLOps-Audit-Dashboard"
     )
-    print("\n📋 Copy the dashboard URL above before running clear.")
+    print("\n📋 Copy the dashboard URL above before closing the terminal.")
 
 
 if __name__ == "__main__":

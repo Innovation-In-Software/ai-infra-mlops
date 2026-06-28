@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+"""Copy canonical Lab 1 screenshots from instructor captures to lab1/images/."""
+from __future__ import annotations
+
+import argparse
+import json
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parents[1]
+MANIFEST = REPO / "lab1" / "config" / "lab1_screenshot_manifest.json"
+IMAGES = REPO / "lab1" / "images"
+DEFAULT_SOURCE = Path(
+    r"D:\Current_work\Innovation in Software\MLOps On AWS June 4\screenshots"
+)
+
+
+def load_manifest() -> dict:
+    with open(MANIFEST, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def resolve_source(source_dir: Path, name: str) -> Path | None:
+    path = source_dir / name
+    return path if path.is_file() and path.stat().st_size > 0 else None
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Sync Lab 1 screenshots to lab1/images/")
+    parser.add_argument("--source", type=Path, default=DEFAULT_SOURCE)
+    parser.add_argument("--git-push", action="store_true", help="Commit and push after copy")
+    args = parser.parse_args()
+
+    data = load_manifest()
+    source = args.source
+    IMAGES.mkdir(parents=True, exist_ok=True)
+
+    print("Lab 1 screenshot sync")
+    print("=" * 50)
+    print(f"   Source: {source}")
+    print(f"   Dest:   {IMAGES}")
+
+    copied = 0
+    for src_name, dest_name in data.get("canonical", {}).items():
+        src = resolve_source(source, src_name)
+        if not src:
+            print(f"   MISSING: {src_name}")
+            continue
+        dest = IMAGES / dest_name
+        shutil.copy2(src, dest)
+        print(f"   COPY: {src_name} -> {dest_name}")
+        copied += 1
+
+    print(f"\nCopied: {copied}")
+    kept = data.get("keep_existing", [])
+    if kept:
+        print(f"Kept existing: {len(kept)} file(s) not overwritten by manifest")
+
+    if args.git_push:
+        subprocess.run(
+            ["git", "add", "lab1/images/", "lab1/config/lab1_screenshot_manifest.json", "lab1/STEPS.md"],
+            cwd=REPO,
+            check=False,
+        )
+        subprocess.run(
+            ["git", "commit", "-m", "Lab 1: sync participant screenshots and update STEPS."],
+            cwd=REPO,
+            check=False,
+        )
+        subprocess.run(["git", "push", "origin", "main"], cwd=REPO, check=False)
+
+    return 0 if copied else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

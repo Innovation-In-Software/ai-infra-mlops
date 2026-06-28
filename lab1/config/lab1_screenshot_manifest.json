@@ -1,0 +1,35 @@
+{
+  "notes": "Maps instructor step-pending-*.png captures to lab1/images/. Run: py scripts/sync_lab1_screenshots.py",
+  "source_dir": "D:/Current_work/Innovation in Software/MLOps On AWS June 4/screenshots",
+  "canonical": {
+    "step-pending-21.png": "step-01-git-pull.png",
+    "step-pending-04.png": "step-01b-lab1-folder.png",
+    "step-pending-06.png": "step-02-workspace-lab1.png",
+    "step-pending-08.png": "step-03a-aws-identity.png",
+    "step-pending-26.png": "step-03b-aws-region.png",
+    "step-pending-39.png": "step-04a-kms-keys.png",
+    "step-pending-28.png": "step-04b-kms-complete.png",
+    "step-pending-12.png": "step-05b-s3-buckets-complete.png",
+    "step-pending-14.png": "step-06-iam-roles.png",
+    "step-pending-16.png": "step-07a-sagemaker-waiting.png",
+    "step-pending-17.png": "step-07c-sagemaker-complete.png"
+  },
+  "keep_existing": [
+    "step-04c-kms-config-file.png",
+    "step-05a-s3-buckets.png",
+    "step-07b-sagemaker-users.png",
+    "step-07d-sagemaker-url.png",
+    "step-07e-sagemaker-console.png",
+    "step-08a-audit-logging.png",
+    "step-08b-audit-complete.png",
+    "step-08c-audit-dashboard.png",
+    "step-09a-validation.png",
+    "step-09b-validation-pass.png",
+    "step-10a-s3-console.png",
+    "step-10b-iam-console.png",
+    "step-10c-kms-console.png",
+    "step-10d-cloudtrail-search.png",
+    "step-10e-cloudtrail-dashboard.png",
+    "step-10f-cloudtrail-events.png"
+  ]
+}

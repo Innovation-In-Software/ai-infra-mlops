@@ -3,81 +3,81 @@
 | | |
 |---|---|
 | **Class** | `ai-mlops-2026-jun30` |
-| **Duration** | ~30–45 minutes (SageMaker domain wait up to 15 min) |
+| **Duration** | ~30–45 minutes (SageMaker wait up to 15 min in Step 7) |
 | **Region** | `us-west-2` |
 | **Platform** | EC2 · [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) · **bash** |
-| **Prerequisite** | [Lab 0](../lab0/STEPS.md) complete (9/9 verify) |
+| **Prerequisite** | [Lab 0](../lab0/STEPS.md) complete — verification **9/9 passed** |
 | **Working directory** | `~/ai-infra-mlops/lab1` |
-| **Outputs** | `~/ai-infra-mlops/workspace/lab1/` |
+| **Outputs** | `~/ai-infra-mlops/workspace/lab1/config/` and `results/` |
 
-> All commands in **Steps 1–9** run in the **VS Code integrated terminal on EC2** (`whoami` = `ec2-user`). Do not use Windows PowerShell on the ProTech VM for these steps.
+> **Run Steps 1–9 once, in order.** Each step writes config files the next step needs.  
+> All commands run in the **VS Code terminal on EC2** (`whoami` = `ec2-user`). Do not use Windows PowerShell on the ProTech VM.
 
 ---
 
 ## Before you start
 
+1. Connect VS Code to EC2 ([Lab 0 Step 13](../lab0/STEPS.md)).
+2. Pull the latest course repo and confirm you are on EC2:
+
 ```bash
 cd ~/ai-infra-mlops && git pull
 whoami
 hostname
-cd lab1
 ```
 
-**Expected:** `ec2-user` and hostname `ip-172-31-...us-west-2.compute.internal`. If you see `Administrator` or `COMPUTER540`, reconnect [Lab 0 Step 13](../lab0/STEPS.md) (Remote-SSH to EC2).
+**Expected:**
 
-Confirm Lab 0 passed:
+```text
+ec2-user
+ip-172-31-....us-west-2.compute.internal
+```
+
+If you see `Administrator` or `COMPUTER540`, reconnect Remote-SSH to EC2 first.
+
+3. Confirm Lab 0 passed:
 
 ```bash
 cd ~/ai-infra-mlops/lab0 && python3 scripts/verify_environment.py
 ```
 
-**Expected:** `Passed: 9` / `Failed: 0` — then `cd ../lab1`.
+**Expected:** `Passed: 9` / `Failed: 0`.
 
-If lab scripts print **`PythonDeprecationWarning`** (Boto3 / Python 3.9), complete [Lab 0 Step 17a](../lab0/STEPS.md) and re-run [Lab 0 Step 18](../lab0/STEPS.md) before continuing.
-
----
-
-## Fresh start (after teardown or failed partial run)
-
-If you ran [course teardown](../scripts/teardown_course.py) or Lab 1 failed halfway:
-
-1. **AWS:** Teardown schedules KMS keys for deletion (7–30 days). You can still create **new** keys in Step 4; do not expect old key IDs to work.
-2. **Workspace:** Clear local Lab 1 config so scripts start clean:
+4. Go to Lab 1:
 
 ```bash
-cd ~/ai-infra-mlops
-python3 scripts/reset_course.py --labs lab1
-cd lab1
+cd ~/ai-infra-mlops/lab1
 ```
 
-3. Re-run **Steps 4–9** in order. If SageMaker or CloudTrail already exist in AWS, scripts print `already exists` warnings — that is OK.
-
-> **Do not re-run Step 4** on a successful Lab 1 just to “refresh” — it creates **new** KMS keys each time and overwrites `kms_keys.json`.
+![git pull on EC2 before Lab 1](images/step-01-git-pull.png)
 
 ---
 
-## Pacing (30–45 min)
+## Lab 1 roadmap
 
-| Min | Steps |
-|-----|-------|
-| 0–5 | 1–3 confirm repo + AWS |
-| 5–12 | 4–6 KMS, S3, IAM |
-| 12–30 | **7 SageMaker (longest — up to 15 min wait)** |
-| 30–40 | 8–9 CloudTrail + validate |
-| 40+ | 10 console check (optional) |
-
-Start **Step 7** as soon as Steps 4–6 finish. Steps 5–8 depend on earlier config files — do not skip ahead.
+| Step | What you create |
+|------|-----------------|
+| **1–3** | Confirm repo, workspace, and AWS credentials |
+| **4** | KMS encryption keys |
+| **5** | Six banking-compliant S3 buckets |
+| **6** | Three IAM roles (least privilege) |
+| **7** | SageMaker Studio domain (**longest — up to 15 min wait**) |
+| **8** | CloudTrail audit logging + dashboard |
+| **9** | Compliance validation (13 checks) |
+| **10** | Optional AWS Console check |
 
 ---
 
-# Step 1 — Confirm lab1 in repo
+# Step 1 — Confirm the lab1 folder
+
+**What you do:** Verify the Lab 1 course files are in the repo.
 
 ```bash
 cd ~/ai-infra-mlops
 ls -1 lab1
 ```
 
-**Expected output:**
+**Expected:**
 
 ```text
 STEPS.md
@@ -87,18 +87,20 @@ requirements.txt
 scripts
 ```
 
-**Optional screenshot:** `images/step-01-lab1-folder.png`
+![Lab 1 folder listing on EC2](images/step-01b-lab1-folder.png)
 
 ---
 
-# Step 2 — Confirm workspace
+# Step 2 — Confirm the workspace
+
+**What you do:** Verify your personal workspace exists (created in [Lab 0 Step 21](../lab0/STEPS.md)).
 
 ```bash
 cd ~/ai-infra-mlops/lab1
 ls -1 ../workspace/lab1
 ```
 
-**Expected output:**
+**Expected:**
 
 ```text
 config
@@ -108,34 +110,44 @@ results
 scripts
 ```
 
-If missing: run [Lab 0 Step 21](../lab0/STEPS.md) (`python3 scripts/setup_lab_directories.py` from `lab0/`).
+If folders are missing, run once from Lab 0:
 
-**Optional screenshot:** `images/step-02-workspace-lab1.png`
+```bash
+cd ~/ai-infra-mlops/lab0
+python3 scripts/setup_lab_directories.py
+cd ~/ai-infra-mlops/lab1
+```
+
+![Workspace lab1 folders on EC2](images/step-02-workspace-lab1.png)
 
 ---
 
 # Step 3 — Verify AWS CLI
+
+**What you do:** Confirm AWS credentials and region before creating resources.
 
 ```bash
 aws sts get-caller-identity
 aws configure get region
 ```
 
-**Expected output:**
+**Expected:**
 
 ```text
 {
     "UserId": "AIDAXXXXXXXXXXXXXXXXX",
-    "Account": "028417007274",
-    "Arn": "arn:aws:iam::028417007274:user/Instructor01"
+    "Account": "<your-account-id>",
+    "Arn": "arn:aws:iam::<account-id>:user/StudentXX"
 }
 us-west-2
 ```
 
-Account ID and ARN must match your handout (instructor example: `028417007274`). Region must be **`us-west-2`**.  
-If you used an **instance profile** in Lab 0, the ARN may show `assumed-role/EC2MLOpsLabRole/...` instead — OK if your instructor confirms lab permissions.
+Account ID and ARN must match your handout. Region must be **`us-west-2`**.  
+If you used an **instance profile** in Lab 0, the ARN may show `assumed-role/EC2MLOpsLabRole/...` — that is OK if your instructor confirmed lab permissions.
 
-**Optional screenshot:** `images/step-03-aws-identity.png`
+![AWS identity on EC2](images/step-03a-aws-identity.png)
+
+![AWS region us-west-2](images/step-03b-aws-region.png)
 
 ---
 
@@ -143,12 +155,14 @@ If you used an **instance profile** in Lab 0, the ARN may show `assumed-role/EC2
 
 **Requires:** Step 3 (`aws` works).
 
+**What you do:** Create two KMS keys for S3 and SageMaker encryption.
+
 ```bash
 cd ~/ai-infra-mlops/lab1
 python3 scripts/create_kms_keys.py
 ```
 
-**Expected output:**
+**Expected:**
 
 ```text
 🔐 Creating KMS Keys for Banking Compliance
@@ -160,9 +174,13 @@ python3 scripts/create_kms_keys.py
 ✅ KMS Key Creation Complete!
 ```
 
-Config written to: `~/ai-infra-mlops/workspace/lab1/config/kms_keys.json`
+Config file: `~/ai-infra-mlops/workspace/lab1/config/kms_keys.json`
 
-**Optional screenshot:** `images/step-04-kms.png`
+![KMS keys being created](images/step-04a-kms-keys.png)
+
+![KMS key creation complete](images/step-04b-kms-complete.png)
+
+![kms_keys.json in workspace](images/step-04c-kms-config-file.png)
 
 ---
 
@@ -170,11 +188,13 @@ Config written to: `~/ai-infra-mlops/workspace/lab1/config/kms_keys.json`
 
 **Requires:** Step 4 (`kms_keys.json` exists).
 
+**What you do:** Create six encrypted buckets (raw, processed, models, monitoring, governance, audit).
+
 ```bash
 python3 scripts/create_banking_buckets.py
 ```
 
-**Expected output:**
+**Expected:**
 
 ```text
 📦 Creating Banking-Compliant S3 Buckets
@@ -184,12 +204,15 @@ python3 scripts/create_banking_buckets.py
 📋 Bucket Summary:
    RAW: bank-mlops-<account-id>-raw
    PROCESSED: bank-mlops-<account-id>-processed
-   ...
+   MODELS: bank-mlops-<account-id>-models
+   MONITORING: bank-mlops-<account-id>-monitoring
+   GOVERNANCE: bank-mlops-<account-id>-governance
+   AUDIT: bank-mlops-<account-id>-audit
 ```
 
-Config: `~/ai-infra-mlops/workspace/lab1/config/buckets.json`
+Config file: `~/ai-infra-mlops/workspace/lab1/config/buckets.json`
 
-**Optional screenshot:** `images/step-05-s3.png`
+![S3 buckets created — summary](images/step-05b-s3-buckets-complete.png)
 
 ---
 
@@ -197,11 +220,13 @@ Config: `~/ai-infra-mlops/workspace/lab1/config/buckets.json`
 
 **Requires:** Step 5 (`buckets.json` exists).
 
+**What you do:** Create three banking IAM roles with least-privilege policies.
+
 ```bash
 python3 scripts/create_banking_iam_roles.py
 ```
 
-**Expected output:**
+**Expected:**
 
 ```text
 🔑 Creating Banking-Compliant IAM Roles
@@ -218,21 +243,23 @@ python3 scripts/create_banking_iam_roles.py
    COMPLIANCE_OFFICER: arn:aws:iam::<account-id>:role/BankingComplianceOfficerRole
 ```
 
-Config: `~/ai-infra-mlops/workspace/lab1/config/iam_roles.json`
+Config file: `~/ai-infra-mlops/workspace/lab1/config/iam_roles.json`
 
-**Optional screenshot:** `images/step-06-iam.png`
+![IAM roles created](images/step-06-iam-roles.png)
 
 ---
 
-# Step 7 — SageMaker Studio (longest step)
+# Step 7 — SageMaker Studio
 
-**Requires:** Step 6 (`iam_roles.json` exists — uses `BankingDataScientistRole`).
+**Requires:** Step 6 (`iam_roles.json` exists).
+
+**What you do:** Create a SageMaker Studio domain and user profiles. **This step can take up to 15 minutes** while the domain becomes `InService`.
 
 ```bash
 python3 scripts/create_sagemaker_studio.py
 ```
 
-**Expected output:**
+**Expected:**
 
 ```text
 🖥️ Setting Up SageMaker Studio with Banking Security
@@ -246,11 +273,14 @@ python3 scripts/create_sagemaker_studio.py
    https://us-west-2.console.aws.amazon.com/sagemaker/home?region=us-west-2#/studio/d-...
 ```
 
-Config: `~/ai-infra-mlops/workspace/lab1/config/sagemaker_studio.json`
+Config file: `~/ai-infra-mlops/workspace/lab1/config/sagemaker_studio.json`
 
-If you see `Timed out` or `not ready yet`, wait 5 minutes and **re-run this step** (same command).
+**Wait for** `✅ Domain is ready!` before continuing to Step 8.  
+If the script times out, wait 5 minutes and run the **same command once more**.
 
-**Optional screenshot:** `images/step-07-sagemaker.png`
+![SageMaker domain waiting](images/step-07a-sagemaker-waiting.png)
+
+![SageMaker Studio configuration complete](images/step-07c-sagemaker-complete.png)
 
 ---
 
@@ -258,17 +288,18 @@ If you see `Timed out` or `not ready yet`, wait 5 minutes and **re-run this step
 
 **Requires:** Step 5 (`buckets.json` — audit bucket).
 
+**What you do:** Enable CloudTrail, S3 access logging, object-level logging, and an audit dashboard.
+
 ```bash
 cd ~/ai-infra-mlops/lab1
 python3 scripts/enable_audit_logging.py
 ```
 
-**Expected output:**
+**Expected:**
 
 ```text
 📝 Enabling Audit Logging for Banking Compliance
 ...
-   ⏳ Waiting 12s for IAM role propagation...
    ✅ CloudTrail trail created: BankingMLOpsAuditTrail-<account-id>
    ✅ Logging started
    ✅ S3 object-level logging enabled for data buckets
@@ -279,54 +310,29 @@ python3 scripts/enable_audit_logging.py
    https://us-west-2.console.aws.amazon.com/cloudwatch/home?region=us-west-2#dashboards:name=Banking-MLOps-Audit-Dashboard
 ```
 
-> **If you see** `InvalidCloudWatchLogsRoleArnException` **(Access denied — trust relationships):**  
-> IAM propagation delay right after the CloudTrail role is created. Wait **60 seconds**, then re-run:
-> ```bash
-> python3 scripts/enable_audit_logging.py
-> ```
-> The script also retries automatically (up to 5 times). S3 access logging above the error is OK.
+**Copy the dashboard URL** from the terminal before you close it.
 
-> **If you see** `InvalidCloudWatchLogsLogGroupArnException` **(cannot validate log group ARN):**  
-> Run `git pull` on EC2 for the latest `enable_audit_logging.py`, then re-run Step 8.  
-> A failed partial run is safe to re-run — the script updates an existing trail if needed.
+![CloudTrail and logging enabled](images/step-08a-audit-logging.png)
 
-**Optional screenshot:** `images/step-08-cloudtrail.png`
+![Audit logging complete summary](images/step-08b-audit-complete.png)
+
+![Audit dashboard in CloudWatch](images/step-08c-audit-dashboard.png)
 
 ---
 
 # Step 9 — Validate environment
 
+**What you do:** Run the compliance checker (13 checks).
+
 ```bash
 python3 scripts/validate_environment.py
 ```
 
-**Expected output (shape — your IDs will differ):**
+**Expected:**
 
 ```text
 🔍 Validating Banking MLOps Environment
-============================================================
-
-📋 Validating KMS Keys...
-✅ KMS Key s3_key_id: Enabled: <uuid>
-✅ KMS Key sm_key_id: Enabled: <uuid>
-
-📋 Validating S3 Buckets...
-✅ Bucket raw: Exists and encrypted: bank-mlops-<account-id>-raw
-✅ Bucket processed: Exists and encrypted: bank-mlops-<account-id>-processed
-✅ Bucket models: Exists and encrypted: bank-mlops-<account-id>-models
-✅ Bucket monitoring: Exists and encrypted: bank-mlops-<account-id>-monitoring
-✅ Bucket governance: Exists and encrypted: bank-mlops-<account-id>-governance
-✅ Bucket audit: Exists and encrypted: bank-mlops-<account-id>-audit
-
-📋 Validating IAM Roles...
-✅ Role data_scientist: Exists: BankingDataScientistRole
-✅ Role ml_engineer: Exists: BankingMLEngineerRole
-✅ Role compliance_officer: Exists: BankingComplianceOfficerRole
-
-📋 Validating SageMaker Studio...
-✅ SageMaker Studio: InService: d-xxxxxxxxxxxx
-
-📋 Validating Audit Logging...
+...
 ✅ CloudTrail: Logging enabled: BankingMLOpsAuditTrail-<account-id>
 
 ============================================================
@@ -342,26 +348,37 @@ Status: COMPLIANT
    Proceed to Lab 2 (lab2/STEPS.md)
 ```
 
-Or run all setup + validation in one go: `python3 scripts/run_lab1.py`
-
 Report saved to: `~/ai-infra-mlops/workspace/lab1/results/compliance_report.json`
 
-**Optional screenshot:** `images/step-09-validation-pass.png`
+![Validation output](images/step-09a-validation.png)
+
+![Validation 13/13 COMPLIANT](images/step-09b-validation-pass.png)
 
 ---
 
 # Step 10 — Console check (optional)
 
-On the **ProTech VM browser** (not the EC2 terminal), region **us-west-2**:
+**What you do:** In the **ProTech VM browser** (not the EC2 terminal), open the AWS Console in region **`us-west-2`** and confirm resources exist.
 
-| Service | What to confirm |
-|---------|-----------------|
-| **S3** | Six `bank-mlops-<account-id>-*` buckets |
+| Service | Confirm |
+|---------|---------|
+| **S3** | Six buckets named `bank-mlops-<account-id>-*` |
 | **IAM** | Roles `BankingDataScientistRole`, `BankingMLEngineerRole`, `BankingComplianceOfficerRole` |
-| **SageMaker** | Domain `banking-mlops-domain-<account-id>` — **InService** |
+| **KMS** | Two customer managed keys for S3 and SageMaker |
+| **SageMaker** | Domain `banking-mlops-domain-<account-id>` — status **InService** |
 | **CloudTrail** | Trail `BankingMLOpsAuditTrail-<account-id>` — **Logging** |
 
-**Optional screenshot:** `images/step-10-console.png`
+![S3 console — six buckets](images/step-10a-s3-console.png)
+
+![IAM console — banking roles](images/step-10b-iam-console.png)
+
+![KMS console — encryption keys](images/step-10c-kms-console.png)
+
+![CloudTrail search](images/step-10d-cloudtrail-search.png)
+
+![CloudTrail dashboard](images/step-10e-cloudtrail-dashboard.png)
+
+![CloudTrail events](images/step-10f-cloudtrail-events.png)
 
 ---
 
@@ -374,16 +391,28 @@ On the **ProTech VM browser** (not the EC2 terminal), region **us-west-2**:
 | `No such file: kms_keys.json` | Run Step 4 before Step 5 |
 | `No such file: buckets.json` | Run Step 5 before Steps 6 and 8 |
 | `No such file: iam_roles.json` | Run Step 6 before Step 7 |
-| `AccessDenied` on KMS / IAM / SageMaker | Confirm IAM user has lab admin rights; ask instructor |
-| KMS `LimitExceededException` | Too many keys in account — wait for teardown pending deletion or ask instructor |
-| SageMaker domain `Failed` or timeout | Wait 5 min, re-run Step 7; check VPC/subnets exist (default VPC) |
-| SageMaker validation `Status: Pending` | Domain still creating — re-run Step 7 or wait and re-run Step 9 |
-| `PythonDeprecationWarning` (Boto3 / Python 3.9) | [Lab 0 Step 17a](../lab0/STEPS.md) — upgrade to Python 3.11, re-run Step 18, then continue Lab 1 |
-| CloudTrail `InvalidCloudWatchLogsRoleArnException` | IAM propagation — wait **60s**, re-run Step 8 (script auto-retries) |
-| CloudTrail `InvalidCloudWatchLogsLogGroupArnException` | `git pull` then re-run Step 8 (log group ARN format fix) |
-| CloudTrail `TrailAlreadyExists` | Warning only — script updates trail and starts logging |
-| Step 9 partial failures | Re-run the failed step (4–8), then Step 9 |
-| Re-running Step 4 creates extra keys | Use [Fresh start](#fresh-start-after-teardown-or-failed-partial-run) instead of repeating Step 4 |
+| `PythonDeprecationWarning` (Boto3 / Python 3.9) | [Lab 0 Step 17a](../lab0/STEPS.md) — upgrade to Python 3.11, re-run Step 18 |
+| SageMaker `Timed out` | Wait 5 min, run Step 7 **once more** (same command) |
+| CloudTrail role error | Wait 60s, run Step 8 **once more** (script auto-retries) |
+| Step 9 shows failures | Re-run only the failed step (4–8), then Step 9 |
+
+---
+
+## Appendix — Instructor reset (optional)
+
+Participants normally **do not** reset Lab 1. Use this only after a failed run or before re-testing.
+
+**Clear local workspace only** (AWS resources remain):
+
+```bash
+cd ~/ai-infra-mlops
+python3 scripts/reset_course.py --labs lab1
+cd lab1
+```
+
+Then re-run **Steps 4–9**. Scripts may print `already exists` for resources still in AWS — that is OK.
+
+**Full AWS teardown:** [Lab 10 Step 11](../lab10/STEPS.md) → `python3 scripts/teardown_course.py --yes`
 
 ---
 
