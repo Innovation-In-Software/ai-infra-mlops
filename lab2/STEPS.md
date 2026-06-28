@@ -10,7 +10,7 @@
 | **Working directory** | `~/ai-infra-mlops/lab2` |
 | **Outputs** | `~/ai-infra-mlops/workspace/lab2/` |
 
-> **Run Steps 1–11 once, in order.** Steps 4–8 build on each other; Step 8 calls AWS SageMaker Feature Store.  
+> **Run Steps 1–11 once, in order.** Run each command block below, then compare your terminal to the screenshot under that step.  
 > All commands run in the **VS Code terminal on EC2** (`whoami` = `ec2-user`). Do not use Windows PowerShell on the ProTech VM.
 
 ---
@@ -27,7 +27,7 @@ whoami
 
 **Expected:** `ec2-user`
 
-![git pull on EC2 before Lab 2](images/step-00a-git-pull.png)
+![git pull — `cd ~/ai-infra-mlops && git pull`](images/step-00a-git-pull.png)
 
 3. Confirm Lab 1 still passes:
 
@@ -37,9 +37,9 @@ cd ~/ai-infra-mlops/lab1 && python3 scripts/validate_environment.py
 
 **Expected:** `Compliance Score: 100.0%` and `✅ ALL CHECKS PASSED!`
 
-![Lab 1 validation 13/13 COMPLIANT](images/step-00b-lab1-validate.png)
+![Lab 1 validation — `python3 scripts/validate_environment.py`](images/step-00b-lab1-validate.png)
 
-4. Set classroom variables (once per terminal session — speeds up the lab, skips Comprehend API calls):
+4. Set classroom variables (once per terminal session), then go to Lab 2:
 
 ```bash
 export LAB_NUM_RECORDS=1000
@@ -67,7 +67,7 @@ cd ~/ai-infra-mlops/lab2
 
 # Step 1 — Confirm lab2 in repo
 
-**What you do:** Verify the Lab 2 course files are in the repo.
+**What you do:** From the repo root, list the Lab 2 course folder.
 
 ```bash
 cd ~/ai-infra-mlops
@@ -84,13 +84,13 @@ requirements.txt
 scripts
 ```
 
-![Lab 2 folder listing](images/step-01-lab2-folder.png)
+![Step 1 — `ls -1 lab2` (top of screenshot; Step 2 listing is below it in the same capture)](images/step-01-lab2-folder.png)
 
 ---
 
 # Step 2 — Confirm workspace
 
-**What you do:** Verify Lab 0 created your Lab 2 output folders under `workspace/`.
+**What you do:** From `lab2`, list your Lab 2 output folders under `workspace/`.
 
 ```bash
 cd ~/ai-infra-mlops/lab2
@@ -109,7 +109,7 @@ scripts
 
 If the folder is missing, re-run [Lab 0 Step 16](../lab0/STEPS.md) (`setup_lab_directories.py`), then return here.
 
-![Lab 2 workspace folders](images/step-02-workspace-lab2.png)
+![Step 2 — `ls -1 ../workspace/lab2` (same screenshot as Step 1, scroll to the second listing)](images/step-02-workspace-lab2.png)
 
 ---
 
@@ -136,7 +136,7 @@ Prerequisites OK — run lab2 scripts in STEPS.md order.
 
 If you see `❌ Missing Lab 1 config`, complete [Lab 1](../lab1/STEPS.md) first.
 
-![Lab 2 prerequisites check](images/step-03-prerequisites.png)
+![Step 3 — `python3 scripts/validate_lab2.py`](images/step-03-prerequisites.png)
 
 ---
 
@@ -160,7 +160,7 @@ python3 scripts/download_banking_data.py
 ✅ Dataset metadata saved
 ```
 
-![Banking dataset generated](images/step-04-dataset.png)
+![Step 4 — `python3 scripts/download_banking_data.py` (ignore the next command if it appears at the bottom — that is Step 5)](images/step-04-dataset.png)
 
 ---
 
@@ -172,7 +172,7 @@ python3 scripts/download_banking_data.py
 python3 scripts/pii_detection_anonymization.py
 ```
 
-**Expected:**
+**Expected (when complete):**
 
 ```text
 🏦 Processing Banking Data with PII Protection
@@ -186,7 +186,7 @@ python3 scripts/pii_detection_anonymization.py
 
 The script also uploads a PII compliance report to your Lab 1 **governance** S3 bucket.
 
-![PII anonymization complete — 3700 instances](images/step-05-pii.png)
+![Step 5 — `python3 scripts/pii_detection_anonymization.py` (3700 anonymized; ignore `data_validation.py` at the bottom — that is Step 6)](images/step-05-pii.png)
 
 ---
 
@@ -208,7 +208,7 @@ python3 scripts/data_validation.py
 
 `REVIEW_REQUIRED` on customers is **expected** in classroom mode (anonymized fields fail strict type/pattern checks). Scores above 50% confirm the pipeline ran correctly.
 
-![Data validation quality scores](images/step-06-validation.png)
+![Step 6 — `python3 scripts/data_validation.py` (final quality scores; ignore the next command at the bottom — that is Step 7)](images/step-06-validation.png)
 
 ---
 
@@ -229,7 +229,7 @@ python3 scripts/feature_engineering.py
    Feature Metadata: .../config/feature_metadata.json
 ```
 
-![Feature engineering — 52 features](images/step-07-features.png)
+![Step 7 — `python3 scripts/feature_engineering.py` (52 features saved)](images/step-07-features.png)
 
 ---
 
@@ -256,7 +256,7 @@ python3 scripts/feature_store_setup.py
 
 On re-run, you may see `Feature group already exists` or ingest warnings — that is OK if Step 11 passes.
 
-![Feature Store ingest complete](images/step-08-feature-store.png)
+![Step 8 — `python3 scripts/feature_store_setup.py` (ingest complete; ignore the next command at the bottom — that is Step 9)](images/step-08-feature-store.png)
 
 ---
 
@@ -281,7 +281,7 @@ python3 scripts/data_drift_detection.py
 
 A CloudWatch alarm warning (`SNS topic may not exist`) is **expected** — the alarm is optional in this lab.
 
-![Drift detection — 0% drift NORMAL](images/step-09-drift.png)
+![Step 9 — `python3 scripts/data_drift_detection.py` (0% drift NORMAL)](images/step-09-drift.png)
 
 ---
 
@@ -304,7 +304,7 @@ python3 scripts/generate_compliance_doc.py
 ✅ Drift Monitoring: NORMAL
 ```
 
-![Compliance report summary](images/step-10-compliance.png)
+![Step 10 — `python3 scripts/generate_compliance_doc.py`](images/step-10-compliance.png)
 
 ---
 
@@ -326,18 +326,7 @@ Validate Lab 2
    ✅ Lab 1 config: buckets.json
    ✅ Lab 1 config: iam_roles.json
    ✅ data: customers.csv
-   ✅ data: transactions.csv
-   ✅ data: anonymized_customers.csv
-   ✅ data: anonymized_transactions.csv
-   ✅ data: engineered_banking_data.csv
-   ✅ data: compliance_report_final.json
-   ✅ config: dataset_metadata.json
-   ✅ config: pii_report.json
-   ✅ config: pii_compliance_report.json
-   ✅ config: feature_metadata.json
-   ✅ config: feature_store_config.json
-   ✅ config: drift_report.json
-   ✅ config: data_quality_report_customers.json
+   ...
    ✅ config: data_quality_report_transactions.json
 
 ============================================================
@@ -346,9 +335,9 @@ Prerequisites OK — run lab2 scripts in STEPS.md order.
 
 You should also see `preprocessor.pkl` under `config/` from Step 7.
 
-![Final validation — all checks green](images/step-11a-validate.png)
+![Step 11a — `python3 scripts/validate_lab2.py`](images/step-11a-validate.png)
 
-![Lab 2 data and config files](images/step-11b-validate-files.png)
+![Step 11b — `ls -1 ../workspace/lab2/data` and `ls -1 ../workspace/lab2/config`](images/step-11b-validate-files.png)
 
 ---
 
@@ -363,6 +352,7 @@ You should also see `preprocessor.pkl` under `config/` from Step 7.
 | `No such file: buckets.json` / `iam_roles.json` | Re-run Lab 1 Steps 5–6 |
 | Feature Store timeout | Wait 5 min, run Step 8 **once more** (groups may already exist) |
 | Ingest error / already ingested | OK on re-run if record counts match in Step 11 |
+| Screenshot shows the **next** step's command at the bottom | Normal — captures were taken in one continuous terminal session |
 | `ModuleNotFoundError` (pandas, sagemaker, etc.) | [Lab 0 Step 18](../lab0/STEPS.md) — `pip install -r lab2/requirements.txt` |
 | `PythonDeprecationWarning` | [Lab 0 Step 17a](../lab0/STEPS.md) — upgrade to Python 3.11 |
 

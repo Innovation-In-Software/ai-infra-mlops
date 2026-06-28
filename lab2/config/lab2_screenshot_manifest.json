@@ -1,5 +1,5 @@
 {
-  "notes": "Maps step-pending-*.png (ProTech VM / EC2 Jun 28) to lab2/images/. Run: python scripts/sync_lab2_screenshots.py",
+  "notes": "Maps step-pending-*.png to lab2/images/. Image command/output alignment documented in lab2/STEPS.md. Run: python scripts/sync_lab2_screenshots.py",
   "source_dir": "D:/Current_work/Innovation in Software/MLOps On AWS June 4/screenshots",
   "canonical": {
     "step-pending-54.png": "step-00a-git-pull.png",
