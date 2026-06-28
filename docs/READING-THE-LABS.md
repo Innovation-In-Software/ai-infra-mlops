@@ -32,3 +32,5 @@ Open any `STEPS.md` → **Ctrl+Shift+V** (Markdown preview) or side-by-side prev
 ## Simulated vs live AWS
 
 Some steps **write configs locally** and print `(simulated)` for SageMaker endpoints or pipelines — that avoids costly resources while still using your real AWS account for S3, IAM, and other services. This is **not** the same as `--dry-run` in the terminal; step commands run **without** `--dry-run`.
+
+Full breakdown: [Real vs simulated](REAL-VS-SIMULATED.md) · Optional full-AWS modules: [Lab 3b / Lab 4b](../optional/README.md)

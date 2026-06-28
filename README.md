@@ -77,6 +77,8 @@ Teardown AWS resources: [Lab 10 Step 11](lab10/STEPS.md) → `python3 scripts/te
 ## More help
 
 - [How to read STEPS.md](docs/READING-THE-LABS.md)
+- [Real vs simulated AWS](docs/REAL-VS-SIMULATED.md)
+- [Optional: Lab 3b SageMaker Training & Lab 4b CodePipeline](optional/README.md)
 - [SSH + VS Code setup](docs/SSH-VSCODE-SETUP.md)
 - [Instructor ProTech VM + EC2 setup](docs/PROTECH-VM-SETUP.md)
 - [Instructor cloud delivery](CLOUD-DELIVERY.md)

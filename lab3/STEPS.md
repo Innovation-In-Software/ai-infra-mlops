@@ -316,4 +316,15 @@ Then re-run **Steps 4–9**. Lab 2 artifacts in `workspace/lab2/` are unchanged.
 
 ---
 
+## Optional — full AWS follow-on
+
+Main Lab 3 trains on EC2; main Lab 4 does not create CodePipeline. After the course (or if you have extra time):
+
+- **[Lab 3b — SageMaker Training Job](../optional/lab3b/STEPS.md)** (~45–60 min)
+- **[Lab 4b — Real CodePipeline](../optional/lab4b/STEPS.md)** (~45–60 min)
+
+See [Real vs simulated AWS](../docs/REAL-VS-SIMULATED.md).
+
+---
+
 ## Lab 3 complete → [Lab 4](../lab4/STEPS.md)

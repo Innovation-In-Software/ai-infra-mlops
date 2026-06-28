@@ -340,4 +340,14 @@ Then re-run **Steps 2–10**. Labs 1–3 artifacts in `workspace/lab1/` … `lab
 
 ---
 
+## Optional — full AWS follow-on
+
+Lab 4 does **not** create CodePipeline in AWS (by design). To build a **real** S3 → CodeBuild pipeline:
+
+- **[Lab 4b — Real CodePipeline](../optional/lab4b/STEPS.md)** (~45–60 min)
+
+See also [Lab 3b — SageMaker Training](../optional/lab3b/STEPS.md) and [Real vs simulated](../docs/REAL-VS-SIMULATED.md).
+
+---
+
 ## Lab 4 complete → [Lab 5](../lab5/STEPS.md)
