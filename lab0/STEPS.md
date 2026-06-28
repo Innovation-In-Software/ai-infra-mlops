@@ -439,6 +439,22 @@ If `mlops-lab-sg` already exists, open it → **Inbound rules** → **Edit** →
 
 **Expected result:** One instance named `mlops-lab` in **Running** state with status checks passed.
 
+![Launch — name tag mlops-lab](images/step-09a-launch-name.png)
+
+![Launch — Amazon Linux 2023 AMI](images/step-09b-launch-ami.png)
+
+![Launch — instance type t3.large](images/step-09c-launch-instance-type.png)
+
+![Launch — key pair mlops-lab-key](images/step-09d-launch-key-pair.png)
+
+![Launch — security group mlops-lab-sg](images/step-09e-launch-security-group.png)
+
+![Launch — 30 GiB gp3 storage](images/step-09f-launch-storage.png)
+
+![Launch — IAM instance profile None (normal after teardown)](images/step-09g-launch-iam-none.png)
+
+![Launch success — View all instances](images/step-09h-launch-success.png)
+
 **Instructor example (copy-paste):**
 
 **Everyone launches a new instance** (after teardown or first-time setup). Use these instructor names if you prefer — same Steps 7–10:
@@ -454,8 +470,6 @@ If `mlops-lab-sg` already exists, open it → **Inbound rules** → **Edit** →
 | IAM instance profile | **None** (or `EC2MLOpsLabProfile` only after running `scripts/create_ec2_lab_instance_profile.py`) |
 
 After launch: EC2 → **Instances** → select your instance → copy **Public IPv4 address** (Step 10).
-
-> **Screenshot:** Capture your own launch wizard screens to `lab0/images/step-09-launch-*.png` if you want a local copy — instructor screenshots for this step are added in a future update.
 
 ---
 
@@ -488,6 +502,8 @@ You need the **public IP** for Step 12 (SSH config). Use **Method 1** unless you
 > **Do not use** **Private IPv4 address** (`172.31.x.x`) — that only works inside AWS, not for SSH from the ProTech VM.
 
 **If Public IPv4 is blank or `-`:** wait until status is **Running** and **2/2 checks passed**, or confirm **Auto-assign public IP** was enabled at launch (Step 9).
+
+![Instance details — copy Public IPv4 address](images/step-10-public-ip.png)
 
 ---
 
@@ -566,8 +582,6 @@ aws ec2 describe-instances \
 
 **Remember:** This IP **changes** if you **stop** and **start** the instance. After a restart, repeat Step 10 and update Step 12 SSH config.
 
-**Screenshot (optional):** `images/step-10-public-ip.png`
-
 ---
 
 ## Part 3 — Connect VS Code to your EC2 (ProTech VM)
@@ -597,7 +611,7 @@ winget install Microsoft.VisualStudioCode
 
 Then in VS Code → Extensions → install **`ms-vscode-remote.remote-ssh`**.
 
-**Screenshot (optional):** `images/step-08-vscode-remote-ssh-ext.png`
+![Install Remote - SSH extension](images/step-11-remote-ssh-ext.png)
 
 ---
 
@@ -723,7 +737,9 @@ ssh ai-mlops-lab
 
 Type `exit` when you see `[ec2-user@...]$`.
 
-**Screenshot (optional):** `images/step-09-ssh-config.png`
+![Open PowerShell on ProTech VM](images/step-12-powershell.png)
+
+![SSH config and icacls PEM permissions](images/step-12-ssh-config.png)
 
 ---
 
@@ -780,7 +796,7 @@ ip-172-31-xx-xx.us-west-2.compute.internal
 
 From this step onward, **all lab commands** run in this EC2 terminal — not in Windows PowerShell.
 
-**Screenshot (optional):** `images/step-10-vscode-connected.png`
+![VS Code connected via SSH — whoami ec2-user](images/step-13-vscode-connected.png)
 
 ---
 
@@ -845,7 +861,7 @@ aws-cli/2.33.15 Python/3.9.25 Linux/6.12.92-122.166.amzn2023.x86_64 source/x86_6
 Linux ... amzn2023.x86_64 GNU/Linux
 ```
 
-**Screenshot (optional):** `images/step-11-tools.png`
+![Verify python3, git, aws on EC2](images/step-14-tools.png)
 
 ---
 
@@ -900,7 +916,7 @@ if [ -d ai-infra-mlops ]; then cd ai-infra-mlops && git pull; else git clone htt
 ls -1
 ```
 
-**Screenshot (optional):** `images/step-12-clone.png`
+![Clone ai-infra-mlops on EC2](images/step-15-git-clone.png)
 
 ---
 
@@ -942,7 +958,7 @@ clear
 cd ~/ai-infra-mlops/lab0 && ls -1
 ```
 
-**Screenshot (optional):** `images/step-13-lab0-folder.png`
+![Open repo and lab0 folder in VS Code](images/step-16-open-repo.png)
 
 ---
 
@@ -1035,7 +1051,7 @@ Quick S3 check:
 aws s3 ls --region us-west-2 | head -5
 ```
 
-**Screenshot (optional):** `images/step-14-aws-cli.png`
+![aws sts get-caller-identity on EC2](images/step-17-aws-cli.png)
 
 ---
 
@@ -1096,7 +1112,7 @@ Expected last line:
 All imports successful!
 ```
 
-**Screenshot (optional):** `images/step-15-pip.png`
+![pip install lab requirements](images/step-18-pip-install.png)
 
 ---
 
@@ -1126,7 +1142,9 @@ docker ps
 
 **Expected result:** Empty table (no error). If `permission denied`, reconnect SSH or run `newgrp docker` once.
 
-**Screenshot (optional):** `images/step-19-docker.png`
+![Install Docker on EC2](images/step-19-docker-install.png)
+
+![docker ps after reconnect or newgrp docker](images/step-19-docker-ps.png)
 
 ---
 
@@ -1157,7 +1175,7 @@ grep LAB_ ~/.bashrc || { echo 'export LAB_NUM_RECORDS=1000' >> ~/.bashrc; echo '
 echo $LAB_NUM_RECORDS $LAB_USE_COMPREHEND
 ```
 
-**Screenshot (optional):** `images/step-16-env.png`
+![Classroom environment variables](images/step-20-classroom-env.png)
 
 ---
 
@@ -1194,7 +1212,7 @@ python3 scripts/setup_lab_directories.py
 ls ../workspace
 ```
 
-**Screenshot (optional):** `images/step-17-workspace.png`
+![Student workspace directories created](images/step-21-workspace.png)
 
 ---
 
@@ -1270,7 +1288,7 @@ ALL CHECKS PASSED. Environment is ready.
    Proceed to Lab 1 (open lab1/STEPS.md)
 ```
 
-**Screenshot (optional):** `images/step-18-verify-pass.png`
+![Verification 9/9 PASS — Lab 0 complete](images/step-22-verify-pass.png)
 
 ---
 

@@ -1,0 +1,29 @@
+{
+  "notes": "Maps auto-renamed step-09-launch-*.png captures to canonical lab0/images names. Run scripts/reorganize_lab0_screenshots.py after Lab 0 instructor walkthrough.",
+  "canonical": {
+    "step-09-launch-19.png": "step-09a-launch-name.png",
+    "step-09-launch-21.png": "step-09b-launch-ami.png",
+    "step-09-launch-22.png": "step-09c-launch-instance-type.png",
+    "step-09-launch-23.png": "step-09d-launch-key-pair.png",
+    "step-09-launch-26.png": "step-09e-launch-security-group.png",
+    "step-09-launch-27.png": "step-09f-launch-storage.png",
+    "step-09-launch-29.png": "step-09g-launch-iam-none.png",
+    "step-09-launch-31.png": "step-09h-launch-success.png",
+    "step-09-launch-33.png": "step-10-public-ip.png",
+    "step-09-launch-36.png": "step-11-remote-ssh-ext.png",
+    "step-09-launch-55.png": "step-12-powershell.png",
+    "step-09-launch-45.png": "step-12-ssh-config.png",
+    "step-09-launch-66.png": "step-13-vscode-connected.png",
+    "step-09-launch-68.png": "step-14-tools.png",
+    "step-09-launch-73.png": "step-15-git-clone.png",
+    "step-09-launch-80.png": "step-16-open-repo.png",
+    "step-09-launch-90.png": "step-17-aws-cli.png",
+    "step-09-launch-95.png": "step-18-pip-install.png",
+    "step-09-launch-97.png": "step-19-docker-install.png",
+    "step-09-launch-102.png": "step-19-docker-ps.png",
+    "step-09-launch-104.png": "step-20-classroom-env.png",
+    "step-09-launch-106.png": "step-21-workspace.png",
+    "step-09-launch-109.png": "step-22-verify-pass.png"
+  },
+  "delete_from_repo_images": ["step-09-launch-*.png"]
+}
