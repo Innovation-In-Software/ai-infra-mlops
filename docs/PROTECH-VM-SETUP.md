@@ -54,6 +54,8 @@ Store credentials in your password manager or ProTech handout — **never in git
 
 **Connect:** sign in at the portal → launch/connect to your host → RDP or in-browser session as `Administrator`.
 
+**Participant steps:** [lab0/STEPS.md](../lab0/STEPS.md) **Steps 1–3** (portal → VM desktop) before AWS or EC2 work.
+
 ---
 
 ## 2. ProTech VM — before class

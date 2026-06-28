@@ -2,7 +2,11 @@
 
 Use this workflow for **every lab** (0–10). All commands run in the **EC2 integrated terminal** (bash).
 
-**First-time setup (AWS login, region, launch EC2, connect VS Code):** follow **[lab0/STEPS.md](../lab0/STEPS.md) Steps 1–10** in full.
+**First-time setup (ProTech VM, AWS login, region, launch EC2, connect VS Code):** follow **[lab0/STEPS.md](../lab0/STEPS.md) Steps 1–13** in full.
+
+1. **Steps 1–3** — [labs.protechtraining.com](https://labs.protechtraining.com) → sign in → connect to training VM  
+2. **Steps 4–12** — AWS Console + SSH config on the VM  
+3. **Step 13** — VS Code Remote SSH to EC2
 
 ---
 

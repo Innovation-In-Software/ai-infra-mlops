@@ -3,16 +3,17 @@
 | | |
 |---|---|
 | **Class** | `ai-mlops-2026-jun30` |
-| **Duration** | ~45–60 minutes |
+| **Duration** | ~50–65 minutes |
 | **Region** | `us-west-2` (Oregon) |
-| **Platform** | AWS Console (browser) → EC2 → [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) → **bash** |
+| **Platform** | [ProTech VM](https://labs.protechtraining.com) → AWS Console → EC2 → [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) → **bash** |
 | **Prerequisite** | None — start here |
 | **Working directory (after SSH)** | `~/ai-infra-mlops/lab0` |
 | **Outputs** | `~/ai-infra-mlops/workspace/lab0/` |
 | **Repo** | [github.com/gjkaur/ai-infra-mlops](https://github.com/gjkaur/ai-infra-mlops) |
 
-> **Steps 1–10:** AWS Console in your **browser** + VS Code on your **ProTech VM or laptop** (not on EC2 yet).  
-> **Steps 11–18:** All commands in the **VS Code integrated terminal** on EC2 (**bash**). Do not use Windows PowerShell for lab commands.
+> **Steps 1–3:** Sign in at [labs.protechtraining.com](https://labs.protechtraining.com) and connect to your **training VM** first.  
+> **Steps 4–13:** AWS Console in the VM **browser** + VS Code on the **VM desktop** (not on EC2 yet).  
+> **Steps 14–21:** All commands in the **VS Code integrated terminal** on EC2 (**bash**). Do not use Windows PowerShell for lab commands.
 
 **Instructor dual setup:** [docs/PROTECH-VM-SETUP.md](../docs/PROTECH-VM-SETUP.md)
 
@@ -20,55 +21,89 @@
 
 ## Before you start
 
-1. Use a machine with a **web browser** and **VS Code** (ProTech VM `COMPUTER540` or your laptop).
-2. Have your **AWS sign-in URL**, **username**, and **password** from the instructor handout.
-3. Have **VS Code** installed. Install the **Remote - SSH** extension before Step 9.
+1. You need your **ProTech labs handout** (portal user ID, password, host computer name, VM login).
+2. You also need **AWS** sign-in URL, IAM user, and password from the same handout.
+3. **Always connect to the ProTech VM first** (Steps 1–3) — then use the VM’s browser and VS Code for everything else.
 4. Keep AWS access keys in the handout only — **never paste keys into git, chat, or screenshots**.
 
 ---
 
-## Instructor account — this class (copy-paste)
-
-Use these values when you **demo or test** Lab 0. Password and access keys come from your **instructor handout only** (not stored in git).
-
-| Field | Copy this value |
-|-------|-----------------|
-| **AWS sign-in URL** | `https://iis-instructor-03.signin.aws.amazon.com/console` |
-| **Account ID** | `028417007274` |
-| **IAM user name** | `Instructor01` (case-sensitive) |
-| **Console region** | `us-west-2` (United States Oregon) |
-| **ProTech portal** | `https://labs.protechtraining.com` |
-| **ProTech host** | `COMPUTER540` |
-| **ProTech portal user** | `PTACCESS540` |
-
-**Pre-built instructor EC2** (skip Steps 4–6 if you use this instance):
-
-| Field | Copy this value |
-|-------|-----------------|
-| Instance name | `ai-mlops-lab` |
-| Instance ID | `i-0326933d0bc3b45f1` |
-| Key pair name | `ai-mlops-instructor` |
-| PEM file (ProTech VM) | `C:\Users\Administrator\.ssh\ai-mlops-instructor.pem` |
-| SSH user | `ec2-user` |
-| Security group | `mlops-lab-sg` |
-| IAM instance profile | `EC2MLOpsLabProfile` |
-| Root volume | 30 GiB |
-
-**Refresh public IP** (IP changes after stop/start) — run on ProTech VM with AWS CLI configured, or on EC2:
-
-```bash
-aws ec2 describe-instances --instance-ids i-0326933d0bc3b45f1 --region us-west-2 --query "Reservations[0].Instances[0].PublicIpAddress" --output text
-```
-
-Example output at last test: `35.161.45.178` — replace in SSH config if different.
-
----
-
-## Step 1 — Open the AWS sign-in page (browser)
+## Step 1 — Open the ProTech labs portal (your laptop or browser)
 
 **Do this:**
 
-1. Open your browser (Chrome or Edge on the ProTech VM is fine).
+1. On your **physical laptop** (or any browser), open:
+   ```
+   https://labs.protechtraining.com
+   ```
+2. Bookmark the page — you use it at the **start of every class day** to reach your training VM.
+
+**Expected result:** The ProTech Training labs sign-in page loads with fields for **User ID** and **Password**.
+
+**Instructor example (copy-paste):**
+
+```
+https://labs.protechtraining.com
+```
+
+**Screenshot (optional):** `images/step-01-protech-portal.png`
+
+---
+
+## Step 2 — Sign in to the ProTech portal
+
+**Do this:**
+
+1. Enter **User ID** from your handout (example format: `PTACCESS###`).
+2. Enter **Password** from your handout.
+3. Click **Sign in** (or equivalent).
+
+**Expected result:** You see a dashboard or list of **virtual machines / host computers** assigned to you.
+
+**Instructor example (copy-paste):**
+
+| Field | Value |
+|-------|--------|
+| User ID | `PTACCESS540` |
+| Password | *(from instructor handout — do not commit)* |
+
+**Screenshot (optional):** `images/step-02-protech-signin.png`
+
+---
+
+## Step 3 — Connect to your training VM (RDP)
+
+**Do this:**
+
+1. On the ProTech portal, find your **Host computer** name from the handout (example: `COMPUTER###`).
+2. Click **Connect**, **Launch**, or **Start** for that host (wording varies on the portal).
+3. When the remote session opens (RDP or in-browser desktop), sign in to Windows:
+   - **Username:** `Administrator` (unless your handout says otherwise)
+   - **Password:** VM password from your handout
+4. Wait for the **Windows desktop** to load fully.
+5. Open **Edge** or **Chrome** on the VM — you will use this browser for AWS Console steps.
+
+**Expected result:** You are logged into a **Windows training VM**. The desktop shows the taskbar; you can open a browser and applications. **All remaining Lab 0 steps (except EC2 terminal work) run on this VM** until you connect VS Code to EC2 in Step 13.
+
+**Instructor example (copy-paste):**
+
+| Field | Value |
+|-------|--------|
+| Host computer | `COMPUTER540` |
+| Windows username | `Administrator` |
+| Windows password | *(from instructor handout — do not commit)* |
+
+**Tip:** If RDP fails, confirm the host is **started** on the portal and try **Connect** again. Ask the instructor before using your personal laptop for AWS steps — the course expects the ProTech VM + EC2 workflow.
+
+**Screenshot (optional):** `images/step-03-vm-desktop.png`
+
+---
+
+## Step 4 — Open the AWS sign-in page (browser)
+
+**Do this:**
+
+1. On your **ProTech VM desktop**, open **Edge** or **Chrome** (from Step 3).
 2. Go to the **AWS access portal URL** from your handout (example format: `https://YOUR-ACCOUNT.signin.aws.amazon.com/console`).
 3. Bookmark the page for the rest of the course.
 
@@ -86,7 +121,7 @@ Paste that URL into the browser address bar and press Enter.
 
 ---
 
-## Step 2 — Sign in to your AWS account (browser)
+## Step 5 — Sign in to your AWS account (browser)
 
 **Do this:**
 
@@ -112,7 +147,7 @@ After sign-in, top-right should show **`Instructor01`** and account **`028417007
 
 ---
 
-## Step 3 — Set the console region to us-west-2 (browser)
+## Step 6 — Set the console region to us-west-2 (browser)
 
 **Do this:**
 
@@ -140,7 +175,7 @@ https://us-west-2.console.aws.amazon.com/ec2/home?region=us-west-2
 
 ---
 
-## Step 4 — Open EC2 and create a key pair (browser)
+## Step 7 — Open EC2 and create a key pair (browser)
 
 **Do this:**
 
@@ -178,7 +213,7 @@ If `ai-mlops-instructor` already exists in EC2 → **Key Pairs**, you cannot re-
 
 ---
 
-## Step 5 — Create a security group for SSH (browser)
+## Step 8 — Create a security group for SSH (browser)
 
 **Do this:**
 
@@ -218,7 +253,7 @@ If `mlops-lab-sg` already exists, open it → **Inbound rules** → **Edit** →
 
 ---
 
-## Step 6 — Launch your lab EC2 instance (browser)
+## Step 9 — Launch your lab EC2 instance (browser)
 
 **Do this:**
 
@@ -230,11 +265,11 @@ If `mlops-lab-sg` already exists, open it → **Inbound rules** → **Edit** →
    | **Name** | Instance name | `mlops-lab` |
    | **Application and OS Images** | AMI | **Amazon Linux 2023** (64-bit x86) |
    | **Instance type** | Type | **`t3.large`** (2 vCPU, 8 GiB RAM) |
-   | **Key pair** | Key pair | Select the key from Step 4 |
+   | **Key pair** | Key pair | Select the key from Step 7 |
    | **Network settings** | Security group | Select existing → **`mlops-lab-sg`** |
    | **Configure storage** | Root volume | **30 GiB**, **gp3** (required for Lab 0 pip installs) |
 
-3. Expand **Advanced details** (optional): if your handout provides an **IAM instance profile** for labs, select it. Otherwise skip — you will use `aws configure` with access keys in Step 14.
+3. Expand **Advanced details** (optional): if your handout provides an **IAM instance profile** for labs, select it. Otherwise skip — you will use `aws configure` with access keys in Step 17.
 4. Review summary on the right: **1 instance**, **Amazon Linux 2023**, **t3.large**.
 5. Click **Launch instance**.
 6. Click **View all instances**.
@@ -243,7 +278,7 @@ If `mlops-lab-sg` already exists, open it → **Inbound rules** → **Edit** →
 
 **Instructor example (copy-paste):**
 
-**Shortcut:** Instance **`ai-mlops-lab`** is already provisioned for this class. EC2 → **Instances** → confirm it is **Running** → skip to **Step 7**.
+**Shortcut:** Instance **`ai-mlops-lab`** is already provisioned for this class. EC2 → **Instances** → confirm it is **Running** → skip to **Step 10**.
 
 If you launch a new instance for testing, use:
 
@@ -261,7 +296,7 @@ If you launch a new instance for testing, use:
 
 ---
 
-## Step 7 — Note the instance public IP (browser)
+## Step 10 — Note the instance public IP (browser)
 
 **Do this:**
 
@@ -295,11 +330,11 @@ Example output (yours may differ):
 
 ---
 
-## Step 8 — Install VS Code and Remote SSH (local machine)
+## Step 11 — Install VS Code and Remote SSH (on ProTech VM)
 
 **Do this:**
 
-On your **ProTech VM** or **laptop** (not on EC2):
+On your **ProTech VM desktop** (Step 3 — not on EC2 yet):
 
 1. Install [Visual Studio Code](https://code.visualstudio.com/) if not already installed.
 2. Open VS Code → **Extensions** (`Ctrl+Shift+X`).
@@ -322,11 +357,11 @@ Then in VS Code → Extensions → install **`ms-vscode-remote.remote-ssh`**.
 
 ---
 
-## Step 9 — Configure SSH for your EC2 instance (local machine)
+## Step 12 — Configure SSH for your EC2 instance (on ProTech VM)
 
 **Do this:**
 
-1. Move your `.pem` file from Step 4 into your SSH folder (if not already there):
+1. Move your `.pem` file from Step 7 into your SSH folder (if not already there):
    - Windows: `C:\Users\Administrator\.ssh\mlops-lab-key.pem`
    - macOS/Linux: `~/.ssh/mlops-lab-key.pem`
 
@@ -345,7 +380,7 @@ Then in VS Code → Extensions → install **`ms-vscode-remote.remote-ssh`**.
    - **Windows:** `C:\Users\Administrator\.ssh\config`
    - **macOS/Linux:** `~/.ssh/config`
 
-4. Add this block (replace `YOUR_PUBLIC_IP` with the IP from Step 7):
+4. Add this block (replace `YOUR_PUBLIC_IP` with the IP from Step 10):
 
    ```
    Host mlops-lab-ec2
@@ -375,7 +410,7 @@ icacls C:\Users\Administrator\.ssh\ai-mlops-instructor.pem /inheritance:r
 icacls C:\Users\Administrator\.ssh\ai-mlops-instructor.pem /grant:r "$($env:USERNAME):(R)"
 ```
 
-**2. SSH config** — edit `C:\Users\Administrator\.ssh\config` (create file if missing). Replace `35.161.45.178` with the IP from Step 7 if different:
+**2. SSH config** — edit `C:\Users\Administrator\.ssh\config` (create file if missing). Replace `35.161.45.178` with the IP from Step 10 if different:
 
 ```
 Host ai-mlops-lab
@@ -396,12 +431,12 @@ Type `exit` when you see `[ec2-user@...]$`.
 
 ---
 
-## Step 10 — Connect VS Code to EC2 (local → remote)
+## Step 13 — Connect VS Code to EC2 (ProTech VM → remote)
 
 **Do this:**
 
-1. Open **VS Code** on your ProTech VM or laptop.
-2. Press **`Ctrl+Shift+P`** → type **`Remote-SSH: Connect to Host`** → select **`ai-mlops-lab`** (instructor) or **`mlops-lab-ec2`** (your own host name from Step 9).
+1. Open **VS Code** on your **ProTech VM** (Step 3).
+2. Press **`Ctrl+Shift+P`** → type **`Remote-SSH: Connect to Host`** → select **`ai-mlops-lab`** (instructor) or **`mlops-lab-ec2`** (your own host name from Step 12).
 3. Wait for VS Code to install the VS Code Server on EC2 (first connect takes 1–2 minutes).
 4. **File → Open Folder** → enter `/home/ec2-user` → **OK**.
 5. **Terminal → New Terminal** — confirm the shell is **bash**.
@@ -449,7 +484,7 @@ From this step onward, **all lab commands** run in this EC2 terminal — not in 
 
 ---
 
-## Step 11 — Verify tools on EC2
+## Step 14 — Verify tools on EC2
 
 **Do this:**
 
@@ -499,7 +534,7 @@ Linux ... amzn2023.x86_64 GNU/Linux
 
 ---
 
-## Step 12 — Clone the course repo on EC2
+## Step 15 — Clone the course repo on EC2
 
 **Do this:**
 
@@ -540,7 +575,7 @@ ls -1
 
 ---
 
-## Step 13 — Open the lab0 folder in VS Code
+## Step 16 — Open the lab0 folder in VS Code
 
 **Do this:**
 
@@ -582,7 +617,7 @@ cd ~/ai-infra-mlops/lab0 && ls -1
 
 ---
 
-## Step 14 — Configure AWS CLI on EC2
+## Step 17 — Configure AWS CLI on EC2
 
 **Do this:**
 
@@ -675,7 +710,7 @@ aws s3 ls --region us-west-2 | head -5
 
 ---
 
-## Step 15 — Install Python packages
+## Step 18 — Install Python packages
 
 **Do this:**
 
@@ -695,7 +730,7 @@ python3 scripts/test_imports.py
 All imports successful!
 ```
 
-If pip fails with **no space left on device**, return to Step 6 and increase the root volume to **30 GiB**, then expand the filesystem or relaunch the instance.
+If pip fails with **no space left on device**, return to Step 9 and increase the root volume to **30 GiB**, then expand the filesystem or relaunch the instance.
 
 **Instructor example (copy-paste):**
 
@@ -719,7 +754,7 @@ All imports successful!
 
 ---
 
-## Step 16 — Set classroom environment variables
+## Step 19 — Set classroom environment variables
 
 **Do this:**
 
@@ -750,7 +785,7 @@ echo $LAB_NUM_RECORDS $LAB_USE_COMPREHEND
 
 ---
 
-## Step 17 — Create the student workspace
+## Step 20 — Create the student workspace
 
 **Do this:**
 
@@ -787,7 +822,7 @@ ls ../workspace
 
 ---
 
-## Step 18 — Verify the full environment
+## Step 21 — Verify the full environment
 
 **Do this:**
 
@@ -834,7 +869,7 @@ python3 scripts/run_lab0_setup.py
 python3 scripts/verify_environment.py
 ```
 
-Expected summary (account/ARN matches Option A or B from Step 14):
+Expected summary (account/ARN matches Option A or B from Step 17):
 
 ```text
 Banking MLOps Environment Verification
@@ -863,16 +898,56 @@ ALL CHECKS PASSED. Environment is ready.
 
 ---
 
+## Instructor reference — copy-paste (this class)
+
+Passwords and access keys: **instructor handout only** (not in git).
+
+| Field | Copy this value |
+|-------|-----------------|
+| **ProTech portal** | `https://labs.protechtraining.com` |
+| **ProTech portal user** | `PTACCESS540` |
+| **ProTech host** | `COMPUTER540` |
+| **VM Windows user** | `Administrator` |
+| **AWS sign-in URL** | `https://iis-instructor-03.signin.aws.amazon.com/console` |
+| **Account ID** | `028417007274` |
+| **IAM user name** | `Instructor01` (case-sensitive) |
+| **Console region** | `us-west-2` (United States Oregon) |
+
+**Pre-built instructor EC2** (skip Steps 7–9; go to Step 10):
+
+| Field | Copy this value |
+|-------|-----------------|
+| Instance name | `ai-mlops-lab` |
+| Instance ID | `i-0326933d0bc3b45f1` |
+| Key pair name | `ai-mlops-instructor` |
+| PEM file (ProTech VM) | `C:\Users\Administrator\.ssh\ai-mlops-instructor.pem` |
+| SSH user | `ec2-user` |
+| Security group | `mlops-lab-sg` |
+| IAM instance profile | `EC2MLOpsLabProfile` |
+| Root volume | 30 GiB |
+
+**Refresh public IP** (after stop/start):
+
+```bash
+aws ec2 describe-instances --instance-ids i-0326933d0bc3b45f1 --region us-west-2 --query "Reservations[0].Instances[0].PublicIpAddress" --output text
+```
+
+Example at last test: `35.161.45.178` — update `HostName` in SSH config (Step 12).
+
+---
+
 ## Troubleshooting
 
 | Issue | Fix |
 |-------|-----|
+| Cannot sign in to ProTech portal | Check **User ID** / password from handout; use [labs.protechtraining.com](https://labs.protechtraining.com) |
+| VM will not connect | Start host on portal; retry **Connect**; confirm **COMPUTER###** matches handout |
 | SSH timeout | Instance running? Correct **public IP** in SSH config? Security group allows **port 22** from your IP? |
 | `Permission denied (publickey)` | PEM path in SSH config; Windows `icacls` on `.pem`; user must be **`ec2-user`** |
-| Wrong region in console | Set **us-west-2** before creating EC2 (Step 3) |
-| Public IP changed | Run Step 7 IP command; update `HostName` in `C:\Users\Administrator\.ssh\config` |
-| `aws sts` AccessDenied | Re-run Step 14; confirm keys and IAM permissions with instructor |
-| Pip / disk full | Root volume **30 GiB** minimum (Step 6) |
+| Wrong region in console | Set **us-west-2** before creating EC2 (Step 6) |
+| Public IP changed | Run Step 10 IP command; update `HostName` in `C:\Users\Administrator\.ssh\config` |
+| `aws sts` AccessDenied | Re-run Step 17; confirm keys and IAM permissions with instructor |
+| Pip / disk full | Root volume **30 GiB** minimum (Step 9) |
 
 ---
 
