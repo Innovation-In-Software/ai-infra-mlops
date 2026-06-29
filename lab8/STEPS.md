@@ -53,7 +53,7 @@ requirements.txt
 scripts
 ```
 
-**Screenshot (optional):** `images/step-01-lab8-folder.png`
+![Step 1 — `ls -1 lab8`](images/step-01-lab8-folder.png)
 
 ---
 
@@ -69,7 +69,7 @@ python3 -c "import sagemaker; print('SageMaker SDK', sagemaker.__version__)"
 
 **Expected result:** `SageMaker SDK 2.x.x`
 
-**Screenshot (optional):** `images/step-02-pip.png`
+![Step 2 — `pip install` + SageMaker SDK](images/step-02-pip.png)
 
 ---
 
@@ -90,7 +90,7 @@ cat ../workspace/lab8/config/pipeline_params.json | head -12
 ✅ Pipeline parameters defined
 ```
 
-**Screenshot (optional):** `images/step-03-params.png`
+![Step 3 — `define_pipeline_params.py`](images/step-03-params.png)
 
 ---
 
@@ -111,7 +111,7 @@ python3 scripts/build_pipeline.py
 ✅ Pipeline definition saved
 ```
 
-**Screenshot (optional):** `images/step-04-build.png`
+![Step 4 — `build_pipeline.py`](images/step-04-build.png)
 
 ---
 
@@ -131,7 +131,7 @@ python3 scripts/upsert_pipeline.py
 ✅ Pipeline registered
 ```
 
-**Screenshot (optional):** `images/step-05-upsert.png`
+![Step 5 — `upsert_pipeline.py`](images/step-05-upsert.png)
 
 ---
 
@@ -154,7 +154,7 @@ python3 scripts/start_pipeline.py
 
 **Note:** Processing on `ml.t3.medium` typically takes 5–15 minutes.
 
-**Screenshot (optional):** `images/step-06-execute.png`
+![Step 6 — `start_pipeline.py`](images/step-06-execute.png)
 
 ---
 
@@ -173,7 +173,7 @@ python3 scripts/monitor_pipeline.py
 ✅ All pipeline steps succeeded
 ```
 
-**Screenshot (optional):** `images/step-07-monitor.png`
+![Step 7 — `monitor_pipeline.py`](images/step-07-monitor.png)
 
 ---
 
@@ -195,7 +195,7 @@ python3 scripts/register_model.py
 ✅ Model registered
 ```
 
-**Screenshot (optional):** `images/step-08-registry.png`
+![Step 8 — `register_model.py`](images/step-08-registry.png)
 
 ---
 
@@ -213,7 +213,7 @@ python3 scripts/generate_pipeline_report.py
 ✅ Pipeline compliance report generated
 ```
 
-**Screenshot (optional):** `images/step-09-report.png`
+![Step 9 — `generate_pipeline_report.py`](images/step-09-report.png)
 
 ---
 
@@ -240,7 +240,7 @@ Validate Lab 8
 Prerequisites OK — proceed to Lab 9
 ```
 
-**Screenshot (optional):** `images/step-10-validate.png`
+![Step 10 — `validate_lab8.py`](images/step-10-validate.png)
 
 ---
 
@@ -254,6 +254,7 @@ Prerequisites OK — proceed to Lab 9
 | Pipeline execution `Failed` | Run `python3 scripts/start_pipeline.py` again and read the **Step / FailureReason** line. Then `git pull` and re-run `lab1/scripts/create_banking_iam_roles.py` |
 | `not authorized to perform: iam:PassRole` | Re-run `lab1/scripts/create_banking_iam_roles.py` |
 | `sagemaker:AddTags` denied | Re-run `lab1/scripts/create_banking_iam_roles.py` |
+| `ImportError: cannot import name 'LAB5' from 'lab_paths'` | `git pull` — `lab8/scripts/lab_paths.py` must export `LAB5` and `LAB6` workspace paths |
 | `Model package not registered` | Run Step 8 after pipeline succeeds; confirm Lab 5 ECR image exists |
 
 ---

@@ -23,6 +23,8 @@ cd ~/ai-infra-mlops/lab9
 
 **Expected:** `Prerequisites OK — proceed to Lab 9` from Lab 8 validation.
 
+![Lab 8 validation — `python3 scripts/validate_lab8.py`](images/step-00b-lab8-validate.png)
+
 ---
 
 # Step 1 — Confirm lab9 folder
