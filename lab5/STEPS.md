@@ -337,7 +337,8 @@ Prerequisites OK — proceed to Lab 6
 | `RemoteDisconnected` on Step 5 | `git pull`, rebuild image (`bash scripts/build_container.sh`), retry Step 5 — first `/ping` waits up to 90s while the model loads |
 | `X has 8 features, but ... expecting 30` | `git pull`, rebuild (`bash scripts/build_container.sh`), retry Step 5 — sample payload must match Lab 3 feature count (30) |
 | `Run create_ecr_repo.py first` | Complete Step 6 before Step 7 |
-| `bash scripts/push_to_ecr.sh` fails with `set: pipefail` | Windows line endings — `git pull` then `sed -i 's/\r$//' lab5/scripts/push_to_ecr.sh` and retry |
+| `bash scripts/push_to_ecr.sh` fails with `set: pipefail` | `git pull` (LF scripts) or `sed -i 's/\r$//' lab5/scripts/push_to_ecr.sh` |
+| `ModuleNotFoundError: awscli` on ECR push | `git pull` then `python3 scripts/push_to_ecr.py` (uses boto3, not `aws` CLI) |
 | `No image banking-ml-inference:latest in ECR` | Complete Step 7 before Step 8 |
 | Scan status `PENDING` / timeout | Wait 2 min and re-run Step 8; confirm scan-on-push in ECR console |
 | `RepositoryAlreadyExistsException` | OK on re-run — repo already created |
