@@ -13,6 +13,7 @@ LAYER_LABS = {
     "security": 1,
     "data": 2,
     "training": 3,
+    "pipeline": 8,
     "deployment": 6,
     "monitoring": 7,
     "governance": 9,
@@ -33,6 +34,7 @@ def _layer_complete(lab_num: int) -> bool:
         3: ["training_results.json"],
         6: ["staging_deployment.json", "production_deployment.json"],
         7: ["dashboard_config.json", "alarms.json"],
+        8: ["pipeline_registration.json", "model_registry.json", "pipeline_execution.json"],
         9: ["iam_review.json", "encryption_audit.json"],
     }
     for fname in markers.get(lab_num, []):

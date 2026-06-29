@@ -2,7 +2,7 @@
 import json
 import shutil
 
-from lab_paths import CONFIG_DIR, DATA_DIR, LAB3, LAB5, MODELS_DIR, ensure_workspace
+from lab_paths import CONFIG_DIR, DATA_DIR, LAB3, LAB5, MODELS_DIR, REPO_ROOT, ensure_workspace
 
 
 def main():
@@ -17,6 +17,13 @@ def main():
     if (LAB3 / "data" / "X_test.csv").exists():
         shutil.copy2(LAB3 / "data" / "X_test.csv", DATA_DIR / "X_test.csv")
     state = {"model_name": "BankingRiskModel", "model_version": "v2.1.0", "region": "us-west-2"}
+    registry = REPO_ROOT / "workspace" / "lab8" / "config" / "model_registry.json"
+    if registry.exists():
+        with open(registry, encoding="utf-8") as f:
+            reg = json.load(f)
+        state["model_package_group"] = reg.get("model_package_group", "banking-risk-models")
+        state["model_package_arn"] = reg.get("model_package_arn", "")
+        print(f"   ✅ Lab 8 model registry linked ({state['model_package_group']})")
     with open(CONFIG_DIR / "governance_state.json", "w", encoding="utf-8") as f:
         json.dump(state, f, indent=2)
     print("   ✅ Lab 1 IAM / CloudTrail context linked (workspace)")

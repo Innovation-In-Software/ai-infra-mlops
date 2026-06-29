@@ -17,9 +17,13 @@
 ```bash
 cd ~/ai-infra-mlops && git pull
 whoami   # must be ec2-user
-cd ~/ai-infra-mlops/lab9 && python3 scripts/validate_lab9.py 2>/dev/null || true
+cd ~/ai-infra-mlops/lab9 && python3 scripts/validate_lab9.py
 cd ~/ai-infra-mlops/lab10
 ```
+
+**Expected:** `Prerequisites OK — proceed to Lab 10` from Lab 9 validation.
+
+> **Note:** Participant repo ends at **Lab 10** (Enterprise MLOps Architecture). There is no separate `lab11` folder — Module 11 content maps to Lab 10.
 
 ---
 
@@ -73,10 +77,11 @@ python3 scripts/architecture_assessment.py
    Security layer:     ✅ COMPLETE
    Data layer:         ✅ COMPLETE
    Training layer:     ✅ COMPLETE
+   Pipeline layer:     ✅ COMPLETE
    Deployment layer:   ✅ COMPLETE
    Monitoring layer:   ✅ COMPLETE
    Governance layer:   ✅ COMPLETE
-   Score: 94/100
+   Score: 100/100
 ```
 
 **Optional screenshot:** `images/step-03-assessment.png`
@@ -300,6 +305,17 @@ This runs in order:
 **Note:** KMS keys enter **PendingDeletion** for 7 days (AWS minimum). New Lab 1 runs create fresh keys.
 
 **Optional screenshot:** `images/step-11-teardown.png`
+
+---
+
+## Troubleshooting
+
+| Issue | Fix |
+|-------|-----|
+| Architecture score below 90 | Complete missing lab workspaces (see layer → lab mapping in `architecture_assessment.py`) |
+| Pipeline layer MISSING | Finish [Lab 8](../lab8/STEPS.md) through `validate_lab8.py` |
+| `course_compliance_bundle.zip` missing | Run Step 9 (`build_compliance_bundle.py`) |
+| ECR/pipeline checks warn in Step 2 | Normal if Lab 5/8 not finished; complete those labs first |
 
 ---
 

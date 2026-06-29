@@ -68,6 +68,18 @@ def load_buckets():
     return load_json(LAB1_CONFIG / "buckets.json", "buckets.json (Lab 1)")
 
 
+def refresh_banking_iam():
+    """Re-apply Lab 1 IAM inline policies (needed after git pull for Labs 5–10)."""
+    import subprocess
+
+    script = REPO_ROOT / "lab1" / "scripts" / "create_banking_iam_roles.py"
+    if not script.is_file():
+        print("   ⚠️ Missing lab1/scripts/create_banking_iam_roles.py")
+        return 1
+    print("\n▶ Refresh banking IAM roles (Lab 1)...")
+    return subprocess.run([sys.executable, str(script)], check=False).returncode
+
+
 def wait_for_status(describe_fn, status_key, ready_values, timeout_sec=900, poll_sec=30, label="resource"):
     deadline = time.time() + timeout_sec
     while time.time() < deadline:

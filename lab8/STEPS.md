@@ -22,10 +22,11 @@
 cd ~/ai-infra-mlops && git pull
 whoami   # must be ec2-user
 cd ~/ai-infra-mlops/lab7 && python3 scripts/validate_lab7.py
-# If Lab 1 was run before pipeline IAM update, refresh ML Engineer role:
 cd ~/ai-infra-mlops/lab1 && python3 scripts/create_banking_iam_roles.py
 cd ~/ai-infra-mlops/lab8
 ```
+
+> **Always run** `create_banking_iam_roles.py` before Lab 8 — SageMaker pipelines need current S3, KMS, PassRole, and tag permissions on `BankingMLEngineerRole`.
 
 **Expected:** `Prerequisites OK — proceed to Lab 8` from Lab 7 validation.
 
@@ -250,8 +251,9 @@ Prerequisites OK — proceed to Lab 9
 | Lab 7 validation fails | Complete [Lab 7](../lab7/STEPS.md) Steps 1–10 first |
 | `Missing Lab 2 engineered_banking_data.csv` | Run Lab 2 data engineering steps |
 | `AccessDenied` on `CreatePipeline` | Re-run `lab1/scripts/create_banking_iam_roles.py` |
-| Pipeline execution `Failed` | Re-run `lab1/scripts/create_banking_iam_roles.py` (ML Engineer needs full processed + SageMaker bucket S3 access), then `start_pipeline.py` again |
-| `kms:Decrypt` AccessDenied on S3 objects | Re-run `lab1/scripts/create_banking_iam_roles.py` — banking buckets use KMS encryption from Lab 1 |
+| Pipeline execution `Failed` | Run `python3 scripts/start_pipeline.py` again and read the **Step / FailureReason** line. Then `git pull` and re-run `lab1/scripts/create_banking_iam_roles.py` |
+| `not authorized to perform: iam:PassRole` | Re-run `lab1/scripts/create_banking_iam_roles.py` |
+| `sagemaker:AddTags` denied | Re-run `lab1/scripts/create_banking_iam_roles.py` |
 | `Model package not registered` | Run Step 8 after pipeline succeeds; confirm Lab 5 ECR image exists |
 
 ---

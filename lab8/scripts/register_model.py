@@ -68,17 +68,24 @@ def main():
     if staging_note:
         description += f" (staging model: {staging_note})"
 
-    resp = sm.create_model_package(
-        ModelPackageGroupName=GROUP_NAME,
-        ModelPackageDescription=description,
-        InferenceSpecification={
-            "Containers": [{"Image": image_uri}],
-            "SupportedContentTypes": ["application/json"],
-            "SupportedResponseMIMETypes": ["application/json"],
-        },
-        ModelApprovalStatus="PendingManualApproval",
-        CertifyForMarketplace=False,
-    )
+    try:
+        resp = sm.create_model_package(
+            ModelPackageGroupName=GROUP_NAME,
+            ModelPackageDescription=description,
+            InferenceSpecification={
+                "Containers": [{"Image": image_uri}],
+                "SupportedContentTypes": ["application/json"],
+                "SupportedResponseMIMETypes": ["application/json"],
+            },
+            ModelApprovalStatus="PendingManualApproval",
+            CertifyForMarketplace=False,
+        )
+    except ClientError as exc:
+        code = exc.response["Error"]["Code"]
+        print(f"   ❌ Model registry failed: {code} — {exc.response['Error'].get('Message', '')}")
+        if code in ("AccessDenied", "AccessDeniedException"):
+            print("   Re-run: cd ~/ai-infra-mlops/lab1 && python3 scripts/create_banking_iam_roles.py")
+        sys.exit(1)
     package_arn = resp["ModelPackageArn"]
     reg = {
         "model_package_group": GROUP_NAME,

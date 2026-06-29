@@ -58,10 +58,13 @@ def main():
         "source": "aws",
     }
     write_json(CONFIG_DIR / "encryption_audit.json", report)
-    print("🔐 Encryption Audit —", report["status"])
+    print("🔐 Encryption Audit")
+    print("=" * 60)
+    print(f"   Status: {report['status']}")
     for key, val in s3_results.items():
         print(f"   S3 {key}: {val}")
     print(f"   ECR {ECR_REPO}: {ecr_enc}")
+    print("✅ Encryption audit saved")
 
 
 if __name__ == "__main__":

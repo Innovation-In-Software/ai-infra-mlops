@@ -43,6 +43,20 @@ def main():
         banking = [e for e in endpoints if e.startswith("banking-endpoint")]
         manifest["aws"]["sagemaker_endpoints"] = banking
         print(f"   ✅ AWS: {len(banking)} banking endpoint(s)")
+        try:
+            sm.describe_pipeline(PipelineName="banking-ml-pipeline")
+            manifest["aws"]["pipeline"] = {"name": "banking-ml-pipeline", "exists": True}
+            print("   ✅ AWS: SageMaker pipeline banking-ml-pipeline")
+        except Exception:
+            manifest["aws"]["pipeline"] = {"name": "banking-ml-pipeline", "exists": False}
+            print("   ⚠️ AWS: pipeline banking-ml-pipeline not found")
+        try:
+            groups = sm.list_model_package_groups(NameContains="banking-risk-models").get("ModelPackageGroupSummaryList", [])
+            manifest["aws"]["model_registry"] = {"group": "banking-risk-models", "exists": bool(groups)}
+            if groups:
+                print("   ✅ AWS: model registry banking-risk-models")
+        except Exception as exc:
+            manifest["aws"]["model_registry"] = {"exists": False, "error": str(exc)}
     except Exception as exc:
         manifest["aws"]["sagemaker_endpoints"] = []
         print(f"   ⚠️ AWS SageMaker check: {exc}")

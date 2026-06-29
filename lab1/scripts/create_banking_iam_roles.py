@@ -144,11 +144,26 @@ def create_banking_iam_roles():
             {
                 "Effect": "Allow",
                 "Action": [
-                    "kms:GenerateDataKey",
                     "kms:Decrypt",
+                    "kms:Encrypt",
+                    "kms:ReEncrypt*",
+                    "kms:GenerateDataKey",
+                    "kms:GenerateDataKey*",
                     "kms:DescribeKey",
                 ],
                 "Resource": kms_key_arns,
+            }
+        )
+        data_scientist_policy["Statement"].append(
+            {
+                "Effect": "Allow",
+                "Action": "iam:PassRole",
+                "Resource": f"arn:aws:iam::{account_id}:role/BankingDataScientistRole",
+                "Condition": {
+                    "StringEquals": {
+                        "iam:PassedToService": "sagemaker.amazonaws.com",
+                    }
+                },
             }
         )
 
@@ -276,6 +291,7 @@ def create_banking_iam_roles():
                     "sagemaker:ListPipelineExecutions",
                     "sagemaker:ListPipelineExecutionSteps",
                     "sagemaker:StopPipelineExecution",
+                    "sagemaker:InvokeEndpoint",
                     "sagemaker:AddTags",
                     "sagemaker:DeleteTags",
                     "sagemaker:ListTags",
@@ -384,7 +400,11 @@ def create_banking_iam_roles():
         "Statement": [
             {
                 "Effect": "Allow",
-                "Action": ["s3:GetObject", "s3:ListBucket"],
+                "Action": [
+                    "s3:GetObject",
+                    "s3:ListBucket",
+                    "s3:GetBucketLocation",
+                ],
                 "Resource": [
                     f"arn:aws:s3:::{buckets['governance']['name']}",
                     f"arn:aws:s3:::{buckets['governance']['name']}/*",
@@ -392,6 +412,12 @@ def create_banking_iam_roles():
                     f"arn:aws:s3:::{buckets['audit']['name']}/*",
                     f"arn:aws:s3:::{buckets['monitoring']['name']}",
                     f"arn:aws:s3:::{buckets['monitoring']['name']}/*",
+                    f"arn:aws:s3:::{buckets['raw']['name']}",
+                    f"arn:aws:s3:::{buckets['raw']['name']}/*",
+                    f"arn:aws:s3:::{buckets['processed']['name']}",
+                    f"arn:aws:s3:::{buckets['processed']['name']}/*",
+                    f"arn:aws:s3:::{buckets['models']['name']}",
+                    f"arn:aws:s3:::{buckets['models']['name']}/*",
                 ],
             },
             {
@@ -420,6 +446,18 @@ def create_banking_iam_roles():
             },
         ],
     }
+
+    if kms_key_arns:
+        compliance_policy["Statement"].append(
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "kms:Decrypt",
+                    "kms:DescribeKey",
+                ],
+                "Resource": kms_key_arns,
+            }
+        )
 
     try:
         iam.create_role(

@@ -16,9 +16,12 @@
 ```bash
 cd ~/ai-infra-mlops && git pull
 whoami   # must be ec2-user
-cd ~/ai-infra-mlops/lab8 && python3 scripts/validate_lab8.py 2>/dev/null || true
+cd ~/ai-infra-mlops/lab8 && python3 scripts/validate_lab8.py
+cd ~/ai-infra-mlops/lab1 && python3 scripts/create_banking_iam_roles.py
 cd ~/ai-infra-mlops/lab9
 ```
+
+**Expected:** `Prerequisites OK — proceed to Lab 9` from Lab 8 validation.
 
 ---
 
@@ -221,3 +224,14 @@ Prerequisites OK — proceed to Lab 10
 ---
 
 ## Lab 9 complete → [Lab 10](../lab10/STEPS.md)
+
+---
+
+## Troubleshooting
+
+| Issue | Fix |
+|-------|-----|
+| Lab 8 validation fails | Complete [Lab 8](../lab8/STEPS.md) Steps 1–10 first |
+| `AccessDenied` on IAM review | Confirm `iam:GetRole` / `iam:GetRolePolicy` for your EC2 user (PowerUser) |
+| CloudTrail export shows 0 events | Normal if no recent SageMaker API calls; file still validates if `source` is `cloudtrail` |
+| Encryption audit `REVIEW` | Confirm Lab 1 buckets use KMS and Lab 5 ECR repo exists |

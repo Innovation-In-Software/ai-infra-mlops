@@ -18,7 +18,7 @@ All lab commands run on **EC2** (`whoami` = `ec2-user`) in VS Code Remote SSH â€
 | **7** | **CloudWatch** dashboard + alarms, endpoint metrics | Drift CSV analysis (local) |
 | **8** | **SageMaker Pipeline** (Processing step), **Model Registry** | Local pipeline definition mirror |
 | **9** | **IAM** review, S3/ECR encryption audit, **CloudTrail** lookup | Fairness report from Lab 3 |
-| **10** | Artifact collection + live resource checks | Roadmap/checklist reports (local) |
+| **10** | Artifact collection + live resource checks | Roadmap/checklist reports (local) â€” **Module 11 / Enterprise capstone** |
 
 ## Why Lab 3 has two training paths
 
