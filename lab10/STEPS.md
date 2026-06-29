@@ -37,7 +37,7 @@ cd ~/ai-infra-mlops && ls -1 lab10
 
 **Expected output:** `STEPS.md`, `config`, `images`, `requirements.txt`, `scripts`
 
-**Optional screenshot:** `images/step-01-lab10-folder.png`
+![Step 1 — `ls -1 lab10`](images/step-01-lab10-folder.png)
 
 ---
 
@@ -61,7 +61,7 @@ python3 scripts/collect_course_artifacts.py
 ✅ Artifact manifest saved
 ```
 
-**Optional screenshot:** `images/step-02-collect.png`
+![Step 2 — `collect_course_artifacts.py`](images/step-02-collect.png)
 
 ---
 
@@ -86,7 +86,7 @@ python3 scripts/architecture_assessment.py
    Score: 100/100
 ```
 
-**Optional screenshot:** `images/step-03-assessment.png`
+![Step 3 — `architecture_assessment.py`](images/step-03-assessment.png)
 
 ---
 
@@ -106,7 +106,7 @@ python3 scripts/gap_analysis.py
 ✅ Gap report saved
 ```
 
-**Optional screenshot:** `images/step-04-gaps.png`
+![Step 4 — `gap_analysis.py`](images/step-04-gaps.png)
 
 ---
 
@@ -127,7 +127,7 @@ python3 scripts/implementation_roadmap.py
 ✅ Roadmap saved: results/implementation_roadmap.json
 ```
 
-**Optional screenshot:** `images/step-05-roadmap.png`
+![Step 5 — `implementation_roadmap.py`](images/step-05-roadmap.png)
 
 ---
 
@@ -150,7 +150,7 @@ python3 scripts/implementation_checklist.py
    Completed: 18/20 items
 ```
 
-**Optional screenshot:** `images/step-06-checklist.png`
+![Step 6 — `implementation_checklist.py`](images/step-06-checklist.png)
 
 ---
 
@@ -170,7 +170,7 @@ cat ../workspace/lab10/results/executive_summary.md | head -20
 ...
 ```
 
-**Optional screenshot:** `images/step-07-summary.png`
+![Step 7 — `generate_executive_summary.py`](images/step-07-summary.png)
 
 ---
 
@@ -191,7 +191,7 @@ executive_summary.md
 implementation_roadmap.json
 ```
 
-**Optional screenshot:** `images/step-08-bundle.png`
+![Step 8 — `build_compliance_bundle.py`](images/step-08-bundle.png)
 
 ---
 
@@ -209,7 +209,7 @@ Validate Lab 10 — Course Completion
 🎉 COURSE COMPLETE — ai-mlops-2026-jun30
 ```
 
-**Optional screenshot:** `images/step-09-complete.png`
+![Step 9 — `validate_lab10.py`](images/step-09-complete.png)
 
 ---
 
