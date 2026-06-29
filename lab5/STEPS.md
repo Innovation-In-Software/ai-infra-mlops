@@ -229,8 +229,10 @@ On re-run you may see `Repository already exists` instead of `Created` — that 
 **What you do:** Log in to ECR and push `banking-ml-inference:latest`.
 
 ```bash
-bash scripts/push_to_ecr.sh
+python3 scripts/push_to_ecr.py
 ```
+
+Or: `bash scripts/push_to_ecr.sh` (calls the same Python script).
 
 **Expected:**
 
