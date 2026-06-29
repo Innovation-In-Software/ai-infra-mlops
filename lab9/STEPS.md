@@ -35,7 +35,7 @@ cd ~/ai-infra-mlops && ls -1 lab9
 
 **Expected output:** `STEPS.md`, `config`, `images`, `requirements.txt`, `scripts`
 
-**Optional screenshot:** `images/step-01-lab9-folder.png`
+![Step 1 — `ls -1 lab9`](images/step-01-lab9-folder.png)
 
 ---
 
@@ -58,7 +58,7 @@ python3 scripts/load_governance_baseline.py
 ✅ Baseline ready
 ```
 
-**Optional screenshot:** `images/step-02-baseline.png`
+![Step 2 — `load_governance_baseline.py`](images/step-02-baseline.png)
 
 ---
 
@@ -79,7 +79,7 @@ python3 scripts/review_iam_policies.py
 ✅ IAM review report saved
 ```
 
-**Optional screenshot:** `images/step-03-iam.png`
+![Step 3 — `review_iam_policies.py`](images/step-03-iam.png)
 
 ---
 
@@ -100,7 +100,7 @@ python3 scripts/audit_encryption.py
 ✅ Encryption audit PASS
 ```
 
-**Optional screenshot:** `images/step-04-encryption.png`
+![Step 4 — `audit_encryption.py`](images/step-04-encryption.png)
 
 ---
 
@@ -122,7 +122,7 @@ python3 scripts/model_approval_workflow.py
 ✅ Workflow state saved
 ```
 
-**Optional screenshot:** `images/step-05-approval.png`
+![Step 5 — `model_approval_workflow.py`](images/step-05-approval.png)
 
 ---
 
@@ -142,7 +142,7 @@ python3 scripts/generate_explainability.py
 ✅ Explainability complete
 ```
 
-**Optional screenshot:** `images/step-06-explainability.png`
+![Step 6 — `generate_explainability.py`](images/step-06-explainability.png)
 
 ---
 
@@ -163,7 +163,7 @@ python3 scripts/governance_fairness_check.py
 ✅ Fairness governance PASS
 ```
 
-**Optional screenshot:** `images/step-07-fairness.png`
+![Step 7 — `governance_fairness_check.py`](images/step-07-fairness.png)
 
 ---
 
@@ -184,7 +184,7 @@ python3 scripts/export_audit_trail.py
 ✅ Audit export complete
 ```
 
-**Optional screenshot:** `images/step-08-audit.png`
+![Step 8 — `export_audit_trail.py`](images/step-08-audit.png)
 
 ---
 
@@ -201,7 +201,7 @@ python3 scripts/generate_governance_report.py
    Overall status: COMPLIANT
 ```
 
-**Optional screenshot:** `images/step-09-report.png`
+![Step 9 — `generate_governance_report.py`](images/step-09-report.png)
 
 ---
 
@@ -221,7 +221,7 @@ Validate Lab 9
 Prerequisites OK — proceed to Lab 10
 ```
 
-**Optional screenshot:** `images/step-10-validate.png`
+![Step 10 — `validate_lab9.py`](images/step-10-validate.png)
 
 ---
 

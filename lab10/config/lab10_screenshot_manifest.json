@@ -1,0 +1,9 @@
+{
+  "notes": "Add step-pending-*.png mappings after EC2 Lab 10 manual test. Run: python scripts/sync_lab10_screenshots.py",
+  "source_dir": "D:/Current_work/Innovation in Software/MLOps On AWS June 4/screenshots",
+  "canonical": {},
+  "aliases": {},
+  "reuse_from_lab9": {
+    "step-00b-lab9-validate.png": "lab9/images/step-10-validate.png"
+  }
+}

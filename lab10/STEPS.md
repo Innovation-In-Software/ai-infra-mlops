@@ -23,6 +23,8 @@ cd ~/ai-infra-mlops/lab10
 
 **Expected:** `Prerequisites OK — proceed to Lab 10` from Lab 9 validation.
 
+![Lab 9 validation — `python3 scripts/validate_lab9.py`](images/step-00b-lab9-validate.png)
+
 > **Note:** Participant repo ends at **Lab 10** (Enterprise MLOps Architecture). There is no separate `lab11` folder — Module 11 content maps to Lab 10.
 
 ---
