@@ -28,8 +28,20 @@ def ping():
 @app.post("/invocations")
 def invocations():
     payload = request.get_json(force=True)
-    features = payload.get("features", [0.0] * 8)
     model = get_model()
+    n_features = int(model.n_features_in_)
+    features = payload.get("features")
+    if features is None:
+        features = [0.0] * n_features
+    if len(features) != n_features:
+        return (
+            jsonify(
+                {
+                    "error": f"Expected {n_features} features (Lab 3 trained model), got {len(features)}",
+                }
+            ),
+            400,
+        )
     pred = model.predict([features])[0]
     prob = float(model.predict_proba([features])[0].max())
     return jsonify({"prediction": int(pred), "risk_score": prob})

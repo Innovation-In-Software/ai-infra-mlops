@@ -83,3 +83,15 @@ def wait_for_status(describe_fn, status_key, ready_values, timeout_sec=900, poll
         time.sleep(poll_sec)
     print(f"   ❌ Timed out waiting for {label} ({timeout_sec}s)")
     sys.exit(1)
+
+
+def sample_features_for_model(model_path, fill=0.1):
+    """Return a feature vector matching the trained sklearn model width."""
+    import joblib
+
+    model = joblib.load(model_path)
+    n = int(getattr(model, "n_features_in_", 0) or 0)
+    if n <= 0:
+        print(f"   ❌ Cannot determine feature count from {model_path}")
+        sys.exit(1)
+    return [fill] * n

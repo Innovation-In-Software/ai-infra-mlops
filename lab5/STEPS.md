@@ -333,6 +333,7 @@ Prerequisites OK — proceed to Lab 6
 | `Failed to start container` | Run Step 4 first; check `docker images \| grep banking-ml` |
 | `Health check timed out` | Port 8080 may be in use — run `docker rm -f banking-ml-test` and retry |
 | `RemoteDisconnected` on Step 5 | `git pull`, rebuild image (`bash scripts/build_container.sh`), retry Step 5 — first `/ping` waits up to 90s while the model loads |
+| `X has 8 features, but ... expecting 30` | `git pull`, rebuild (`bash scripts/build_container.sh`), retry Step 5 — sample payload must match Lab 3 feature count (30) |
 | `Run create_ecr_repo.py first` | Complete Step 6 before Step 7 |
 | ECR push fails (`no basic auth`) | EC2 instance needs ECR permissions ([Lab 0](../lab0/STEPS.md) IAM role) |
 | `No image banking-ml-inference:latest in ECR` | Complete Step 7 before Step 8 |

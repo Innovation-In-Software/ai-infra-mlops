@@ -9,12 +9,11 @@ import boto3
 from botocore.exceptions import ClientError
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from scripts.course_common import REGION, load_iam_role, wait_for_status, write_json
+from scripts.course_common import REGION, load_iam_role, sample_features_for_model, wait_for_status, write_json
 
-from lab_paths import CONFIG_DIR, ensure_workspace
+from lab_paths import CONFIG_DIR, ensure_workspace, LAB3
 
 INSTANCE_TYPE = "ml.m5.large"
-SAMPLE_FEATURES = [0.12, 0.45, 0.33, 0.08, 0.91, 0.27, 0.55, 0.19]
 
 
 def load_deployment_state():
@@ -217,8 +216,14 @@ def invoke_endpoint(endpoint_name, dry_run=False):
     if dry_run:
         return {"health": "PASS", "latency_ms": 45, "error_rate": 0.0, "dry_run": True}
 
+    model_path = LAB3 / "models" / "best_model.pkl"
+    if not model_path.exists():
+        print(f"   ❌ Missing {model_path} — complete Lab 3 first.")
+        sys.exit(1)
+    features = sample_features_for_model(model_path, fill=0.12)
+
     runtime = boto3.client("sagemaker-runtime", region_name=REGION)
-    payload = json.dumps({"features": SAMPLE_FEATURES})
+    payload = json.dumps({"features": features})
     start = time.time()
     try:
         runtime.invoke_endpoint(

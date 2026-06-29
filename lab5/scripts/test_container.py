@@ -6,8 +6,12 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from pathlib import Path
 
-from lab_paths import VALIDATION_DIR, ensure_workspace
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from scripts.course_common import sample_features_for_model
+
+from lab_paths import MODELS_DIR, VALIDATION_DIR, ensure_workspace
 
 CONTAINER = "banking-ml-test"
 IMAGE = "banking-ml-inference:latest"
@@ -83,9 +87,16 @@ def main():
     if not _wait_for_ping():
         _fail("Health check timed out on /ping — container may have exited or model failed to load")
 
+    model_path = MODELS_DIR / "best_model.pkl"
+    if not model_path.exists():
+        print(f"   ❌ Missing {model_path} — run Step 3 (prepare_artifacts.py) first.")
+        sys.exit(1)
+    sample = sample_features_for_model(model_path)
+    print(f"   ... sample inference with {len(sample)} features (matches Lab 3 model)")
+
     req = urllib.request.Request(
         INVOKE_URL,
-        data=json.dumps({"features": [0.1] * 8}).encode(),
+        data=json.dumps({"features": sample}).encode(),
         headers={"Content-Type": "application/json"},
         method="POST",
     )
