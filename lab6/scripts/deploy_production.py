@@ -14,7 +14,7 @@ def main():
     ensure_workspace()
 
     state = load_deployment_state()
-    suffix = datetime.now(timezone.utc).strftime("%Y%m%d")
+    suffix = datetime.now(timezone.utc).strftime("%Y%m%d%H%M")
     endpoint_name = f"{state['endpoint_prefix']}-{suffix}"
     endpoint_config_name = f"banking-epcfg-prod-{suffix}"
     blue_model = f"{state['blue_model_name']}-{suffix}"

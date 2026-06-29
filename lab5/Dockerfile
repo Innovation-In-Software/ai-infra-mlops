@@ -8,8 +8,10 @@ RUN pip install --no-cache-dir \
     "pandas>=2.0"
 COPY workspace/lab5/models/best_model.pkl /app/model.pkl
 COPY lab5/src/serve.py /app/serve.py
-RUN chmod a+r /app/model.pkl /app/serve.py
+COPY lab5/src/serve /usr/local/bin/serve
+RUN chmod a+r /app/model.pkl /app/serve.py && chmod a+x /usr/local/bin/serve
 ENV PYTHONUNBUFFERED=1
+ENV SAGEMAKER_BIND_TO_PORT=8080
 USER 1000
 EXPOSE 8080
-CMD ["python", "serve.py"]
+CMD ["serve"]

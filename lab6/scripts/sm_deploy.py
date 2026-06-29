@@ -25,12 +25,35 @@ def load_deployment_state():
         return json.load(f)
 
 
-def _endpoint_in_service(sm, endpoint_name):
+def _endpoint_status(sm, endpoint_name):
     try:
-        resp = sm.describe_endpoint(EndpointName=endpoint_name)
-        return resp.get("EndpointStatus") == "InService", resp
+        return sm.describe_endpoint(EndpointName=endpoint_name)
     except ClientError:
-        return False, None
+        return None
+
+
+def _wait_endpoint_deleted(sm, endpoint_name, timeout_sec=600):
+    deadline = time.time() + timeout_sec
+    while time.time() < deadline:
+        if _endpoint_status(sm, endpoint_name) is None:
+            return
+        print(f"   ... waiting for endpoint delete: {endpoint_name}")
+        time.sleep(15)
+    print(f"   ❌ Timed out deleting endpoint {endpoint_name}")
+    sys.exit(1)
+
+
+def _cleanup_failed_endpoint(sm, endpoint_name):
+    resp = _endpoint_status(sm, endpoint_name)
+    if not resp:
+        return
+    status = resp.get("EndpointStatus")
+    if status == "InService":
+        return
+    if status in ("Failed", "OutOfService"):
+        print(f"   ... removing endpoint in {status} state: {endpoint_name}")
+        sm.delete_endpoint(EndpointName=endpoint_name)
+        _wait_endpoint_deleted(sm, endpoint_name)
 
 
 def create_single_variant_endpoint(
@@ -53,8 +76,9 @@ def create_single_variant_endpoint(
             "dry_run": True,
         }
 
-    in_service, existing = _endpoint_in_service(boto3.client("sagemaker", region_name=REGION), endpoint_name)
-    if in_service:
+    sm = boto3.client("sagemaker", region_name=REGION)
+    existing = _endpoint_status(sm, endpoint_name)
+    if existing and existing.get("EndpointStatus") == "InService":
         print(f"   ✅ Endpoint already InService: {endpoint_name}")
         return {
             "endpoint": endpoint_name,
@@ -63,8 +87,9 @@ def create_single_variant_endpoint(
             "reused": True,
         }
 
+    _cleanup_failed_endpoint(sm, endpoint_name)
+
     role_arn = load_iam_role("ml_engineer")
-    sm = boto3.client("sagemaker", region_name=REGION)
 
     try:
         sm.describe_model(ModelName=model_name)
@@ -140,8 +165,8 @@ def create_blue_green_endpoint(
         }
 
     sm = boto3.client("sagemaker", region_name=REGION)
-    in_service, existing = _endpoint_in_service(sm, endpoint_name)
-    if in_service:
+    existing = _endpoint_status(sm, endpoint_name)
+    if existing and existing.get("EndpointStatus") == "InService":
         print(f"   ✅ Production endpoint already InService: {endpoint_name}")
         return {
             "endpoint": endpoint_name,
@@ -150,6 +175,8 @@ def create_blue_green_endpoint(
             "variants": ["banking-model-blue", "banking-model-green"],
             "reused": True,
         }
+
+    _cleanup_failed_endpoint(sm, endpoint_name)
 
     role_arn = load_iam_role("ml_engineer")
     for model_name in (blue_model_name, green_model_name):

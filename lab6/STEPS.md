@@ -27,6 +27,14 @@ cd ~/ai-infra-mlops/lab6
 
 **Expected:** `Prerequisites OK — proceed to Lab 6` from Lab 5 validation.
 
+> **Important:** SageMaker starts your ECR image with `docker run <image> serve`. If you pulled a Lab 5 fix after your first ECR push, rebuild and push before deploying:
+>
+> ```bash
+> cd ~/ai-infra-mlops/lab5
+> bash scripts/build_container.sh
+> python3 scripts/push_to_ecr.py
+> ```
+
 > **Time:** Staging + production SageMaker endpoints each take **~5–10 minutes** (`ml.m5.large`). Plan ~45 minutes for Lab 6 if you run every step.
 
 ---
@@ -272,6 +280,7 @@ Prerequisites OK — proceed to Lab 7
 | `ResourceLimitExceeded` / instance quota | Check Service Quotas → SageMaker → endpoint instances; try later or ask instructor |
 | `Could not access model` / ECR pull error | Confirm image exists in ECR (`Lab 5` Step 7) and `BankingMLEngineerRole` has ECR read |
 | Traffic shift fails | Run Step 6 first; production endpoint must be `InService` |
+| `CannotStartContainerError` / `docker run <image> serve` | Rebuild Lab 5 image (`bash scripts/build_container.sh`), `python3 scripts/push_to_ecr.py`, then re-run `deploy_staging.py` |
 
 ---
 

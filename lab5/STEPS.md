@@ -364,3 +364,11 @@ Then re-run **Steps 3–10**. Lab 3 artifacts are unchanged.
 ---
 
 ## Lab 5 complete → [Lab 6](../lab6/STEPS.md)
+
+> **Before Lab 6:** SageMaker runs `docker run <image> serve`. After `git pull`, rebuild and re-push the image:
+>
+> ```bash
+> cd ~/ai-infra-mlops/lab5
+> bash scripts/build_container.sh
+> python3 scripts/push_to_ecr.py
+> ```

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# SageMaker hosting invokes: docker run <image> serve
+set -euo pipefail
+cd /app
+exec python serve.py
