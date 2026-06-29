@@ -21,11 +21,15 @@ def create_banking_iam_roles():
     with open(CONFIG_DIR / "buckets.json", "r", encoding="utf-8") as f:
         buckets = json.load(f)
 
-    kms_key_arn = None
+    kms_key_arns = []
     kms_path = CONFIG_DIR / "kms_keys.json"
     if kms_path.exists():
         with open(kms_path, "r", encoding="utf-8") as f:
-            kms_key_arn = json.load(f).get("s3_key_arn")
+            kms_data = json.load(f)
+        for field in ("s3_key_arn", "sm_key_arn"):
+            arn = kms_data.get(field)
+            if arn and arn not in kms_key_arns:
+                kms_key_arns.append(arn)
 
     print("\n📋 Creating Data Scientist Role...")
 
@@ -135,7 +139,7 @@ def create_banking_iam_roles():
         ],
     }
 
-    if kms_key_arn:
+    if kms_key_arns:
         data_scientist_policy["Statement"].append(
             {
                 "Effect": "Allow",
@@ -144,7 +148,7 @@ def create_banking_iam_roles():
                     "kms:Decrypt",
                     "kms:DescribeKey",
                 ],
-                "Resource": kms_key_arn,
+                "Resource": kms_key_arns,
             }
         )
 
@@ -322,6 +326,22 @@ def create_banking_iam_roles():
             },
         ],
     }
+
+    if kms_key_arns:
+        ml_engineer_policy["Statement"].append(
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "kms:Decrypt",
+                    "kms:Encrypt",
+                    "kms:ReEncrypt*",
+                    "kms:GenerateDataKey",
+                    "kms:GenerateDataKey*",
+                    "kms:DescribeKey",
+                ],
+                "Resource": kms_key_arns,
+            }
+        )
 
     try:
         iam.create_role(
