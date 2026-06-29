@@ -37,7 +37,7 @@ def main():
                 "properties": {
                     "metrics": [
                         ["AWS/SageMaker", "Invocations", "EndpointName", endpoint, "VariantName", "staging"],
-                        ["...", "...", "...", endpoint, "...", "banking-model-blue"],
+                        ["AWS/SageMaker", "Invocations", "EndpointName", endpoint, "VariantName", "banking-model-blue"],
                     ],
                     "view": "timeSeries",
                     "stacked": False,
