@@ -1,15 +1,18 @@
 {
-  "notes": "EC2 Lab 5 run Jun 29 — step-pending-119–124. Re-run Step 5 after pull for test_container fix.",
+  "notes": "EC2 Lab 5 success run Jun 29 — step-pending-119–135. Steps 8–10 use STEPS expected text until re-captured.",
   "source_dir": "D:/Current_work/Innovation in Software/MLOps On AWS June 4/screenshots",
   "canonical": {
     "step-pending-119.png": "step-00a-git-pull.png",
     "step-pending-120.png": "step-00b-lab4-validate.png",
     "step-pending-121.png": "step-01-lab5-folder.png",
-    "step-pending-122.png": "step-03-artifacts.png",
-    "step-pending-124.png": "step-04-build.png"
+    "step-pending-122.png": "step-02-docker.png",
+    "step-pending-128.png": "step-04-build.png",
+    "step-pending-129.png": "step-05-test.png",
+    "step-pending-132.png": "step-06-ecr.png",
+    "step-pending-135.png": "step-07-push.png"
   },
   "aliases": {
-    "step-02-docker.png": "step-03-artifacts.png"
+    "step-03-artifacts.png": "step-02-docker.png"
   },
   "reuse_from_lab4": {}
 }

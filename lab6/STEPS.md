@@ -21,13 +21,13 @@
 ```bash
 cd ~/ai-infra-mlops && git pull
 whoami   # must be ec2-user
-cd ~/ai-infra-mlops/lab5 && python3 scripts/validate_lab5.py 2>/dev/null || true
-cd ~/ai-infra-mlops/lab4 && python3 scripts/validate_lab4.py
-docker ps
-cd ~/ai-infra-mlops/lab5
+cd ~/ai-infra-mlops/lab5 && python3 scripts/validate_lab5.py
+cd ~/ai-infra-mlops/lab6
 ```
 
-**Expected:** Lab 4 OK; Docker header row (empty list OK).
+**Expected:** `Prerequisites OK — proceed to Lab 6` from Lab 5 validation.
+
+> **Time:** Staging + production SageMaker endpoints each take **~5–10 minutes** (`ml.m5.large`). Plan ~45 minutes for Lab 6 if you run every step.
 
 ---
 
@@ -69,14 +69,10 @@ cat ../workspace/lab6/config/deployment_state.json | head -15
 ```text
 Preparing deployment configuration
 ============================================================
-   ✅ Model URI resolved from Lab 3 best_model.pkl
-   ✅ IAM roles loaded from Lab 1 (via workspace)
+   ✅ Model artifact found in Lab 3 workspace
+   ✅ IAM role: arn:aws:iam::<account-id>:role/BankingMLEngineerRole
+   ✅ Image URI: <account-id>.dkr.ecr.us-west-2.amazonaws.com/banking-ml-inference:latest
 ✅ Deployment state ready
-{
-  "model_uri": "s3://bank-mlops-...",
-  "image_uri": "...dkr.ecr.us-west-2.amazonaws.com/banking-ml-inference:latest",
-  ...
-}
 ```
 
 **Screenshot (optional):** `images/step-02-prepare.png`
@@ -116,6 +112,9 @@ python3 scripts/deploy_staging.py
 **Expected result:**
 
 ```text
+   ✅ Creating endpoint: banking-endpoint-staging-YYYYMMDD (typically 5–10 min)
+   ... endpoint banking-endpoint-staging-YYYYMMDD status: Creating
+   ... endpoint banking-endpoint-staging-YYYYMMDD status: InService
    ✅ Staging endpoint: banking-endpoint-staging-YYYYMMDD
 ✅ Staging deployment complete
 ```
@@ -137,8 +136,10 @@ python3 scripts/test_deployment.py --environment staging
 ```text
 🧪 Endpoint Tests (staging)
 ============================================================
+   ... waiting for /ping (model load may take up to 60s)
+   ... sample inference with 30 features (matches Lab 3 model)
    ✅ Health: PASS
-   ✅ Sample transaction latency: 45ms
+   ✅ Sample transaction latency: <N>ms
    ✅ Error rate: 0%
 ✅ Staging tests passed
 ```
@@ -158,7 +159,9 @@ python3 scripts/deploy_production.py
 **Expected result:**
 
 ```text
-✅ Production endpoint configured
+   ✅ Creating production endpoint: banking-endpoint-prod-YYYYMMDD
+   ... endpoint status: InService
+   ✅ Production endpoint: banking-endpoint-prod-YYYYMMDD
 ✅ Production deployment complete
 ```
 
@@ -194,7 +197,7 @@ python3 scripts/shift_traffic.py --steps 90,50,0
 **Do this:**
 
 ```bash
-python3 scripts/rollback.py --endpoint-name banking-endpoint-prod-demo
+python3 scripts/rollback.py
 ```
 
 **Expected result:**
@@ -224,7 +227,7 @@ python3 scripts/generate_deployment_report.py
 ```text
 ✅ Deployment report: config/deployment_report.json
    Status: COMPLIANT
-   Zero-downtime: verified (simulation)
+   Zero-downtime staging+prod: True
 ```
 
 **Screenshot (optional):** `images/step-09-report.png`
@@ -246,11 +249,29 @@ Validate Lab 6
 ============================================================
    ✅ config: deployment_state.json
    ✅ config: blue_green_plan.json
+   ✅ config: staging_deployment.json
+   ✅ config: test_staging.json
+   ✅ config: production_deployment.json
    ✅ config: deployment_report.json
+
+============================================================
 Prerequisites OK — proceed to Lab 7
 ```
 
 **Screenshot (optional):** `images/step-10-validate.png`
+
+---
+
+## Troubleshooting
+
+| Issue | Fix |
+|-------|-----|
+| Lab 5 validation fails | Complete [Lab 5](../lab5/STEPS.md) Steps 1–10 first |
+| `Missing Lab 5 ecr_config.json` | Run Lab 5 Steps 6–7 (ECR create + push) |
+| Endpoint `Creating` for many minutes | Normal for `ml.m5.large` — wait up to 15 min |
+| `ResourceLimitExceeded` / instance quota | Check Service Quotas → SageMaker → endpoint instances; try later or ask instructor |
+| `Could not access model` / ECR pull error | Confirm image exists in ECR (`Lab 5` Step 7) and `BankingMLEngineerRole` has ECR read |
+| Traffic shift fails | Run Step 6 first; production endpoint must be `InService` |
 
 ---
 

@@ -244,7 +244,7 @@ Or: `bash scripts/push_to_ecr.sh` (calls the same Python script).
 
 Replace `<account-id>` with your 12-digit AWS account ID.
 
-![Step 7 — `bash scripts/push_to_ecr.sh`](images/step-07-push.png)
+![Step 7 — `python3 scripts/push_to_ecr.py`](images/step-07-push.png)
 
 ---
 

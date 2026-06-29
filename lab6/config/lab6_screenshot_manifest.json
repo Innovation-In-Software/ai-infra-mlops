@@ -1,0 +1,7 @@
+{
+  "notes": "Add step-pending-*.png mappings after EC2 Lab 6 manual test. Run: python scripts/sync_lab6_screenshots.py",
+  "source_dir": "D:/Current_work/Innovation in Software/MLOps On AWS June 4/screenshots",
+  "canonical": {},
+  "aliases": {},
+  "reuse_from_lab5": {}
+}
