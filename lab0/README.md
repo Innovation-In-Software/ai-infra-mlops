@@ -38,13 +38,57 @@ Nothing in Lab 0 creates banking AWS resources. It only validates your environme
 
 ---
 
-## Lab flow
+## Lab flowchart
 
+```mermaid
+flowchart TB
+    subgraph P1["Phase 1 — Training portal & VM"]
+        direction TB
+        S1[Sign in to ProTech portal] --> S2[RDP to training VM]
+        S2 --> S3[Open browser on VM]
+    end
+
+    subgraph P2["Phase 2 — AWS Console us-west-2"]
+        direction TB
+        A1[AWS instructor sign-in] --> A2[Set region Oregon]
+        A2 --> A3[EC2: create key pair]
+        A3 --> A4[EC2: security group + SSH]
+        A4 --> A5[Launch t3.large instance]
+        A5 --> A6[Copy public IP address]
+    end
+
+    subgraph P3["Phase 3 — VS Code on EC2"]
+        direction TB
+        V1[Install VS Code + Remote SSH] --> V2[SSH config → EC2]
+        V2 --> V3[Open folder ai-infra-mlops]
+    end
+
+    subgraph P4["Phase 4 — Tools on EC2 terminal"]
+        direction TB
+        T1[git clone repo] --> T2[aws configure]
+        T2 --> T3[Python 3.11 + pip install]
+        T3 --> T4[test_imports.py]
+        T4 --> T5[Install Docker]
+        T5 --> T6[setup_classroom_env.sh]
+        T6 --> T7[setup_lab_directories.py]
+    end
+
+    subgraph P5["Phase 5 — Verify"]
+        direction TB
+        R1[run_lab0_setup.py] --> R2[verify_environment.py]
+        R2 --> R3{9/9 checks?}
+        R3 -->|Yes| OK([✅ Proceed to Lab 1])
+        R3 -->|No| FIX[Fix failed check → re-run]
+        FIX --> R2
+    end
+
+    P1 --> P2 --> P3 --> P4 --> P5
+
+    style OK fill:#2d6a4f,color:#fff
+    style R3 fill:#e9c46a,color:#000
 ```
-Portal / RDP → AWS EC2 launch → VS Code SSH → clone repo
-    → Python 3.11 + pip → Docker → classroom env vars
-    → workspace directories → verify 9/9 checks → Lab 1
-```
+
+## Lab flow
 
 | Phase | What happens |
 |-------|----------------|

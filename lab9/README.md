@@ -39,20 +39,51 @@ Lab 9 implements the **governance layer**: IAM policy review, encryption audit, 
 
 ---
 
-## Lab flow
+## Lab flowchart
 
+```mermaid
+flowchart TB
+    START([Lab 8 complete]) --> V8[validate_lab8.py]
+    V8 --> IAM[create_banking_iam_roles.py]
+
+    subgraph Baseline["Step 2 — Baseline"]
+        BL[load_governance_baseline.py<br/>Lab 1 IAM · Lab 8 registry · CloudTrail]
+    end
+
+    subgraph Security["Steps 3–4 — Security audit"]
+        IR[review_iam_policies.py<br/>3 roles COMPLIANT]
+        EN[audit_encryption.py<br/>S3 · ECR · KMS PASS]
+        IR --> EN
+    end
+
+    subgraph ModelGov["Steps 5–7 — Model governance"]
+        AP[model_approval_workflow.py]
+        EX[generate_explainability.py<br/>SHAP top features]
+        FA[governance_fairness_check.py<br/>disparate impact ≥ 0.80]
+        AP --> EX --> FA
+    end
+
+    subgraph Audit["Steps 8–9 — Audit & report"]
+        AU[export_audit_trail.py<br/>CloudTrail sample]
+        GR[generate_governance_report.py<br/>COMPLIANT]
+        AU --> GR
+    end
+
+    VAL[validate_lab9.py] --> OK([✅ Lab 10])
+
+    IAM --> BL --> IR
+    EN --> AP
+    FA --> AU --> GR --> VAL
+
+    BL -.->|model_registry.json| L8[(Lab 8)]
+    AU -.->|governance_audit_export.json| CT[(CloudTrail)]
+
+    style OK fill:#2d6a4f,color:#fff
+    style GR fill:#2d6a4f,color:#fff
+    style FA fill:#457b9d,color:#fff
 ```
-validate_lab8.py → create_banking_iam_roles.py
-    → load_governance_baseline.py
-    → review_iam_policies.py
-    → audit_encryption.py
-    → model_approval_workflow.py
-    → generate_explainability.py
-    → governance_fairness_check.py
-    → export_audit_trail.py
-    → generate_governance_report.py
-    → validate_lab9.py
-```
+
+## Lab flow
 
 | Step | Script | Purpose |
 |------|--------|---------|

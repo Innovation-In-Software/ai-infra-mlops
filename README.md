@@ -43,7 +43,7 @@ cd lab0    # then lab1, lab2, … lab10
 | **10** | Enterprise architecture capstone | [STEPS](lab10/STEPS.md) · [README](lab10/README.md) |
 
 - **`STEPS.md`** — commands, expected output, and screenshots (follow this in class).
-- **`README.md`** — lab flow, script reference, and workspace outputs (study / instructor notes).
+- **`README.md`** — lab flow, **Mermaid flowchart**, script reference, and workspace outputs (study / instructor notes).
 
 **Classroom defaults (Lab 2):** `export LAB_NUM_RECORDS=1000` and `export LAB_USE_COMPREHEND=0`
 

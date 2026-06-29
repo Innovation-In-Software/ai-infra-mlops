@@ -35,20 +35,45 @@ Lab 7 adds **operational observability** for deployed banking models: CloudWatch
 
 ---
 
-## Lab flow
+## Lab flowchart
 
+```mermaid
+flowchart TB
+    START([Lab 6 endpoint InService]) --> PREP[prepare_monitoring_data.py<br/>baseline + current CSV]
+
+    subgraph Observe["Steps 3–4 — Dashboards & monitor"]
+        CW[setup_cloudwatch_dashboard.py<br/>Banking-MLOps-Model-Monitor]
+        MM[setup_model_monitor.py<br/>Model Monitor baseline]
+        CW --> MM
+    end
+
+    subgraph Metrics["Steps 5–6 — Drift & quality"]
+        DR[monitor_data_drift.py]
+        MQ[monitor_model_quality.py<br/>latency + errors from CloudWatch]
+        DR --> MQ
+    end
+
+    subgraph Alert["Steps 7–8 — Alarms & incident"]
+        AL[setup_alarms.py<br/>latency + error rate]
+        INC[simulate_incident.py<br/>incident drill log]
+        AL --> INC
+    end
+
+    REP[generate_monitoring_report.py] --> VAL[validate_lab7.py] --> OK([✅ Lab 8])
+
+    PREP --> CW
+    MM --> DR
+    MQ --> AL
+    INC --> REP
+
+    CW -.-> AWS[(CloudWatch)]
+    AL -.-> SNS[(SNS alerts — optional)]
+
+    style OK fill:#2d6a4f,color:#fff
+    style INC fill:#e76f51,color:#fff
 ```
-validate_lab6.py
-    → prepare_monitoring_data.py
-    → setup_cloudwatch_dashboard.py
-    → setup_model_monitor.py
-    → monitor_data_drift.py
-    → monitor_model_quality.py
-    → setup_alarms.py
-    → simulate_incident.py
-    → generate_monitoring_report.py
-    → validate_lab7.py
-```
+
+## Lab flow
 
 | Step | Script | Purpose |
 |------|--------|---------|

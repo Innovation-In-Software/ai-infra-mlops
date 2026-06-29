@@ -40,17 +40,53 @@ This lab writes configuration JSON files to `workspace/lab1/config/` and creates
 
 ---
 
-## Lab flow
+## Lab flowchart
 
+```mermaid
+flowchart TB
+    START([Lab 0 complete 9/9]) --> ID[aws sts get-caller-identity]
+
+    subgraph Encrypt["Step 4 — Encryption"]
+        KMS[create_kms_keys.py<br/>S3 + SageMaker KMS keys]
+    end
+
+    subgraph Storage["Step 5 — Storage"]
+        S3[create_banking_buckets.py<br/>6 banking buckets]
+    end
+
+    subgraph Access["Step 6 — Access control"]
+        IAM[create_banking_iam_roles.py<br/>3 banking IAM roles]
+    end
+
+    subgraph MLPlatform["Step 7 — ML platform"]
+        SM[create_sagemaker_studio.py<br/>Studio domain ⏱ up to 15 min]
+    end
+
+    subgraph Audit["Step 8 — Audit"]
+        CT[enable_audit_logging.py<br/>CloudTrail + CloudWatch dashboard]
+    end
+
+    subgraph Validate["Step 9 — Validate"]
+        VAL[validate_environment.py]
+        GATE{13/13 COMPLIANT?}
+    end
+
+    ID --> KMS --> S3 --> IAM --> SM --> CT --> VAL --> GATE
+    GATE -->|Yes| OK([✅ Lab 2])
+    GATE -->|No| FIX[Review compliance_report.json]
+    FIX --> VAL
+
+    KMS -.->|kms_keys.json| WS[(workspace/lab1/config/)]
+    S3 -.->|buckets.json| WS
+    IAM -.->|iam_roles.json| WS
+    SM -.->|sagemaker_studio.json| WS
+
+    style OK fill:#2d6a4f,color:#fff
+    style SM fill:#457b9d,color:#fff
+    style GATE fill:#e9c46a,color:#000
 ```
-Verify AWS identity
-    → KMS keys (encryption at rest)
-    → S3 buckets (6 banking buckets, KMS-encrypted)
-    → IAM roles (Data Scientist, ML Engineer, Compliance Officer)
-    → SageMaker Studio domain
-    → CloudTrail + CloudWatch audit dashboard
-    → validate_environment.py (13 checks)
-```
+
+## Lab flow
 
 | Step | Script | AWS resources |
 |------|--------|---------------|

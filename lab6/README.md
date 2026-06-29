@@ -39,20 +39,43 @@ All deployment scripts use live AWS APIs — no simulation.
 
 ---
 
-## Lab flow
+## Lab flowchart
 
+```mermaid
+flowchart TB
+    START([Lab 5 ECR image ready]) --> PREP[prepare_deployment.py<br/>link Labs 1 · 3 · 5]
+    PREP --> BG[configure_blue_green.py<br/>blue + green plan]
+
+    subgraph Staging["Steps 4–5 — Staging"]
+        DS[deploy_staging.py<br/>banking-endpoint-staging-*]
+        TS[test_deployment.py --environment staging]
+        DS --> TS
+    end
+
+    subgraph Production["Step 6 — Production blue-green"]
+        DP[deploy_production.py<br/>2 variants on one endpoint]
+    end
+
+    subgraph Traffic["Steps 7–8 — Traffic & rollback"]
+        SH[shift_traffic.py<br/>90% → 50% → 0% green]
+        RB[rollback.py<br/>100% blue emergency drill]
+        SH --> RB
+    end
+
+    REP[generate_deployment_report.py] --> VAL[validate_lab6.py] --> OK([✅ Lab 7])
+
+    BG --> DS
+    TS --> DP --> SH --> REP
+
+    DP -.->|production_deployment.json| EP[(SageMaker endpoints)]
+    TS -.->|invoke_endpoint| EP
+
+    style OK fill:#2d6a4f,color:#fff
+    style DP fill:#457b9d,color:#fff
+    style RB fill:#e76f51,color:#fff
 ```
-validate_lab5.py
-    → prepare_deployment.py (resolve ECR, model, buckets)
-    → configure_blue_green.py
-    → deploy_staging.py
-    → test_deployment.py --environment staging
-    → deploy_production.py (blue + green variants)
-    → shift_traffic.py --steps 90,50,0
-    → rollback.py (100% blue)
-    → generate_deployment_report.py
-    → validate_lab6.py
-```
+
+## Lab flow
 
 | Step | Script | Purpose |
 |------|--------|---------|

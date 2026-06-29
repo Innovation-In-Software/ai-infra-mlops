@@ -37,19 +37,48 @@ Depends on Lab 1 S3 buckets and IAM roles (`workspace/lab1/config/`).
 
 ---
 
-## Lab flow
+## Lab flowchart
 
+```mermaid
+flowchart TB
+    START([Lab 1 passed 13/13]) --> PRE[validate_lab2.py<br/>check Lab 1 prereqs]
+
+    subgraph Ingest["Steps 4–5 — Data & privacy"]
+        D1[download_banking_data.py<br/>customers + transactions CSV]
+        D2[pii_detection_anonymization.py<br/>detect PII → anonymize]
+        D1 --> D2
+    end
+
+    subgraph Quality["Steps 6–7 — Quality & features"]
+        Q1[data_validation.py<br/>schema + quality reports]
+        Q2[feature_engineering.py<br/>engineered_banking_data.csv]
+        Q1 --> Q2
+    end
+
+    subgraph FeatureStore["Step 8 — AWS Feature Store"]
+        FS[feature_store_setup.py<br/>2 feature groups ⏱ ~10 min]
+    end
+
+    subgraph Monitor["Steps 9–11 — Drift & compliance"]
+        DR[data_drift_detection.py<br/>baseline snapshot]
+        DOC[generate_compliance_doc.py]
+        FIN[validate_lab2.py]
+        DR --> DOC --> FIN
+    end
+
+    PRE --> D1
+    D2 --> Q1
+    Q2 --> FS --> DR
+    FIN --> OK([✅ Lab 3])
+
+    D2 -.->|pii_report.json| S3Gov[(S3 governance bucket)]
+    FS -.->|feature_store_config.json| AWS[(SageMaker Feature Store)]
+
+    style OK fill:#2d6a4f,color:#fff
+    style FS fill:#457b9d,color:#fff
 ```
-validate_lab2.py (Lab 1 prereqs)
-    → generate synthetic banking data
-    → PII detection & anonymization
-    → data quality validation
-    → feature engineering + preprocessor
-    → SageMaker Feature Store (2 feature groups)
-    → drift baseline
-    → compliance documentation
-    → validate_lab2.py (final)
-```
+
+## Lab flow
 
 | Step | Script | Purpose |
 |------|--------|---------|

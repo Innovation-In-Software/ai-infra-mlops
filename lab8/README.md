@@ -38,19 +38,47 @@ Lab 8 automates the ML workflow with a **real SageMaker Pipeline** (`banking-ml-
 
 ---
 
-## Lab flow
+## Lab flowchart
 
+```mermaid
+flowchart TB
+    START([Lab 7 complete]) --> V7[validate_lab7.py]
+    V7 --> IAM[create_banking_iam_roles.py<br/>refresh IAM / KMS / PassRole]
+
+    subgraph Define["Steps 3–4 — Define pipeline"]
+        P1[define_pipeline_params.py<br/>params + upload CSV to S3]
+        P2[build_pipeline.py<br/>pipeline_definition.json]
+        P1 --> P2
+    end
+
+    subgraph AWS["Steps 5–7 — SageMaker Pipeline"]
+        UP[upsert_pipeline.py<br/>banking-ml-pipeline]
+        ST[start_pipeline.py<br/>execute + wait]
+        MO[monitor_pipeline.py<br/>step status]
+        UP --> ST --> MO
+    end
+
+    subgraph Registry["Steps 8–9 — Registry & report"]
+        REG[register_model.py<br/>banking-risk-models]
+        REP[generate_pipeline_report.py]
+        REG --> REP
+    end
+
+    VAL[validate_lab8.py] --> OK([✅ Lab 9])
+
+    IAM --> P1
+    P2 --> UP
+    MO --> REG --> REP --> VAL
+
+    UP -.->|validate_data.py| PROC[(ProcessingStep)]
+    ST -.->|pipeline_execution.json| WS[(workspace/lab8/config/)]
+
+    style OK fill:#2d6a4f,color:#fff
+    style ST fill:#457b9d,color:#fff
+    style IAM fill:#e9c46a,color:#000
 ```
-validate_lab7.py → create_banking_iam_roles.py
-    → define_pipeline_params.py (params + S3 data upload)
-    → build_pipeline.py
-    → upsert_pipeline.py (register pipeline in SageMaker)
-    → start_pipeline.py (execute)
-    → monitor_pipeline.py
-    → register_model.py (Model Registry)
-    → generate_pipeline_report.py
-    → validate_lab8.py
-```
+
+## Lab flow
 
 | Step | Script | Purpose |
 |------|--------|---------|

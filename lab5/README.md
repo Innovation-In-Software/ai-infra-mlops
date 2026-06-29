@@ -37,19 +37,43 @@ Requires Docker (installed in Lab 0 Step 19).
 
 ---
 
-## Lab flow
+## Lab flowchart
 
+```mermaid
+flowchart TB
+    START([Lab 4 complete]) --> DOCK{docker ps OK?}
+    DOCK -->|No| FIX[Install/start Docker]
+    FIX --> DOCK
+    DOCK -->|Yes| PREP[prepare_artifacts.py<br/>model from Lab 3]
+
+    subgraph Build["Steps 4–5 — Build & test locally"]
+        BLD[build_container.sh<br/>banking-ml-inference:latest]
+        TST[test_container.py<br/>/ping + /invocations]
+        BLD --> TST
+    end
+
+    subgraph ECR["Steps 6–8 — AWS registry & scan"]
+        CRE[create_ecr_repo.py]
+        PUSH[push_to_ecr.py]
+        SCAN[scan_container.py<br/>vulnerability findings]
+        CRE --> PUSH --> SCAN
+    end
+
+    REP[generate_container_report.py] --> VAL[validate_lab5.py] --> OK([✅ Lab 6])
+
+    PREP --> BLD
+    TST --> CRE
+    SCAN --> REP
+
+    PUSH -.->|image URI| AWS[(Amazon ECR)]
+    TST -.->|container_test.json| WS[(workspace/lab5/)]
+
+    style OK fill:#2d6a4f,color:#fff
+    style DOCK fill:#e9c46a,color:#000
+    style SCAN fill:#457b9d,color:#fff
 ```
-validate_lab4.py → verify Docker
-    → prepare_artifacts.py
-    → build_container.sh (Dockerfile)
-    → test_container.py (/ping, /invocations)
-    → create_ecr_repo.py
-    → push_to_ecr.py
-    → scan_container.py (ECR image scan)
-    → generate_container_report.py
-    → validate_lab5.py
-```
+
+## Lab flow
 
 | Step | Script | Purpose |
 |------|--------|---------|

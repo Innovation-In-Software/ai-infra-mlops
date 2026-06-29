@@ -40,23 +40,63 @@ Completing this lab with `validate_lab10.py` prints **COURSE COMPLETE**.
 
 ---
 
+## Lab flowchart
+
+```mermaid
+flowchart TB
+    START([Lab 9 complete]) --> V9[validate_lab9.py]
+
+    subgraph Collect["Step 2 — Inventory"]
+        COL[collect_course_artifacts.py<br/>Labs 1–9 workspaces + AWS checks]
+    end
+
+    subgraph Assess["Step 3 — Architecture score"]
+        ARC[architecture_assessment.py]
+        L1[security · Lab 1]
+        L2[data · Lab 2]
+        L3[training · Lab 3]
+        L8[pipeline · Lab 8]
+        L6[deployment · Lab 6]
+        L7[monitoring · Lab 7]
+        L9[gov · Lab 9]
+        ARC --> L1 & L2 & L3 & L8 & L6 & L7 & L9
+        SCORE{Score ≥ 90?}
+        L1 & L2 & L3 & L8 & L6 & L7 & L9 --> SCORE
+    end
+
+    subgraph Deliver["Steps 4–8 — Enterprise deliverables"]
+        GAP[gap_analysis.py]
+        ROAD[implementation_roadmap.py]
+        CHK[implementation_checklist.py]
+        SUM[generate_executive_summary.py<br/>executive_summary.md]
+        BUN[build_compliance_bundle.py<br/>course_compliance_bundle.zip]
+        GAP --> ROAD --> CHK --> SUM --> BUN
+    end
+
+    VAL[validate_lab10.py] --> DONE([🎉 COURSE COMPLETE])
+
+    V9 --> COL --> ARC
+    SCORE -->|Yes| GAP
+    SCORE -->|No| FIX[Complete missing lab layers]
+    FIX --> ARC
+    BUN --> VAL
+
+    subgraph Optional["After class — optional"]
+        direction TB
+        RST[reset_course.py<br/>clear workspaces]
+        TD[teardown_course.py --yes<br/>delete AWS resources]
+        RST --> TD
+    end
+
+    DONE -.->|instructor only| RST
+
+    style DONE fill:#2d6a4f,color:#fff
+    style SCORE fill:#e9c46a,color:#000
+    style BUN fill:#457b9d,color:#fff
+    style Optional fill:#f4f4f4,color:#333
+```
+
 ## Lab flow
-
-```
-validate_lab9.py
-    → collect_course_artifacts.py
-    → architecture_assessment.py (score /100)
-    → gap_analysis.py
-    → implementation_roadmap.py
-    → implementation_checklist.py
-    → generate_executive_summary.py
-    → build_compliance_bundle.py
-    → validate_lab10.py → 🎉 COURSE COMPLETE
-
-Optional (after class):
-    → reset_course.py (workspace only)
-    → teardown_course.py (delete AWS resources)
-```
 
 | Step | Script | Purpose |
 |------|--------|---------|
