@@ -285,6 +285,16 @@ def create_banking_iam_roles():
             },
             {
                 "Effect": "Allow",
+                "Action": "iam:PassRole",
+                "Resource": f"arn:aws:iam::{account_id}:role/BankingMLEngineerRole",
+                "Condition": {
+                    "StringEquals": {
+                        "iam:PassedToService": "sagemaker.amazonaws.com",
+                    }
+                },
+            },
+            {
+                "Effect": "Allow",
                 "Action": [
                     "ecr:GetAuthorizationToken",
                     "ecr:GetDownloadUrlForLayer",
