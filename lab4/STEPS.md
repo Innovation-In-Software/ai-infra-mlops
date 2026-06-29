@@ -250,7 +250,7 @@ python3 scripts/simulate_pipeline_run.py
 ✅ Pipeline run complete (simulation)
 ```
 
-*Screenshot: capture after you run Step 8 — `images/step-08-simulate.png`*
+![Step 8 — `python3 scripts/simulate_pipeline_run.py`](images/step-08-simulate.png)
 
 ---
 
@@ -275,7 +275,7 @@ cat ../workspace/lab4/artifacts/cicd_compliance_report_final.json | head -20
 }
 ```
 
-*Screenshot: capture after you run Step 9 — `images/step-09-report.png`*
+![Step 9 — report generation and `cat ... | head -20` (scroll down in the same capture for Step 10 validate)](images/step-09-report.png)
 
 ---
 
@@ -303,7 +303,7 @@ Validate Lab 4
 Prerequisites OK — proceed to Lab 5
 ```
 
-*Screenshot: capture after you run Step 10 — `images/step-10-validate.png`*
+![Step 10 — `python3 scripts/validate_lab4.py` (same screenshot as Step 9 — scroll down)](images/step-10-validate.png)
 
 ---
 

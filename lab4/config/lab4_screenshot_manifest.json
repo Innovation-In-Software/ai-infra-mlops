@@ -6,7 +6,10 @@
     "step-pending-80.png": "step-01-lab4-folder.png",
     "step-pending-81.png": "step-03-pip.png",
     "step-pending-82.png": "step-05-unit-tests.png",
-    "step-pending-83.png": "step-06-compliance.png"
+    "step-pending-83.png": "step-06-compliance.png",
+    "step-pending-84.png": "step-08-simulate.png",
+    "step-pending-85.png": "step-09-report.png",
+    "step-pending-86.png": "step-10-validate.png"
   },
   "aliases": {
     "step-02-artifacts.png": "step-01-lab4-folder.png",

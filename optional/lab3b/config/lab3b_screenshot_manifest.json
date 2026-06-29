@@ -1,0 +1,12 @@
+{
+  "notes": "Maps step-pending-*.png (EC2 Jun 29) to optional/lab3b/images/. Run: python scripts/sync_lab3b_screenshots.py",
+  "source_dir": "D:/Current_work/Innovation in Software/MLOps On AWS June 4/screenshots",
+  "canonical": {
+    "step-pending-93.png": "step-00a-git-pull.png",
+    "step-pending-94.png": "step-00b-lab3-validate.png",
+    "step-pending-96.png": "step-01-upload.png",
+    "step-pending-97.png": "step-02-processing-job.png",
+    "step-pending-98.png": "step-03-validate.png"
+  },
+  "aliases": {}
+}
