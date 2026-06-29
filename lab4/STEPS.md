@@ -3,10 +3,10 @@
 | | |
 |---|---|
 | **Class** | `ai-mlops-2026-jun30` |
-| **Duration** | ~30 minutes |
+| **Duration** | ~30 minutes (Steps 1–10) · ~45 minutes (Steps 11–16, CodePipeline on AWS) |
 | **Region** | `us-west-2` |
 | **Platform** | EC2 · [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) · **bash** |
-| **Prerequisite** | [Lab 3](../lab3/STEPS.md) complete — Step 9 validation passed |
+| **Prerequisite** | [Lab 3](../lab3/STEPS.md) complete — Steps 1–12 (Step 9 minimum for local model; Step 12 for SageMaker) |
 | **Working directory** | `~/ai-infra-mlops/lab4` |
 | **Outputs** | `~/ai-infra-mlops/workspace/lab4/` |
 
@@ -60,7 +60,8 @@ cd ~/ai-infra-mlops/lab4
 | **7** | CodePipeline config (classroom simulation with your account ID) |
 | **8** | Simulated pipeline run through deploy |
 | **9** | CI/CD compliance report JSON |
-| **10** | Lab 4 validation |
+| **10** | Lab 4 validation (local CI/CD simulation) |
+| **11–16** | **Real CodePipeline on AWS** (S3 → CodeBuild → validate) |
 
 ---
 
@@ -300,10 +301,136 @@ Validate Lab 4
    ✅ cicd_compliance_report_final.json
 
 ============================================================
-Prerequisites OK — proceed to Lab 5
+Prerequisites OK — proceed to Step 11
 ```
 
 ![Step 10 — `python3 scripts/validate_lab4.py` (same screenshot as Step 9 — scroll down)](images/step-10-validate.png)
+
+---
+
+# Step 11 — Package and upload pipeline source (AWS)
+
+**What you do:** Build a zip of pipeline source and upload to your banking models bucket.
+
+```bash
+cd ~/ai-infra-mlops/optional/lab4b
+python3 -m pip install -r requirements.txt
+python3 scripts/package_source.py
+```
+
+**Expected:**
+
+```text
+📦 Package pipeline source for S3
+============================================================
+   ✅ Uploaded: s3://bank-mlops-<account-id>-models/cicd/lab4b/source.zip
+✅ Source artifact ready for CodePipeline
+```
+
+---
+
+# Step 12 — Create CodeBuild project (AWS)
+
+```bash
+python3 scripts/create_codebuild.py
+```
+
+**Expected:**
+
+```text
+🔧 CodeBuild project (Lab 4b)
+============================================================
+   ✅ Created IAM role: BankingLab4bCodeBuildRole
+   ✅ Created CodeBuild project: banking-ml-cicd-build-lab4b
+✅ CodeBuild ready
+```
+
+On re-run: `exists` / `Updated` messages are OK.
+
+---
+
+# Step 13 — Create CodePipeline (AWS)
+
+```bash
+python3 scripts/create_codepipeline.py
+```
+
+**Expected:**
+
+```text
+🔄 CodePipeline (Lab 4b — LIVE AWS)
+============================================================
+   ✅ Created pipeline: banking-ml-cicd-lab4b-<account-id>
+✅ CodePipeline visible in AWS console
+```
+
+**Console:** [CodePipeline](https://us-west-2.console.aws.amazon.com/codesuite/codepipeline/pipelines)
+
+![Steps 11–13 — package, CodeBuild, CodePipeline](../optional/lab4b/images/step-01-03-setup.png)
+
+---
+
+# Step 14 — Run the pipeline (AWS)
+
+```bash
+python3 scripts/start_pipeline.py
+```
+
+**Expected:**
+
+```text
+▶ Start CodePipeline execution
+============================================================
+   ✅ Started execution: <uuid>
+   ... status: Succeeded
+✅ Pipeline execution succeeded
+```
+
+First run may take **5–10 minutes**. If Source stage fails with a permissions error:
+
+```bash
+python3 scripts/patch_iam_for_lab4b.py
+sleep 30
+python3 scripts/start_pipeline.py
+```
+
+![Step 14 — pipeline execution **Succeeded**](../optional/lab4b/images/step-04-pipeline-succeeded.png)
+
+---
+
+# Step 15 — Validate CodePipeline
+
+```bash
+python3 scripts/validate_lab4b.py
+```
+
+**Expected:**
+
+```text
+Validate Lab 4b (CodePipeline)
+============================================================
+   ✅ Pipeline in AWS: banking-ml-cicd-lab4b-<account-id>
+   ✅ Status: Succeeded
+============================================================
+Lab 4b OK — real CodePipeline ran in AWS
+```
+
+![Step 15 — `validate_lab4b.py` OK](../optional/lab4b/images/step-05-validate-ok.png)
+
+---
+
+# Step 16 — CodePipeline teardown (recommended)
+
+```bash
+python3 scripts/teardown_lab4b.py
+```
+
+Deletes pipeline, CodeBuild project, and Lab 4b IAM roles. S3 zip/artifacts may remain.
+
+| | Steps 1–10 | Steps 11–16 |
+|---|------------|-------------|
+| CodePipeline in console | **No** (JSON simulation) | **Yes** |
+| CodeBuild | No | Yes — runs `compliance_check.py` |
 
 ---
 
@@ -321,6 +448,9 @@ Prerequisites OK — proceed to Lab 5
 | `⚠️ not yet created` on Step 10 | Run Steps 6–9 before validating |
 | Screenshot shows the **next** step's command at the bottom | Normal — captures were taken in one continuous terminal session |
 | `PythonDeprecationWarning` | [Lab 0 Step 17a](../lab0/STEPS.md) — upgrade to Python 3.11 |
+| Source stage **Failed** (Step 14) | Run `python3 scripts/patch_iam_for_lab4b.py` in `optional/lab4b`, wait 30s, re-run Steps 13–14 |
+| `PipelineExecutionNotFoundException` (Step 14) | `git pull` for latest `start_pipeline.py` |
+| `AccessDenied` on `create_pipeline` | EC2 role needs CodePipeline/CodeBuild/IAM permissions |
 
 ---
 
@@ -334,19 +464,9 @@ python3 scripts/reset_course.py --labs lab4
 cd lab4
 ```
 
-Then re-run **Steps 2–10**. Labs 1–3 artifacts in `workspace/lab1/` … `lab3/` are unchanged.
+Then re-run **Steps 2–16**. Labs 1–3 artifacts in `workspace/lab1/` … `lab3/` are unchanged.
 
-**Quick run (script bundle):** `python3 scripts/run_lab4.py` — then run Steps 2, 5, and 10 manually.
-
----
-
-## Optional — full AWS follow-on
-
-Lab 4 does **not** create CodePipeline in AWS (by design). To build a **real** S3 → CodeBuild pipeline:
-
-- **[Lab 4b — Real CodePipeline](../optional/lab4b/STEPS.md)** (~45–60 min)
-
-See also [Lab 3b — SageMaker Training](../optional/lab3b/STEPS.md) and [Real vs simulated](../docs/REAL-VS-SIMULATED.md).
+**Quick run (Steps 1–10 scripts):** `python3 scripts/run_lab4.py` — then run Steps 2, 5, 10, and **11–15** manually.
 
 ---
 

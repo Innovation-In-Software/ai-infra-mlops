@@ -6,7 +6,7 @@
 | **Duration** | ~30 minutes |
 | **Region** | `us-west-2` |
 | **Platform** | EC2 · [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) · **bash** |
-| **Prerequisite** | [Lab 4](../lab4/STEPS.md) complete · **Docker** installed ([Lab 0 Step 19](../lab0/STEPS.md)) |
+| **Prerequisite** | [Lab 4](../lab4/STEPS.md) complete — Steps 1–15 (CodePipeline validated on AWS) · **Docker** installed ([Lab 0 Step 19](../lab0/STEPS.md)) |
 | **Working directory** | `~/ai-infra-mlops/lab5` |
 | **Outputs** | `~/ai-infra-mlops/workspace/lab5/` |
 

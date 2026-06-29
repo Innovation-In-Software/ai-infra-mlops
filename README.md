@@ -33,8 +33,8 @@ cd lab0    # then lab1, lab2, … lab10
 | **0** | Environment setup | [lab0/STEPS.md](lab0/STEPS.md) |
 | **1** | Secure MLOps environment (KMS, S3, IAM, SageMaker) | [lab1/STEPS.md](lab1/STEPS.md) |
 | **2** | Banking data, PII, Feature Store | [lab2/STEPS.md](lab2/STEPS.md) |
-| **3** | Model training & fairness | [lab3/STEPS.md](lab3/STEPS.md) |
-| **4** | CI/CD with compliance gates | [lab4/STEPS.md](lab4/STEPS.md) · optional [real CodePipeline](optional/lab4b/STEPS.md) |
+| **3** | Model training, fairness & SageMaker job | [lab3/STEPS.md](lab3/STEPS.md) (Steps 1–9 EC2 · 10–13 AWS) |
+| **4** | CI/CD, compliance gates & CodePipeline | [lab4/STEPS.md](lab4/STEPS.md) (Steps 1–10 simulation · 11–16 AWS) |
 | **5** | Secure containerization (Docker, ECR) | [lab5/STEPS.md](lab5/STEPS.md) |
 | **6** | Blue-green deployment | [lab6/STEPS.md](lab6/STEPS.md) |
 | **7** | Monitoring & observability | [lab7/STEPS.md](lab7/STEPS.md) |
@@ -78,7 +78,7 @@ Teardown AWS resources: [Lab 10 Step 11](lab10/STEPS.md) → `python3 scripts/te
 
 - [How to read STEPS.md](docs/READING-THE-LABS.md)
 - [Real vs simulated AWS](docs/REAL-VS-SIMULATED.md)
-- [Optional: Lab 3b SageMaker Training & Lab 4b CodePipeline](optional/README.md)
+- [Lab 3b / 4b script folders](optional/README.md)
 - [SSH + VS Code setup](docs/SSH-VSCODE-SETUP.md)
 - [Instructor ProTech VM + EC2 setup](docs/PROTECH-VM-SETUP.md)
 - [Instructor cloud delivery](CLOUD-DELIVERY.md)

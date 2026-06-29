@@ -67,7 +67,8 @@ Keys stay in `~/.aws/credentials` on the EC2 instance only. **Never commit keys 
 | Done | Lab | Validate on EC2 |
 |------|-----|-----------------|
 | ✅ | 0–4 | `lab4/scripts/validate_lab4.py` |
-| ✅ | 4b (optional) | `optional/lab4b/scripts/validate_lab4b.py` |
+| ✅ | 3 (Steps 10–13) | SageMaker Processing job in console |
+| ✅ | 4 (Steps 11–15) | `optional/lab4b/scripts/validate_lab4b.py` |
 | ▶ | 5 | `lab5/scripts/validate_lab5.py` after Docker + ECR push |
 | | 6–10 | `labN/scripts/validate_labN.py` |
 

@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Class** | `ai-mlops-2026-jun30` |
-| **Duration** | ~30 minutes |
+| **Duration** | ~30 minutes (Steps 1–9) · ~45 minutes (Steps 10–13, SageMaker on AWS) |
 | **Region** | `us-west-2` |
 | **Platform** | EC2 · [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) · **bash** |
 | **Prerequisite** | [Lab 2](../lab2/STEPS.md) complete — Step 11 validation passed |
@@ -57,7 +57,8 @@ cd ~/ai-infra-mlops/lab3
 | **6** | SageMaker Experiments tracking record |
 | **7** | Fairness report (disparate impact on `age_group`) |
 | **8** | Best model selection + final training report |
-| **9** | Lab 3 validation |
+| **9** | Lab 3 validation (EC2 training path) |
+| **10–13** | **SageMaker managed job on AWS** (upload data, Processing job, validate) |
 
 ---
 
@@ -278,10 +279,104 @@ Validate Lab 3
    ✅ config: training_results.json
 
 ============================================================
-Prerequisites OK — proceed to Lab 4
+Prerequisites OK — proceed to Step 10
 ```
 
 ![Step 9 — `python3 scripts/validate_lab3.py`](images/step-09-validate.png)
+
+---
+
+# Step 10 — Upload training data to S3 (SageMaker)
+
+**What you do:** Copy Lab 3 train CSVs to S3 for a SageMaker managed job.
+
+```bash
+cd ~/ai-infra-mlops/optional/lab3b
+python3 -m pip install -r requirements.txt
+python3 scripts/upload_training_data.py
+```
+
+**Expected:**
+
+```text
+📤 Upload training data for SageMaker
+============================================================
+   ✅ Uploaded: s3://bank-mlops-<account-id>-processed/training/sagemaker-lab3b/X_train.csv
+   ✅ Uploaded: s3://bank-mlops-<account-id>-processed/training/sagemaker-lab3b/y_train.csv
+✅ Training data ready in S3
+```
+
+![Step 10 — `python3 scripts/upload_training_data.py`](../optional/lab3b/images/step-01-upload.png)
+
+---
+
+# Step 11 — Run SageMaker managed job
+
+**What you do:** Launch a SageMaker **Processing Job** (`ml.t3.medium`) that trains the same Random Forest on AWS managed compute.
+
+```bash
+python3 scripts/run_training_job.py
+```
+
+**Expected:**
+
+```text
+🏋️ SageMaker Managed Training (Lab 3b)
+============================================================
+   Mode: SageMaker Processing Job (ml.t3.medium)
+   ...
+   ✅ SageMaker job: banking-rf-lab3b-... (processing)
+✅ SageMaker managed training complete
+```
+
+> **Console:** SageMaker → **Processing** → **Processing jobs**. Sandbox accounts often have Training Job quota **0** — the script uses Processing instead.
+
+If IAM/S3 errors appear:
+
+```bash
+python3 scripts/patch_iam_for_sagemaker.py
+sleep 10
+python3 scripts/run_training_job.py
+```
+
+![Step 11 — Processing job complete](../optional/lab3b/images/step-02-processing-job.png)
+
+---
+
+# Step 12 — Validate SageMaker job
+
+```bash
+python3 scripts/validate_lab3b.py
+```
+
+**Expected:**
+
+```text
+Validate Lab 3b (SageMaker managed job)
+============================================================
+   ✅ Processing job in AWS: banking-rf-lab3b-...
+   ✅ Status: Completed
+   ...
+============================================================
+Lab 3b OK — SageMaker job visible in AWS console
+```
+
+![Step 12 — `python3 scripts/validate_lab3b.py`](../optional/lab3b/images/step-03-validate.png)
+
+---
+
+# Step 13 — SageMaker cleanup notes
+
+```bash
+python3 scripts/teardown_lab3b.py
+```
+
+Documents where artifacts live. Delete S3 objects under `experiments/lab3b/` later if you want to reduce storage cost.
+
+| | Steps 1–9 (EC2) | Steps 10–13 (AWS) |
+|---|-----------------|-------------------|
+| Compute | EC2 CPU | SageMaker Processing `ml.t3.medium` |
+| Model file | `workspace/lab3/models/best_model.pkl` | `model.joblib` in S3 under `experiments/lab3b/` |
 
 ---
 
@@ -295,6 +390,10 @@ Prerequisites OK — proceed to Lab 4
 | `No such file: training_results.json` | Run Step 5 before Steps 6–8 |
 | `No such file: fairness_report.json` | Run Step 7 before Step 8 |
 | SageMaker Experiments warning | OK if `experiment_tracking.json` was saved — check Step 6 output |
+| `ResourceLimitExceeded` (training quota **0**) | Expected — Step 11 uses **Processing Job**; `git pull` for latest `run_training_job.py` |
+| `s3:ListBucket` denied on SageMaker bucket | Run `python3 scripts/patch_iam_for_sagemaker.py` in `optional/lab3b`, wait 10s, retry Step 11 |
+| `TypeError: source_dir` on Processing job | `git pull` — fixed in recent repo |
+| SageMaker job stuck **InProgress** | Wait up to 10 min; CloudWatch → `/aws/sagemaker/ProcessingJobs` |
 | Screenshot shows the **next** step's command at the bottom | Normal — captures were taken in one continuous terminal session |
 | `PythonDeprecationWarning` | [Lab 0 Step 17a](../lab0/STEPS.md) — upgrade to Python 3.11 |
 
@@ -310,20 +409,9 @@ python3 scripts/reset_course.py --labs lab3
 cd lab3
 ```
 
-Then re-run **Steps 4–9**. Lab 2 artifacts in `workspace/lab2/` are unchanged.
+Then re-run **Steps 4–13**. Lab 2 artifacts in `workspace/lab2/` are unchanged.
 
-**Quick run (all script steps):** `python3 scripts/run_lab3.py` — then run Step 9 to validate.
-
----
-
-## Optional — full AWS follow-on
-
-Main Lab 3 trains on EC2; main Lab 4 does not create CodePipeline. After the course (or if you have extra time):
-
-- **[Lab 3b — SageMaker Training Job](../optional/lab3b/STEPS.md)** (~45–60 min)
-- **[Lab 4b — Real CodePipeline](../optional/lab4b/STEPS.md)** (~45–60 min)
-
-See [Real vs simulated AWS](../docs/REAL-VS-SIMULATED.md).
+**Quick run (Steps 1–9 scripts only):** `python3 scripts/run_lab3.py` — then run Steps 9–13 to validate.
 
 ---
 
