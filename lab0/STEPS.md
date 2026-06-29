@@ -1098,6 +1098,12 @@ Python 3.11.13
 pip 23.3.2 from /usr/lib/python3.11/site-packages/pip (python 3.11)
 ```
 
+![Step 17a — install Python 3.11 (`dnf install` + `alternatives`)](images/step-17a-python-upgrade.png)
+
+![Step 17a — verify `python3 --version` shows 3.11.x](images/step-17a-python-version.png)
+
+> **Note:** After `alternatives --set python3` to 3.11, `sudo dnf` may fail (`ModuleNotFoundError: dnf`) because `dnf` is tied to Python 3.9. That is OK if **Step 17a** already installed `python3.11-pip` — skip **Step 18a** and use `python3 -m pip` in Step 18b.
+
 ---
 
 ## Step 18 — Install Python packages
@@ -1160,6 +1166,8 @@ All imports successful!
 ```
 
 ![pip install lab requirements](images/step-18-pip-install.png)
+
+![test_imports.py — All imports successful](images/step-18-imports-ok.png)
 
 ---
 
@@ -1387,6 +1395,7 @@ Passwords and access keys: **instructor handout only** (not in git).
 | `PythonDeprecationWarning` (Boto3 / Python 3.9) | Run **Step 17a** to upgrade to Python 3.11, then re-run **Step 18** |
 | `No module named pip` | **Step 18a:** `sudo dnf install -y python3.11-pip` then use `python3 -m pip install ...` |
 | `python3` still shows 3.9 after Step 17a | Re-run `sudo alternatives --set python3 /usr/bin/python3.11` and `python3 --version` |
+| `ModuleNotFoundError: dnf` after Step 17a | `dnf` uses Python 3.9 — skip Step 18a if pip works (`python3 -m pip --version`). Use `python3 -m pip` for Step 18b |
 | Pip / disk full | Root volume **30 GiB** minimum (Step 9) |
 | `docker: permission denied` | Complete Step 19, then **reconnect** VS Code SSH |
 | `docker: command not found` | Re-run Lab 0 Step 19 |

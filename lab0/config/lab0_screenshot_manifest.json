@@ -23,7 +23,11 @@
     "step-09-launch-102.png": "step-19-docker-ps.png",
     "step-09-launch-104.png": "step-20-classroom-env.png",
     "step-09-launch-106.png": "step-21-workspace.png",
-    "step-09-launch-109.png": "step-22-verify-pass.png"
+    "step-09-launch-109.png": "step-22-verify-pass.png",
+    "step-pending-111.png": "step-17a-python-upgrade.png",
+    "step-pending-112.png": "step-17a-python-version.png",
+    "step-pending-113.png": "step-18-pip-install.png",
+    "step-pending-114.png": "step-18-imports-ok.png"
   },
   "delete_from_repo_images": ["step-09-launch-*.png"]
 }
