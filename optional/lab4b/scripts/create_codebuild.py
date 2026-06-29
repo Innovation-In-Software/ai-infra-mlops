@@ -10,6 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 from scripts.course_common import account_id, write_json
 
 from lab_paths import CODEBUILD_PROJECT, CONFIG_DIR, LAB1_CONFIG, REGION, ensure_workspace
+from iam_helpers import kms_statement
 
 BUILD_ROLE = "BankingLab4bCodeBuildRole"
 
@@ -25,9 +26,7 @@ def _ensure_build_role(iam, account):
             }
         ],
     }
-    policy = {
-        "Version": "2012-10-17",
-        "Statement": [
+    statements = [
             {
                 "Effect": "Allow",
                 "Action": ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"],
@@ -35,11 +34,14 @@ def _ensure_build_role(iam, account):
             },
             {
                 "Effect": "Allow",
-                "Action": ["s3:GetObject", "s3:PutObject", "s3:GetBucketLocation", "s3:ListBucket"],
+                "Action": ["s3:GetObject", "s3:PutObject", "s3:GetBucketLocation", "s3:GetBucketVersioning", "s3:ListBucket"],
                 "Resource": "*",
             },
-        ],
-    }
+    ]
+    kms = kms_statement()
+    if kms:
+        statements.append(kms)
+    policy = {"Version": "2012-10-17", "Statement": statements}
     try:
         iam.create_role(
             RoleName=BUILD_ROLE,

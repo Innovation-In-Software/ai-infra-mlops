@@ -27,6 +27,10 @@ python3 -m pip install -r requirements.txt
 
 > Your EC2 user/role needs: `codepipeline:*`, `codebuild:*`, `iam:CreateRole`, `iam:PassRole`, `s3:*` on banking buckets. Instructor accounts usually have this; student roles may not.
 
+![Before you start — `git pull`](images/step-00a-git-pull.png)
+
+![Lab 4 validation — `python3 scripts/validate_lab4.py`](images/step-00c-lab4-validate.png)
+
 ---
 
 ## Lab 4b roadmap
@@ -56,6 +60,8 @@ python3 scripts/package_source.py
 ✅ Source artifact ready for CodePipeline
 ```
 
+![Step 1 — `python3 scripts/package_source.py`](images/step-01-package-source.png)
+
 ---
 
 # Step 2 — Create CodeBuild project
@@ -76,6 +82,8 @@ python3 scripts/create_codebuild.py
 
 On re-run: `exists` / `Updated` messages are OK.
 
+![Step 2 — `python3 scripts/create_codebuild.py`](images/step-02-codebuild.png)
+
 ---
 
 # Step 3 — Create CodePipeline
@@ -95,6 +103,8 @@ python3 scripts/create_codepipeline.py
 ```
 
 **Console:** [CodePipeline](https://us-west-2.console.aws.amazon.com/codesuite/codepipeline/pipelines) — you should see your pipeline (main Lab 4 had **zero** pipelines).
+
+![Step 3 — `python3 scripts/create_codepipeline.py`](images/step-03-codepipeline.png)
 
 ---
 
@@ -117,11 +127,21 @@ python3 scripts/start_pipeline.py
 
 First run may take **5–10 minutes** (CodeBuild provisioning + build).
 
+![Step 4 — `python3 scripts/start_pipeline.py`](images/step-04-start-pipeline.png)
+
 ---
 
 # Step 5 — Validate Lab 4b
 
 ```bash
+python3 scripts/validate_lab4b.py
+```
+
+If Step 4 failed earlier with `PipelineExecutionNotFoundException`, run the patch script first, then re-run Step 4 until status is **Succeeded**.
+
+```bash
+python3 scripts/patch_iam_for_lab4b.py
+python3 scripts/start_pipeline.py
 python3 scripts/validate_lab4b.py
 ```
 
@@ -137,6 +157,8 @@ Validate Lab 4b (CodePipeline)
 ============================================================
 Lab 4b OK — real CodePipeline ran in AWS
 ```
+
+![Step 5 — `python3 scripts/validate_lab4b.py`](images/step-05-validate-warning.png)
 
 ---
 
@@ -155,6 +177,8 @@ Deletes pipeline, CodeBuild project, and Lab 4b IAM roles. S3 zip/artifacts may 
 | Issue | Fix |
 |-------|-----|
 | `AccessDenied` on `create_pipeline` | Need instructor/IAM admin permissions |
+| Source stage **Failed** — *role does not have permissions* | Banking buckets use **SSE-KMS** + versioning. Run `python3 scripts/patch_iam_for_lab4b.py` (adds KMS + `s3:GetBucketVersioning` + artifact-store key), wait 30s, re-run Step 4. Or `git pull` and re-run Steps 2–4 (latest scripts include the fix). |
+| `PipelineExecutionNotFoundException` in Step 4 | Fixed in latest `start_pipeline.py` — `git pull` and retry; execution may still fail until KMS/artifact store is patched |
 | Build stage **Failed** | Open CodeBuild → build → logs; often IAM propagation — wait 30s and re-run Step 4 |
 | `PipelineNameInUseException` handled | Re-run updates existing pipeline |
 | Source action fails | Re-run Step 1 to refresh `source.zip` in S3 |

@@ -32,10 +32,17 @@ def main():
     print(f"   ✅ Started execution: {execution_id}")
 
     deadline = time.time() + 900
+    # New executions can take a few seconds to appear in GetPipelineExecution.
+    time.sleep(5)
     while time.time() < deadline:
-        status = cp.get_pipeline_execution(
-            pipelineName=pipeline_name, pipelineExecutionId=execution_id
-        )["pipelineExecution"]["status"]
+        try:
+            status = cp.get_pipeline_execution(
+                pipelineName=pipeline_name, pipelineExecutionId=execution_id
+            )["pipelineExecution"]["status"]
+        except cp.exceptions.PipelineExecutionNotFoundException:
+            print("   ... status: pending (waiting for execution record)")
+            time.sleep(5)
+            continue
         print(f"   ... status: {status}")
         if status in ("Succeeded", "Failed", "Stopped", "Superseded"):
             break

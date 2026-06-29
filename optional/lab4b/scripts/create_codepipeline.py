@@ -10,6 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 from scripts.course_common import account_id, write_json
 
 from lab_paths import CODEBUILD_PROJECT, CONFIG_DIR, LAB1_CONFIG, PIPELINE_NAME_PREFIX, REGION, ensure_workspace
+from iam_helpers import kms_statement
 
 PIPELINE_ROLE = "BankingLab4bPipelineRole"
 
@@ -25,9 +26,7 @@ def _ensure_pipeline_role(iam, account, artifact_bucket, build_role_arn):
             }
         ],
     }
-    policy = {
-        "Version": "2012-10-17",
-        "Statement": [
+    statements = [
             {
                 "Effect": "Allow",
                 "Action": [
@@ -35,6 +34,7 @@ def _ensure_pipeline_role(iam, account, artifact_bucket, build_role_arn):
                     "s3:GetObjectVersion",
                     "s3:PutObject",
                     "s3:GetBucketLocation",
+                    "s3:GetBucketVersioning",
                     "s3:ListBucket",
                 ],
                 "Resource": [
@@ -52,8 +52,11 @@ def _ensure_pipeline_role(iam, account, artifact_bucket, build_role_arn):
                 "Action": "iam:PassRole",
                 "Resource": build_role_arn,
             },
-        ],
-    }
+    ]
+    kms = kms_statement()
+    if kms:
+        statements.append(kms)
+    policy = {"Version": "2012-10-17", "Statement": statements}
     try:
         iam.create_role(
             RoleName=PIPELINE_ROLE,
@@ -90,6 +93,16 @@ def main():
         build_cfg = json.load(f)
     with open(LAB1_CONFIG / "buckets.json", encoding="utf-8") as f:
         buckets = json.load(f)
+    kms_path = LAB1_CONFIG / "kms_keys.json"
+    if not kms_path.exists():
+        print("   ❌ Missing kms_keys.json — complete Lab 1 Step 4 first.")
+        sys.exit(1)
+    with open(kms_path, encoding="utf-8") as f:
+        kms = json.load(f)
+    kms_key_arn = kms.get("s3_key_arn")
+    if not kms_key_arn:
+        print("   ❌ kms_keys.json missing s3_key_arn.")
+        sys.exit(1)
 
     account = account_id()
     pipeline_name = f"{PIPELINE_NAME_PREFIX}-{account}"
@@ -105,7 +118,11 @@ def main():
     pipeline = {
         "name": pipeline_name,
         "roleArn": pipeline_role_arn,
-        "artifactStore": {"type": "S3", "location": artifact_bucket},
+        "artifactStore": {
+            "type": "S3",
+            "location": artifact_bucket,
+            "encryptionKey": {"id": kms_key_arn, "type": "KMS"},
+        },
         "stages": [
             {
                 "name": "Source",
