@@ -6,6 +6,22 @@ Hands-on steps: [STEPS.md](STEPS.md)
 
 ---
 
+## Terms & acronyms (beginners)
+
+| Term | Full form / meaning |
+|------|---------------------|
+| **SageMaker Pipeline** | AWS workflow that **chains** ML steps (validate → process → register) |
+| **ProcessingStep** | Pipeline step that runs a **Python script** on managed compute |
+| **Model Registry** | SageMaker **catalog** of approved model versions for production |
+| **Upsert** | **Create or update** the pipeline definition in AWS |
+| **S3** | **Simple Storage Service** — pipeline input data and script uploads |
+| **IAM** | **Identity and Access Management** — pipeline needs **PassRole** to SageMaker |
+| **KMS** | **Key Management Service** — encryption for S3 and SageMaker |
+| **ARN** | **Amazon Resource Name** — pipeline, execution, and model package IDs |
+| **ECR** | **Elastic Container Registry** — container image linked at model registration |
+
+---
+
 ## Overview
 
 Lab 8 automates the ML workflow with a **real SageMaker Pipeline** (`banking-ml-pipeline`): data validation, processing, model registration in the **SageMaker Model Registry**, and compliance reporting. This connects data (Lab 2), containers (Lab 5), and deployment context (Lab 6) into a reproducible pipeline.

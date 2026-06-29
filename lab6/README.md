@@ -6,6 +6,23 @@ Hands-on steps: [STEPS.md](STEPS.md)
 
 ---
 
+## Terms & acronyms (beginners)
+
+| Term | Full form / meaning |
+|------|---------------------|
+| **SageMaker** | AWS **managed machine learning** service for hosting models |
+| **Endpoint** | A **live URL/API** that serves predictions from your model 24/7 |
+| **ECR** | **Elastic Container Registry** — where the Lab 5 Docker image is stored |
+| **IAM** | **Identity and Access Management** — SageMaker needs roles via **PassRole** permission |
+| **ARN** | **Amazon Resource Name** — unique ID for endpoints, models, and roles |
+| **Blue-green deployment** | Run **two versions** (blue = current, green = new) and shift traffic safely |
+| **Staging** | **Pre-production** environment for testing before live traffic |
+| **Rollback** | **Revert** traffic to the previous safe version if something goes wrong |
+| **Variant** | A **version** of the model on one endpoint (e.g. blue 100%, green 0%) |
+| **API** | **Application Programming Interface** — `invoke_endpoint` sends JSON for scoring |
+
+---
+
 ## Overview
 
 Lab 6 deploys the Lab 5 container image to **real SageMaker endpoints** using a **blue-green** strategy: staging endpoint first, production with two variants (blue/green), gradual traffic shift, and a rollback drill.

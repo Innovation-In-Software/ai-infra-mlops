@@ -6,6 +6,25 @@ Hands-on steps: [STEPS.md](STEPS.md)
 
 ---
 
+## Terms & acronyms (beginners)
+
+| Term | Full form / meaning |
+|------|---------------------|
+| **AWS** | **Amazon Web Services** |
+| **KMS** | **Key Management Service** — creates and manages encryption keys |
+| **S3** | **Simple Storage Service** — object storage (files/buckets) in the cloud |
+| **IAM** | **Identity and Access Management** — users, roles, and permissions |
+| **ARN** | **Amazon Resource Name** — unique ID for an AWS resource (e.g. a role or bucket) |
+| **SCP** | **Service Control Policy** — organization-level guardrails (reference pattern in this lab) |
+| **VPC** | **Virtual Private Cloud** — isolated network for AWS resources |
+| **SageMaker** | AWS **managed machine learning** service (training, notebooks, deployment) |
+| **CloudTrail** | AWS **audit log** service — records API calls for compliance |
+| **CloudWatch** | AWS **monitoring** service — metrics, dashboards, and alarms |
+| **MLOps** | **Machine Learning Operations** |
+| **JSON** | **JavaScript Object Notation** — config file format |
+
+---
+
 ## Overview
 
 Lab 1 provisions the **secure AWS foundation** for the banking MLOps course. You create encryption keys, compliant S3 buckets, least-privilege IAM roles, a SageMaker Studio domain, and CloudTrail audit logging. Every later lab depends on these resources.

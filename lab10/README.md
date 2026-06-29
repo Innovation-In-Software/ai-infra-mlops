@@ -8,6 +8,23 @@ Hands-on steps: [STEPS.md](STEPS.md)
 
 ---
 
+## Terms & acronyms (beginners)
+
+| Term | Full form / meaning |
+|------|---------------------|
+| **MLOps** | **Machine Learning Operations** — end-to-end practice for production ML |
+| **Enterprise architecture** | How all layers (security, data, training, etc.) **fit together** at scale |
+| **Gap analysis** | Identifies what is **missing** vs. production best practices |
+| **Roadmap** | **Phased plan** to close gaps over months |
+| **Executive summary** | Short **leadership** document of course outcomes |
+| **Compliance bundle** | **Zip archive** of reports for auditors and stakeholders |
+| **SageMaker** | AWS ML service (endpoints, pipeline, registry checked in this lab) |
+| **ECR** | **Elastic Container Registry** |
+| **DR** | **Disaster Recovery** — multi-region backup (noted as a future gap) |
+| **Teardown** | **Delete** AWS resources after the course (optional Step 11) |
+
+---
+
 ## Overview
 
 Lab 10 is the **course capstone**. You collect artifacts from Labs 1–9, score the enterprise architecture across seven MLOps layers, perform gap analysis, produce an implementation roadmap and checklist, generate an executive summary, and package everything into a **compliance bundle** for stakeholders.

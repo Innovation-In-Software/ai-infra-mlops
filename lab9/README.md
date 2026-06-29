@@ -6,6 +6,23 @@ Hands-on steps: [STEPS.md](STEPS.md)
 
 ---
 
+## Terms & acronyms (beginners)
+
+| Term | Full form / meaning |
+|------|---------------------|
+| **Governance** | **Policies and controls** so ML is secure, fair, and auditable |
+| **IAM** | **Identity and Access Management** — review who can do what in AWS |
+| **KMS** | **Key Management Service** — encryption keys for S3, ECR, SageMaker |
+| **S3** | **Simple Storage Service** |
+| **ECR** | **Elastic Container Registry** — container images audited for encryption |
+| **SHAP** | **SHapley Additive exPlanations** — method to explain **which features** drive predictions |
+| **CloudTrail** | AWS **audit log** of API activity (who changed what, when) |
+| **Explainability** | Making model decisions **understandable** to humans and regulators |
+| **Fairness** | Checking outcomes across groups (e.g. **disparate impact** ratio) |
+| **Approval workflow** | Formal steps before a model moves to **production** |
+
+---
+
 ## Overview
 
 Lab 9 implements the **governance layer**: IAM policy review, encryption audit, model approval workflow, explainability (SHAP), fairness governance, CloudTrail audit export, and a final governance compliance report. It ties together security from Lab 1, the model registry from Lab 8, and fairness from Lab 3.

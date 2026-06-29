@@ -6,6 +6,23 @@ Hands-on steps: [STEPS.md](STEPS.md)
 
 ---
 
+## Terms & acronyms (beginners)
+
+| Term | Full form / meaning |
+|------|---------------------|
+| **AWS** | **Amazon Web Services** — cloud platform where you run labs 1–10 |
+| **EC2** | **Elastic Compute Cloud** — a virtual server (your lab machine) in AWS |
+| **RDP** | **Remote Desktop Protocol** — connect to the training VM with a graphical desktop |
+| **SSH** | **Secure Shell** — encrypted way to open a terminal on a remote machine (EC2) |
+| **CLI** | **Command Line Interface** — run commands in a terminal (`aws`, `python3`, `git`) |
+| **VS Code** | **Visual Studio Code** — code editor; **Remote SSH** connects it to EC2 |
+| **API** | **Application Programming Interface** — how programs talk to AWS services |
+| **Docker** | Platform to package apps and models into **containers** (used in Lab 5) |
+| **MLOps** | **Machine Learning Operations** — practices to build, deploy, and monitor ML systems |
+| **JSON** | **JavaScript Object Notation** — text format for config files (`.json`) |
+
+---
+
 ## Overview
 
 Lab 0 prepares the **EC2 lab machine** and the **student workspace** used by Labs 1–10. You sign in through the training portal, connect to EC2 with VS Code Remote SSH, install tools, clone this repository, and verify that Python, AWS CLI, Docker, and the workspace layout are ready.
@@ -110,4 +127,4 @@ Source it with: `source scripts/setup_classroom_env.sh`
 
 ## Next lab
 
-[Lab 1: Secure MLOps Environment Setup](../lab1/README.md) — creates KMS, S3, IAM, SageMaker Studio, and CloudTrail in AWS.
+[Lab 1: Secure MLOps Environment Setup](../lab1/README.md) — creates **KMS** (Key Management Service), **S3** (Simple Storage Service), **IAM** (Identity and Access Management), **SageMaker** Studio, and **CloudTrail** in AWS.

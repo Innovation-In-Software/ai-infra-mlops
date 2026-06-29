@@ -6,6 +6,22 @@ Hands-on steps: [STEPS.md](STEPS.md)
 
 ---
 
+## Terms & acronyms (beginners)
+
+| Term | Full form / meaning |
+|------|---------------------|
+| **Observability** | Ability to **see** how a live system behaves (metrics, logs, alerts) |
+| **CloudWatch** | AWS **monitoring** service — dashboards, metrics, and alarms |
+| **SageMaker** | AWS ML platform; here you monitor the **production endpoint** |
+| **Model Monitor** | SageMaker tooling to track **data quality** and drift on live traffic |
+| **Drift** | When **input data** or predictions change vs. the training baseline |
+| **Alarm** | CloudWatch rule that **notifies** you when a metric crosses a threshold |
+| **Latency** | **Response time** for each prediction (milliseconds) |
+| **Incident response** | **Runbook** steps when an alert fires (simulated in this lab) |
+| **Dashboard** | Visual **summary** of key metrics in the AWS console |
+
+---
+
 ## Overview
 
 Lab 7 adds **operational observability** for deployed banking models: CloudWatch dashboards, data drift checks, model quality metrics, alarms, and an incident response drill. Monitoring targets the **production SageMaker endpoint** from Lab 6.

@@ -6,6 +6,21 @@ Hands-on steps: [STEPS.md](STEPS.md)
 
 ---
 
+## Terms & acronyms (beginners)
+
+| Term | Full form / meaning |
+|------|---------------------|
+| **Docker** | Platform to build **containers** — packaged apps with dependencies included |
+| **Container** | Lightweight, portable **image** that runs the same on EC2, SageMaker, etc. |
+| **ECR** | **Elastic Container Registry** — AWS storage for Docker images |
+| **EC2** | **Elastic Compute Cloud** — virtual server where you build and test the image |
+| **KMS** | **Key Management Service** — encrypts images in ECR |
+| **Inference** | Using a trained model to **score new transactions** (predict risk) |
+| **HTTP** | **Hypertext Transfer Protocol** — web protocol (`GET /ping`, `POST /invocations`) |
+| **Vulnerability scan** | Automated check for **known security issues** in container images |
+
+---
+
 ## Overview
 
 Lab 5 packages the Lab 3 **best model** into a **Docker inference container**, tests it locally on EC2, pushes to **Amazon ECR** with KMS encryption, and runs an **image vulnerability scan** for banking compliance.

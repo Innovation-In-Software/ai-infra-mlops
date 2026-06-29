@@ -6,6 +6,21 @@ Hands-on steps: [STEPS.md](STEPS.md)
 
 ---
 
+## Terms & acronyms (beginners)
+
+| Term | Full form / meaning |
+|------|---------------------|
+| **CI/CD** | **Continuous Integration / Continuous Delivery** — automated software/ML release pipeline |
+| **ML** | **Machine Learning** |
+| **PII** | **Personally Identifiable Information** |
+| **AWS CodePipeline** | AWS service that **orchestrates** build, test, and deploy stages |
+| **AWS CodeBuild** | AWS **build** service — compiles/tests code in the cloud (optional lab4b) |
+| **pytest** | Python **unit testing** framework |
+| **Compliance gate** | Automated **check that must pass** before deployment (PII, fairness, security) |
+| **Simulation** | Classroom mode that **records** pipeline steps locally without creating real AWS CodePipeline |
+
+---
+
 ## Overview
 
 Lab 4 introduces **ML CI/CD** with automated compliance gates. You scaffold a pipeline project, run unit tests, enforce PII/fairness/security checks, simulate a CodePipeline run, and generate a CI/CD compliance report.

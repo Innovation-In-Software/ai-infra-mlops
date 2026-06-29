@@ -6,6 +6,24 @@ Hands-on steps: [STEPS.md](STEPS.md)
 
 ---
 
+## Terms & acronyms (beginners)
+
+| Term | Full form / meaning |
+|------|---------------------|
+| **ML** | **Machine Learning** |
+| **CI/CD** | **Continuous Integration / Continuous Delivery** — automate build, test, and release |
+| **LR** | **Logistic Regression** — simple, interpretable classification model |
+| **RF** | **Random Forest** — ensemble of decision trees |
+| **XGBoost** | **Extreme Gradient Boosting** — popular high-performance ML algorithm |
+| **AUC** | **Area Under the Curve** — classification performance metric (higher is better) |
+| **SageMaker** | AWS **managed machine learning** service |
+| **S3** | **Simple Storage Service** — where training data is uploaded (optional lab3b) |
+| **IAM** | **Identity and Access Management** — permissions for SageMaker jobs |
+| **API** | **Application Programming Interface** |
+| **Fairness / disparate impact** | Whether model outcomes are **similar across groups** (e.g. age groups) |
+
+---
+
 ## Overview
 
 Lab 3 trains **baseline risk models** on Lab 2 engineered data, logs experiments to SageMaker Experiments, runs **fairness testing** across protected groups, and selects the best model for downstream CI/CD and deployment.

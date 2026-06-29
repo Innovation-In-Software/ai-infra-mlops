@@ -6,6 +6,22 @@ Hands-on steps: [STEPS.md](STEPS.md)
 
 ---
 
+## Terms & acronyms (beginners)
+
+| Term | Full form / meaning |
+|------|---------------------|
+| **PII** | **Personally Identifiable Information** — data that can identify a person (names, SSN, etc.) |
+| **S3** | **Simple Storage Service** — AWS object storage (buckets and files) |
+| **KMS** | **Key Management Service** — encryption keys for S3 and SageMaker |
+| **IAM** | **Identity and Access Management** — roles that control who can access data |
+| **SageMaker** | AWS **managed machine learning** platform |
+| **Feature Store** | SageMaker service to store and serve **ML features** for training and inference |
+| **CSV** | **Comma-Separated Values** — spreadsheet-style data files |
+| **ML** | **Machine Learning** |
+| **Drift** | When live data or model behavior **changes** from the original training baseline |
+
+---
+
 ## Overview
 
 Lab 2 builds the **data layer**: synthetic banking customers and transactions, PII detection and anonymization, quality validation, feature engineering, SageMaker Feature Store, and drift monitoring. Data flows from local CSV files to S3 and Feature Store while maintaining compliance documentation.
