@@ -314,7 +314,13 @@
     "Screenshot 2026-06-29 111056.png": "step-pending-178.png",
     "Screenshot 2026-06-29 111101.png": "step-pending-179.png",
     "Screenshot 2026-06-29 111106.png": "step-pending-180.png",
-    "Screenshot 2026-06-29 111110.png": "step-pending-181.png"
+    "Screenshot 2026-06-29 111110.png": "step-pending-181.png",
+    "Screenshot 2026-06-29 111938.png": "step-pending-182.png",
+    "Screenshot 2026-06-29 111946.png": "step-pending-183.png",
+    "Screenshot 2026-06-29 111952.png": "step-pending-184.png",
+    "Screenshot 2026-06-29 111957.png": "step-pending-185.png",
+    "Screenshot 2026-06-29 112003.png": "step-pending-186.png",
+    "Screenshot 2026-06-29 112006.png": "step-pending-187.png"
   },
   "auto_prefix_unmapped": "step-pending",
   "notes": "Add new Screenshot*.png captures to mappings, or they auto-rename to step-pending-01.png. Run reorganize_lab0_screenshots.py to promote instructor captures to canonical step-NN names."
