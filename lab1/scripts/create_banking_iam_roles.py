@@ -227,6 +227,7 @@ def create_banking_iam_roles():
                     "sagemaker:CreateEndpoint",
                     "sagemaker:DescribeEndpoint",
                     "sagemaker:UpdateEndpoint",
+                    "sagemaker:UpdateEndpointWeightsAndCapacities",
                     "sagemaker:DeleteEndpoint",
                     "sagemaker:CreateEndpointConfig",
                     "sagemaker:DescribeEndpointConfig",

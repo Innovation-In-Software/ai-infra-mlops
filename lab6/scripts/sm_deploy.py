@@ -275,11 +275,19 @@ def update_traffic_weights(endpoint_name, blue_weight, green_weight, dry_run=Fal
     if dry_run:
         return {"blue": blue_weight, "green": green_weight, "dry_run": True}
     sm = boto3.client("sagemaker", region_name=REGION)
-    sm.update_endpoint_weights(
+    sm.update_endpoint_weights_and_capacities(
         EndpointName=endpoint_name,
         DesiredWeightsAndCapacities=[
-            {"VariantName": "banking-model-blue", "DesiredWeight": int(blue_weight)},
-            {"VariantName": "banking-model-green", "DesiredWeight": int(green_weight)},
+            {"VariantName": "banking-model-blue", "DesiredWeight": float(blue_weight)},
+            {"VariantName": "banking-model-green", "DesiredWeight": float(green_weight)},
         ],
+    )
+    wait_for_status(
+        lambda: sm.describe_endpoint(EndpointName=endpoint_name),
+        "EndpointStatus",
+        {"InService"},
+        timeout_sec=600,
+        poll_sec=15,
+        label=f"endpoint {endpoint_name} (traffic update)",
     )
     return {"blue": blue_weight, "green": green_weight, "endpoint": endpoint_name}

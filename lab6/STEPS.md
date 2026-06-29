@@ -194,7 +194,7 @@ python3 scripts/shift_traffic.py --steps 90,50,0
 ✅ Traffic shift complete
 ```
 
-**Note:** Each step calls `update_endpoint_weights` on your production endpoint (from Step 6).
+**Note:** Each step calls `update_endpoint_weights_and_capacities` on your production endpoint (from Step 6).
 
 **Screenshot (optional):** `images/step-07-traffic.png`
 
