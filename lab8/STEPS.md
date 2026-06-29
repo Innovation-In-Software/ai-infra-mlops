@@ -250,7 +250,7 @@ Prerequisites OK — proceed to Lab 9
 | Lab 7 validation fails | Complete [Lab 7](../lab7/STEPS.md) Steps 1–10 first |
 | `Missing Lab 2 engineered_banking_data.csv` | Run Lab 2 data engineering steps |
 | `AccessDenied` on `CreatePipeline` | Re-run `lab1/scripts/create_banking_iam_roles.py` |
-| Pipeline execution `Failed` | Check SageMaker → Pipelines → execution logs; confirm S3 input URI exists |
+| Pipeline execution `Failed` | Re-run `lab1/scripts/create_banking_iam_roles.py` (S3 `lab8-pipeline/*` + SageMaker bucket perms), then `start_pipeline.py` again |
 | `Model package not registered` | Run Step 8 after pipeline succeeds; confirm Lab 5 ECR image exists |
 
 ---

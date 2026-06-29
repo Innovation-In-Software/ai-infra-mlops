@@ -77,6 +77,12 @@ def main():
     write_json(CONFIG_DIR / "pipeline_execution.json", execution)
     if status != "Succeeded":
         print(f"   ❌ Pipeline finished with status: {status}")
+        steps_resp = sm.list_pipeline_execution_steps(PipelineExecutionArn=execution_arn)
+        for step in steps_resp.get("PipelineExecutionSteps", []):
+            step_status = step.get("StepStatus", "Unknown")
+            if step_status in ("Failed", "Stopped"):
+                reason = step.get("FailureReason") or step.get("Metadata", {}).get("FailureReason", "unknown")
+                print(f"   Step {step.get('StepName')}: {step_status} — {reason}")
         sys.exit(1)
     print("✅ Pipeline started and completed successfully")
 
