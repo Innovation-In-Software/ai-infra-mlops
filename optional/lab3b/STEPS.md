@@ -1,8 +1,8 @@
 # Lab 3b — SageMaker managed training
 
-This lab is **Steps 10–13** of the main guide:
+This lab is **Steps 10–12** of the main guide:
 
-**[Lab 3: Model Training & Fairness Testing — Steps 10–13](../lab3/STEPS.md#step-10--upload-training-data-to-s3-sagemaker)**
+**[Lab 3: Model Training & Fairness Testing — Steps 10–12](../lab3/STEPS.md#step-10--upload-training-data-to-s3-sagemaker)**
 
 | | |
 |---|---|

@@ -33,4 +33,4 @@ Open any `STEPS.md` → **Ctrl+Shift+V** (Markdown preview) or side-by-side prev
 
 Some steps **write configs locally** and print `(simulated)` for SageMaker endpoints or pipelines — that avoids costly resources while still using your real AWS account for S3, IAM, and other services. This is **not** the same as `--dry-run` in the terminal; step commands run **without** `--dry-run`.
 
-Full breakdown: [Real vs simulated](REAL-VS-SIMULATED.md) · SageMaker job: [Lab 3 Steps 10–13](../lab3/STEPS.md) · CodePipeline: [Lab 4 Steps 11–16](../lab4/STEPS.md)
+Full breakdown: [Real vs simulated](REAL-VS-SIMULATED.md) · SageMaker job: [Lab 3 Steps 10–12](../lab3/STEPS.md) · CodePipeline: [Lab 4 Steps 11–15](../lab4/STEPS.md) · Teardown: [Lab 10 Step 11](../lab10/STEPS.md) only

@@ -10,9 +10,9 @@ All lab commands run on **EC2** (`whoami` = `ec2-user`) in VS Code Remote SSH �
 | **1** | KMS, S3, IAM, SageMaker Studio, CloudTrail | Config JSON in `workspace/` |
 | **2** | S3 uploads, Feature Store, CloudWatch | PII patterns (not Comprehend by default) |
 | **3** (Steps 1–9) | SageMaker **Experiments** API | Training on EC2 CPU |
-| **3** (Steps 10–13) | **SageMaker Processing Job**, S3 training data | — |
+| **3** (Steps 10–12) | **SageMaker Processing Job**, S3 training data | — |
 | **4** (Steps 1–10) | STS account ID | CI/CD JSON + `simulate_pipeline_run.py` |
-| **4** (Steps 11–16) | **CodePipeline**, **CodeBuild**, S3 artifacts | — |
+| **4** (Steps 11–15) | **CodePipeline**, **CodeBuild**, S3 artifacts | — |
 | **5** | Docker on EC2, **ECR** create/push/scan | Container test on `:8080` |
 | **6–8** | Mix (deploy configs, some CloudWatch) | Blue/green traffic, pipeline run timeboxed |
 | **9–10** | Audit/governance where noted | Reports from accumulated artifacts |
@@ -20,12 +20,12 @@ All lab commands run on **EC2** (`whoami` = `ec2-user`) in VS Code Remote SSH �
 ## Why Lab 3 has two training paths
 
 - **Steps 1–9:** Fast EC2 training for model comparison, fairness, and `best_model.pkl` (needed for Lab 5 Docker).
-- **Steps 10–13:** Same Random Forest on **SageMaker managed compute** so you see Processing jobs in the console.
+- **Steps 10–12:** Same Random Forest on **SageMaker managed compute** so you see Processing jobs in the console.
 
 ## Why Lab 4 has two CI/CD paths
 
 - **Steps 1–10:** Compliance gates and pipeline **workflow** without waiting for CodeBuild in class.
-- **Steps 11–16:** **Real** S3 → CodeBuild pipeline in AWS (KMS-encrypted banking buckets).
+- **Steps 11–15:** **Real** S3 → CodeBuild pipeline in AWS (KMS-encrypted banking buckets).
 
 ## How to verify in the AWS console (`us-west-2`)
 
@@ -50,4 +50,4 @@ aws sts get-caller-identity
 cd ~/ai-infra-mlops && git pull
 ```
 
-Guides: [Lab 3 Steps 10–13](lab3/STEPS.md) · [Lab 4 Steps 11–16](lab4/STEPS.md) · [EC2 testing](EC2-TESTING.md)
+Guides: [Lab 3 Steps 10–12](lab3/STEPS.md) · [Lab 4 Steps 11–15](lab4/STEPS.md) · [Lab 10 optional teardown](lab10/STEPS.md) · [EC2 testing](EC2-TESTING.md)

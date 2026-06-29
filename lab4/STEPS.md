@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Class** | `ai-mlops-2026-jun30` |
-| **Duration** | ~30 minutes (Steps 1–10) · ~45 minutes (Steps 11–16, CodePipeline on AWS) |
+| **Duration** | ~30 minutes (Steps 1–10) · ~45 minutes (Steps 11–15, CodePipeline on AWS) |
 | **Region** | `us-west-2` |
 | **Platform** | EC2 · [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) · **bash** |
 | **Prerequisite** | [Lab 3](../lab3/STEPS.md) complete — Steps 1–12 (Step 9 minimum for local model; Step 12 for SageMaker) |
@@ -61,7 +61,7 @@ cd ~/ai-infra-mlops/lab4
 | **8** | Simulated pipeline run through deploy |
 | **9** | CI/CD compliance report JSON |
 | **10** | Lab 4 validation (local CI/CD simulation) |
-| **11–16** | **Real CodePipeline on AWS** (S3 → CodeBuild → validate) |
+| **11–15** | **Real CodePipeline on AWS** (S3 → CodeBuild → validate) |
 
 ---
 
@@ -417,20 +417,12 @@ Lab 4b OK — real CodePipeline ran in AWS
 
 ![Step 15 — `validate_lab4b.py` OK](../optional/lab4b/images/step-05-validate-ok.png)
 
----
-
-# Step 16 — CodePipeline teardown (recommended)
-
-```bash
-python3 scripts/teardown_lab4b.py
-```
-
-Deletes pipeline, CodeBuild project, and Lab 4b IAM roles. S3 zip/artifacts may remain.
-
-| | Steps 1–10 | Steps 11–16 |
+| | Steps 1–10 | Steps 11–15 |
 |---|------------|-------------|
 | CodePipeline in console | **No** (JSON simulation) | **Yes** |
 | CodeBuild | No | Yes — runs `compliance_check.py` |
+
+> **Do not delete the pipeline during this lab** — you need it for later steps and console review. Optional AWS cleanup is [Lab 10 Step 11](../lab10/STEPS.md) after all labs.
 
 ---
 
@@ -464,7 +456,7 @@ python3 scripts/reset_course.py --labs lab4
 cd lab4
 ```
 
-Then re-run **Steps 2–16**. Labs 1–3 artifacts in `workspace/lab1/` … `lab3/` are unchanged.
+Then re-run **Steps 2–15**. Labs 1–3 artifacts in `workspace/lab1/` … `lab3/` are unchanged.
 
 **Quick run (Steps 1–10 scripts):** `python3 scripts/run_lab4.py` — then run Steps 2, 5, 10, and **11–15** manually.
 

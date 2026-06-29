@@ -4,8 +4,8 @@ Participant steps for SageMaker managed training and real CodePipeline are in th
 
 | Content | Where to follow |
 |---------|-----------------|
-| **SageMaker Processing job** | [Lab 3 Steps 10–13](../lab3/STEPS.md) |
-| **CodePipeline + CodeBuild** | [Lab 4 Steps 11–16](../lab4/STEPS.md) |
+| **SageMaker Processing job** | [Lab 3 Steps 10–12](../lab3/STEPS.md) |
+| **CodePipeline + CodeBuild** | [Lab 4 Steps 11–15](../lab4/STEPS.md) |
 
 Scripts and requirements stay in this folder for path stability:
 

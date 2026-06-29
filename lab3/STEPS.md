@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Class** | `ai-mlops-2026-jun30` |
-| **Duration** | ~30 minutes (Steps 1–9) · ~45 minutes (Steps 10–13, SageMaker on AWS) |
+| **Duration** | ~30 minutes (Steps 1–9) · ~45 minutes (Steps 10–12, SageMaker on AWS) |
 | **Region** | `us-west-2` |
 | **Platform** | EC2 · [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) · **bash** |
 | **Prerequisite** | [Lab 2](../lab2/STEPS.md) complete — Step 11 validation passed |
@@ -58,7 +58,7 @@ cd ~/ai-infra-mlops/lab3
 | **7** | Fairness report (disparate impact on `age_group`) |
 | **8** | Best model selection + final training report |
 | **9** | Lab 3 validation (EC2 training path) |
-| **10–13** | **SageMaker managed job on AWS** (upload data, Processing job, validate) |
+| **10–12** | **SageMaker managed job on AWS** (upload data, Processing job, validate) |
 
 ---
 
@@ -363,20 +363,12 @@ Lab 3b OK — SageMaker job visible in AWS console
 
 ![Step 12 — `python3 scripts/validate_lab3b.py`](../optional/lab3b/images/step-03-validate.png)
 
----
-
-# Step 13 — SageMaker cleanup notes
-
-```bash
-python3 scripts/teardown_lab3b.py
-```
-
-Documents where artifacts live. Delete S3 objects under `experiments/lab3b/` later if you want to reduce storage cost.
-
-| | Steps 1–9 (EC2) | Steps 10–13 (AWS) |
+| | Steps 1–9 (EC2) | Steps 10–12 (AWS) |
 |---|-----------------|-------------------|
 | Compute | EC2 CPU | SageMaker Processing `ml.t3.medium` |
 | Model file | `workspace/lab3/models/best_model.pkl` | `model.joblib` in S3 under `experiments/lab3b/` |
+
+> **Do not tear down AWS resources during this lab.** Optional full cleanup is [Lab 10 Step 11](../lab10/STEPS.md) after you finish all labs.
 
 ---
 
@@ -409,9 +401,9 @@ python3 scripts/reset_course.py --labs lab3
 cd lab3
 ```
 
-Then re-run **Steps 4–13**. Lab 2 artifacts in `workspace/lab2/` are unchanged.
+Then re-run **Steps 4–12**. Lab 2 artifacts in `workspace/lab2/` are unchanged.
 
-**Quick run (Steps 1–9 scripts only):** `python3 scripts/run_lab3.py` — then run Steps 9–13 to validate.
+**Quick run (Steps 1–9 scripts only):** `python3 scripts/run_lab3.py` — then run Steps 9–12 to validate.
 
 ---
 

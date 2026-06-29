@@ -73,6 +73,10 @@ def main():
         if lab2.exists():
             run([sys.executable, str(lab2), "--aws"])
 
+        lab4b_teardown = REPO / "optional" / "lab4b" / "scripts" / "teardown_lab4b.py"
+        if lab4b_teardown.exists():
+            run([sys.executable, str(lab4b_teardown)])
+
         lab1_scripts = REPO / "lab1" / "scripts"
         for script in (
             "delete_audit_logging.py",
@@ -84,6 +88,7 @@ def main():
                 run([sys.executable, str(path)])
     else:
         print("\n   would run lab2 cleanup_lab2.py --aws")
+        print("   would run optional/lab4b/scripts/teardown_lab4b.py")
         print("   would run lab1 delete_audit_logging.py")
         print("   would run lab1 delete_sagemaker_studio.py")
         print("   would run lab1 delete_banking_buckets.py")

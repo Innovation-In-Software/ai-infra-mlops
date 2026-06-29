@@ -16,6 +16,8 @@ BANKING_IAM_ROLES = (
     "BankingDataScientistRole",
     "BankingMLEngineerRole",
     "BankingComplianceOfficerRole",
+    "BankingLab4bPipelineRole",
+    "BankingLab4bCodeBuildRole",
     "EC2MLOpsLabRole",
 )
 INSTANCE_PROFILES = ("EC2MLOpsLabProfile",)

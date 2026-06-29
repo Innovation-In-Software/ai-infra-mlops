@@ -231,14 +231,18 @@ python3 scripts/reset_course.py --labs lab1,lab2,lab3,lab4,lab5,lab6,lab7,lab8,l
 
 ---
 
-# Step 11 — Delete all AWS resources (instructor)
+# Step 11 — Delete AWS resources (optional — after all labs)
 
-After completing the course, tear down AWS resources so the account is clean for the next cohort.
+> **Only run this when the course is fully complete.** Do **not** run teardown scripts during Labs 1–9 — you will delete resources still needed for later labs.
+
+After finishing Labs 0–10, tear down AWS resources so the account is clean for the next cohort.
 
 ```bash
 cd ~/ai-infra-mlops
 python3 scripts/teardown_course.py --yes
 ```
+
+This also removes the Lab 4 CodePipeline (`banking-ml-cicd-lab4b-*`), CodeBuild project, and related IAM roles.
 
 To also terminate lab EC2 instances (name contains `mlops`):
 
@@ -255,11 +259,12 @@ python3 scripts/teardown_course.py --dry-run
 This runs in order:
 
 1. Reset all `workspace/lab1`–`lab10` folders  
-2. Delete Lab 2 SageMaker Feature Groups (`banking-transaction-features`, `banking-customer-features`)  
-3. Delete Lab 1 CloudTrail + dashboard (`delete_audit_logging.py`)  
-4. Delete SageMaker Studio domain (`delete_sagemaker_studio.py`)  
-5. Empty and delete Lab 1 S3 buckets (`delete_banking_buckets.py`)  
-6. **Extended cleanup** (`teardown_aws_extras.py`):
+2. Delete Lab 4 CodePipeline + CodeBuild (`optional/lab4b/scripts/teardown_lab4b.py`)  
+3. Delete Lab 2 SageMaker Feature Groups (`banking-transaction-features`, `banking-customer-features`)  
+4. Delete Lab 1 CloudTrail + dashboard (`delete_audit_logging.py`)  
+5. Delete SageMaker Studio domain (`delete_sagemaker_studio.py`)  
+6. Empty and delete Lab 1 S3 buckets (`delete_banking_buckets.py`)  
+7. **Extended cleanup** (`teardown_aws_extras.py`):
    - CloudWatch alarms and dashboards (`BankingDataDriftAlarm`, `banking-ml-*`, …)
    - SageMaker experiments (`banking-risk-experiments` + trials)
    - SageMaker endpoints (`banking-*`) and pipeline (`banking-ml-pipeline`)
@@ -268,7 +273,7 @@ This runs in order:
    - IAM roles (`Banking*`, `EC2MLOpsLabRole`) and instance profile `EC2MLOpsLabProfile`
    - KMS keys (from `workspace/lab1/config/kms_keys.json` or description contains `Banking`) — **scheduled deletion in 7 days**
    - EC2 key pairs (`ai-mlops-instructor`, `mlops-lab-key`, …) and security group `mlops-lab-sg`
-7. Optional `--terminate-ec2`: terminate running/stopped instances with `mlops` in the Name tag
+8. Optional `--terminate-ec2`: terminate running/stopped instances with `mlops` in the Name tag
 
 **Expected output:**
 
@@ -300,4 +305,4 @@ This runs in order:
 
 ## Course complete
 
-You have finished Labs 0–10 on EC2. Run **Step 11** to delete AWS resources when the class is done.
+You have finished Labs 0–10 on EC2. When the class is done, run **Step 11** (optional) to delete AWS resources — not before.

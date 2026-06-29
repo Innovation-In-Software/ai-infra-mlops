@@ -1,8 +1,8 @@
 # Lab 4b — Real CodePipeline
 
-This lab is **Steps 11–16** of the main guide:
+This lab is **Steps 11–15** of the main guide:
 
-**[Lab 4: CI/CD with Compliance Gates — Steps 11–16](../lab4/STEPS.md#step-11--package-and-upload-pipeline-source-aws)**
+**[Lab 4: CI/CD with Compliance Gates — Steps 11–15](../lab4/STEPS.md#step-11--package-and-upload-pipeline-source-aws)**
 
 | | |
 |---|---|
