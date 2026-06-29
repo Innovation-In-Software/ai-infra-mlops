@@ -41,32 +41,32 @@ Requires Docker (installed in Lab 0 Step 19).
 
 ```mermaid
 flowchart TB
-    START([Lab 4 complete]) --> DOCK{docker ps OK?}
-    DOCK -->|No| FIX[Install/start Docker]
+    START(["Lab 4 complete"]) --> DOCK{"Docker<br/>running?"}
+    DOCK -->|No| FIX["Install or start<br/>Docker daemon"]
     FIX --> DOCK
-    DOCK -->|Yes| PREP[prepare_artifacts.py<br/>model from Lab 3]
+    DOCK -->|Yes| PREP["prepare_artifacts.py<br/>Copy model from Lab 3"]
 
-    subgraph Build["Steps 4–5 — Build & test locally"]
-        BLD[build_container.sh<br/>banking-ml-inference:latest]
-        TST[test_container.py<br/>/ping + /invocations]
+    subgraph Build["Steps 4-5: Local build"]
+        BLD["build_container.sh<br/>Image tag<br/>banking-ml-inference"]
+        TST["test_container.py<br/>Health ping<br/>Test inference"]
         BLD --> TST
     end
 
-    subgraph ECR["Steps 6–8 — AWS registry & scan"]
-        CRE[create_ecr_repo.py]
-        PUSH[push_to_ecr.py]
-        SCAN[scan_container.py<br/>vulnerability findings]
+    subgraph ECR["Steps 6-8: ECR"]
+        CRE["create_ecr_repo.py"]
+        PUSH["push_to_ecr.py<br/>Push image to AWS"]
+        SCAN["scan_container.py<br/>Vulnerability scan"]
         CRE --> PUSH --> SCAN
     end
 
-    REP[generate_container_report.py] --> VAL[validate_lab5.py] --> OK([✅ Lab 6])
+    REP["generate_container_<br/>report.py"] --> VAL["validate_lab5.py"] --> OK(["Proceed<br/>to Lab 6"])
 
     PREP --> BLD
     TST --> CRE
     SCAN --> REP
 
-    PUSH -.->|image URI| AWS[(Amazon ECR)]
-    TST -.->|container_test.json| WS[(workspace/lab5/)]
+    PUSH -.-> AWS[("Amazon ECR")]
+    TST -.-> WS[("workspace/lab5")]
 
     style OK fill:#2d6a4f,color:#fff
     style DOCK fill:#e9c46a,color:#000

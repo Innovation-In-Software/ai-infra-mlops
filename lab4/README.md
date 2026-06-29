@@ -40,44 +40,46 @@ The default path **simulates** CodePipeline locally. Optional Steps 11–15 in `
 
 ```mermaid
 flowchart TB
-    START([Lab 3 complete]) --> PRE[validate_lab3.py]
-    PRE --> CP[Copy Lab 1 + Lab 3 artifacts<br/>to workspace/lab4]
+    START(["Lab 3 complete"]) --> PRE["validate_lab3.py"]
+    PRE --> CP["Copy artifacts<br/>from Lab 1 and Lab 3<br/>to workspace/lab4"]
 
-    subgraph Structure["Step 4 — Project scaffold"]
-        SET[setup_project_structure.py<br/>src · tests · buildspecs]
+    subgraph Structure["Step 4: Scaffold"]
+        SET["setup_project_<br/>structure.py<br/>src tests buildspecs"]
     end
 
-    subgraph Test["Step 5 — Unit tests"]
-        PY[pytest tests/unit -q<br/>5 compliance tests]
+    subgraph Test["Step 5: Unit tests"]
+        PY["pytest tests/unit<br/>Five compliance tests"]
     end
 
-    subgraph Gates["Step 6 — Compliance gates"]
-        CG[run_compliance_checks.py]
-        G1[PII gate]
-        G2[Fairness gate]
-        G3[Security gate]
-        CG --> G1 & G2 & G3
+    subgraph Gates["Step 6: Gates"]
+        CG["run_compliance_<br/>checks.py"]
+        G1["PII gate"]
+        G2["Fairness gate"]
+        G3["Security gate"]
+        CG --> G1
+        CG --> G2
+        CG --> G3
     end
 
-    subgraph Pipeline["Steps 7–8 — CI/CD simulation"]
-        CP2[setup_codepipeline.py]
-        SIM[simulate_pipeline_run.py<br/>Source → Build → Test → Deploy]
+    subgraph Pipeline["Steps 7-8: CI/CD sim"]
+        CP2["setup_codepipeline.py"]
+        SIM["simulate_pipeline_<br/>run.py<br/>Source Build Test Deploy"]
         CP2 --> SIM
     end
 
-    REP[generate_cicd_report.py] --> VAL[validate_lab4.py] --> OK([✅ Lab 5])
+    REP["generate_cicd_<br/>report.py"] --> VAL["validate_lab4.py"] --> OK(["Proceed<br/>to Lab 5"])
 
     CP --> SET --> PY --> CG --> CP2 --> SIM --> REP
 
-    subgraph Optional["Optional lab4b — Real AWS CI/CD"]
-        direction LR
-        P1[package_source.py] --> P2[create_codebuild.py]
-        P2 --> P3[create_codepipeline.py]
-        P3 --> P4[start_pipeline.py]
-        P4 --> P5[validate_lab4b.py]
+    subgraph Optional["Optional lab4b"]
+        direction TB
+        P1["package_source.py"] --> P2["create_codebuild.py"]
+        P2 --> P3["create_codepipeline.py"]
+        P3 --> P4["start_pipeline.py"]
+        P4 --> P5["validate_lab4b.py"]
     end
 
-    OK -.->|optional| P1
+    OK -.-> P1
 
     style OK fill:#2d6a4f,color:#fff
     style G1 fill:#e76f51,color:#fff

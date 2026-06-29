@@ -44,51 +44,44 @@ Completing this lab with `validate_lab10.py` prints **COURSE COMPLETE**.
 
 ```mermaid
 flowchart TB
-    START([Lab 9 complete]) --> V9[validate_lab9.py]
+    START(["Lab 9 complete"]) --> V9["validate_lab9.py"]
 
-    subgraph Collect["Step 2 — Inventory"]
-        COL[collect_course_artifacts.py<br/>Labs 1–9 workspaces + AWS checks]
+    subgraph Collect["Step 2: Inventory"]
+        COL["collect_course_<br/>artifacts.py<br/>Labs 1-9 plus AWS checks"]
     end
 
-    subgraph Assess["Step 3 — Architecture score"]
-        ARC[architecture_assessment.py]
-        L1[security · Lab 1]
-        L2[data · Lab 2]
-        L3[training · Lab 3]
-        L8[pipeline · Lab 8]
-        L6[deployment · Lab 6]
-        L7[monitoring · Lab 7]
-        L9[gov · Lab 9]
-        ARC --> L1 & L2 & L3 & L8 & L6 & L7 & L9
-        SCORE{Score ≥ 90?}
-        L1 & L2 & L3 & L8 & L6 & L7 & L9 --> SCORE
+    subgraph Assess["Step 3: Score"]
+        ARC["architecture_<br/>assessment.py"]
+        LAYERS["Score seven MLOps layers<br/>Labs 1 2 3 6 7 8 9<br/>Target 100 of 100"]
+        SCORE{"Score at least<br/>90 of 100?"}
+        ARC --> LAYERS --> SCORE
     end
 
-    subgraph Deliver["Steps 4–8 — Enterprise deliverables"]
-        GAP[gap_analysis.py]
-        ROAD[implementation_roadmap.py]
-        CHK[implementation_checklist.py]
-        SUM[generate_executive_summary.py<br/>executive_summary.md]
-        BUN[build_compliance_bundle.py<br/>course_compliance_bundle.zip]
+    subgraph Deliver["Steps 4-8: Deliver"]
+        GAP["gap_analysis.py"]
+        ROAD["implementation_<br/>roadmap.py"]
+        CHK["implementation_<br/>checklist.py"]
+        SUM["generate_executive_<br/>summary.py"]
+        BUN["build_compliance_<br/>bundle.py<br/>Zip for auditors"]
         GAP --> ROAD --> CHK --> SUM --> BUN
     end
 
-    VAL[validate_lab10.py] --> DONE([🎉 COURSE COMPLETE])
+    VAL["validate_lab10.py"] --> DONE(["Course<br/>complete"])
 
     V9 --> COL --> ARC
     SCORE -->|Yes| GAP
-    SCORE -->|No| FIX[Complete missing lab layers]
+    SCORE -->|No| FIX["Finish missing<br/>lab layers"]
     FIX --> ARC
     BUN --> VAL
 
-    subgraph Optional["After class — optional"]
+    subgraph Optional["Optional teardown"]
         direction TB
-        RST[reset_course.py<br/>clear workspaces]
-        TD[teardown_course.py --yes<br/>delete AWS resources]
+        RST["reset_course.py<br/>Clear workspaces"]
+        TD["teardown_course.py<br/>Delete AWS resources"]
         RST --> TD
     end
 
-    DONE -.->|instructor only| RST
+    DONE -.-> RST
 
     style DONE fill:#2d6a4f,color:#fff
     style SCORE fill:#e9c46a,color:#000

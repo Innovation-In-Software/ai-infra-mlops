@@ -44,42 +44,42 @@ This lab writes configuration JSON files to `workspace/lab1/config/` and creates
 
 ```mermaid
 flowchart TB
-    START([Lab 0 complete 9/9]) --> ID[aws sts get-caller-identity]
+    START(["Lab 0 done<br/>9 of 9"]) --> ID["aws sts<br/>get-caller-identity"]
 
-    subgraph Encrypt["Step 4 — Encryption"]
-        KMS[create_kms_keys.py<br/>S3 + SageMaker KMS keys]
+    subgraph Encrypt["Step 4: Encryption"]
+        KMS["create_kms_keys.py<br/>S3 encryption key<br/>SageMaker encryption key"]
     end
 
-    subgraph Storage["Step 5 — Storage"]
-        S3[create_banking_buckets.py<br/>6 banking buckets]
+    subgraph Storage["Step 5: Storage"]
+        S3["create_banking_<br/>buckets.py<br/>Six S3 buckets"]
     end
 
-    subgraph Access["Step 6 — Access control"]
-        IAM[create_banking_iam_roles.py<br/>3 banking IAM roles]
+    subgraph Access["Step 6: IAM roles"]
+        IAM["create_banking_<br/>iam_roles.py<br/>Three banking roles"]
     end
 
-    subgraph MLPlatform["Step 7 — ML platform"]
-        SM[create_sagemaker_studio.py<br/>Studio domain ⏱ up to 15 min]
+    subgraph MLPlatform["Step 7: SageMaker"]
+        SM["create_sagemaker_<br/>studio.py<br/>Studio domain<br/>wait up to 15 min"]
     end
 
-    subgraph Audit["Step 8 — Audit"]
-        CT[enable_audit_logging.py<br/>CloudTrail + CloudWatch dashboard]
+    subgraph Audit["Step 8: Audit logs"]
+        CT["enable_audit_<br/>logging.py<br/>CloudTrail<br/>CloudWatch dashboard"]
     end
 
-    subgraph Validate["Step 9 — Validate"]
-        VAL[validate_environment.py]
-        GATE{13/13 COMPLIANT?}
+    subgraph Validate["Step 9: Validate"]
+        VAL["validate_<br/>environment.py"]
+        GATE{"13 of 13<br/>COMPLIANT?"}
     end
 
     ID --> KMS --> S3 --> IAM --> SM --> CT --> VAL --> GATE
-    GATE -->|Yes| OK([✅ Lab 2])
-    GATE -->|No| FIX[Review compliance_report.json]
+    GATE -->|Yes| OK(["Proceed<br/>to Lab 2"])
+    GATE -->|No| FIX["Review<br/>compliance report"]
     FIX --> VAL
 
-    KMS -.->|kms_keys.json| WS[(workspace/lab1/config/)]
-    S3 -.->|buckets.json| WS
-    IAM -.->|iam_roles.json| WS
-    SM -.->|sagemaker_studio.json| WS
+    KMS -.-> WS[("workspace/lab1<br/>config files")]
+    S3 -.-> WS
+    IAM -.-> WS
+    SM -.-> WS
 
     style OK fill:#2d6a4f,color:#fff
     style SM fill:#457b9d,color:#fff

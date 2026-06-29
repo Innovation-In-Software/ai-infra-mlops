@@ -42,36 +42,36 @@ Lab 8 automates the ML workflow with a **real SageMaker Pipeline** (`banking-ml-
 
 ```mermaid
 flowchart TB
-    START([Lab 7 complete]) --> V7[validate_lab7.py]
-    V7 --> IAM[create_banking_iam_roles.py<br/>refresh IAM / KMS / PassRole]
+    START(["Lab 7 complete"]) --> V7["validate_lab7.py"]
+    V7 --> IAM["create_banking_<br/>iam_roles.py<br/>Refresh IAM and KMS"]
 
-    subgraph Define["Steps 3–4 — Define pipeline"]
-        P1[define_pipeline_params.py<br/>params + upload CSV to S3]
-        P2[build_pipeline.py<br/>pipeline_definition.json]
+    subgraph Define["Steps 3-4: Define"]
+        P1["define_pipeline_<br/>params.py<br/>Upload CSV to S3"]
+        P2["build_pipeline.py<br/>Pipeline definition JSON"]
         P1 --> P2
     end
 
-    subgraph AWS["Steps 5–7 — SageMaker Pipeline"]
-        UP[upsert_pipeline.py<br/>banking-ml-pipeline]
-        ST[start_pipeline.py<br/>execute + wait]
-        MO[monitor_pipeline.py<br/>step status]
+    subgraph AWS["Steps 5-7: Run pipeline"]
+        UP["upsert_pipeline.py<br/>Register pipeline in AWS"]
+        ST["start_pipeline.py<br/>Execute and wait"]
+        MO["monitor_pipeline.py<br/>Check step status"]
         UP --> ST --> MO
     end
 
-    subgraph Registry["Steps 8–9 — Registry & report"]
-        REG[register_model.py<br/>banking-risk-models]
-        REP[generate_pipeline_report.py]
+    subgraph Registry["Steps 8-9: Register"]
+        REG["register_model.py<br/>Model registry group"]
+        REP["generate_pipeline_<br/>report.py"]
         REG --> REP
     end
 
-    VAL[validate_lab8.py] --> OK([✅ Lab 9])
+    VAL["validate_lab8.py"] --> OK(["Proceed<br/>to Lab 9"])
 
     IAM --> P1
     P2 --> UP
     MO --> REG --> REP --> VAL
 
-    UP -.->|validate_data.py| PROC[(ProcessingStep)]
-    ST -.->|pipeline_execution.json| WS[(workspace/lab8/config/)]
+    UP -.-> PROC[("Processing step<br/>validate_data.py")]
+    ST -.-> WS[("workspace/lab8<br/>config")]
 
     style OK fill:#2d6a4f,color:#fff
     style ST fill:#457b9d,color:#fff

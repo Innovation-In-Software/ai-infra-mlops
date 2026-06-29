@@ -39,35 +39,35 @@ Lab 7 adds **operational observability** for deployed banking models: CloudWatch
 
 ```mermaid
 flowchart TB
-    START([Lab 6 endpoint InService]) --> PREP[prepare_monitoring_data.py<br/>baseline + current CSV]
+    START(["Lab 6 endpoint<br/>InService"]) --> PREP["prepare_monitoring_<br/>data.py<br/>Baseline and current CSV"]
 
-    subgraph Observe["Steps 3–4 — Dashboards & monitor"]
-        CW[setup_cloudwatch_dashboard.py<br/>Banking-MLOps-Model-Monitor]
-        MM[setup_model_monitor.py<br/>Model Monitor baseline]
+    subgraph Observe["Steps 3-4: Observe"]
+        CW["setup_cloudwatch_<br/>dashboard.py<br/>Model monitor dashboard"]
+        MM["setup_model_<br/>monitor.py<br/>Monitor baseline"]
         CW --> MM
     end
 
-    subgraph Metrics["Steps 5–6 — Drift & quality"]
-        DR[monitor_data_drift.py]
-        MQ[monitor_model_quality.py<br/>latency + errors from CloudWatch]
+    subgraph Metrics["Steps 5-6: Metrics"]
+        DR["monitor_data_<br/>drift.py"]
+        MQ["monitor_model_<br/>quality.py<br/>Latency and errors"]
         DR --> MQ
     end
 
-    subgraph Alert["Steps 7–8 — Alarms & incident"]
-        AL[setup_alarms.py<br/>latency + error rate]
-        INC[simulate_incident.py<br/>incident drill log]
+    subgraph Alert["Steps 7-8: Alerts"]
+        AL["setup_alarms.py<br/>Latency and error alarms"]
+        INC["simulate_incident.py<br/>Incident drill log"]
         AL --> INC
     end
 
-    REP[generate_monitoring_report.py] --> VAL[validate_lab7.py] --> OK([✅ Lab 8])
+    REP["generate_monitoring_<br/>report.py"] --> VAL["validate_lab7.py"] --> OK(["Proceed<br/>to Lab 8"])
 
     PREP --> CW
     MM --> DR
     MQ --> AL
     INC --> REP
 
-    CW -.-> AWS[(CloudWatch)]
-    AL -.-> SNS[(SNS alerts — optional)]
+    CW -.-> AWS[("CloudWatch")]
+    AL -.-> SNS[("SNS optional")]
 
     style OK fill:#2d6a4f,color:#fff
     style INC fill:#e76f51,color:#fff

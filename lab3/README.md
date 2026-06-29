@@ -43,35 +43,35 @@ The primary path runs on EC2 with scikit-learn/XGBoost. Optional Steps 10–12 u
 
 ```mermaid
 flowchart TB
-    START([Lab 2 complete]) --> LOAD[load_training_data.py<br/>train/test splits from Lab 2]
+    START(["Lab 2 complete"]) --> LOAD["load_training_<br/>data.py<br/>Train and test splits"]
 
-    subgraph Train["Steps 5–6 — Train & track"]
-        TR[train_models.py<br/>LR · RF · XGBoost]
-        EX[sagemaker_experiments.py<br/>log to SageMaker Experiments]
+    subgraph Train["Steps 5-6: Train"]
+        TR["train_models.py<br/>Logistic Regression<br/>Random Forest<br/>XGBoost"]
+        EX["sagemaker_<br/>experiments.py<br/>Log experiment runs"]
         TR --> EX
     end
 
-    subgraph Fair["Steps 7–8 — Fairness & selection"]
-        FA[fairness_testing.py<br/>disparate impact by age_group]
-        SEL[select_best_model.py<br/>best_model.pkl]
+    subgraph Fair["Steps 7-8: Fairness"]
+        FA["fairness_testing.py<br/>Disparate impact<br/>by age group"]
+        SEL["select_best_<br/>model.py<br/>Save best_model.pkl"]
         FA --> SEL
     end
 
-    VAL[validate_lab3.py] --> GATE{All outputs OK?}
-    GATE -->|Yes| OK([✅ Lab 4])
+    VAL["validate_lab3.py"] --> GATE{"All outputs<br/>present?"}
+    GATE -->|Yes| OK(["Proceed<br/>to Lab 4"])
 
     LOAD --> TR
     EX --> FA
     SEL --> VAL
 
-    subgraph Optional["Optional Steps 10–12 — lab3b"]
+    subgraph Optional["Optional lab3b"]
         direction TB
-        U[upload_training_data.py] --> J[run_training_job.py<br/>SageMaker Processing]
-        J --> V3[validate_lab3b.py]
+        U["upload_training_<br/>data.py"] --> J["run_training_job.py<br/>SageMaker Processing"]
+        J --> V3["validate_lab3b.py"]
     end
 
-    OK -.->|optional| U
-    V3 -.-> AWS[(S3 model.joblib)]
+    OK -.-> U
+    J -.-> AWS[("S3 output<br/>model.joblib")]
 
     style OK fill:#2d6a4f,color:#fff
     style GATE fill:#e9c46a,color:#000

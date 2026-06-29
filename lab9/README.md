@@ -43,40 +43,40 @@ Lab 9 implements the **governance layer**: IAM policy review, encryption audit, 
 
 ```mermaid
 flowchart TB
-    START([Lab 8 complete]) --> V8[validate_lab8.py]
-    V8 --> IAM[create_banking_iam_roles.py]
+    START(["Lab 8 complete"]) --> V8["validate_lab8.py"]
+    V8 --> IAM["create_banking_<br/>iam_roles.py"]
 
-    subgraph Baseline["Step 2 — Baseline"]
-        BL[load_governance_baseline.py<br/>Lab 1 IAM · Lab 8 registry · CloudTrail]
+    subgraph Baseline["Step 2: Baseline"]
+        BL["load_governance_<br/>baseline.py<br/>Link prior lab context"]
     end
 
-    subgraph Security["Steps 3–4 — Security audit"]
-        IR[review_iam_policies.py<br/>3 roles COMPLIANT]
-        EN[audit_encryption.py<br/>S3 · ECR · KMS PASS]
+    subgraph Security["Steps 3-4: Security"]
+        IR["review_iam_<br/>policies.py<br/>Three roles reviewed"]
+        EN["audit_encryption.py<br/>S3 ECR KMS check"]
         IR --> EN
     end
 
-    subgraph ModelGov["Steps 5–7 — Model governance"]
-        AP[model_approval_workflow.py]
-        EX[generate_explainability.py<br/>SHAP top features]
-        FA[governance_fairness_check.py<br/>disparate impact ≥ 0.80]
+    subgraph ModelGov["Steps 5-7: Model gov"]
+        AP["model_approval_<br/>workflow.py"]
+        EX["generate_<br/>explainability.py<br/>SHAP report"]
+        FA["governance_fairness_<br/>check.py<br/>Fairness threshold"]
         AP --> EX --> FA
     end
 
-    subgraph Audit["Steps 8–9 — Audit & report"]
-        AU[export_audit_trail.py<br/>CloudTrail sample]
-        GR[generate_governance_report.py<br/>COMPLIANT]
+    subgraph Audit["Steps 8-9: Audit"]
+        AU["export_audit_<br/>trail.py<br/>CloudTrail sample"]
+        GR["generate_governance_<br/>report.py<br/>Final COMPLIANT"]
         AU --> GR
     end
 
-    VAL[validate_lab9.py] --> OK([✅ Lab 10])
+    VAL["validate_lab9.py"] --> OK(["Proceed<br/>to Lab 10"])
 
     IAM --> BL --> IR
     EN --> AP
     FA --> AU --> GR --> VAL
 
-    BL -.->|model_registry.json| L8[(Lab 8)]
-    AU -.->|governance_audit_export.json| CT[(CloudTrail)]
+    BL -.-> L8[("Lab 8 registry")]
+    AU -.-> CT[("CloudTrail")]
 
     style OK fill:#2d6a4f,color:#fff
     style GR fill:#2d6a4f,color:#fff
