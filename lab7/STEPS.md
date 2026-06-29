@@ -49,7 +49,7 @@ requirements.txt
 scripts
 ```
 
-**Screenshot (optional):** `images/step-01-lab7-folder.png`
+![Step 1 — `ls -1 lab7`](images/step-01-lab7-folder.png)
 
 ---
 
@@ -75,7 +75,7 @@ Preparing monitoring data and configuration
 ✅ Monitoring data ready
 ```
 
-**Screenshot (optional):** `images/step-02-baseline.png`
+![Step 2 — `prepare_monitoring_data.py`](images/step-02-baseline.png)
 
 ---
 
@@ -97,7 +97,7 @@ python3 scripts/setup_cloudwatch_dashboard.py
 ✅ Dashboard configuration saved
 ```
 
-**Screenshot (optional):** `images/step-03-dashboard.png`
+![Step 3 — `setup_cloudwatch_dashboard.py`](images/step-03-dashboard.png)
 
 ---
 
@@ -118,7 +118,7 @@ python3 scripts/setup_model_monitor.py
 ✅ Model Monitor configured
 ```
 
-**Screenshot (optional):** `images/step-04-model-monitor.png`
+![Step 4 — `setup_model_monitor.py`](images/step-04-model-monitor.png)
 
 ---
 
@@ -141,7 +141,7 @@ python3 scripts/monitor_data_drift.py
 ✅ Drift report saved
 ```
 
-**Screenshot (optional):** `images/step-05-drift.png`
+![Step 5 — `monitor_data_drift.py`](images/step-05-drift.png)
 
 ---
 
@@ -166,7 +166,7 @@ python3 scripts/monitor_model_quality.py
 
 > Invocations and latency come from **CloudWatch** (`AWS/SageMaker` metrics on your Lab 6 endpoint). Values vary with traffic.
 
-**Screenshot (optional):** `images/step-06-quality.png`
+![Step 6 — `monitor_model_quality.py`](images/step-06-quality.png)
 
 ---
 
@@ -186,7 +186,7 @@ python3 scripts/setup_alarms.py
 ✅ Alarms configured
 ```
 
-**Screenshot (optional):** `images/step-07-alarms.png`
+![Step 7 — `setup_alarms.py`](images/step-07-alarms.png)
 
 ---
 
@@ -207,7 +207,7 @@ python3 scripts/simulate_incident.py
 ✅ Incident drill complete
 ```
 
-**Screenshot (optional):** `images/step-08-incident.png`
+![Step 8 — `simulate_incident.py`](images/step-08-incident.png)
 
 ---
 
@@ -225,7 +225,7 @@ python3 scripts/generate_monitoring_report.py
 ✅ Monitoring compliance report generated
 ```
 
-**Screenshot (optional):** `images/step-09-report.png`
+![Step 9 — `generate_monitoring_report.py`](images/step-09-report.png)
 
 ---
 
@@ -252,7 +252,7 @@ Validate Lab 7
 Prerequisites OK — proceed to Lab 8
 ```
 
-**Screenshot (optional):** `images/step-10-validate.png`
+![Step 10 — `validate_lab7.py`](images/step-10-validate.png)
 
 ---
 
@@ -265,6 +265,7 @@ Prerequisites OK — proceed to Lab 8
 | `Endpoint must be InService` | Wait for SageMaker endpoint status in AWS console |
 | Dashboard/alarms not in CloudWatch | Re-run without `--dry-run`; confirm IAM `cloudwatch:PutDashboard` / `PutMetricAlarm` |
 | Zero invocations in quality report | Run Lab 6 `test_deployment.py` or invoke endpoint to generate metrics |
+| `InvalidParameterInput` on PutDashboard | `git pull` — dashboard metrics must not use multiple `...` shorthand markers |
 
 ---
 

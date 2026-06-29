@@ -1,8 +1,20 @@
 {
-  "notes": "Add step-pending-*.png mappings after EC2 Lab 7 manual test. Run: python scripts/sync_lab7_screenshots.py",
+  "notes": "EC2 Lab 7 success run Jun 29 — step-pending-150–158 (skip empty 152). Run: python scripts/sync_lab7_screenshots.py",
   "source_dir": "D:/Current_work/Innovation in Software/MLOps On AWS June 4/screenshots",
-  "canonical": {},
-  "aliases": {},
+  "canonical": {
+    "step-pending-150.png": "step-01-lab7-folder.png",
+    "step-pending-151.png": "step-02-baseline.png",
+    "step-pending-155.png": "step-03-dashboard.png",
+    "step-pending-156.png": "step-05-drift.png",
+    "step-pending-157.png": "step-06-quality.png",
+    "step-pending-158.png": "step-10-validate.png"
+  },
+  "aliases": {
+    "step-04-model-monitor.png": "step-03-dashboard.png",
+    "step-07-alarms.png": "step-06-quality.png",
+    "step-08-incident.png": "step-06-quality.png",
+    "step-09-report.png": "step-06-quality.png"
+  },
   "reuse_from_lab6": {
     "step-00b-lab6-validate.png": "lab6/images/step-10-validate.png"
   }

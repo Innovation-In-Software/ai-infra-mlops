@@ -21,11 +21,15 @@
 ```bash
 cd ~/ai-infra-mlops && git pull
 whoami   # must be ec2-user
-cd ~/ai-infra-mlops/lab7 && python3 scripts/validate_lab7.py 2>/dev/null || true
-# If Lab 1 was run before this course update, refresh ML Engineer IAM for pipelines:
+cd ~/ai-infra-mlops/lab7 && python3 scripts/validate_lab7.py
+# If Lab 1 was run before pipeline IAM update, refresh ML Engineer role:
 cd ~/ai-infra-mlops/lab1 && python3 scripts/create_banking_iam_roles.py
 cd ~/ai-infra-mlops/lab8
 ```
+
+**Expected:** `Prerequisites OK — proceed to Lab 8` from Lab 7 validation.
+
+![Lab 7 validation — `python3 scripts/validate_lab7.py`](images/step-00b-lab7-validate.png)
 
 ---
 
@@ -80,12 +84,9 @@ cat ../workspace/lab8/config/pipeline_params.json | head -12
 **Expected result:**
 
 ```text
+   ✅ Input data from Lab 2
+   ✅ Uploaded input to s3://banking-mlops-processed-.../lab8-pipeline/input/banking_data.csv
 ✅ Pipeline parameters defined
-{
-  "region": "us-west-2",
-  "instance_type": "ml.m5.large",
-  ...
-}
 ```
 
 **Screenshot (optional):** `images/step-03-params.png`
@@ -105,10 +106,7 @@ python3 scripts/build_pipeline.py
 ```text
 🔧 SageMaker Pipeline
 ============================================================
-   ✅ ProcessingStep: data-validation
-   ✅ TrainingStep: xgboost-training
-   ✅ EvaluationStep: model-evaluation
-   ✅ RegisterStep: model-registry
+   ✅ ProcessingStep: DataValidation
 ✅ Pipeline definition saved
 ```
 
@@ -150,7 +148,6 @@ python3 scripts/start_pipeline.py
 ▶️ Pipeline Execution
 ============================================================
    Execution ARN: arn:aws:sagemaker:us-west-2:...:pipeline/banking-ml-pipeline/execution/...
-   ... pipeline execution status: Executing
 ✅ Pipeline started and completed successfully
 ```
 
@@ -171,11 +168,8 @@ python3 scripts/monitor_pipeline.py
 **Expected result:**
 
 ```text
-data-validation     ✅ Succeeded
-   xgboost-training    ✅ Succeeded
-   model-evaluation    ✅ Succeeded
-   model-registry      ✅ Succeeded
-✅ All steps succeeded (simulated)
+   DataValidation         ✅ Succeeded
+✅ All pipeline steps succeeded
 ```
 
 **Screenshot (optional):** `images/step-07-monitor.png`
@@ -196,8 +190,8 @@ python3 scripts/register_model.py
 📋 Model Registry
 ============================================================
    ✅ Model package group: banking-risk-models
-   ✅ Approval status: PendingManualApproval
-✅ Model registered 
+   ✅ Model package ARN: arn:aws:sagemaker:us-west-2:...
+✅ Model registered
 ```
 
 **Screenshot (optional):** `images/step-08-registry.png`
@@ -216,7 +210,6 @@ python3 scripts/generate_pipeline_report.py
 
 ```text
 ✅ Pipeline compliance report generated
-   File: results/pipeline_compliance_report_final.json
 ```
 
 **Screenshot (optional):** `images/step-09-report.png`
@@ -236,12 +229,29 @@ python3 scripts/validate_lab8.py
 ```text
 Validate Lab 8
 ============================================================
-   ✅ pipeline_params.json
-   ✅ pipeline_compliance_report_final.json
+   ✅ config: pipeline_params.json
+   ✅ config: pipeline_registration.json
+   ✅ config: pipeline_execution.json
+   ✅ config: pipeline_monitor.json
+   ✅ config: model_registry.json
+
+============================================================
 Prerequisites OK — proceed to Lab 9
 ```
 
 **Screenshot (optional):** `images/step-10-validate.png`
+
+---
+
+## Troubleshooting
+
+| Issue | Fix |
+|-------|-----|
+| Lab 7 validation fails | Complete [Lab 7](../lab7/STEPS.md) Steps 1–10 first |
+| `Missing Lab 2 engineered_banking_data.csv` | Run Lab 2 data engineering steps |
+| `AccessDenied` on `CreatePipeline` | Re-run `lab1/scripts/create_banking_iam_roles.py` |
+| Pipeline execution `Failed` | Check SageMaker → Pipelines → execution logs; confirm S3 input URI exists |
+| `Model package not registered` | Run Step 8 after pipeline succeeds; confirm Lab 5 ECR image exists |
 
 ---
 
