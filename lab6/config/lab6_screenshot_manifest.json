@@ -1,7 +1,20 @@
 {
-  "notes": "Add step-pending-*.png mappings after EC2 Lab 6 manual test. Run: python scripts/sync_lab6_screenshots.py",
+  "notes": "EC2 Lab 6 success run Jun 29 — step-pending-138–148. Run: python scripts/sync_lab6_screenshots.py",
   "source_dir": "D:/Current_work/Innovation in Software/MLOps On AWS June 4/screenshots",
-  "canonical": {},
-  "aliases": {},
+  "canonical": {
+    "step-pending-138.png": "step-00b-lab5-validate.png",
+    "step-pending-140.png": "step-01-lab6-folder.png",
+    "step-pending-141.png": "step-02-prepare.png",
+    "step-pending-142.png": "step-03-blue-green.png",
+    "step-pending-143.png": "step-04-staging.png",
+    "step-pending-144.png": "step-05-test-staging.png",
+    "step-pending-145.png": "step-06-production.png",
+    "step-pending-146.png": "step-07-traffic.png",
+    "step-pending-147.png": "step-08-rollback.png",
+    "step-pending-148.png": "step-10-validate.png"
+  },
+  "aliases": {
+    "step-09-report.png": "step-08-rollback.png"
+  },
   "reuse_from_lab5": {}
 }

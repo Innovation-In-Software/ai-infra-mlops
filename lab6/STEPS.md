@@ -27,6 +27,8 @@ cd ~/ai-infra-mlops/lab6
 
 **Expected:** `Prerequisites OK — proceed to Lab 6` from Lab 5 validation.
 
+![Lab 5 validation — `python3 scripts/validate_lab5.py`](images/step-00b-lab5-validate.png)
+
 > **Important:** SageMaker starts your ECR image with `docker run <image> serve`. If you pulled a Lab 5 fix after your first ECR push, rebuild and push before deploying:
 >
 > ```bash
@@ -57,7 +59,7 @@ requirements.txt
 scripts
 ```
 
-**Screenshot (optional):** `images/step-01-lab6-folder.png`
+![Step 1 — `ls -1 lab6`](images/step-01-lab6-folder.png)
 
 ---
 
@@ -83,7 +85,7 @@ Preparing deployment configuration
 ✅ Deployment state ready
 ```
 
-**Screenshot (optional):** `images/step-02-prepare.png`
+![Step 2 — `prepare_deployment.py`](images/step-02-prepare.png)
 
 ---
 
@@ -105,7 +107,7 @@ python3 scripts/configure_blue_green.py
 ✅ Plan saved: config/blue_green_plan.json
 ```
 
-**Screenshot (optional):** `images/step-03-blue-green.png`
+![Step 3 — `configure_blue_green.py`](images/step-03-blue-green.png)
 
 ---
 
@@ -127,7 +129,7 @@ python3 scripts/deploy_staging.py
 ✅ Staging deployment complete
 ```
 
-**Screenshot (optional):** `images/step-04-staging.png`
+![Step 4 — `deploy_staging.py`](images/step-04-staging.png)
 
 ---
 
@@ -152,7 +154,7 @@ python3 scripts/test_deployment.py --environment staging
 ✅ Staging tests passed
 ```
 
-**Screenshot (optional):** `images/step-05-test-staging.png`
+![Step 5 — `test_deployment.py`](images/step-05-test-staging.png)
 
 ---
 
@@ -173,7 +175,7 @@ python3 scripts/deploy_production.py
 ✅ Production deployment complete
 ```
 
-**Screenshot (optional):** `images/step-06-production.png`
+![Step 6 — `deploy_production.py`](images/step-06-production.png)
 
 ---
 
@@ -196,7 +198,7 @@ python3 scripts/shift_traffic.py --steps 90,50,0
 
 **Note:** Each step calls `update_endpoint_weights_and_capacities` on your production endpoint (from Step 6).
 
-**Screenshot (optional):** `images/step-07-traffic.png`
+![Step 7 — `shift_traffic.py`](images/step-07-traffic.png)
 
 ---
 
@@ -213,12 +215,12 @@ python3 scripts/rollback.py
 ```text
 ↩️ Rollback
 ============================================================
-   ✅ Restored previous variant weights
+   ✅ Restored blue variant to 100%
    ✅ Rollback logged for audit
 ✅ Rollback complete
 ```
 
-**Screenshot (optional):** `images/step-08-rollback.png`
+![Step 8 — `rollback.py`](images/step-08-rollback.png)
 
 ---
 
@@ -238,7 +240,7 @@ python3 scripts/generate_deployment_report.py
    Zero-downtime staging+prod: True
 ```
 
-**Screenshot (optional):** `images/step-09-report.png`
+![Step 9 — `generate_deployment_report.py`](images/step-09-report.png)
 
 ---
 
@@ -266,7 +268,7 @@ Validate Lab 6
 Prerequisites OK — proceed to Lab 7
 ```
 
-**Screenshot (optional):** `images/step-10-validate.png`
+![Step 10 — `validate_lab6.py`](images/step-10-validate.png)
 
 ---
 
@@ -280,6 +282,7 @@ Prerequisites OK — proceed to Lab 7
 | `ResourceLimitExceeded` / instance quota | Check Service Quotas → SageMaker → endpoint instances; try later or ask instructor |
 | `Could not access model` / ECR pull error | Confirm image exists in ECR (`Lab 5` Step 7) and `BankingMLEngineerRole` has ECR read |
 | Traffic shift fails | Run Step 6 first; production endpoint must be `InService` |
+| `AttributeError: update_endpoint_weights` | `git pull` — script uses `update_endpoint_weights_and_capacities` |
 | `CannotStartContainerError` / `docker run <image> serve` | Rebuild Lab 5 image (`bash scripts/build_container.sh`), `python3 scripts/push_to_ecr.py`, then re-run `deploy_staging.py` |
 
 ---

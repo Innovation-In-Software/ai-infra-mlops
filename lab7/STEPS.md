@@ -21,12 +21,13 @@
 ```bash
 cd ~/ai-infra-mlops && git pull
 whoami   # must be ec2-user
-cd ~/ai-infra-mlops/lab6 && python3 scripts/validate_lab6.py 2>/dev/null || true
-cd ~/ai-infra-mlops/lab5 && python3 scripts/validate_lab5.py
+cd ~/ai-infra-mlops/lab6 && python3 scripts/validate_lab6.py
 cd ~/ai-infra-mlops/lab7
 ```
 
-**Expected:** Lab 5 prerequisites OK (or prior lab7 outputs if re-running).
+**Expected:** `Prerequisites OK — proceed to Lab 7` from Lab 6 validation.
+
+![Lab 6 validation — `python3 scripts/validate_lab6.py`](images/step-00b-lab6-validate.png)
 
 ---
 
@@ -66,10 +67,12 @@ ls -1 ../workspace/lab7/data
 **Expected result:**
 
 ```text
-✅ Baseline data loaded from Lab 2 engineered features
-   ✅ Current production sample generated
-baseline_data.csv
-current_data.csv
+Preparing monitoring data and configuration
+============================================================
+   ✅ Baseline data loaded from Lab 3: 5000 rows
+   ✅ Monitoring endpoint: banking-endpoint-prod-... (production)
+   ✅ baseline_data.csv / current_data.csv
+✅ Monitoring data ready
 ```
 
 **Screenshot (optional):** `images/step-02-baseline.png`
@@ -87,10 +90,10 @@ python3 scripts/setup_cloudwatch_dashboard.py
 **Expected result:**
 
 ```text
+   ✅ Dashboard created in CloudWatch: Banking-MLOps-Model-Monitor
 📊 CloudWatch Dashboard
 ============================================================
    ✅ Dashboard: Banking-MLOps-Model-Monitor
-   ✅ Widgets: invocations, latency, errors, drift
 ✅ Dashboard configuration saved
 ```
 
@@ -109,9 +112,10 @@ python3 scripts/setup_model_monitor.py
 **Expected result:**
 
 ```text
-✅ Baseline constraints generated
-   ✅ Monitoring schedule: hourly (simulated)
-✅ Model Monitor configured 
+   ✅ Endpoint banking-endpoint-prod-...: InService
+   ✅ Baseline constraints generated (local baseline from Lab 7 Step 3)
+   ✅ Endpoint verified for monitoring
+✅ Model Monitor configured
 ```
 
 **Screenshot (optional):** `images/step-04-model-monitor.png`
@@ -131,9 +135,8 @@ python3 scripts/monitor_data_drift.py
 ```text
 📉 Data Drift Check
 ============================================================
-   Features checked: 52
-   Drift detected: 2
-   Severity: LOW
+   Features checked: 30
+   Drift detected: 0
    Status: NORMAL
 ✅ Drift report saved
 ```
@@ -155,11 +158,13 @@ python3 scripts/monitor_model_quality.py
 ```text
 📈 Model Quality
 ============================================================
-   AUC (rolling): 0.86
-   Precision@threshold: 0.78
+   Invocations (1h): 12
+   Avg latency: 149.2 ms
    Status: WITHIN SLA
 ✅ Quality report saved
 ```
+
+> Invocations and latency come from **CloudWatch** (`AWS/SageMaker` metrics on your Lab 6 endpoint). Values vary with traffic.
 
 **Screenshot (optional):** `images/step-06-quality.png`
 
@@ -176,12 +181,9 @@ python3 scripts/setup_alarms.py
 **Expected result:**
 
 ```text
-🚨 CloudWatch Alarms
-============================================================
    ✅ banking-ml-high-latency
    ✅ banking-ml-error-rate
-   ✅ banking-ml-drift-severity
-✅ Alarms configured 
+✅ Alarms configured
 ```
 
 **Screenshot (optional):** `images/step-07-alarms.png`
@@ -202,7 +204,6 @@ python3 scripts/simulate_incident.py
 ⚠️ Simulated incident: latency spike
    ✅ Alarm triggered
    ✅ Runbook executed
-   ✅ Notification sent (simulated)
 ✅ Incident drill complete
 ```
 
@@ -222,8 +223,6 @@ python3 scripts/generate_monitoring_report.py
 
 ```text
 ✅ Monitoring compliance report generated
-   Overall status: COMPLIANT
-   Audit trail: logs/monitoring_audit.json
 ```
 
 **Screenshot (optional):** `images/step-09-report.png`
@@ -245,11 +244,27 @@ Validate Lab 7
 ============================================================
    ✅ baseline_data.csv
    ✅ current_data.csv
+   ✅ dashboard_config.json
+   ✅ alarms.json
    ✅ monitoring_report_final.json
+
+============================================================
 Prerequisites OK — proceed to Lab 8
 ```
 
 **Screenshot (optional):** `images/step-10-validate.png`
+
+---
+
+## Troubleshooting
+
+| Issue | Fix |
+|-------|-----|
+| Lab 6 validation fails | Complete [Lab 6](../lab6/STEPS.md) Steps 1–10 first |
+| `No Lab 6 endpoint found` | Run `deploy_production.py` in Lab 6; endpoint must be `InService` |
+| `Endpoint must be InService` | Wait for SageMaker endpoint status in AWS console |
+| Dashboard/alarms not in CloudWatch | Re-run without `--dry-run`; confirm IAM `cloudwatch:PutDashboard` / `PutMetricAlarm` |
+| Zero invocations in quality report | Run Lab 6 `test_deployment.py` or invoke endpoint to generate metrics |
 
 ---
 
