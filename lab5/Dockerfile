@@ -3,7 +3,7 @@ WORKDIR /app
 RUN pip install --no-cache-dir \
     "flask>=3.0" \
     "joblib>=1.3" \
-    "scikit-learn>=1.3.0,<1.6" \
+    "scikit-learn>=1.6.0,<2.0" \
     "numpy>=1.24" \
     "pandas>=2.0"
 COPY workspace/lab5/models/best_model.pkl /app/model.pkl
