@@ -20,8 +20,14 @@
 
 ```bash
 cd ~/ai-infra-mlops && git pull
-cd lab6
+whoami   # must be ec2-user
+cd ~/ai-infra-mlops/lab5 && python3 scripts/validate_lab5.py 2>/dev/null || true
+cd ~/ai-infra-mlops/lab4 && python3 scripts/validate_lab4.py
+docker ps
+cd ~/ai-infra-mlops/lab5
 ```
+
+**Expected:** Lab 4 OK; Docker header row (empty list OK).
 
 ---
 

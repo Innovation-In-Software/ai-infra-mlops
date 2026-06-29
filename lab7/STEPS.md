@@ -20,8 +20,13 @@
 
 ```bash
 cd ~/ai-infra-mlops && git pull
-cd lab7
+whoami   # must be ec2-user
+cd ~/ai-infra-mlops/lab6 && python3 scripts/validate_lab6.py 2>/dev/null || true
+cd ~/ai-infra-mlops/lab5 && python3 scripts/validate_lab5.py
+cd ~/ai-infra-mlops/lab7
 ```
+
+**Expected:** Lab 5 prerequisites OK (or prior lab7 outputs if re-running).
 
 ---
 

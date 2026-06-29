@@ -62,6 +62,23 @@ aws sts get-caller-identity   # confirm account 028417007274, user Instructor01
 
 Keys stay in `~/.aws/credentials` on the EC2 instance only. **Never commit keys to git** or paste them into lab repos.
 
+## Instructor progress checklist (EC2 shell)
+
+| Done | Lab | Validate on EC2 |
+|------|-----|-----------------|
+| ✅ | 0–4 | `lab4/scripts/validate_lab4.py` |
+| ✅ | 4b (optional) | `optional/lab4b/scripts/validate_lab4b.py` |
+| ▶ | 5 | `lab5/scripts/validate_lab5.py` after Docker + ECR push |
+| | 6–10 | `labN/scripts/validate_labN.py` |
+
+```bash
+cd ~/ai-infra-mlops && git pull
+whoami   # ec2-user
+cd lab5 && python3 scripts/run_lab5.py && python3 scripts/validate_lab5.py
+```
+
+Verify in console: **ECR** → `banking-ml-inference` → image `latest` + scan results.
+
 The instructor EC2 may also have instance profile `EC2MLOpsLabRole`; for demos that match student steps, **`aws configure` with access keys** is fine.
 
 ## Instructor console

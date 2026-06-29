@@ -62,13 +62,13 @@ cd ~/ai-infra-mlops/lab5
 
 | Step | What you create |
 |------|-----------------|
-| **1–2** | Confirm repo and Docker |
+| **1–2** | Confirm repo and Docker on EC2 |
 | **3** | Copy Lab 3 model artifacts into `workspace/lab5/` |
-| **4** | Build `banking-ml-inference:latest` image |
+| **4** | Build `banking-ml-inference:latest` image (Docker on EC2) |
 | **5** | Health check + sample inference on `:8080` |
-| **6** | ECR repository config (real AWS create if needed) |
-| **7** | Push image to ECR |
-| **8** | Vulnerability scan report |
+| **6** | ECR repository (**real AWS**) |
+| **7** | Push image to ECR (**real AWS**) |
+| **8** | ECR vulnerability scan (**real AWS**) |
 | **9** | Container compliance manifest |
 | **10** | Lab 5 validation |
 
@@ -248,7 +248,7 @@ Replace `<account-id>` with your 12-digit AWS account ID.
 
 # Step 8 — Vulnerability scan
 
-**What you do:** Record a classroom vulnerability scan summary.
+**What you do:** Read ECR scan results for the image you pushed (scan-on-push is enabled in Step 6).
 
 ```bash
 python3 scripts/scan_container.py
@@ -257,13 +257,16 @@ python3 scripts/scan_container.py
 **Expected:**
 
 ```text
-🔍 Container Scan
+🔍 Container Scan (ECR)
 ============================================================
+   ✅ Image in ECR: <account-id>.dkr.ecr.us-west-2.amazonaws.com/banking-ml-inference:latest
    Critical: 0
    High: 0
-   Status: PASS (banking threshold)
+   Status: PASS (banking threshold: 0 critical / 0 high)
 ✅ Scan report saved
 ```
+
+> Requires Step 7 complete. First scan may take 1–2 minutes while ECR finishes analysis.
 
 ![Step 8 — `python3 scripts/scan_container.py`](images/step-08-scan.png)
 
@@ -331,6 +334,8 @@ Prerequisites OK — proceed to Lab 6
 | `Health check timed out` | Port 8080 may be in use — run `docker rm -f banking-ml-test` and retry |
 | `Run create_ecr_repo.py first` | Complete Step 6 before Step 7 |
 | ECR push fails (`no basic auth`) | EC2 instance needs ECR permissions ([Lab 0](../lab0/STEPS.md) IAM role) |
+| `No image banking-ml-inference:latest in ECR` | Complete Step 7 before Step 8 |
+| Scan status `PENDING` / timeout | Wait 2 min and re-run Step 8; confirm scan-on-push in ECR console |
 | `RepositoryAlreadyExistsException` | OK on re-run — repo already created |
 | Screenshot shows the **next** step's command at the bottom | Normal — continuous terminal session |
 | `PythonDeprecationWarning` | [Lab 0 Step 17a](../lab0/STEPS.md) — upgrade to Python 3.11 |

@@ -34,7 +34,7 @@ cd lab0    # then lab1, lab2, … lab10
 | **1** | Secure MLOps environment (KMS, S3, IAM, SageMaker) | [lab1/STEPS.md](lab1/STEPS.md) |
 | **2** | Banking data, PII, Feature Store | [lab2/STEPS.md](lab2/STEPS.md) |
 | **3** | Model training & fairness | [lab3/STEPS.md](lab3/STEPS.md) |
-| **4** | CI/CD with compliance gates | [lab4/STEPS.md](lab4/STEPS.md) |
+| **4** | CI/CD with compliance gates | [lab4/STEPS.md](lab4/STEPS.md) · optional [real CodePipeline](optional/lab4b/STEPS.md) |
 | **5** | Secure containerization (Docker, ECR) | [lab5/STEPS.md](lab5/STEPS.md) |
 | **6** | Blue-green deployment | [lab6/STEPS.md](lab6/STEPS.md) |
 | **7** | Monitoring & observability | [lab7/STEPS.md](lab7/STEPS.md) |

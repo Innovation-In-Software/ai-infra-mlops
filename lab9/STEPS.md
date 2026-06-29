@@ -15,7 +15,9 @@
 
 ```bash
 cd ~/ai-infra-mlops && git pull
-cd lab9
+whoami   # must be ec2-user
+cd ~/ai-infra-mlops/lab8 && python3 scripts/validate_lab8.py 2>/dev/null || true
+cd ~/ai-infra-mlops/lab9
 ```
 
 ---

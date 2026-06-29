@@ -1,19 +1,11 @@
 {
-  "notes": "Maps step-pending-*.png (EC2 Jun 29) to optional/lab4b/images/. Run: python scripts/sync_lab4b_screenshots.py",
+  "notes": "Success run Jun 29 — step-pending-115–118. Run: python scripts/sync_lab4b_screenshots.py",
   "source_dir": "D:/Current_work/Innovation in Software/MLOps On AWS June 4/screenshots",
   "canonical": {
-    "step-pending-99.png": "step-00a-git-pull.png",
-    "step-pending-100.png": "step-00b-git-pull-files.png",
-    "step-pending-101.png": "step-00c-lab4-validate.png",
-    "step-pending-102.png": "step-00d-pip-install.png",
-    "step-pending-103.png": "step-01-package-source.png",
-    "step-pending-104.png": "step-02-codebuild.png",
-    "step-pending-105.png": "step-03-codepipeline.png",
-    "step-pending-106.png": "step-04-start-pipeline.png",
-    "step-pending-107.png": "step-04b-start-error.png",
-    "step-pending-108.png": "step-05-validate-warning.png",
-    "step-pending-109.png": "step-04c-retry-start.png",
-    "step-pending-110.png": "step-05b-validate-no-exec.png"
+    "step-pending-115.png": "step-00a-git-pull.png",
+    "step-pending-118.png": "step-01-03-setup.png",
+    "step-pending-116.png": "step-04-pipeline-succeeded.png",
+    "step-pending-117.png": "step-05-validate-ok.png"
   },
   "aliases": {}
 }

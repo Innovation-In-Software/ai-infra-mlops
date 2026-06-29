@@ -5,7 +5,7 @@ These modules run **after** the main Labs 0–10 path. They use **real AWS servi
 | Module | AWS services | Time | Prerequisite |
 |--------|--------------|------|--------------|
 | **[Lab 3b](lab3b/STEPS.md)** | SageMaker **Training Job** (managed compute) | ~45–60 min | Labs 1–3 complete |
-| **[Lab 4b](lab4b/STEPS.md)** | **CodePipeline** + **CodeBuild** | ~45–60 min | Labs 1–4 complete |
+| **[Lab 4b](lab4b/STEPS.md)** | **CodePipeline** + **CodeBuild** | ~45–60 min | Labs 1–4 complete · **verified on EC2** |
 
 ## Why these exist
 
@@ -28,6 +28,8 @@ Labs **3b** and **4b** close that gap for participants who want full AWS executi
 - **Lab 4b:** CodePipeline + CodeBuild (small charge per run).
 
 Run **`teardown_lab3b.py`** / **`teardown_lab4b.py`** when finished to avoid ongoing cost.
+
+**Lab 4b note:** Banking S3 buckets use SSE-KMS. If Source stage fails, run `python3 scripts/patch_iam_for_lab4b.py` on EC2 (see [lab4b/STEPS.md](lab4b/STEPS.md)).
 
 ## Start here
 
