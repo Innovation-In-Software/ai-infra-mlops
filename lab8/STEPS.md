@@ -22,6 +22,8 @@
 cd ~/ai-infra-mlops && git pull
 whoami   # must be ec2-user
 cd ~/ai-infra-mlops/lab7 && python3 scripts/validate_lab7.py 2>/dev/null || true
+# If Lab 1 was run before this course update, refresh ML Engineer IAM for pipelines:
+cd ~/ai-infra-mlops/lab1 && python3 scripts/create_banking_iam_roles.py
 cd ~/ai-infra-mlops/lab8
 ```
 
@@ -125,9 +127,9 @@ python3 scripts/upsert_pipeline.py
 **Expected result:**
 
 ```text
-✅ Pipeline name: banking-ml-pipeline
-   ✅ Upsert: simulated success
-✅ Pipeline registered 
+   ✅ Pipeline name: banking-ml-pipeline
+   ✅ Pipeline ARN: arn:aws:sagemaker:us-west-2:...
+✅ Pipeline registered
 ```
 
 **Screenshot (optional):** `images/step-05-upsert.png`
@@ -148,9 +150,11 @@ python3 scripts/start_pipeline.py
 ▶️ Pipeline Execution
 ============================================================
    Execution ARN: arn:aws:sagemaker:us-west-2:...:pipeline/banking-ml-pipeline/execution/...
-   Status: Executing (simulated)
-✅ Pipeline started 
+   ... pipeline execution status: Executing
+✅ Pipeline started and completed successfully
 ```
+
+**Note:** Processing on `ml.t3.medium` typically takes 5–15 minutes.
 
 **Screenshot (optional):** `images/step-06-execute.png`
 

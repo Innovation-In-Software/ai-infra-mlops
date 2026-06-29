@@ -3,6 +3,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
+REGION = "us-west-2"
 WORKSPACE = REPO_ROOT / "workspace" / "lab5"
 LAB3 = REPO_ROOT / "workspace" / "lab3"
 CONFIG_DIR = WORKSPACE / "config"

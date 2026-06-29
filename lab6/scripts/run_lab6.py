@@ -26,7 +26,7 @@ def run_lab6():
         ("Test staging", test_main, ["--environment", "staging"]),
         ("Production deploy", prod_main, None),
         ("Traffic shift", shift_main, ["--steps", "90,50,0"]),
-        ("Rollback drill", rollback_main, ["--endpoint-name", "banking-endpoint-prod-demo"]),
+        ("Rollback drill", rollback_main, None),
         ("Report", report_main, None),
     ]:
         print(f"\n▶ {name}")

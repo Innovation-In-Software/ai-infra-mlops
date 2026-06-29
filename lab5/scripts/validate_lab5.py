@@ -34,15 +34,30 @@ def main():
         if path.exists():
             print(f"   ✅ {label}")
         else:
-            print(f"   ⚠️ not yet created: {label}")
+            print(f"   ❌ Missing: {label}")
+            ok = False
 
     manifest = VALIDATION_DIR / "container_deployment_manifest.json"
     if manifest.exists():
         data = json.loads(manifest.read_text(encoding="utf-8"))
-        print(f"   ✅ Container compliance: {data.get('compliance', 'UNKNOWN')}")
+        compliance = data.get("compliance", "UNKNOWN")
+        print(f"   ✅ Container compliance: {compliance}")
+        if compliance not in ("PASS", "REVIEW"):
+            print("   ❌ Run Step 8 (scan_container.py) until scan completes")
+            ok = False
+
+    scan_path = CONFIG_DIR / "scan_report.json"
+    if scan_path.exists():
+        scan = json.loads(scan_path.read_text(encoding="utf-8"))
+        if scan.get("source") != "ecr":
+            print("   ❌ scan_report.json is not from ECR — re-run Step 8")
+            ok = False
+        elif scan.get("scan_status") in ("PENDING", "TIMED_OUT"):
+            print("   ❌ ECR scan still pending — wait and re-run Step 8")
+            ok = False
 
     (CONFIG_DIR / "lab5_validation.json").write_text(
-        json.dumps({"lab": 5, "prerequisites_ok": ok}, indent=2),
+        json.dumps({"lab": 5, "valid": ok}, indent=2),
         encoding="utf-8",
     )
 

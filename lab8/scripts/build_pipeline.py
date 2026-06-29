@@ -7,11 +7,9 @@ def main():
     ensure_workspace()
     definition = {
         "steps": [
-            {"name": "data-validation", "type": "ProcessingStep"},
-            {"name": "xgboost-training", "type": "TrainingStep"},
-            {"name": "model-evaluation", "type": "EvaluationStep"},
-            {"name": "model-registry", "type": "RegisterStep"},
-        ]
+            {"name": "DataValidation", "type": "ProcessingStep"},
+        ],
+        "note": "Live pipeline is upserted by upsert_pipeline.py (SageMaker SDK).",
     }
     with open(PIPELINE_DIR / "pipeline_definition.json", "w", encoding="utf-8") as f:
         json.dump(definition, f, indent=2)

@@ -166,7 +166,7 @@ python3 scripts/deploy_production.py
 
 ---
 
-## Step 7 — A/B traffic shift simulation
+## Step 7 — A/B traffic shift (SageMaker)
 
 **Do this:**
 
@@ -177,11 +177,13 @@ python3 scripts/shift_traffic.py --steps 90,50,0
 **Expected result:**
 
 ```text
-Step 1: Blue 90% / Green 10%
+   Step 1: Blue 90% / Green 10%
    Step 2: Blue 50% / Green 50%
    Step 3: Blue 0% / Green 100%
-✅ Traffic shift complete (simulated)
+✅ Traffic shift complete
 ```
+
+**Note:** Each step calls `update_endpoint_weights` on your production endpoint (from Step 6).
 
 **Screenshot (optional):** `images/step-07-traffic.png`
 

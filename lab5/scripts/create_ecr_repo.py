@@ -34,10 +34,13 @@ def main():
             print(f"   ✅ Repository already exists: {repo_name}")
         except ClientError as exc:
             code = exc.response.get("Error", {}).get("Code", "")
-            if code in ("AccessDeniedException", "UnauthorizedOperation"):
-                print(f"   ⚠️ Cannot create repository ({code}) — ensure repo exists or add ecr:CreateRepository")
-            else:
-                raise
+            print(f"   ❌ Cannot create repository ({code}): {exc}")
+            sys.exit(1)
+        try:
+            ecr.describe_repositories(repositoryNames=[repo_name])
+        except ClientError as exc:
+            print(f"   ❌ ECR repository not accessible: {exc}")
+            sys.exit(1)
     cfg = {
         "repository": "banking-ml-inference",
         "encryption": "KMS",

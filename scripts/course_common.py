@@ -1,9 +1,15 @@
 """Shared helpers for course lab scripts."""
 import argparse
 import json
+import sys
+import time
 from pathlib import Path
 
 import numpy as np
+
+REGION = "us-west-2"
+REPO_ROOT = Path(__file__).resolve().parents[1]
+LAB1_CONFIG = REPO_ROOT / "workspace" / "lab1" / "config"
 
 
 def add_dry_run_arg(parser=None):
@@ -40,3 +46,40 @@ def write_json(path: Path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(json_safe(data), f, indent=2)
+
+
+def load_json(path: Path, label=None):
+    if not path.exists():
+        print(f"   ❌ Missing {label or path.name} — {path}")
+        sys.exit(1)
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def load_iam_role(role_key="ml_engineer"):
+    roles = load_json(LAB1_CONFIG / "iam_roles.json", "iam_roles.json (Lab 1 Step 6)")
+    if role_key not in roles:
+        print(f"   ❌ iam_roles.json missing key: {role_key}")
+        sys.exit(1)
+    return roles[role_key]["arn"]
+
+
+def load_buckets():
+    return load_json(LAB1_CONFIG / "buckets.json", "buckets.json (Lab 1)")
+
+
+def wait_for_status(describe_fn, status_key, ready_values, timeout_sec=900, poll_sec=30, label="resource"):
+    deadline = time.time() + timeout_sec
+    while time.time() < deadline:
+        resp = describe_fn()
+        status = resp.get(status_key, "UNKNOWN")
+        if status in ready_values:
+            return resp
+        if status in ("Failed", "Stopped", "Deleted"):
+            reason = resp.get("FailureReason", resp.get("StatusMessage", status))
+            print(f"   ❌ {label} entered {status}: {reason}")
+            sys.exit(1)
+        print(f"   ... {label} status: {status}")
+        time.sleep(poll_sec)
+    print(f"   ❌ Timed out waiting for {label} ({timeout_sec}s)")
+    sys.exit(1)
