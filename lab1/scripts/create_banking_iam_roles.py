@@ -215,14 +215,6 @@ def create_banking_iam_roles():
             },
             {
                 "Effect": "Allow",
-                "Action": ["s3:GetObject", "s3:ListBucket"],
-                "Resource": [
-                    f"arn:aws:s3:::{buckets['processed']['name']}/test/*",
-                    f"arn:aws:s3:::{buckets['processed']['name']}/validation/*",
-                ],
-            },
-            {
-                "Effect": "Allow",
                 "Action": [
                     "s3:GetObject",
                     "s3:PutObject",
@@ -232,7 +224,7 @@ def create_banking_iam_roles():
                 ],
                 "Resource": [
                     f"arn:aws:s3:::{buckets['processed']['name']}",
-                    f"arn:aws:s3:::{buckets['processed']['name']}/lab8-pipeline/*",
+                    f"arn:aws:s3:::{buckets['processed']['name']}/*",
                     f"arn:aws:s3:::sagemaker-us-west-2-{account_id}",
                     f"arn:aws:s3:::sagemaker-us-west-2-{account_id}/*",
                 ],
