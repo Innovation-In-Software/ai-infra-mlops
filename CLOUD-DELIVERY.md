@@ -138,4 +138,5 @@ Each step includes **Expected output** blocks (from EC2 terminal testing) and op
 | Lab 2 over 30 min | Confirm `LAB_NUM_RECORDS=1000`; run Step 8 while discussing Step 9 |
 | `ModuleNotFoundError: dnf` after Python 3.11 | Install OS packages in **Step 17.1** before `alternatives --set`; later use `sudo /usr/bin/python3.9 /usr/bin/dnf` ([Lab 0 Step 17](lab0/STEPS.md)) |
 | Docker permission denied | **Lab 0 Step 17.1** + **17.6** — `sudo usermod -aG docker ec2-user` then reconnect SSH |
-| `docker: command not found` / `ModuleNotFoundError: dnf` / `permission denied` | [Lab 0 Docker error fix block](lab0/STEPS.md#error-docker-command-not-found-or-modulenotfounderror-dnf) — one copy-paste on EC2 |
+| `docker: command not found` / `ModuleNotFoundError: dnf` | [Lab 0 Docker install error](lab0/STEPS.md#error-docker-command-not-found-or-modulenotfounderror-dnf) |
+| `docker ps` permission denied | [Lab 0 Docker permission error](lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock) |

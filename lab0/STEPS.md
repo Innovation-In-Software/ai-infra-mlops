@@ -1142,7 +1142,9 @@ sg docker -c "docker ps"
 
 **Expected result:** `Docker version 25.x.x ...` and an empty `docker ps` table.
 
-**If anything fails**, use the one-block fix: **[Error: `docker: command not found` or `ModuleNotFoundError: dnf`](#error-docker-command-not-found-or-modulenotfounderror-dnf)** (end of this guide).
+**If anything fails**, use the error fixes at the end of this guide:
+- [Docker install](#error-docker-command-not-found-or-modulenotfounderror-dnf)
+- [`docker ps` permission denied](#error-docker-ps--permission-denied-on-varrundockersock)
 
 ![Install Docker on EC2](images/step-19-docker-install.png)
 
@@ -1379,12 +1381,7 @@ sudo dnf install -y docker
 ModuleNotFoundError: No module named 'dnf'
 ```
 
-```text
-docker ps
-permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock
-```
-
-**Cause:** After **Step 17.2**, `python3` is **3.11** — bare `sudo dnf` breaks. Docker may never have been installed in **17.1**. The `permission denied` message means Docker is installed but your SSH session does not have the `docker` group yet.
+**Cause:** After **Step 17.2**, `python3` is **3.11** — bare `sudo dnf` breaks. Docker may never have been installed in **17.1**.
 
 **Fix — one copy-paste block (EC2 terminal):**
 
@@ -1408,8 +1405,52 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
 (empty table — no errors)
 
-> **Do not use** `sudo dnf install` or `sudo install -y docker` after Step 17.2.  
-> If `sg docker -c "docker ps"` works but plain `docker ps` still fails, **disconnect and reconnect** VS Code Remote SSH, then run `docker ps` again.
+> **Do not use** `sudo dnf install` or `sudo install -y docker` after Step 17.2.
+
+---
+
+## Error: `docker ps` — `permission denied` on `/var/run/docker.sock`
+
+**When you see this** (`docker --version` works, but `docker ps` fails):
+
+```text
+permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock
+```
+
+**Why this happens:** Docker is **installed and running**. Only **root** and users in the **`docker`** group may access `/var/run/docker.sock` without `sudo`. Step **17.1** runs `sudo usermod -aG docker ec2-user`, but your **current SSH session was started before that change** — Linux does not apply new groups to an already-open shell.
+
+**This is not a broken Docker install.** It is a **group membership / session** issue.
+
+**Fix — one copy-paste block (EC2 terminal):**
+
+```bash
+sudo usermod -aG docker ec2-user
+groups
+sg docker -c "docker ps"
+```
+
+**Expected:** `groups` lists `docker` (may require reconnect first). `sg docker -c "docker ps"` shows an empty table with no error.
+
+**If `groups` does not show `docker` yet**, or plain `docker ps` still fails:
+
+1. **Disconnect** VS Code Remote SSH completely  
+2. **Reconnect** to EC2  
+3. Run:
+
+```bash
+groups
+docker ps
+```
+
+**Expected after reconnect:**
+
+```text
+ec2-user docker ...
+```
+
+(empty `docker ps` table)
+
+**Quick check (diagnostic only):** `sudo docker ps` — if this works, Docker is fine; you only need the group fix above.
 
 ---
 
@@ -1439,8 +1480,8 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 | `ModuleNotFoundError: dnf` after Step 17.2 | Use `sudo /usr/bin/python3.9 /usr/bin/dnf` for OS packages; use `python3 -m pip` for Python packages |
 | `install: invalid option -- 'y'` | You ran `sudo install` instead of `dnf` — use **Step 17.1** |
 | Pip / disk full | Root volume **30 GiB** minimum (Step 9) |
-| `docker: permission denied` | Run the [Docker error fix block](#error-docker-command-not-found-or-modulenotfounderror-dnf); then reconnect VS Code SSH or use `sg docker -c "docker ps"` |
-| `docker: command not found` | Run the [Docker error fix block](#error-docker-command-not-found-or-modulenotfounderror-dnf) (uses `python3.9` + `dnf`, not bare `sudo dnf`) |
+| `docker: permission denied` | [`docker ps` permission denied error](#error-docker-ps--permission-denied-on-varrundockersock) — `usermod -aG docker`, then reconnect SSH or `sg docker -c "docker ps"` |
+| `docker: command not found` | [Docker install error](#error-docker-command-not-found-or-modulenotfounderror-dnf) (uses `python3.9` + `dnf`, not bare `sudo dnf`) |
 
 ---
 
