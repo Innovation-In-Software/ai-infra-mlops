@@ -122,7 +122,7 @@ python3 -c "import sklearn, xgboost, sagemaker; print('Lab 3 imports OK')"
 
 **Expected:** `Lab 3 imports OK`
 
-> If you completed [Lab 0 Step 18](../lab0/STEPS.md), packages may already be installed — re-running `pip install` is safe.
+> If you completed [Lab 0 Step 17.5](../lab0/STEPS.md), packages may already be installed — re-running `python3 -m pip install` is safe.
 
 ---
 
@@ -387,7 +387,7 @@ Lab 3b OK — SageMaker job visible in AWS console
 | `TypeError: source_dir` on Processing job | `git pull` — fixed in recent repo |
 | SageMaker job stuck **InProgress** | Wait up to 10 min; CloudWatch → `/aws/sagemaker/ProcessingJobs` |
 | Screenshot shows the **next** step's command at the bottom | Normal — captures were taken in one continuous terminal session |
-| `PythonDeprecationWarning` | [Lab 0 Step 17a](../lab0/STEPS.md) — upgrade to Python 3.11 |
+| `PythonDeprecationWarning` | [Lab 0 Step 17](../lab0/STEPS.md) — upgrade to Python 3.11 |
 
 ---
 

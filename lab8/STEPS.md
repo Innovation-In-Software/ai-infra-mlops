@@ -63,13 +63,13 @@ scripts
 
 ```bash
 cd ~/ai-infra-mlops/lab8
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 python3 -c "import sagemaker; print('SageMaker SDK', sagemaker.__version__)"
 ```
 
 **Expected result:** `SageMaker SDK 2.x.x`
 
-![Step 2 — `pip install` + SageMaker SDK](images/step-02-pip.png)
+![Step 2 — `python3 -m pip install` + SageMaker SDK](images/step-02-pip.png)
 
 ---
 

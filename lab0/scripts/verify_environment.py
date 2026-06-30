@@ -59,7 +59,7 @@ class EnvironmentVerifier:
         ok = version_info >= (3, 8)
         details = f"Python {version_info.major}.{version_info.minor}.{version_info.micro}"
         if version_info < (3, 10):
-            details += " — upgrade: Lab 0 Step 17a (boto3 drops Python 3.9)"
+            details += " — upgrade: Lab 0 Step 17.2 (boto3 drops Python 3.9)"
         self.add_check("Python Version", ok, details)
 
     def verify_packages(self):
@@ -79,7 +79,7 @@ class EnvironmentVerifier:
         )
         if missing:
             print(f"      Missing: {', '.join(missing)}")
-            print(f"      Run: pip install -r requirements.txt")
+            print(f"      Run: python3 -m pip install -r requirements.txt")
 
     def verify_aws_cli(self):
         if self.skip_aws:

@@ -59,7 +59,7 @@ scripts
 
 ```bash
 cd ~/ai-infra-mlops/lab7
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 python3 scripts/prepare_monitoring_data.py
 ls -1 ../workspace/lab7/data
 ```

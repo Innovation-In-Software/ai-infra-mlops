@@ -43,7 +43,7 @@ cd ~/ai-infra-mlops && ls -1 lab9
 
 ```bash
 cd ~/ai-infra-mlops/lab9
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 python3 scripts/load_governance_baseline.py
 ```
 

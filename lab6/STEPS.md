@@ -69,7 +69,7 @@ scripts
 
 ```bash
 cd ~/ai-infra-mlops/lab6
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 python3 scripts/prepare_deployment.py
 cat ../workspace/lab6/config/deployment_state.json | head -15
 ```

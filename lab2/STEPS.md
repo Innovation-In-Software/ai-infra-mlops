@@ -355,8 +355,8 @@ You should also see `preprocessor.pkl` under `config/` from Step 7.
 | Feature Store timeout | Wait 5 min, run Step 8 **once more** (groups may already exist) |
 | Ingest error / already ingested | OK on re-run if record counts match in Step 11 |
 | Screenshot shows the **next** step's command at the bottom | Normal — captures were taken in one continuous terminal session |
-| `ModuleNotFoundError` (pandas, sagemaker, etc.) | [Lab 0 Step 18](../lab0/STEPS.md) — `pip install -r lab2/requirements.txt` |
-| `PythonDeprecationWarning` | [Lab 0 Step 17a](../lab0/STEPS.md) — upgrade to Python 3.11 |
+| `ModuleNotFoundError` (pandas, sagemaker, etc.) | [Lab 0 Step 17.5](../lab0/STEPS.md) — `python3 -m pip install -r requirements.txt` |
+| `PythonDeprecationWarning` | [Lab 0 Step 17](../lab0/STEPS.md) — upgrade to Python 3.11 |
 
 ---
 

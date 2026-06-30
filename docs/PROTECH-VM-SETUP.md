@@ -197,7 +197,7 @@ Details: [SSH-VSCODE-SETUP.md](SSH-VSCODE-SETUP.md).
 | VS Code “Permission denied (publickey)” | PEM path and `chmod 400` equivalent on key file |
 | `aws` fails on EC2 | Re-run `aws configure`; check region `us-west-2` |
 | Lab works on EC2 but not on VM PowerShell | Expected — use EC2 bash or WSL Ubuntu |
-| Disk full on EC2 | Expand volume to 30 GB+; `pip install` needs space |
+| Disk full on EC2 | Expand volume to 30 GB+; `python3 -m pip install` needs space |
 
 ---
 

@@ -93,7 +93,7 @@ scripts
 
 # Step 2 — Confirm the workspace
 
-**What you do:** Verify your personal workspace exists (created in [Lab 0 Step 21](../lab0/STEPS.md)).
+**What you do:** Verify your personal workspace exists (created in [Lab 0 Step 19](../lab0/STEPS.md)).
 
 ```bash
 cd ~/ai-infra-mlops/lab1
@@ -375,7 +375,7 @@ Report saved to: `~/ai-infra-mlops/workspace/lab1/results/compliance_report.json
 | `No such file: kms_keys.json` | Run Step 4 before Step 5 |
 | `No such file: buckets.json` | Run Step 5 before Steps 6 and 8 |
 | `No such file: iam_roles.json` | Run Step 6 before Step 7 |
-| `PythonDeprecationWarning` (Boto3 / Python 3.9) | [Lab 0 Step 17a](../lab0/STEPS.md) — upgrade to Python 3.11, re-run Step 18 |
+| `PythonDeprecationWarning` (Boto3 / Python 3.9) | [Lab 0 Step 17](../lab0/STEPS.md) — upgrade to Python 3.11, re-run **17.5** |
 | SageMaker `Timed out` | Wait 5 min, run Step 7 **once more** (same command) |
 | CloudTrail role error | Wait 60s, run Step 8 **once more** (script auto-retries) |
 | Step 9 shows failures | Re-run only the failed step (4–8), then Step 9 |

@@ -69,7 +69,7 @@ def main():
     print("=" * 60)
 
     if not shutil.which("docker"):
-        print("   ❌ Docker not found — complete Lab 0 Step 19.")
+        print("   ❌ Docker not found — complete Lab 0 Step 17.")
         sys.exit(1)
 
     subprocess.run(["docker", "rm", "-f", CONTAINER], capture_output=True)

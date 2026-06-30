@@ -15,7 +15,7 @@
 > **Steps 4–6:** AWS Console sign-in and region (`us-west-2`) on the **ProTech VM browser**.  
 > **Steps 7–10:** **Create your EC2 instance** in the AWS Console (key pair → security group → launch → copy public IP). **Required before VS Code.**  
 > **Steps 11–13:** VS Code + Remote SSH on the **ProTech VM desktop** (connect to the EC2 you created).  
-> **Steps 14–22:** All commands in the **VS Code integrated terminal** on EC2 (**bash**). Do not use Windows PowerShell for lab commands.
+> **Steps 14–20:** All commands in the **VS Code integrated terminal** on EC2 (**bash**). Do not use Windows PowerShell for lab commands.
 
 **Instructor dual setup:** [docs/PROTECH-VM-SETUP.md](../docs/PROTECH-VM-SETUP.md)
 
@@ -39,7 +39,7 @@
 | **4–6** | VM browser → AWS | Sign in to AWS, set region **us-west-2**, open EC2 |
 | **7–10** | VM browser → AWS EC2 | **Create EC2:** key pair → security group → launch instance → copy public IP |
 | **11–13** | ProTech VM desktop | Install VS Code, SSH config, connect to **your EC2** |
-| **14–22** | EC2 terminal (VS Code SSH) | Tools, clone repo, `aws configure`, **Python 3.11**, pip, Docker, workspace, verify 9/9 |
+| **14–20** | EC2 terminal (VS Code SSH) | Tools, clone repo, **install all tools** (Python 3.11, pip, AWS CLI, Docker), workspace, verify 9/9 |
 
 **Fresh start / after teardown:** Always run **Steps 7–10** to launch a new instance. Do not skip to VS Code without a running EC2.
 
@@ -405,7 +405,7 @@ If `mlops-lab-sg` already exists, open it → **Inbound rules** → **Edit** →
    | Root volume size | **30** GiB |
    | Volume type | **gp3** |
 
-   **30 GiB is required** — smaller disks cause `pip install` failures in Step 18.
+   **30 GiB is required** — smaller disks cause `python3 -m pip install` failures in Step 17.
 
 8. **Advanced details** (expand)
 
@@ -799,6 +799,8 @@ From this step onward, **all lab commands** run in this EC2 terminal — not in 
 
 From Step 14 onward, all commands run in the **VS Code integrated terminal** connected to EC2 (**bash**).
 
+> **Step 17 installs everything** — run subsections **17.1 → 17.6 in order**. OS packages (`dnf`) go in **17.1** while `python3` is still 3.9. After **17.2**, use `python3 -m pip` and `sudo /usr/bin/python3.9 /usr/bin/dnf` for any extra packages.
+
 ---
 
 ## Step 14 — Verify tools on EC2
@@ -821,19 +823,12 @@ aws-cli/2.x.x ...
 Linux ... amzn2023.x86_64 ...
 ```
 
-> **Python 3.9 is normal here.** Amazon Linux 2023 ships Python 3.9 as the default `python3`. You will upgrade to **Python 3.11** in **Step 17a** (before `pip install`) so lab scripts do not show the boto3 **Python 3.9 deprecation warning**.
+> **Python 3.9 is normal here.** Amazon Linux 2023 ships Python 3.9 as the default `python3`. **Step 17** upgrades to **Python 3.11** and installs all lab tools in one sequence.
 
-If `aws` is missing:
-
-```bash
-sudo dnf install -y awscli
-```
-
-If `git` is missing (`bash: git: command not found`):
+If `aws` or `git` is missing, **Step 17.1** installs them — or run now (while `python3` is still 3.9):
 
 ```bash
-sudo dnf install -y git
-git --version
+sudo dnf install -y aws-cli git
 ```
 
 > **On the ProTech VM (Windows):** `git` is **not** required before Step 13. Do **not** run `git clone` in PowerShell, Git Bash, or CMD on the VM — clone the repo in **Step 15** on **EC2** after VS Code SSH connects.
@@ -953,9 +948,80 @@ cd ~/ai-infra-mlops/lab0 && ls -1
 
 ---
 
-## Step 17 — Configure AWS CLI on EC2
+## Step 17 — Install tools, configure AWS CLI, and Python environment
 
-**Do this:**
+**Requires:** Steps **14–16** complete (`cd ~/ai-infra-mlops/lab0`).
+
+Run subsections **17.1 → 17.6 in order**. Install OS packages in **17.1** while `python3` is still **3.9** (before `alternatives --set`) — this keeps `sudo dnf` working and avoids broken `aws` / `docker` installs later.
+
+> Boto3 and other AWS SDKs drop **Python 3.9** support. Labs use **Python 3.11** after **17.2**.
+
+---
+
+### 17.1 — Install OS packages (while `python3` is still 3.9)
+
+```bash
+cd ~/ai-infra-mlops/lab0
+python3 --version
+sudo dnf install -y python3.11 python3.11-pip docker aws-cli
+sudo systemctl enable --now docker
+sudo usermod -aG docker ec2-user
+```
+
+**Expected result:**
+
+```text
+Python 3.9.x
+```
+
+> **Do not use** `sudo install -y docker` — `install` is a file-copy utility, not a package manager.
+
+---
+
+### 17.2 — Set default Python to 3.11
+
+```bash
+sudo alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
+sudo alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 2
+sudo alternatives --set python3 /usr/bin/python3.11
+python3 --version
+python3 -m pip --version
+```
+
+**Expected result:**
+
+```text
+Python 3.11.x
+pip 23.x from ... (python 3.11)
+```
+
+![Step 17a — install Python 3.11 (`dnf install` + `alternatives`)](images/step-17a-python-upgrade.png)
+
+![Step 17a — verify `python3 --version` shows 3.11.x](images/step-17a-python-version.png)
+
+---
+
+### 17.3 — Repair AWS CLI (after Python switch)
+
+Switching `python3` to 3.11 breaks bare `aws` (`ModuleNotFoundError: No module named 'awscli'`) unless you reinstall:
+
+```bash
+python3 -m pip install awscli
+aws --version
+```
+
+**If `aws` still fails**, install AWS CLI v2 from the OS package:
+
+```bash
+sudo /usr/bin/python3.9 /usr/bin/dnf install -y aws-cli
+aws --version
+```
+
+**Expected:** `aws-cli/1.x.x Python/3.11.x ...` or `aws-cli/2.x.x ...`
+
+---
+
+### 17.4 — Configure AWS credentials
 
 Configure the CLI with **access keys from your handout** (demo/training account). Keys stay on this EC2 instance only.
 
@@ -985,9 +1051,7 @@ Account ID and ARN will match your assigned user. Region must be **`us-west-2`**
 
 **Alternative:** If your instance has an IAM **instance profile**, `aws sts get-caller-identity` may show an `assumed-role` ARN instead of a user — that is OK if your instructor confirms the role has lab permissions.
 
-**Instructor example (copy-paste):**
-
-**Option A — access keys** (paste keys from handout when prompted; not stored in git):
+**Instructor example — Option A (access keys):**
 
 ```bash
 aws configure set region us-west-2
@@ -1000,20 +1064,10 @@ At the prompts, enter access key ID and secret from the handout. Then:
 ```bash
 aws sts get-caller-identity
 aws configure get region
+aws s3 ls --region us-west-2 | head -5
 ```
 
-Expected:
-
-```text
-{
-    "UserId": "AIDAXXXXXXXXXXXXXXXXX",
-    "Account": "028417007274",
-    "Arn": "arn:aws:iam::028417007274:user/Instructor01"
-}
-us-west-2
-```
-
-**Option B — instance profile** (no keys; `ai-mlops-lab` with `EC2MLOpsLabProfile`):
+**Instructor example — Option B (instance profile):**
 
 ```bash
 aws configure set region us-west-2
@@ -1022,113 +1076,14 @@ aws sts get-caller-identity
 aws configure get region
 ```
 
-Expected:
-
-```text
-{
-    "UserId": "AROAQNHOJD2VP3ODHKF4S:i-0326933d0bc3b45f1",
-    "Account": "028417007274",
-    "Arn": "arn:aws:sts::028417007274:assumed-role/EC2MLOpsLabRole/i-0326933d0bc3b45f1"
-}
-us-west-2
-```
-
-Quick S3 check:
-
-```bash
-aws s3 ls --region us-west-2 | head -5
-```
-
 ![aws sts get-caller-identity on EC2](images/step-17-aws-cli.png)
 
 ---
 
-## Step 17a — Upgrade Python to 3.11 (required before pip install)
-
-Boto3 and other AWS SDKs are dropping **Python 3.9** support. Lab scripts may print:
-
-```text
-PythonDeprecationWarning: Boto3 will no longer support Python 3.9 starting April 29, 2026.
-Please upgrade to Python 3.10 or later.
-```
-
-Upgrade **on EC2** before Step 18 so `python3` points to 3.11 for all labs.
-
-**Do this:**
-
-```bash
-python3 --version
-sudo dnf install -y python3.11 python3.11-pip
-sudo alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
-sudo alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 2
-sudo alternatives --set python3 /usr/bin/python3.11
-python3 --version
-python3 -m pip --version
-```
-
-**Expected result:**
-
-```text
-Python 3.9.x          # before upgrade
-...
-Python 3.11.x         # after alternatives --set
-pip 23.x from ... (python 3.11)
-```
-
-> **`aws --version` may still show `Python/3.9.x`** — that is the AWS CLI’s own runtime. Lab scripts use **`python3`** (3.11 after this step).
-
-**Already ran Step 18 on Python 3.9?** Re-run **Step 18** after this upgrade so packages install for 3.11.
-
-**Instructor example (copy-paste):**
-
-```bash
-python3 --version
-sudo dnf install -y python3.11 python3.11-pip
-sudo alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
-sudo alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 2
-sudo alternatives --set python3 /usr/bin/python3.11
-python3 --version
-python3 -m pip --version
-```
-
-Expected:
-
-```text
-Python 3.11.13
-pip 23.3.2 from /usr/lib/python3.11/site-packages/pip (python 3.11)
-```
-
-![Step 17a — install Python 3.11 (`dnf install` + `alternatives`)](images/step-17a-python-upgrade.png)
-
-![Step 17a — verify `python3 --version` shows 3.11.x](images/step-17a-python-version.png)
-
-> **Note:** After `alternatives --set python3` to 3.11, `sudo dnf` may fail (`ModuleNotFoundError: dnf`) because `dnf` is tied to Python 3.9. That is OK if **Step 17a** already installed `python3.11-pip` — skip **Step 18a** and use `python3 -m pip` in Step 18b.
-
----
-
-## Step 18 — Install Python packages
-
-**Requires:** Step **17a** complete (`python3 --version` shows **3.11.x**).
-
-**Do this:**
+### 17.5 — Install lab Python packages
 
 ```bash
 cd ~/ai-infra-mlops/lab0
-python3 --version
-```
-
-**18a. Install pip** (if `python3 -m pip` says `No module named pip`):
-
-```bash
-sudo dnf install -y python3.11-pip
-python3 -m pip --version
-```
-
-**Expected:** `pip 21.x` or newer from `python3 -m pip` (python **3.11**).
-
-**18b. Install lab requirements**
-
-```bash
 python3 -m pip install --upgrade pip
 python3 -m pip install -r requirements.txt
 python3 -m pip install -r ../lab1/requirements.txt
@@ -1136,7 +1091,7 @@ python3 -m pip install -r ../lab2/requirements.txt
 python3 scripts/test_imports.py
 ```
 
-> Use **`python3 -m pip`** (not bare `pip`) so packages install for the same Python you run in the labs.
+> Use **`python3 -m pip`** (not bare `pip`) so packages install for Python **3.11**.
 
 **Expected result:**
 
@@ -1144,26 +1099,16 @@ python3 scripts/test_imports.py
 All imports successful!
 ```
 
-If pip fails with **no space left on device**, return to Step 9 and increase the root volume to **30 GiB**, then expand the filesystem or relaunch the instance.
+If pip fails with **no space left on device**, return to Step 9 and increase the root volume to **30 GiB**.
 
-**Instructor example (copy-paste):**
+**If `python3 -m pip` says `No module named pip`:**
 
 ```bash
-cd ~/ai-infra-mlops/lab0
-python3 --version
-sudo dnf install -y python3.11-pip
-python3 -m pip install --upgrade pip
-python3 -m pip install -r requirements.txt
-python3 -m pip install -r ../lab1/requirements.txt
-python3 -m pip install -r ../lab2/requirements.txt
-python3 scripts/test_imports.py
+sudo /usr/bin/python3.9 /usr/bin/dnf install -y python3.11-pip
+python3 -m pip --version
 ```
 
-Expected last line:
-
-```text
-All imports successful!
-```
+Then re-run the install commands above.
 
 ![pip install lab requirements](images/step-18-pip-install.png)
 
@@ -1171,30 +1116,21 @@ All imports successful!
 
 ---
 
-## Step 19 — Install Docker on EC2 (required before Lab 5)
+### 17.6 — Verify Docker (required before Lab 5)
 
-**Do this:**
+Docker was installed in **17.1**. Confirm it works after adding your user to the `docker` group:
 
 ```bash
-sudo dnf install -y docker
-sudo systemctl enable --now docker
-sudo usermod -aG docker ec2-user
 docker --version
 ```
 
-**Expected result:**
-
-```text
-Docker version 25.x.x, build ...
-```
-
-**Important:** Disconnect VS Code Remote SSH and **reconnect** so the `docker` group applies. Then verify:
+**Important:** Disconnect VS Code Remote SSH and **reconnect** so the `docker` group applies. Then:
 
 ```bash
 docker ps
 ```
 
-**Expected result:** Empty table (no error). If `permission denied`, reconnect SSH or run `newgrp docker` once.
+**Expected result:** `Docker version 25.x.x ...` and an empty table (no error). If `permission denied`, reconnect SSH or run `newgrp docker` once.
 
 ![Install Docker on EC2](images/step-19-docker-install.png)
 
@@ -1202,7 +1138,49 @@ docker ps
 
 ---
 
-## Step 20 — Set classroom environment variables
+### Command reference (after Step 17.2)
+
+| Task | Command |
+|------|---------|
+| Python packages | `python3 -m pip install ...` |
+| OS packages (if needed later) | `sudo /usr/bin/python3.9 /usr/bin/dnf install -y <package>` |
+| Lab scripts | `python3 scripts/...` |
+| Docker | `docker ps` (after SSH reconnect) |
+
+---
+
+### Instructor one-shot — full Step 17 (copy-paste)
+
+```bash
+cd ~/ai-infra-mlops/lab0
+python3 --version
+sudo dnf install -y python3.11 python3.11-pip docker aws-cli
+sudo systemctl enable --now docker
+sudo usermod -aG docker ec2-user
+sudo alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
+sudo alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 2
+sudo alternatives --set python3 /usr/bin/python3.11
+python3 --version
+python3 -m pip install awscli
+aws --version
+aws configure set region us-west-2
+aws configure set output json
+aws configure
+aws sts get-caller-identity
+aws configure get region
+python3 -m pip install --upgrade pip
+python3 -m pip install -r requirements.txt
+python3 -m pip install -r ../lab1/requirements.txt
+python3 -m pip install -r ../lab2/requirements.txt
+python3 scripts/test_imports.py
+docker --version
+```
+
+Then **reconnect VS Code SSH** and run `docker ps`.
+
+---
+
+## Step 18 — Set classroom environment variables
 
 **Do this:**
 
@@ -1231,7 +1209,7 @@ echo $LAB_NUM_RECORDS $LAB_USE_COMPREHEND
 
 ---
 
-## Step 21 — Create the student workspace
+## Step 19 — Create the student workspace
 
 **Do this:**
 
@@ -1266,7 +1244,7 @@ ls ../workspace
 
 ---
 
-## Step 22 — Verify the full environment
+## Step 20 — Verify the full environment
 
 **Do this:**
 
@@ -1389,16 +1367,18 @@ Passwords and access keys: **instructor handout only** (not in git).
 | PEM in `Downloads\.ssh` | Move to `C:\Users\Administrator\.ssh\` (Step 7) — Step 12 expects the profile `.ssh` folder |
 | Public IP changed | Repeat Step 10 (console or CLI); update `HostName` in `C:\Users\Administrator\.ssh\config` |
 | `aws describe-instances` returns `None` | Instance not **Running** yet, wrong name, or `aws` not configured — use Step 10 **Method 1** |
-| `bash: git: command not found` | Run on **EC2** (Step 13 SSH connected, `whoami` = `ec2-user`): `sudo dnf install -y git`. If on ProTech VM, connect VS Code to EC2 first — do not use `git` on Windows for labs |
+| `bash: git: command not found` | Re-run **Step 17.1** (`sudo dnf install -y git` if `python3` is 3.9, else `sudo /usr/bin/python3.9 /usr/bin/dnf install -y git`) on **EC2** only |
 | GitHub `Password authentication is not supported` | **Step 15:** Public repo — do **not** enter GitHub user/password at clone prompt. `rm -rf ~/ai-infra-mlops` then `git clone` again; cancel prompt with **Ctrl+C** if needed |
-| `aws sts` AccessDenied | Re-run Step 17; confirm keys and IAM permissions with instructor |
-| `PythonDeprecationWarning` (Boto3 / Python 3.9) | Run **Step 17a** to upgrade to Python 3.11, then re-run **Step 18** |
-| `No module named pip` | **Step 18a:** `sudo dnf install -y python3.11-pip` then use `python3 -m pip install ...` |
-| `python3` still shows 3.9 after Step 17a | Re-run `sudo alternatives --set python3 /usr/bin/python3.11` and `python3 --version` |
-| `ModuleNotFoundError: dnf` after Step 17a | `dnf` uses Python 3.9 — skip Step 18a if pip works (`python3 -m pip --version`). Use `python3 -m pip` for Step 18b |
+| `aws sts` AccessDenied | Re-run **Step 17.4**; confirm keys and IAM permissions with instructor |
+| `ModuleNotFoundError: No module named 'awscli'` | Re-run **Step 17.3:** `python3 -m pip install awscli`. Fallback: `sudo /usr/bin/python3.9 /usr/bin/dnf install -y aws-cli` |
+| `PythonDeprecationWarning` (Boto3 / Python 3.9) | Re-run **Step 17** from **17.2** (Python 3.11), then **17.5** (pip packages) |
+| `No module named pip` | **Step 17.5:** `sudo /usr/bin/python3.9 /usr/bin/dnf install -y python3.11-pip` then `python3 -m pip install ...` |
+| `python3` still shows 3.9 after Step 17 | Re-run **Step 17.2:** `sudo alternatives --set python3 /usr/bin/python3.11` |
+| `ModuleNotFoundError: dnf` after Step 17.2 | Use `sudo /usr/bin/python3.9 /usr/bin/dnf` for OS packages; use `python3 -m pip` for Python packages |
+| `install: invalid option -- 'y'` | You ran `sudo install` instead of `dnf` — use **Step 17.1** |
 | Pip / disk full | Root volume **30 GiB** minimum (Step 9) |
-| `docker: permission denied` | Complete Step 19, then **reconnect** VS Code SSH |
-| `docker: command not found` | Re-run Lab 0 Step 19 |
+| `docker: permission denied` | Complete **Step 17.1** + **17.6** (`sudo usermod -aG docker ec2-user`), then **reconnect** VS Code SSH |
+| `docker: command not found` | Re-run **Step 17.1:** `sudo dnf install -y docker` (or `sudo /usr/bin/python3.9 /usr/bin/dnf install -y docker` after **17.2**) then `sudo systemctl enable --now docker` |
 
 ---
 

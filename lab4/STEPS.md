@@ -129,9 +129,9 @@ python3 -c "import boto3, pytest; print('Lab 4 imports OK')"
 
 **Expected:** `Lab 4 imports OK`
 
-> If you completed [Lab 0 Step 18](../lab0/STEPS.md), packages may already be installed — re-running `pip install` is safe.
+> If you completed [Lab 0 Step 17.5](../lab0/STEPS.md), packages may already be installed — re-running `python3 -m pip install` is safe.
 
-![Step 3 — `pip install -r requirements.txt` and `Lab 4 imports OK`](images/step-03-pip.png)
+![Step 3 — `python3 -m pip install -r requirements.txt` and `Lab 4 imports OK`](images/step-03-pip.png)
 
 ---
 
@@ -439,7 +439,7 @@ Lab 4b OK — real CodePipeline ran in AWS
 | `Unable to locate credentials` on Step 7 | EC2 instance needs an IAM role with `sts:GetCallerIdentity` ([Lab 0](../lab0/STEPS.md)) |
 | `⚠️ not yet created` on Step 10 | Run Steps 6–9 before validating |
 | Screenshot shows the **next** step's command at the bottom | Normal — captures were taken in one continuous terminal session |
-| `PythonDeprecationWarning` | [Lab 0 Step 17a](../lab0/STEPS.md) — upgrade to Python 3.11 |
+| `PythonDeprecationWarning` | [Lab 0 Step 17](../lab0/STEPS.md) — upgrade to Python 3.11 |
 | Source stage **Failed** (Step 14) | Run `python3 scripts/patch_iam_for_lab4b.py` in `optional/lab4b`, wait 30s, re-run Steps 13–14 |
 | `PipelineExecutionNotFoundException` (Step 14) | `git pull` for latest `start_pipeline.py` |
 | `AccessDenied` on `create_pipeline` | EC2 role needs CodePipeline/CodeBuild/IAM permissions |

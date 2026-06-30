@@ -6,14 +6,14 @@
 | **Duration** | ~30 minutes |
 | **Region** | `us-west-2` |
 | **Platform** | EC2 · [VS Code Remote SSH](../docs/SSH-VSCODE-SETUP.md) · **bash** |
-| **Prerequisite** | [Lab 4](../lab4/STEPS.md) complete — Steps 1–15 (CodePipeline validated on AWS) · **Docker** installed ([Lab 0 Step 19](../lab0/STEPS.md)) |
+| **Prerequisite** | [Lab 4](../lab4/STEPS.md) complete — Steps 1–15 (CodePipeline validated on AWS) · **Docker** installed ([Lab 0 Step 17](../lab0/STEPS.md)) |
 | **Working directory** | `~/ai-infra-mlops/lab5` |
 | **Outputs** | `~/ai-infra-mlops/workspace/lab5/` |
 
 > **Run Steps 1–10 once, in order.** Run each command block below, then compare your terminal to the screenshot under that step.  
 > All commands run in the **VS Code terminal on EC2** (`whoami` = `ec2-user`). Do not use Windows PowerShell on the ProTech VM.
 
-> **Requires Docker** — `docker ps` must work **without sudo** after Lab 0 Step 19 and an SSH reconnect.  
+> **Requires Docker** — `docker ps` must work **without sudo** after Lab 0 Step 17 and an SSH reconnect.  
 > **Quick run:** `python3 scripts/run_lab5.py` — then run Step 10 to validate.
 
 ---
@@ -115,7 +115,7 @@ Docker version 25.x.x, build ...
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 
-If you see `permission denied`, reconnect VS Code SSH after Lab 0 Step 19.
+If you see `permission denied`, reconnect VS Code SSH after Lab 0 Step 17.
 
 ![Step 2 — `docker --version` and `docker ps`](images/step-02-docker.png)
 
@@ -328,8 +328,8 @@ Prerequisites OK — proceed to Lab 6
 | Issue | Fix |
 |-------|-----|
 | `whoami` = `Administrator` | Reconnect VS Code Remote-SSH to EC2 ([Lab 0 Step 13](../lab0/STEPS.md)) |
-| `docker: permission denied` | Complete Lab 0 Step 19, then **reconnect** VS Code SSH |
-| `docker: command not found` | Re-run Lab 0 Step 19 |
+| `docker: permission denied` | Complete Lab 0 Step 17, then **reconnect** VS Code SSH |
+| `docker: command not found` | Re-run Lab 0 Step 17.1: `sudo dnf install -y docker` |
 | `Lab 3 model not found` | Complete [Lab 3](../lab3/STEPS.md) Step 8 before Lab 5 Step 3 |
 | `Missing Lab 3 config: preprocessor.pkl` | Re-run Lab 3 Step 4 (`load_training_data.py`) |
 | `Failed to start container` | Run Step 4 first; check `docker images \| grep banking-ml` |
@@ -338,12 +338,12 @@ Prerequisites OK — proceed to Lab 6
 | `X has 8 features, but ... expecting 30` | `git pull`, rebuild (`bash scripts/build_container.sh`), retry Step 5 — sample payload must match Lab 3 feature count (30) |
 | `Run create_ecr_repo.py first` | Complete Step 6 before Step 7 |
 | `bash scripts/push_to_ecr.sh` fails with `set: pipefail` | `git pull` (LF scripts) or `sed -i 's/\r$//' lab5/scripts/push_to_ecr.sh` |
-| `ModuleNotFoundError: awscli` on ECR push | `git pull` then `python3 scripts/push_to_ecr.py` (uses boto3, not `aws` CLI) |
+| `ModuleNotFoundError: awscli` on ECR push | Complete [Lab 0 Step 17.3](../lab0/STEPS.md) (`python3 -m pip install awscli`), or `git pull` then `python3 scripts/push_to_ecr.py` (uses boto3, not `aws` CLI) |
 | `No image banking-ml-inference:latest in ECR` | Complete Step 7 before Step 8 |
 | Scan status `PENDING` / timeout | Wait 2 min and re-run Step 8; confirm scan-on-push in ECR console |
 | `RepositoryAlreadyExistsException` | OK on re-run — repo already created |
 | Screenshot shows the **next** step's command at the bottom | Normal — continuous terminal session |
-| `PythonDeprecationWarning` | [Lab 0 Step 17a](../lab0/STEPS.md) — upgrade to Python 3.11 |
+| `PythonDeprecationWarning` | [Lab 0 Step 17](../lab0/STEPS.md) — upgrade to Python 3.11 |
 
 ---
 

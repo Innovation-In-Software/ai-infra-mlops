@@ -15,7 +15,7 @@
 | User | `ec2-user` |
 | IAM | Instance profile `EC2MLOpsLabProfile` (PowerUserAccess) |
 
-Launch with **30 GB+ root volume** (expand if needed). Lab 0 `pip install` needs ~3 GB with `sagemaker<3`.
+Launch with **30 GB+ root volume** (expand if needed). Lab 0 `python3 -m pip install` needs ~3 GB with `sagemaker<3`.
 
 Example `~/.ssh/config`:
 

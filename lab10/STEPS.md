@@ -45,7 +45,7 @@ cd ~/ai-infra-mlops && ls -1 lab10
 
 ```bash
 cd ~/ai-infra-mlops/lab10
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 python3 scripts/collect_course_artifacts.py
 ```
 

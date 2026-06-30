@@ -21,14 +21,19 @@ Participants run **every step** on an **EC2 instance** in `us-west-2` via **SSH*
 **Golden AMI (build before class):**
 
 ```bash
-sudo dnf install -y git python3.11 python3.11-pip docker
+sudo dnf install -y git python3.11 python3.11-pip docker aws-cli
 sudo systemctl enable --now docker
 sudo usermod -aG docker ec2-user
+sudo alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
+sudo alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 2
+sudo alternatives --set python3 /usr/bin/python3.11
+python3 -m pip install awscli
 git clone https://github.com/gjkaur/ai-infra-mlops.git ~/ai-infra-mlops
 cd ~/ai-infra-mlops/lab0
-python3.11 -m pip install -r requirements.txt
-cd ../lab1 && python3.11 -m pip install -r requirements.txt
-cd ../lab2 && python3.11 -m pip install -r requirements.txt
+python3 -m pip install --upgrade pip
+python3 -m pip install -r requirements.txt
+cd ../lab1 && python3 -m pip install -r requirements.txt
+cd ../lab2 && python3 -m pip install -r requirements.txt
 ```
 
 Optional classroom env (faster Lab 2 — still run all scripts):
@@ -48,14 +53,14 @@ Add those lines to `/etc/profile.d/mlops-lab.sh` on the AMI.
 
 ```bash
 cd ~/ai-infra-mlops
-python3.11 scripts/reset_course.py --labs lab1,lab2,lab3,lab4,lab5,lab6,lab7,lab8,lab9,lab10
+python3 scripts/reset_course.py --labs lab1,lab2,lab3,lab4,lab5,lab6,lab7,lab8,lab9,lab10
 ```
 
 ### 2. Reset Lab 2 AWS feature groups (if re-running Step 8)
 
 ```bash
 cd ~/ai-infra-mlops/lab2
-python3.11 scripts/cleanup_lab2.py --aws
+python3 scripts/cleanup_lab2.py --aws
 ```
 
 ### 3. Reset Lab 1 AWS (full wipe)
@@ -64,9 +69,9 @@ From `lab1/` use existing delete scripts, then re-run Lab 1 STEPS:
 
 ```bash
 cd ~/ai-infra-mlops/lab1
-python3.11 scripts/delete_audit_logging.py
-python3.11 scripts/delete_sagemaker_studio.py
-python3.11 scripts/delete_banking_buckets.py
+python3 scripts/delete_audit_logging.py
+python3 scripts/delete_sagemaker_studio.py
+python3 scripts/delete_banking_buckets.py
 # Delete IAM roles and KMS keys in console if needed, then re-run Lab 1
 ```
 
@@ -125,9 +130,12 @@ Each step includes **Expected output** blocks (from EC2 terminal testing) and op
 | Issue | Fix |
 |-------|-----|
 | SSH timeout | Check instance running, public IP, security group **port 22** from your IP |
-| `aws: command not found` on EC2 | `sudo dnf install awscli` or use instance role + pre-baked AMI |
+| `aws: command not found` on EC2 | Re-run **Lab 0 Step 17** — **17.1** (`sudo dnf install -y aws-cli`) and **17.3** (`python3 -m pip install awscli`) |
+| `ModuleNotFoundError: No module named 'awscli'` | **Lab 0 Step 17.3** — `python3 -m pip install awscli` ([lab0/STEPS.md](lab0/STEPS.md)) |
 | Feature Store AccessDenied | Re-run `lab1/scripts/create_banking_iam_roles.py` |
-| Feature group already exists | `python3.11 scripts/cleanup_lab2.py --aws` then Step 8 again |
+| Feature group already exists | `python3 scripts/cleanup_lab2.py --aws` then Step 8 again |
 | PII too slow | `export LAB_USE_COMPREHEND=0` |
 | Lab 2 over 30 min | Confirm `LAB_NUM_RECORDS=1000`; run Step 8 while discussing Step 9 |
-| Docker permission denied | `sudo usermod -aG docker ec2-user` then reconnect SSH ([Lab 0 Step 19](lab0/STEPS.md)) |
+| `ModuleNotFoundError: dnf` after Python 3.11 | Install OS packages in **Step 17.1** before `alternatives --set`; later use `sudo /usr/bin/python3.9 /usr/bin/dnf` ([Lab 0 Step 17](lab0/STEPS.md)) |
+| Docker permission denied | **Lab 0 Step 17.1** + **17.6** — `sudo usermod -aG docker ec2-user` then reconnect SSH |
+| `docker: command not found` | Re-run **Lab 0 Step 17.1** — `sudo dnf install -y docker` then `sudo systemctl enable --now docker` |

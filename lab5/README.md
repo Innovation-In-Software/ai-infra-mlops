@@ -25,7 +25,7 @@ Hands-on steps: [STEPS.md](STEPS.md)
 
 Lab 5 packages the Lab 3 **best model** into a **Docker inference container**, tests it locally on EC2, pushes to **Amazon ECR** with KMS encryption, and runs an **image vulnerability scan** for banking compliance.
 
-Requires Docker (installed in Lab 0 Step 19).
+Requires Docker (installed in Lab 0 Step 17).
 
 ---
 

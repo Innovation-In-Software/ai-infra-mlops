@@ -66,7 +66,7 @@ flowchart TB
     subgraph P4["Phase 4: EC2 tools"]
         direction TB
         T1["git clone"] --> T2["aws configure"]
-        T2 --> T3["Python 3.11<br/>pip install"]
+        T2 --> T3["Python 3.11<br/>python3 -m pip install"]
         T3 --> T4["test_imports.py"]
         T4 --> T5["Install Docker"]
         T5 --> T6["setup_classroom_env.sh"]
@@ -131,7 +131,7 @@ Creates the student workspace tree under `~/ai-infra-mlops/workspace/`:
 
 ### `test_imports.py`
 
-Quick smoke test that core Python packages import without error. Run after `pip install -r requirements.txt`.
+Quick smoke test that core Python packages import without error. Run after `python3 -m pip install -r requirements.txt`.
 
 ### `run_lab0_setup.py`
 
