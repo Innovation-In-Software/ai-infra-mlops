@@ -1132,52 +1132,17 @@ Then re-run the install commands above.
 
 ### 17.6 — Verify Docker (required before Lab 5)
 
-Docker was installed in **17.1**. Confirm it works after adding your user to the `docker` group:
+Docker was installed in **17.1**. Confirm it works:
 
 ```bash
 which docker
 docker --version
+sg docker -c "docker ps"
 ```
 
-**If `docker: command not found`** — Docker was not installed in **17.1** (or install failed). Re-install using the command that matches your `python3` version:
+**Expected result:** `Docker version 25.x.x ...` and an empty `docker ps` table.
 
-**While `python3` is still 3.9.x** (before **17.2**):
-
-```bash
-sudo dnf install -y docker
-sudo systemctl enable --now docker
-sudo usermod -aG docker ec2-user
-which docker
-docker --version
-```
-
-**After `python3` is 3.11.x** (you already ran **17.2**):
-
-```bash
-sudo /usr/bin/python3.9 /usr/bin/dnf install -y docker
-sudo systemctl enable --now docker
-sudo usermod -aG docker ec2-user
-which docker
-docker --version
-```
-
-**If `dnf` has no package `docker`:**
-
-```bash
-sudo /usr/bin/python3.9 /usr/bin/dnf install -y moby-engine moby-cli
-sudo systemctl enable --now docker
-sudo usermod -aG docker ec2-user
-which docker
-docker --version
-```
-
-**Important:** Disconnect VS Code Remote SSH and **reconnect** so the `docker` group applies. Then:
-
-```bash
-docker ps
-```
-
-**Expected result:** `Docker version 25.x.x ...` and an empty table (no error). If `permission denied`, reconnect SSH or run `newgrp docker` once.
+**If anything fails**, use the one-block fix: **[Error: `docker: command not found` or `ModuleNotFoundError: dnf`](#error-docker-command-not-found-or-modulenotfounderror-dnf)** (end of this guide).
 
 ![Install Docker on EC2](images/step-19-docker-install.png)
 
@@ -1401,6 +1366,53 @@ Passwords and access keys: **instructor handout only** (not in git).
 
 ---
 
+## Error: `docker: command not found` or `ModuleNotFoundError: dnf`
+
+**When you see any of these:**
+
+```text
+bash: docker: command not found
+```
+
+```text
+sudo dnf install -y docker
+ModuleNotFoundError: No module named 'dnf'
+```
+
+```text
+docker ps
+permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock
+```
+
+**Cause:** After **Step 17.2**, `python3` is **3.11** — bare `sudo dnf` breaks. Docker may never have been installed in **17.1**. The `permission denied` message means Docker is installed but your SSH session does not have the `docker` group yet.
+
+**Fix — one copy-paste block (EC2 terminal):**
+
+```bash
+cd ~/ai-infra-mlops/lab0
+sudo /usr/bin/python3.9 /usr/bin/dnf install -y docker || sudo /usr/bin/python3.9 /usr/bin/dnf install -y moby-engine moby-cli
+sudo systemctl enable --now docker
+sudo usermod -aG docker ec2-user
+which docker
+docker --version
+sg docker -c "docker ps"
+```
+
+**Expected result:**
+
+```text
+/usr/bin/docker
+Docker version 25.x.x, build ...
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```
+
+(empty table — no errors)
+
+> **Do not use** `sudo dnf install` or `sudo install -y docker` after Step 17.2.  
+> If `sg docker -c "docker ps"` works but plain `docker ps` still fails, **disconnect and reconnect** VS Code Remote SSH, then run `docker ps` again.
+
+---
+
 ## Troubleshooting
 
 | Issue | Fix |
@@ -1427,8 +1439,8 @@ Passwords and access keys: **instructor handout only** (not in git).
 | `ModuleNotFoundError: dnf` after Step 17.2 | Use `sudo /usr/bin/python3.9 /usr/bin/dnf` for OS packages; use `python3 -m pip` for Python packages |
 | `install: invalid option -- 'y'` | You ran `sudo install` instead of `dnf` — use **Step 17.1** |
 | Pip / disk full | Root volume **30 GiB** minimum (Step 9) |
-| `docker: permission denied` | Complete **Step 17.1** + **17.6** (`sudo usermod -aG docker ec2-user`), then **reconnect** VS Code SSH |
-| `docker: command not found` | **Step 17.6** — if `python3` is **3.9**: `sudo dnf install -y docker`. If **3.11**: `sudo /usr/bin/python3.9 /usr/bin/dnf install -y docker`. No `docker` package? Use `moby-engine moby-cli`. Then `sudo systemctl enable --now docker`, `sudo usermod -aG docker ec2-user`, reconnect SSH |
+| `docker: permission denied` | Run the [Docker error fix block](#error-docker-command-not-found-or-modulenotfounderror-dnf); then reconnect VS Code SSH or use `sg docker -c "docker ps"` |
+| `docker: command not found` | Run the [Docker error fix block](#error-docker-command-not-found-or-modulenotfounderror-dnf) (uses `python3.9` + `dnf`, not bare `sudo dnf`) |
 
 ---
 

@@ -329,7 +329,7 @@ Prerequisites OK — proceed to Lab 6
 |-------|-----|
 | `whoami` = `Administrator` | Reconnect VS Code Remote-SSH to EC2 ([Lab 0 Step 13](../lab0/STEPS.md)) |
 | `docker: permission denied` | Complete Lab 0 Step 17, then **reconnect** VS Code SSH |
-| `docker: command not found` | [Lab 0 Step 17.6](../lab0/STEPS.md) — install with `sudo dnf` (3.9) or `sudo /usr/bin/python3.9 /usr/bin/dnf` (3.11); fallback `moby-engine moby-cli` |
+| `docker: command not found` / `permission denied` | [Lab 0 Docker error fix block](../lab0/STEPS.md#error-docker-command-not-found-or-modulenotfounderror-dnf) |
 | `Lab 3 model not found` | Complete [Lab 3](../lab3/STEPS.md) Step 8 before Lab 5 Step 3 |
 | `Missing Lab 3 config: preprocessor.pkl` | Re-run Lab 3 Step 4 (`load_training_data.py`) |
 | `Failed to start container` | Run Step 4 first; check `docker images \| grep banking-ml` |
