@@ -13,7 +13,7 @@
 > **Run Steps 1–10 once, in order.** Run each command block below, then compare your terminal to the screenshot under that step.  
 > All commands run in the **VS Code terminal on EC2** (`whoami` = `ec2-user`). Do not use Windows PowerShell on the ProTech VM.
 
-> **Requires Docker** — `docker ps` must work **without sudo** after Lab 0 Step 17 and an SSH reconnect.  
+> **Requires Docker** — confirm with `docker ps` after Lab 0 Step 17. If you see **permission denied**, use `sudo docker ps` (Docker is fine; your SSH session lacks the `docker` group). Fix group access per [Lab 0](../lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock) before Steps 4–7 so build/push scripts work without `sudo`.  
 > **Quick run:** `python3 scripts/run_lab5.py` — then run Step 10 to validate.
 
 ---
@@ -49,6 +49,8 @@ docker ps
 ```
 
 **Expected:** Header row with `CONTAINER ID` (empty list is OK — no error).
+
+**If you see `permission denied`:** Docker is installed — run `sudo docker ps` instead. You should get the same empty table. Before Steps 4–7, reconnect VS Code SSH after Lab 0 Step 17 (`usermod -aG docker`) or use `sg docker -c "docker ps"` so plain `docker` works for the lab scripts.
 
 5. Go to Lab 5:
 
@@ -115,7 +117,7 @@ Docker version 25.x.x, build ...
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 
-If you see `permission denied`, reconnect VS Code SSH after Lab 0 Step 17.
+**If `docker ps` shows `permission denied`:** run `sudo docker ps` — same empty table means Docker is healthy. Fix group access ([Lab 0 Step 17 + SSH reconnect](../lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock)) before Step 4, or prefix docker commands with `sudo` (e.g. `sudo bash scripts/build_container.sh`).
 
 ![Step 2 — `docker --version` and `docker ps`](images/step-02-docker.png)
 
@@ -328,9 +330,9 @@ Prerequisites OK — proceed to Lab 6
 | Issue | Fix |
 |-------|-----|
 | `whoami` = `Administrator` | Reconnect VS Code Remote-SSH to EC2 ([Lab 0 Step 13](../lab0/STEPS.md)) |
-| `docker: permission denied` | [Lab 0 Docker permission error](../lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock) |
+| `docker: permission denied` | Try `sudo docker ps` to confirm Docker works. Fix group access: [Lab 0 Docker permission error](../lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock) |
 | `docker: command not found` | [Lab 0 Docker install error](../lab0/STEPS.md#error-docker-command-not-found-or-modulenotfounderror-dnf) |
-| `docker ps` permission denied | [Lab 0 Docker permission error](../lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock) |
+| `docker ps` permission denied | Run `sudo docker ps` (diagnostic). For Steps 4–7, reconnect SSH after `usermod -aG docker`, or use `sudo` with `bash scripts/build_container.sh` / manual `docker` commands |
 | `Lab 3 model not found` | Complete [Lab 3](../lab3/STEPS.md) Step 8 before Lab 5 Step 3 |
 | `Missing Lab 3 config: preprocessor.pkl` | Re-run Lab 3 Step 4 (`load_training_data.py`) |
 | `Failed to start container` | Run Step 4 first; check `docker images \| grep banking-ml` |

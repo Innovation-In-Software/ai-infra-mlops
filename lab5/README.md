@@ -32,7 +32,7 @@ Requires Docker (installed in Lab 0 Step 17).
 ## Prerequisites
 
 - Lab 4 complete — `validate_lab4.py` passed
-- Docker running: `docker ps` succeeds
+- Docker running: `docker ps` succeeds (or `sudo docker ps` if you see permission denied — fix group access per [Lab 0](../lab0/STEPS.md) before build/push steps)
 - `workspace/lab3/models/best_model.pkl`
 
 ---
