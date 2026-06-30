@@ -138,4 +138,4 @@ Each step includes **Expected output** blocks (from EC2 terminal testing) and op
 | Lab 2 over 30 min | Confirm `LAB_NUM_RECORDS=1000`; run Step 8 while discussing Step 9 |
 | `ModuleNotFoundError: dnf` after Python 3.11 | Install OS packages in **Step 17.1** before `alternatives --set`; later use `sudo /usr/bin/python3.9 /usr/bin/dnf` ([Lab 0 Step 17](lab0/STEPS.md)) |
 | Docker permission denied | **Lab 0 Step 17.1** + **17.6** — `sudo usermod -aG docker ec2-user` then reconnect SSH |
-| `docker: command not found` | Re-run **Lab 0 Step 17.1** — `sudo dnf install -y docker` then `sudo systemctl enable --now docker` |
+| `docker: command not found` | **Lab 0 Step 17.6** — `python3` **3.9**: `sudo dnf install -y docker`. **3.11**: `sudo /usr/bin/python3.9 /usr/bin/dnf install -y docker` (fallback: `moby-engine moby-cli`). Then `systemctl enable --now docker`, `usermod -aG docker ec2-user`, reconnect SSH |

@@ -966,12 +966,26 @@ python3 --version
 sudo dnf install -y python3.11 python3.11-pip docker aws-cli
 sudo systemctl enable --now docker
 sudo usermod -aG docker ec2-user
+which docker
+docker --version
 ```
 
 **Expected result:**
 
 ```text
 Python 3.9.x
+/usr/bin/docker
+Docker version 25.x.x, build ...
+```
+
+**If `dnf` reports no package `docker`**, install the Amazon Linux 2023 engine packages instead:
+
+```bash
+sudo dnf install -y python3.11 python3.11-pip moby-engine moby-cli aws-cli
+sudo systemctl enable --now docker
+sudo usermod -aG docker ec2-user
+which docker
+docker --version
 ```
 
 > **Do not use** `sudo install -y docker` — `install` is a file-copy utility, not a package manager.
@@ -1121,6 +1135,39 @@ Then re-run the install commands above.
 Docker was installed in **17.1**. Confirm it works after adding your user to the `docker` group:
 
 ```bash
+which docker
+docker --version
+```
+
+**If `docker: command not found`** — Docker was not installed in **17.1** (or install failed). Re-install using the command that matches your `python3` version:
+
+**While `python3` is still 3.9.x** (before **17.2**):
+
+```bash
+sudo dnf install -y docker
+sudo systemctl enable --now docker
+sudo usermod -aG docker ec2-user
+which docker
+docker --version
+```
+
+**After `python3` is 3.11.x** (you already ran **17.2**):
+
+```bash
+sudo /usr/bin/python3.9 /usr/bin/dnf install -y docker
+sudo systemctl enable --now docker
+sudo usermod -aG docker ec2-user
+which docker
+docker --version
+```
+
+**If `dnf` has no package `docker`:**
+
+```bash
+sudo /usr/bin/python3.9 /usr/bin/dnf install -y moby-engine moby-cli
+sudo systemctl enable --now docker
+sudo usermod -aG docker ec2-user
+which docker
 docker --version
 ```
 
@@ -1144,6 +1191,7 @@ docker ps
 |------|---------|
 | Python packages | `python3 -m pip install ...` |
 | OS packages (if needed later) | `sudo /usr/bin/python3.9 /usr/bin/dnf install -y <package>` |
+| Install Docker (if missing) | **Before 17.2:** `sudo dnf install -y docker`. **After 17.2:** `sudo /usr/bin/python3.9 /usr/bin/dnf install -y docker` (or `moby-engine moby-cli`) |
 | Lab scripts | `python3 scripts/...` |
 | Docker | `docker ps` (after SSH reconnect) |
 
@@ -1157,6 +1205,8 @@ python3 --version
 sudo dnf install -y python3.11 python3.11-pip docker aws-cli
 sudo systemctl enable --now docker
 sudo usermod -aG docker ec2-user
+which docker
+docker --version
 sudo alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
 sudo alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 2
 sudo alternatives --set python3 /usr/bin/python3.11
@@ -1378,7 +1428,7 @@ Passwords and access keys: **instructor handout only** (not in git).
 | `install: invalid option -- 'y'` | You ran `sudo install` instead of `dnf` — use **Step 17.1** |
 | Pip / disk full | Root volume **30 GiB** minimum (Step 9) |
 | `docker: permission denied` | Complete **Step 17.1** + **17.6** (`sudo usermod -aG docker ec2-user`), then **reconnect** VS Code SSH |
-| `docker: command not found` | Re-run **Step 17.1:** `sudo dnf install -y docker` (or `sudo /usr/bin/python3.9 /usr/bin/dnf install -y docker` after **17.2**) then `sudo systemctl enable --now docker` |
+| `docker: command not found` | **Step 17.6** — if `python3` is **3.9**: `sudo dnf install -y docker`. If **3.11**: `sudo /usr/bin/python3.9 /usr/bin/dnf install -y docker`. No `docker` package? Use `moby-engine moby-cli`. Then `sudo systemctl enable --now docker`, `sudo usermod -aG docker ec2-user`, reconnect SSH |
 
 ---
 
