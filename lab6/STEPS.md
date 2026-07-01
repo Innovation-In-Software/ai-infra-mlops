@@ -293,7 +293,22 @@ is 4 Instances, with current utilization of 4 Instances and a request delta of 2
 | Step 6 production (blue-green) | **2** (blue + green, one instance each) |
 | **Lab 6 total (both running)** | **3** minimum |
 
-Your AWS account has a **Service Quota** on SageMaker endpoint instances (often **4** for `ml.m5.large` in new accounts). Step 6 failed because the account was already at **4/4** in use and production needs **2 more**.
+Your AWS account has a **Service Quota** on SageMaker endpoint instances (often **4** for `ml.m5.large` in new accounts). Step 6 failed because production needs **2 more** instances than you have free.
+
+**Quota math (read the error line carefully)**
+
+```text
+current utilization of 3 Instances and a request delta of 2 Instances
+```
+
+| | Instances |
+|---|-----------|
+| Account limit | **4** |
+| Already in use | **3** (after you deleted staging) |
+| Production blue-green needs | **+2** |
+| Total if deploy succeeds | **5** → **exceeds quota** |
+
+Deleting **staging** only frees **1** instance. Production still needs **2 free slots**. You must get **down to 2 or fewer** `ml.m5.large` instances in use before Step 6 (`2 in use + 2 for prod = 4` fits exactly).
 
 **About `ValidationException: Could not find endpoint "banking-endpoint-prod-..."`**
 
@@ -319,7 +334,22 @@ aws sagemaker delete-endpoint --endpoint-name "$ENDPOINT" --region us-west-2
 
 Example: if the JSON shows `"endpoint": "banking-endpoint-staging-202607011643"`, the delete command must use that **exact** name — not `banking-endpoint-staging-YYYYMMDD`.
 
-Wait until the endpoint disappears from the list (can take a few minutes), then retry Step 6.
+Wait until the endpoint disappears from the list (can take a few minutes).
+
+**Still `ResourceLimitExceeded` after deleting staging?** You need **one more** endpoint removed (or wait for delete to finish). List all endpoints and delete any old `banking-*` endpoints you no longer need:
+
+```bash
+aws sagemaker list-endpoints --region us-west-2 \
+  --query 'Endpoints[*].[EndpointName,EndpointStatus]' --output table
+```
+
+Delete another endpoint (replace with a name from the table — **not** a placeholder):
+
+```bash
+aws sagemaker delete-endpoint --endpoint-name banking-endpoint-NAME-FROM-TABLE --region us-west-2
+```
+
+Confirm deletes finished (empty table or only endpoints you intend to keep), then retry Step 6.
 
 **3. Retry production deploy**
 
@@ -338,7 +368,8 @@ python3 scripts/deploy_production.py
 | Lab 5 validation fails | Complete [Lab 5](../lab5/STEPS.md) Steps 1–10 first |
 | `Missing Lab 5 ecr_config.json` | Run Lab 5 Steps 6–7 (ECR create + push) |
 | Endpoint `Creating` for many minutes | Normal for `ml.m5.large` — wait up to 15 min |
-| `ResourceLimitExceeded` on Step 6 | [Copy-paste fix above](#copy-paste--resourcelimitexceeded-on-step-6) — free endpoint quota or ask instructor |
+| `ResourceLimitExceeded` on Step 6 | [Copy-paste fix above](#copy-paste--resourcelimitexceeded-on-step-6) — need **2 free** slots; deleting staging alone is not enough if utilization is still 3 |
+| Still quota error after deleting staging | Delete **one more** endpoint — production needs +2 instances; `3 in use + 2 = 5` exceeds limit of 4 |
 | `Could not find endpoint "banking-endpoint-staging-YYYYMMDD"` on delete | You copied the placeholder literally — run the `ENDPOINT=$(python3 -c ...)` block above; use the real name from JSON (e.g. `banking-endpoint-staging-202607011643`) |
 | `ValidationException: Could not find endpoint` before `ResourceLimitExceeded` | Normal — script checks for endpoint before create; fix the quota issue above |
 | `Could not access model` / ECR pull error | Confirm image exists in ECR (`Lab 5` Step 7) and `BankingMLEngineerRole` has ECR read |
