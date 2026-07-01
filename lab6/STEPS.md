@@ -177,6 +177,8 @@ python3 scripts/deploy_production.py
 
 ![Step 6 — `deploy_production.py`](images/step-06-production.png)
 
+> **If Step 6 fails with `ResourceLimitExceeded`:** your account hit the SageMaker `ml.m5.large` endpoint instance quota. See [Troubleshooting — ResourceLimitExceeded on Step 6](#copy-paste--resourcelimitexceeded-on-step-6) below.
+
 ---
 
 ## Step 7 — A/B traffic shift (SageMaker)
@@ -274,12 +276,66 @@ Prerequisites OK — proceed to Lab 7
 
 ## Troubleshooting
 
+### Copy-paste — ResourceLimitExceeded on Step 6
+
+**When you see this** after `python3 scripts/deploy_production.py`:
+
+```text
+ResourceLimitExceeded: The account-level service limit 'ml.m5.large for endpoint usage'
+is 4 Instances, with current utilization of 4 Instances and a request delta of 2 Instances.
+```
+
+**Why this happens**
+
+| Deployment | `ml.m5.large` instances |
+|------------|-------------------------|
+| Step 4 staging | **1** (single variant) |
+| Step 6 production (blue-green) | **2** (blue + green, one instance each) |
+| **Lab 6 total (both running)** | **3** minimum |
+
+Your AWS account has a **Service Quota** on SageMaker endpoint instances (often **4** for `ml.m5.large` in new accounts). Step 6 failed because the account was already at **4/4** in use and production needs **2 more**.
+
+**About `ValidationException: Could not find endpoint "banking-endpoint-prod-..."`**
+
+That message is **normal** — the script checks whether the endpoint exists before creating it. The real failure is `ResourceLimitExceeded` on `CreateEndpoint`.
+
+**1. List running SageMaker endpoints**
+
+```bash
+aws sagemaker list-endpoints --region us-west-2 \
+  --query 'Endpoints[*].[EndpointName,EndpointStatus]' --output table
+```
+
+**2. Free capacity** — you need **at least 2 free** `ml.m5.large` slots for production (3 if you keep staging).
+
+Optional: delete staging after Step 5 passes (frees 1 instance). Use the name from `staging_deployment.json`:
+
+```bash
+cat ~/ai-infra-mlops/workspace/lab6/config/staging_deployment.json
+aws sagemaker delete-endpoint --endpoint-name banking-endpoint-staging-YYYYMMDD --region us-west-2
+```
+
+Wait until the endpoint disappears from the list (can take a few minutes), then retry Step 6.
+
+**3. Retry production deploy**
+
+```bash
+cd ~/ai-infra-mlops/lab6
+python3 scripts/deploy_production.py
+```
+
+**4. Still blocked?** Ask your instructor to:
+
+- Delete unused SageMaker endpoints in the shared class account, or
+- Request a quota increase: **AWS Console → Service Quotas → Amazon SageMaker → `ml.m5.large for endpoint usage`**
+
 | Issue | Fix |
 |-------|-----|
 | Lab 5 validation fails | Complete [Lab 5](../lab5/STEPS.md) Steps 1–10 first |
 | `Missing Lab 5 ecr_config.json` | Run Lab 5 Steps 6–7 (ECR create + push) |
 | Endpoint `Creating` for many minutes | Normal for `ml.m5.large` — wait up to 15 min |
-| `ResourceLimitExceeded` / instance quota | Check Service Quotas → SageMaker → endpoint instances; try later or ask instructor |
+| `ResourceLimitExceeded` on Step 6 | [Copy-paste fix above](#copy-paste--resourcelimitexceeded-on-step-6) — free endpoint quota or ask instructor |
+| `ValidationException: Could not find endpoint` before `ResourceLimitExceeded` | Normal — script checks for endpoint before create; fix the quota issue above |
 | `Could not access model` / ECR pull error | Confirm image exists in ECR (`Lab 5` Step 7) and `BankingMLEngineerRole` has ECR read |
 | Traffic shift fails | Run Step 6 first; production endpoint must be `InService` |
 | `AttributeError: update_endpoint_weights` | `git pull` — script uses `update_endpoint_weights_and_capacities` |

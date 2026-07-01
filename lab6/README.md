@@ -164,6 +164,12 @@ Paths under `workspace/lab6/`.
 
 ---
 
+## Troubleshooting
+
+**`ResourceLimitExceeded` on production deploy (Step 6):** Staging uses 1 × `ml.m5.large`; blue-green production uses 2 more. If the account quota is full (often 4 instances), delete unused endpoints or ask the instructor for a quota increase. Full copy-paste steps: [STEPS.md — Troubleshooting](STEPS.md#copy-paste--resourcelimitexceeded-on-step-6).
+
+---
+
 ## Architecture role
 
 Lab 6 is the **deployment layer** (Lab 10). Evidence: `staging_deployment.json`, `production_deployment.json`.
