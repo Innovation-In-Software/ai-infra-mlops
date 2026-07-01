@@ -308,12 +308,16 @@ aws sagemaker list-endpoints --region us-west-2 \
 
 **2. Free capacity** — you need **at least 2 free** `ml.m5.large` slots for production (3 if you keep staging).
 
-Optional: delete staging after Step 5 passes (frees 1 instance). Use the name from `staging_deployment.json`:
+Optional: delete staging after Step 5 passes (frees 1 instance). **Do not type `YYYYMMDD`** — use your real name from the JSON file:
 
 ```bash
 cat ~/ai-infra-mlops/workspace/lab6/config/staging_deployment.json
-aws sagemaker delete-endpoint --endpoint-name banking-endpoint-staging-YYYYMMDD --region us-west-2
+ENDPOINT=$(python3 -c "import json; print(json.load(open('$HOME/ai-infra-mlops/workspace/lab6/config/staging_deployment.json'))['endpoint'])")
+echo "Deleting: $ENDPOINT"
+aws sagemaker delete-endpoint --endpoint-name "$ENDPOINT" --region us-west-2
 ```
+
+Example: if the JSON shows `"endpoint": "banking-endpoint-staging-202607011643"`, the delete command must use that **exact** name — not `banking-endpoint-staging-YYYYMMDD`.
 
 Wait until the endpoint disappears from the list (can take a few minutes), then retry Step 6.
 
@@ -335,6 +339,7 @@ python3 scripts/deploy_production.py
 | `Missing Lab 5 ecr_config.json` | Run Lab 5 Steps 6–7 (ECR create + push) |
 | Endpoint `Creating` for many minutes | Normal for `ml.m5.large` — wait up to 15 min |
 | `ResourceLimitExceeded` on Step 6 | [Copy-paste fix above](#copy-paste--resourcelimitexceeded-on-step-6) — free endpoint quota or ask instructor |
+| `Could not find endpoint "banking-endpoint-staging-YYYYMMDD"` on delete | You copied the placeholder literally — run the `ENDPOINT=$(python3 -c ...)` block above; use the real name from JSON (e.g. `banking-endpoint-staging-202607011643`) |
 | `ValidationException: Could not find endpoint` before `ResourceLimitExceeded` | Normal — script checks for endpoint before create; fix the quota issue above |
 | `Could not access model` / ECR pull error | Confirm image exists in ECR (`Lab 5` Step 7) and `BankingMLEngineerRole` has ECR read |
 | Traffic shift fails | Run Step 6 first; production endpoint must be `InService` |
