@@ -13,7 +13,7 @@
 > **Run Steps 1–10 once, in order.** Run each command block below, then compare your terminal to the screenshot under that step.  
 > All commands run in the **VS Code terminal on EC2** (`whoami` = `ec2-user`). Do not use Windows PowerShell on the ProTech VM.
 
-> **Requires Docker** — confirm with `docker ps` after Lab 0 Step 17. If you see **permission denied**, use `sudo docker ps` (Docker is fine; your SSH session lacks the `docker` group). Fix group access per [Lab 0](../lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock) before Steps 4–7 so build/push scripts work without `sudo`.  
+> **Requires Docker** — confirm with `sudo docker ps` after Lab 0 Step 17 (empty table is OK). Lab 5 scripts use `sudo docker` when your session lacks the `docker` group. Optional permanent fix: [Lab 0](../lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock) (`usermod -aG docker`, then reconnect SSH).
 > **Quick run:** `python3 scripts/run_lab5.py` — then run Step 10 to validate.
 
 ---
@@ -45,12 +45,12 @@ cd ~/ai-infra-mlops/lab4 && python3 scripts/validate_lab4.py
 4. Confirm Docker works:
 
 ```bash
-docker ps
+sudo docker ps
 ```
 
 **Expected:** Header row with `CONTAINER ID` (empty list is OK — no error).
 
-**If you see `permission denied`:** Docker is installed — run `sudo docker ps` instead. You should get the same empty table. Before Steps 4–7, reconnect VS Code SSH after Lab 0 Step 17 (`usermod -aG docker`) or use `sg docker -c "docker ps"` so plain `docker` works for the lab scripts.
+**If you see `permission denied`:** Docker may not be running — see [Lab 0 Step 17](../lab0/STEPS.md). If `sudo docker ps` works, proceed to Step 5 in this lab.
 
 5. Go to Lab 5:
 
@@ -107,7 +107,7 @@ src
 
 ```bash
 docker --version
-docker ps
+sudo docker ps
 ```
 
 **Expected:**
@@ -117,9 +117,9 @@ Docker version 25.x.x, build ...
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 
-**If `docker ps` shows `permission denied`:** run `sudo docker ps` — same empty table means Docker is healthy. `build_container.sh` and `test_container.py` use `sudo docker` automatically when needed. Permanent fix: [Lab 0 Step 17 + SSH reconnect](../lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock).
+**If `sudo docker ps` fails:** see [Lab 0 Docker install / permission errors](../lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock). `build_container.sh` and `test_container.py` use `sudo docker` automatically when needed.
 
-![Step 2 — `docker --version` and `docker ps`](images/step-02-docker.png)
+![Step 2 — `docker --version` and `sudo docker ps`](images/step-02-docker.png)
 
 ---
 
@@ -186,8 +186,7 @@ python3 scripts/test_container.py
 
 > **Important:** Run with `python3` only — **do not** use `sudo python3 scripts/test_container.py`.  
 > `sudo` runs as root and cannot see packages you installed with `pip` (`numpy`, `scikit-learn`, etc.).  
-> If `docker ps` shows **permission denied**, this script automatically uses `sudo` for **Docker commands only**.  
-> Permanent fix: [Lab 0 Step 17](../lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock) (`usermod -aG docker`), then **reconnect VS Code SSH**.
+> Confirm Docker with `sudo docker ps` first. This script uses `sudo` for **Docker commands only** when needed.
 
 **Expected:**
 
@@ -229,7 +228,7 @@ sudo usermod -aG docker ec2-user
 Reconnect VS Code Remote-SSH, then confirm:
 
 ```bash
-docker ps
+sudo docker ps
 ```
 
 ---
@@ -375,20 +374,20 @@ Permanent fix after reconnecting VS Code SSH:
 
 ```bash
 sudo usermod -aG docker ec2-user
-docker ps
+sudo docker ps
 ```
 
 | Issue | Fix |
 |-------|-----|
 | `whoami` = `Administrator` | Reconnect VS Code Remote-SSH to EC2 ([Lab 0 Step 13](../lab0/STEPS.md)) |
-| `docker: permission denied` on Step 5 | Run `python3 scripts/test_container.py` (**not** `sudo python3`). Script uses `sudo` for Docker only. Or fix group: [Lab 0 Docker permission error](../lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock) |
+| `docker: permission denied` on Step 5 | Run `python3 scripts/test_container.py` (**not** `sudo python3`). Confirm `sudo docker ps` works first. Script uses `sudo` for Docker only. |
 | `ModuleNotFoundError: No module named 'numpy'` on Step 5 | You ran `sudo python3` — use `python3 scripts/test_container.py` without sudo |
 | `docker: command not found` | [Lab 0 Docker install error](../lab0/STEPS.md#error-docker-command-not-found-or-modulenotfounderror-dnf) |
-| `docker ps` permission denied | Run `sudo docker ps` (diagnostic). Steps 4–7 scripts auto-use `sudo docker` when needed; reconnect SSH after `usermod -aG docker` for plain `docker` |
+| `sudo docker ps` fails | [Lab 0 Docker permission / install error](../lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock) |
 | `Lab 3 model not found` | Complete [Lab 3](../lab3/STEPS.md) Step 8 before Lab 5 Step 3 |
 | `Missing Lab 3 config: preprocessor.pkl` | Re-run Lab 3 Step 4 (`load_training_data.py`) |
-| `Failed to start container` | Run Step 4 first; check `docker images \| grep banking-ml` |
-| `Health check timed out` | Port 8080 may be in use — run `sudo docker rm -f banking-ml-test` (or `docker rm -f` if group fixed) and retry |
+| `Failed to start container` | Run Step 4 first; check `sudo docker images \| grep banking-ml` |
+| `Health check timed out` | Port 8080 may be in use — run `sudo docker rm -f banking-ml-test` and retry |
 | `RemoteDisconnected` on Step 5 | `git pull`, rebuild image (`bash scripts/build_container.sh`), retry Step 5 — first `/ping` waits up to 90s while the model loads |
 | `X has 8 features, but ... expecting 30` | `git pull`, rebuild (`bash scripts/build_container.sh`), retry Step 5 — sample payload must match Lab 3 feature count (30) |
 | `Run create_ecr_repo.py first` | Complete Step 6 before Step 7 |

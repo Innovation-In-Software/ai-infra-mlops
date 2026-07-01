@@ -32,7 +32,7 @@ Requires Docker (installed in Lab 0 Step 17).
 ## Prerequisites
 
 - Lab 4 complete — `validate_lab4.py` passed
-- Docker running: `docker ps` succeeds (or `sudo docker ps` if permission denied — Lab 5 scripts auto-use `sudo docker` when needed; permanent fix: [Lab 0](../lab0/STEPS.md))
+- Docker running: `sudo docker ps` succeeds (empty table is OK — Lab 5 scripts auto-use `sudo docker` when needed; optional fix: [Lab 0](../lab0/STEPS.md))
 - **Never** run `sudo python3` for lab scripts — use `python3` only
 - `workspace/lab3/models/best_model.pkl`
 
@@ -99,7 +99,7 @@ bash scripts/build_container.sh
 python3 scripts/test_container.py
 ```
 
-Use `python3` only — not `sudo python3`. After `sudo usermod -aG docker ec2-user`, reconnect VS Code SSH and run `docker ps`.
+Use `python3` only — not `sudo python3`. Confirm Docker with `sudo docker ps`. After `sudo usermod -aG docker ec2-user`, reconnect VS Code SSH.
 
 ---
 
