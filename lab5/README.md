@@ -89,6 +89,18 @@ flowchart TB
 
 **Quick run:** `python3 scripts/run_lab5.py` then `validate_lab5.py`.
 
+### Copy-paste — Docker permission denied (Steps 3–5)
+
+```bash
+cd ~/ai-infra-mlops && git pull
+cd lab5
+python3 -m pip install -r requirements.txt
+bash scripts/build_container.sh
+python3 scripts/test_container.py
+```
+
+Use `python3` only — not `sudo python3`. After `sudo usermod -aG docker ec2-user`, reconnect VS Code SSH and run `docker ps`.
+
 ---
 
 ## Application code

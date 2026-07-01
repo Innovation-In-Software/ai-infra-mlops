@@ -206,6 +206,32 @@ The `ℹ️ Using sudo for Docker` line appears only when your session lacks the
 
 ![Step 5 — `python3 scripts/test_container.py`](images/step-05-test.png)
 
+### Copy-paste — Steps 3–5 (Docker permission denied)
+
+If Step 5 fails with `docker: permission denied` or you tried `sudo python3` and got `ModuleNotFoundError: numpy`, paste this block **as-is** in the VS Code terminal on EC2:
+
+```bash
+cd ~/ai-infra-mlops && git pull
+cd lab5
+python3 -m pip install -r requirements.txt
+bash scripts/build_container.sh
+python3 scripts/test_container.py
+```
+
+> Use `python3` only — **not** `sudo python3`. The scripts use `sudo` for Docker commands automatically when needed.
+
+**Permanent Docker group fix** (optional — then reconnect VS Code SSH):
+
+```bash
+sudo usermod -aG docker ec2-user
+```
+
+Reconnect VS Code Remote-SSH, then confirm:
+
+```bash
+docker ps
+```
+
 ---
 
 # Step 6 — Create ECR repository
@@ -334,6 +360,23 @@ Prerequisites OK — proceed to Lab 6
 ---
 
 ## Troubleshooting
+
+### Copy-paste — Docker permission denied (Steps 3–5)
+
+```bash
+cd ~/ai-infra-mlops && git pull
+cd lab5
+python3 -m pip install -r requirements.txt
+bash scripts/build_container.sh
+python3 scripts/test_container.py
+```
+
+Permanent fix after reconnecting VS Code SSH:
+
+```bash
+sudo usermod -aG docker ec2-user
+docker ps
+```
 
 | Issue | Fix |
 |-------|-----|
