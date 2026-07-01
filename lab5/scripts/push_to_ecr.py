@@ -1,7 +1,6 @@
 """Push banking-ml-inference image to ECR (boto3 — no aws CLI required)."""
 import base64
 import json
-import subprocess
 import sys
 from pathlib import Path
 
@@ -9,7 +8,7 @@ import boto3
 from botocore.exceptions import ClientError
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from scripts.course_common import REGION
+from scripts.course_common import REGION, docker_prefix, docker_run
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
@@ -38,8 +37,10 @@ def main():
     user_pass = base64.b64decode(data["authorizationToken"]).decode()
     username, password = user_pass.split(":", 1)
 
-    login = subprocess.run(
-        ["docker", "login", "--username", username, "--password-stdin", registry],
+    docker_prefix()
+
+    login = docker_run(
+        ["login", "--username", username, "--password-stdin", registry],
         input=password.encode(),
         capture_output=True,
     )
@@ -48,8 +49,8 @@ def main():
         print("   ❌ docker login failed")
         sys.exit(1)
 
-    subprocess.run(["docker", "tag", IMAGE, target], check=True)
-    push = subprocess.run(["docker", "push", target], capture_output=True, text=True)
+    docker_run(["tag", IMAGE, target], check=True)
+    push = docker_run(["push", target], capture_output=True, text=True)
     if push.returncode != 0:
         print(push.stderr or push.stdout)
         print("   ❌ docker push failed")

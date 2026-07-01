@@ -1,6 +1,8 @@
 """Shared helpers for course lab scripts."""
 import argparse
 import json
+import shutil
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -95,6 +97,45 @@ def wait_for_status(describe_fn, status_key, ready_values, timeout_sec=900, poll
         time.sleep(poll_sec)
     print(f"   ❌ Timed out waiting for {label} ({timeout_sec}s)")
     sys.exit(1)
+
+
+_docker_prefix: list[str] | None = None
+
+
+def docker_prefix(*, quiet: bool = False) -> list[str]:
+    """Return ``['docker']`` or ``['sudo', 'docker']`` when the socket needs root."""
+    global _docker_prefix
+    if _docker_prefix is not None:
+        return _docker_prefix
+
+    if not shutil.which("docker"):
+        _docker_prefix = ["docker"]
+        return _docker_prefix
+
+    probe = subprocess.run(["docker", "ps"], capture_output=True, text=True)
+    if probe.returncode == 0:
+        _docker_prefix = ["docker"]
+        return _docker_prefix
+
+    err = (probe.stderr or probe.stdout or "").lower()
+    if "permission denied" in err or "got permission denied" in err:
+        sudo_probe = subprocess.run(["sudo", "docker", "ps"], capture_output=True, text=True)
+        if sudo_probe.returncode == 0:
+            if not quiet:
+                print(
+                    "   ℹ️  Using sudo for Docker commands only "
+                    "(fix: Lab 0 Step 17 usermod -aG docker, then reconnect SSH)"
+                )
+            _docker_prefix = ["sudo", "docker"]
+            return _docker_prefix
+
+    _docker_prefix = ["docker"]
+    return _docker_prefix
+
+
+def docker_run(args: list[str], **kwargs):
+    """Run a Docker CLI command, auto-prefixing sudo when needed."""
+    return subprocess.run([*docker_prefix(), *args], **kwargs)
 
 
 def sample_features_for_model(model_path, fill=0.1):

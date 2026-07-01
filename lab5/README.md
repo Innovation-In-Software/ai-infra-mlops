@@ -32,7 +32,8 @@ Requires Docker (installed in Lab 0 Step 17).
 ## Prerequisites
 
 - Lab 4 complete — `validate_lab4.py` passed
-- Docker running: `docker ps` succeeds (or `sudo docker ps` if you see permission denied — fix group access per [Lab 0](../lab0/STEPS.md) before build/push steps)
+- Docker running: `docker ps` succeeds (or `sudo docker ps` if permission denied — Lab 5 scripts auto-use `sudo docker` when needed; permanent fix: [Lab 0](../lab0/STEPS.md))
+- **Never** run `sudo python3` for lab scripts — use `python3` only
 - `workspace/lab3/models/best_model.pkl`
 
 ---
@@ -119,11 +120,11 @@ Copies `best_model.pkl`, `preprocessor.pkl`, and `feature_metadata.json` into `w
 
 ### `build_container.sh`
 
-Runs `docker build` from `lab5/` context. Tags image `banking-ml-inference:latest`.
+Runs `docker build` (or `sudo docker build` when needed) from repo root. Tags image `banking-ml-inference:latest`.
 
 ### `test_container.py`
 
-Starts container locally, sends test transaction JSON, validates response schema. Writes `validation/container_test.json`.
+Starts container locally, sends test transaction JSON, validates response schema. Uses `sudo docker` automatically when the Docker socket requires it — run with `python3` only (not `sudo python3`). Writes `validation/container_test.json`.
 
 ### `create_ecr_repo.py`
 

@@ -117,7 +117,7 @@ Docker version 25.x.x, build ...
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 
-**If `docker ps` shows `permission denied`:** run `sudo docker ps` — same empty table means Docker is healthy. Fix group access ([Lab 0 Step 17 + SSH reconnect](../lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock)) before Step 4, or prefix docker commands with `sudo` (e.g. `sudo bash scripts/build_container.sh`).
+**If `docker ps` shows `permission denied`:** run `sudo docker ps` — same empty table means Docker is healthy. `build_container.sh` and `test_container.py` use `sudo docker` automatically when needed. Permanent fix: [Lab 0 Step 17 + SSH reconnect](../lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock).
 
 ![Step 2 — `docker --version` and `docker ps`](images/step-02-docker.png)
 
@@ -184,15 +184,23 @@ The build may take 1–3 minutes on first run while base layers download.
 python3 scripts/test_container.py
 ```
 
+> **Important:** Run with `python3` only — **do not** use `sudo python3 scripts/test_container.py`.  
+> `sudo` runs as root and cannot see packages you installed with `pip` (`numpy`, `scikit-learn`, etc.).  
+> If `docker ps` shows **permission denied**, this script automatically uses `sudo` for **Docker commands only**.  
+> Permanent fix: [Lab 0 Step 17](../lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock) (`usermod -aG docker`), then **reconnect VS Code SSH**.
+
 **Expected:**
 
 ```text
 🧪 Container Inference Test
 ============================================================
+   ℹ️  Using sudo for Docker commands only (fix: Lab 0 Step 17 ...)
    ✅ Health check: 200 OK
    ✅ Sample prediction: risk_score=0.XX
 ✅ Container tests passed
 ```
+
+The `ℹ️ Using sudo for Docker` line appears only when your session lacks the `docker` group — that is normal until you reconnect SSH.
 
 `risk_score` varies with the trained model — any value between `0.00` and `1.00` is OK.
 
@@ -330,13 +338,14 @@ Prerequisites OK — proceed to Lab 6
 | Issue | Fix |
 |-------|-----|
 | `whoami` = `Administrator` | Reconnect VS Code Remote-SSH to EC2 ([Lab 0 Step 13](../lab0/STEPS.md)) |
-| `docker: permission denied` | Try `sudo docker ps` to confirm Docker works. Fix group access: [Lab 0 Docker permission error](../lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock) |
+| `docker: permission denied` on Step 5 | Run `python3 scripts/test_container.py` (**not** `sudo python3`). Script uses `sudo` for Docker only. Or fix group: [Lab 0 Docker permission error](../lab0/STEPS.md#error-docker-ps--permission-denied-on-varrundockersock) |
+| `ModuleNotFoundError: No module named 'numpy'` on Step 5 | You ran `sudo python3` — use `python3 scripts/test_container.py` without sudo |
 | `docker: command not found` | [Lab 0 Docker install error](../lab0/STEPS.md#error-docker-command-not-found-or-modulenotfounderror-dnf) |
-| `docker ps` permission denied | Run `sudo docker ps` (diagnostic). For Steps 4–7, reconnect SSH after `usermod -aG docker`, or use `sudo` with `bash scripts/build_container.sh` / manual `docker` commands |
+| `docker ps` permission denied | Run `sudo docker ps` (diagnostic). Steps 4–7 scripts auto-use `sudo docker` when needed; reconnect SSH after `usermod -aG docker` for plain `docker` |
 | `Lab 3 model not found` | Complete [Lab 3](../lab3/STEPS.md) Step 8 before Lab 5 Step 3 |
 | `Missing Lab 3 config: preprocessor.pkl` | Re-run Lab 3 Step 4 (`load_training_data.py`) |
 | `Failed to start container` | Run Step 4 first; check `docker images \| grep banking-ml` |
-| `Health check timed out` | Port 8080 may be in use — run `docker rm -f banking-ml-test` and retry |
+| `Health check timed out` | Port 8080 may be in use — run `sudo docker rm -f banking-ml-test` (or `docker rm -f` if group fixed) and retry |
 | `RemoteDisconnected` on Step 5 | `git pull`, rebuild image (`bash scripts/build_container.sh`), retry Step 5 — first `/ping` waits up to 90s while the model loads |
 | `X has 8 features, but ... expecting 30` | `git pull`, rebuild (`bash scripts/build_container.sh`), retry Step 5 — sample payload must match Lab 3 feature count (30) |
 | `Run create_ecr_repo.py first` | Complete Step 6 before Step 7 |

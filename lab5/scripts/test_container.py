@@ -1,7 +1,6 @@
 """Test container health and inference on EC2."""
 import json
 import shutil
-import subprocess
 import sys
 import time
 import urllib.error
@@ -9,7 +8,7 @@ import urllib.request
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from scripts.course_common import sample_features_for_model
+from scripts.course_common import docker_prefix, docker_run, sample_features_for_model
 
 from lab_paths import MODELS_DIR, VALIDATION_DIR, ensure_workspace
 
@@ -20,8 +19,8 @@ INVOKE_URL = "http://127.0.0.1:8080/invocations"
 
 
 def _container_running():
-    result = subprocess.run(
-        ["docker", "inspect", "-f", "{{.State.Running}}", CONTAINER],
+    result = docker_run(
+        ["inspect", "-f", "{{.State.Running}}", CONTAINER],
         capture_output=True,
         text=True,
     )
@@ -29,11 +28,7 @@ def _container_running():
 
 
 def _container_logs():
-    result = subprocess.run(
-        ["docker", "logs", CONTAINER],
-        capture_output=True,
-        text=True,
-    )
+    result = docker_run(["logs", CONTAINER], capture_output=True, text=True)
     return (result.stdout + result.stderr).strip()
 
 
@@ -53,7 +48,7 @@ def _wait_for_ping(timeout_sec=90):
 
 def _fail(message):
     logs = _container_logs()
-    subprocess.run(["docker", "rm", "-f", CONTAINER], capture_output=True)
+    docker_run(["rm", "-f", CONTAINER], capture_output=True)
     print(f"   ❌ {message}")
     if logs:
         print("   --- docker logs ---")
@@ -72,14 +67,24 @@ def main():
         print("   ❌ Docker not found — complete Lab 0 Step 17.")
         sys.exit(1)
 
-    subprocess.run(["docker", "rm", "-f", CONTAINER], capture_output=True)
-    run = subprocess.run(
-        ["docker", "run", "-d", "-p", "8080:8080", "--name", CONTAINER, IMAGE],
+    docker_prefix()
+
+    docker_run(["rm", "-f", CONTAINER], capture_output=True)
+    run = docker_run(
+        ["run", "-d", "-p", "8080:8080", "--name", CONTAINER, IMAGE],
         capture_output=True,
         text=True,
     )
     if run.returncode != 0:
-        print(f"   ❌ Failed to start container: {run.stderr.strip()}")
+        err = (run.stderr or run.stdout or "").strip()
+        print(f"   ❌ Failed to start container: {err}")
+        if "permission denied" in err.lower():
+            print(
+                "   Do not use sudo python3 — run: python3 scripts/test_container.py"
+            )
+            print(
+                "   Or fix Docker group access: Lab 0 Step 17, then reconnect SSH."
+            )
         print("   Run Step 4 (build_container.sh) first.")
         sys.exit(1)
 
@@ -110,7 +115,7 @@ def main():
     print("   ✅ Health check: 200 OK")
     print(f"   ✅ Sample prediction: risk_score={risk:.2f}")
 
-    subprocess.run(["docker", "rm", "-f", CONTAINER], capture_output=True)
+    docker_run(["rm", "-f", CONTAINER], capture_output=True)
 
     result = {"health": 200, "sample_prediction": {"risk_score": round(risk, 4)}}
     with open(VALIDATION_DIR / "container_test.json", "w", encoding="utf-8") as f:
