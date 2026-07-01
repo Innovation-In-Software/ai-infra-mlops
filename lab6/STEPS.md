@@ -336,6 +336,15 @@ python3 scripts/deploy_production.py
 
 **Still blocked?** Ask your instructor to delete unused endpoints in the shared account or request a quota increase: **Service Quotas → Amazon SageMaker → `ml.m5.large for endpoint usage`**.
 
+**Endpoints already exist in AWS but lab scripts failed?** On EC2, sync config and finish Steps 7–10:
+
+```bash
+cd ~/ai-infra-mlops && git pull
+cd lab6
+python3 scripts/repair_lab6_from_aws.py
+python3 scripts/validate_lab6.py
+```
+
 | Issue | Fix |
 |-------|-----|
 | Lab 5 validation fails | Complete [Lab 5](../lab5/STEPS.md) Steps 1–10 first |
