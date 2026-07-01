@@ -166,7 +166,7 @@ Paths under `workspace/lab6/`.
 
 ## Troubleshooting
 
-**`ResourceLimitExceeded` on production deploy (Step 6):** Staging uses 1 × `ml.m5.large`; blue-green production uses 2 more. If the account quota is full (often 4 instances), delete unused endpoints or ask the instructor for a quota increase. Full copy-paste steps: [STEPS.md — Troubleshooting](STEPS.md#copy-paste--resourcelimitexceeded-on-step-6).
+**`ResourceLimitExceeded` on Step 6:** Production blue-green needs 2 × `ml.m5.large`; deleting staging only frees 1. Full copy-paste fix (list → delete staging → wait → retry, plus second block if still blocked): [STEPS.md — Copy-paste complete fix](STEPS.md#copy-paste--resourcelimitexceeded-on-step-6-complete-fix).
 
 ---
 

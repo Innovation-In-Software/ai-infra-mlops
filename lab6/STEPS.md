@@ -177,7 +177,7 @@ python3 scripts/deploy_production.py
 
 ![Step 6 — `deploy_production.py`](images/step-06-production.png)
 
-> **If Step 6 fails with `ResourceLimitExceeded`:** your account hit the SageMaker `ml.m5.large` endpoint instance quota. See [Troubleshooting — ResourceLimitExceeded on Step 6](#copy-paste--resourcelimitexceeded-on-step-6) below.
+> **If Step 6 fails with `ResourceLimitExceeded`:** paste the complete fix block in [Troubleshooting — Copy-paste complete fix](#copy-paste--resourcelimitexceeded-on-step-6-complete-fix).
 
 ---
 
@@ -276,92 +276,65 @@ Prerequisites OK — proceed to Lab 7
 
 ## Troubleshooting
 
-### Copy-paste — ResourceLimitExceeded on Step 6
+### Copy-paste — ResourceLimitExceeded on Step 6 (complete fix)
 
 **When you see this** after `python3 scripts/deploy_production.py`:
 
 ```text
-ResourceLimitExceeded: The account-level service limit 'ml.m5.large for endpoint usage'
-is 4 Instances, with current utilization of 4 Instances and a request delta of 2 Instances.
+ResourceLimitExceeded: ... 'ml.m5.large for endpoint usage' is 4 Instances,
+with current utilization of 3 Instances and a request delta of 2 Instances.
 ```
 
-**Why this happens**
+**Why:** Production blue-green needs **2** `ml.m5.large` instances (blue + green). Deleting staging only frees **1**. If **3 are already in use**, `3 + 2 = 5` exceeds the limit of **4**. Get down to **2 or fewer** in use before Step 6 (`2 + 2 = 4` fits).
 
-| Deployment | `ml.m5.large` instances |
-|------------|-------------------------|
-| Step 4 staging | **1** (single variant) |
-| Step 6 production (blue-green) | **2** (blue + green, one instance each) |
-| **Lab 6 total (both running)** | **3** minimum |
+> `ValidationException: Could not find endpoint "banking-endpoint-prod-..."` is **normal** before create — ignore it; fix the quota issue below.
 
-Your AWS account has a **Service Quota** on SageMaker endpoint instances (often **4** for `ml.m5.large` in new accounts). Step 6 failed because production needs **2 more** instances than you have free.
-
-**Quota math (read the error line carefully)**
-
-```text
-current utilization of 3 Instances and a request delta of 2 Instances
-```
-
-| | Instances |
-|---|-----------|
-| Account limit | **4** |
-| Already in use | **3** (after you deleted staging) |
-| Production blue-green needs | **+2** |
-| Total if deploy succeeds | **5** → **exceeds quota** |
-
-Deleting **staging** only frees **1** instance. Production still needs **2 free slots**. You must get **down to 2 or fewer** `ml.m5.large` instances in use before Step 6 (`2 in use + 2 for prod = 4` fits exactly).
-
-**About `ValidationException: Could not find endpoint "banking-endpoint-prod-..."`**
-
-That message is **normal** — the script checks whether the endpoint exists before creating it. The real failure is `ResourceLimitExceeded` on `CreateEndpoint`.
-
-**1. List running SageMaker endpoints**
+**Paste this whole block** in the VS Code terminal on EC2:
 
 ```bash
+cd ~/ai-infra-mlops/lab6
+
+echo "=== 1. List SageMaker endpoints ==="
 aws sagemaker list-endpoints --region us-west-2 \
   --query 'Endpoints[*].[EndpointName,EndpointStatus]' --output table
-```
 
-**2. Free capacity** — you need **at least 2 free** `ml.m5.large` slots for production (3 if you keep staging).
+echo "=== 2. Delete staging endpoint (frees 1 ml.m5.large) ==="
+STAGING=$(python3 -c "import json; print(json.load(open('$HOME/ai-infra-mlops/workspace/lab6/config/staging_deployment.json'))['endpoint'])")
+echo "Deleting: $STAGING"
+aws sagemaker delete-endpoint --endpoint-name "$STAGING" --region us-west-2
 
-Optional: delete staging after Step 5 passes (frees 1 instance). **Do not type `YYYYMMDD`** — use your real name from the JSON file:
-
-```bash
-cat ~/ai-infra-mlops/workspace/lab6/config/staging_deployment.json
-ENDPOINT=$(python3 -c "import json; print(json.load(open('$HOME/ai-infra-mlops/workspace/lab6/config/staging_deployment.json'))['endpoint'])")
-echo "Deleting: $ENDPOINT"
-aws sagemaker delete-endpoint --endpoint-name "$ENDPOINT" --region us-west-2
-```
-
-Example: if the JSON shows `"endpoint": "banking-endpoint-staging-202607011643"`, the delete command must use that **exact** name — not `banking-endpoint-staging-YYYYMMDD`.
-
-Wait until the endpoint disappears from the list (can take a few minutes).
-
-**Still `ResourceLimitExceeded` after deleting staging?** You need **one more** endpoint removed (or wait for delete to finish). List all endpoints and delete any old `banking-*` endpoints you no longer need:
-
-```bash
+echo "=== 3. Wait for delete (2-3 min), then list again ==="
+sleep 150
 aws sagemaker list-endpoints --region us-west-2 \
   --query 'Endpoints[*].[EndpointName,EndpointStatus]' --output table
+
+echo "=== 4. Retry production deploy ==="
+python3 scripts/deploy_production.py
 ```
 
-Delete another endpoint (replace with a name from the table — **not** a placeholder):
+**Still `ResourceLimitExceeded` after the block above?** Delete **one more** endpoint from the table, then retry Step 6 only:
 
 ```bash
-aws sagemaker delete-endpoint --endpoint-name banking-endpoint-NAME-FROM-TABLE --region us-west-2
-```
-
-Confirm deletes finished (empty table or only endpoints you intend to keep), then retry Step 6.
-
-**3. Retry production deploy**
-
-```bash
+# Paste an endpoint name from the list above (not a placeholder like YYYYMMDD)
+EXTRA="banking-endpoint-paste-name-from-table"
+aws sagemaker delete-endpoint --endpoint-name "$EXTRA" --region us-west-2
+sleep 150
+aws sagemaker list-endpoints --region us-west-2 \
+  --query 'Endpoints[*].[EndpointName,EndpointStatus]' --output table
 cd ~/ai-infra-mlops/lab6
 python3 scripts/deploy_production.py
 ```
 
-**4. Still blocked?** Ask your instructor to:
+**Quota reference**
 
-- Delete unused SageMaker endpoints in the shared class account, or
-- Request a quota increase: **AWS Console → Service Quotas → Amazon SageMaker → `ml.m5.large for endpoint usage`**
+| Deployment | `ml.m5.large` instances |
+|------------|-------------------------|
+| Step 4 staging | **1** |
+| Step 6 production (blue-green) | **2** |
+| Account limit (typical) | **4** |
+| **Free slots needed for Step 6** | **2** (utilization must be ≤ 2) |
+
+**Still blocked?** Ask your instructor to delete unused endpoints in the shared account or request a quota increase: **Service Quotas → Amazon SageMaker → `ml.m5.large for endpoint usage`**.
 
 | Issue | Fix |
 |-------|-----|
